@@ -1,4 +1,4 @@
 
-/server/server.config.ts
+/src/server/server.config.ts
 /build/
 /node_modules/

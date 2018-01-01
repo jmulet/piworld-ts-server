@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="<%=lang%>">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="piWorld site">
+    <meta name="author" content="Josep Mulet">
+    <link rel="icon" href="/favicon.ico">
+    <title>piWorld change password</title>
+    <link href="/assets/libs/bootstrap-4.0.0-beta2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/css/signin.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+       <form class="form-signin" action="/changepwd.htm" method="POST">
+        <h2 class="form-signin-heading"><img src="/assets/img/logo.png" style="width:64px"> piWorld</h2>
+        <h5><%=__('NEW_PASSWORD_REQUIRED')%></h5>
+        <label for="password0"> <%=__('OLD')%></label>
+        <input type="password" id="password0" name="password0" class="form-control" required autofocus autocomplete="off" autocapitalize="none" autocorrect="off">
+        <label for="password"> <%=__('PASSWORD')%></label>
+        <input type="password" id="password" name="password" class="form-control" required autofocus autocomplete="off" autocapitalize="none" autocorrect="off">
+        <label for="password2"> <%=__('REPEAT')%> <%=__('PASSWORD')%></label>
+        <input type="password" id="password2" name="password2" class="form-control" required autocomplete="off" autocapitalize="none" autocorrect="off">        
+        <button class="btn btn-lg btn-primary btn-block" type="submit"><%=__('SEND')%></button>
+      </form>
+      
+      <%if (errCode) {%>
+        <div class="form-signin alert alert-danger">
+            <p><%= __(errCode) %></p>
+        </div>
+      <%}%>
+    </div> 
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="/assets/libs/bootstrap-4.0.0-beta2/js/bootstrap.min.js"></script>
+  </body>
+</html>

@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="<%=lang%>">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="piWorld site">
+  <meta name="author" content="Josep Mulet">
+  <link rel="icon" href="/pda.ico" type="image/x-icon">
+
+  <title>piWorld Login</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="/assets/libs/bootstrap-4.0.0-beta2/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="/assets/css/signin.css" rel="stylesheet">
+</head>
+
+<body>
+
+
+
+  <div class="container">
+    <div class="form-signin">
+
+      <div class="dropdown">
+        <span>
+          <%=__('LANGUAGE')%>
+        </span>
+        <button class="btn btn-sm btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
+          aria-expanded="true">
+          <img src="/assets/img/<%=lang%>.png"></img>
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+          <li>
+            <a href="/login.htm?clang=es">
+              <img src="/assets/img/es.png"> Español </a>
+          </li>
+          <li>
+            <a href="/login.htm?clang=ca">
+              <img src="/assets/img/ca.png"> Català</a>
+          </li>
+          <li>
+            <a href="/login.htm?clang=en">
+              <img src="/assets/img/en.png"> English</a>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="form-signin">
+      <h2 class="form-signin-heading">
+        <img src="/assets/img/logo.png" style="width:64px"> piWorld Login</h2>
+      <label for="parents">
+        <%=__('LOGIN_AS')%>
+      </label>
+      <select class="form-control alert-warning" id="parents" name="parents">
+        <option label="<%=__('STUDENTS')%>" value="0" selected></option>
+        <option label="<%=__('FAMILIES')%>" value="1"></option>
+      </select>
+      <br/>
+      <label for="username" class="sr-only">
+        <%=__('USERNAME')%>
+      </label>
+      <input type="text" id="username" name="username" class="form-control" placeholder="<%=__('USERNAME')%>" required autofocus
+        autocomplete="off" autocapitalize="none" autocorrect="off">
+      <label for="password" class="sr-only">
+        <%=__('PASSWORD')%>
+      </label>
+      <input type="password" id="password" name="password" class="form-control" placeholder="<%=__('PASSWORD')%>" required autocomplete="off"
+        autocapitalize="none" autocorrect="off">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" id="rememberme" name="rememberme">
+          <%=__('REMEMBER_ME')%>
+        </label>
+      </div>
+      <button id="submit" class="btn btn-lg btn-primary btn-block" type="submit">
+        <%=__('LOGIN')%>
+      </button>
+    </div>
+
+    <div id="errAlert" class="form-signin alert alert-danger" style="display: none">
+    </div>
+
+    <% if( msg ){%>
+      <div id="msgAlert" class="form-signin alert alert-info">
+        <p>
+          <%= msg %>
+        </p>
+      </div>
+      <%}%>       
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="/assets/libs/bootstrap-4.0.0-beta2/js/bootstrap.min.js"></script>
+  <script>
+    var i18n = <%- JSON.stringify(translations) %>;
+    $(function () { 
+      var $submit = $("#submit");
+      var $parents = $("#parents");
+      var $username = $("#username");
+      var $password = $("#password");
+      var $rememberme = $("#rememberme");
+      var $errAlert = $("#errAlert");
+
+      $submit.on("click", function () {
+        $submit.prop("disabled", true);
+        $("#msgAlert").css("display", "none");
+        var data = {
+          username: $username.val(), password: $password.val(),
+          rememberme: $rememberme.prop("checked"), parents: $parents.val()
+        };
+        $.ajax({
+          method: "POST",
+          url: "/login.htm",
+          data: data
+        }).done(function (d) {
+          $submit.prop("disabled", false);
+          if (d.errCode) {
+            $errAlert.css("display", "");
+            $errAlert.html("<p>" + i18n[d.errCode] + "</p>");
+          } else if(d.redirect) {
+            window.location.href = d.redirect;
+          }
+        });
+
+      });
+
+    });
+  </script>
+</body>
+
+</html>

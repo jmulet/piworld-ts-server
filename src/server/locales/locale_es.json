@@ -1,0 +1,29 @@
+{
+    "/login": {
+        "LOGIN_AS": "Entrar como",
+        "STUDENTS": "Estudiantes",
+        "FAMILIES": "Familias",
+        "USERNAME": "Usuario",
+        "PASSWORD": "Contraseña",
+        "REMEMBER_ME": "Recuerdame",
+        "LOGIN": "Entrar",
+        "LANGUAGE": "Idioma",
+        "THANK_YOU": "Ha salido de la sesión. Hasta pronto.",
+        "DISABLED_USER": "Este usuario esta deshabilitado",
+        "INVALID_USER": "Este usuario no existe.",
+        "INVALID_PASSWORD": "La contraseña es incorrecta."
+    },
+    "/changepwd": {
+        "NEW_PASSWORD_REQUIRED": "Debe canviar su contraseña",
+        "NEW": "Nueva",
+        "OLD": "Contraseña actual",
+        "REPEAT": "Repetir",
+        "PASSWORD": "Contraseña",
+        "SEND": "Enviar",
+        "PASSWORD_WRONG": "La contraseña actual no es valida.",
+        "PASSWORD_MISMATCH": "Las contraseñas no coinciden.",
+        "PASSWORD_MINLENGTH": "La longitud mínima és de 4 caracteres.",
+        "PASSWORD_DIFFERENT": "La contraseña nueva debe ser diferente a la actual."
+    },
+    "/desktop": {}
+}

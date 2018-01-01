@@ -45,7 +45,7 @@ export class HttpServer {
  
         // This is served static but it requires being authenticated
         const dir = path.resolve(__dirname, "../client/private");
-        console.log("Mounting as /files =", dir);
+        console.log("Mounting private::  /files as ", dir);
         this.app.use("/files", express.static(dir));
          
         // Finally setup error and 404 routes
@@ -95,12 +95,16 @@ export class HttpServer {
 
         // This is served static and public --> it could be handled by ngnix
         const dir = path.resolve(__dirname, "../client/public");
-        console.log("Mounting as / =", dir);
+        console.log("Mounting public:: / as ", dir);
         this.app.use(express.static(dir));
+        
+        const dir2 = path.resolve(__dirname, "../client/node_modules");
+        console.log("Mounting public:: /assets/libs as ", dir2);
+        this.app.use("/assets/libs/", express.static(dir2));
         
         this.app.engine('ejs', cons.ejs);
         this.app.set('view engine', 'ejs');
-        console.log( 'Mounting views directory to ', __dirname + '/views');
+        console.log( 'Mounting views:: ', __dirname + '/views');
         this.app.set('views', __dirname + '/views');
 
     }

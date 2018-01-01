@@ -8,13 +8,13 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
-    <link rel="stylesheet" href="/assets/libs/AdminLTE-2.4.2/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/libs/bootstrap/dist/css/bootstrap.min.css">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="/assets/libs/AdminLTE-2.4.2/bower_components/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/libs/fontawesome-web/css/fontawesome-all.min.css">
     <!-- Ionicons -->
-    <link rel="stylesheet" href="/assets/libs/AdminLTE-2.4.2/bower_components/Ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="/assets/libs/ionicons/dist/css/ionicons.min.css">
     <!-- Theme style -->
-    <link rel="stylesheet" href="/assets/libs/AdminLTE-2.4.2/dist/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="/assets/libs/AdminLTE-2.4.2/dist/css/AdminLTE.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="/assets/libs/AdminLTE-2.4.2/dist/css/skins/_all-skins.min.css">
@@ -49,9 +49,7 @@
                 <!-- Sidebar toggle button-->
                 <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
                     <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
+                    <span class="fa fa-bars"></span>                    
                 </a>
 
                 <div class="navbar-custom-menu">
@@ -60,7 +58,7 @@
                         <!-- Messages: style can be found in dropdown.less-->
                         <li class="dropdown messages-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-envelope-o"></i>
+                                <i class="fa fa-envelope"></i>
                                 <span class="label label-success">4</span>
                             </a>
                             <ul class="dropdown-menu">
@@ -96,7 +94,7 @@
                         <!-- Notifications: style can be found in dropdown.less -->
                         <li class="dropdown notifications-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-bell-o"></i>
+                                <i class="fa fa-bell"></i>
                                 <span class="label label-warning">10</span>
                             </a>
                             <ul class="dropdown-menu">
@@ -121,7 +119,7 @@
                         <!-- Tasks: style can be found in dropdown.less -->
                         <li class="dropdown tasks-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-flag-o"></i>
+                                <i class="fa fa-flag"></i>
                                 <span class="label label-danger">9</span>
                             </a>
                             <ul class="dropdown-menu">
@@ -867,14 +865,9 @@
     </div>
     <!-- ./wrapper -->
 
-    <!-- jQuery 3 -->
-    <script src="/assets/libs/AdminLTE-2.4.2/bower_components/jquery/dist/jquery.min.js"></script>
-    <!-- Bootstrap 3.3.7 -->
-    <script src="/assets/libs/AdminLTE-2.4.2/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-    <!-- SlimScroll -->
-    <script src="/assets/libs/AdminLTE-2.4.2/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-    <!-- FastClick -->
-    <script src="/assets/libs/AdminLTE-2.4.2/bower_components/fastclick/lib/fastclick.js"></script>
+    <script src="/assets/bundles/pw-bootstrap.js"></script>
+    <script src="/assets/libs/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="/assets/libs/fastclick/lib/fastclick.js"></script>
     <!-- AdminLTE App -->
     <script src="/assets/libs/AdminLTE-2.4.2/dist/js/adminlte.min.js"></script>
     <script>

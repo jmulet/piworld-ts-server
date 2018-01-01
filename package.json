@@ -1,5 +1,5 @@
 {
-  "name": "piworld-springjs-server",
+  "name": "piworld-ts-server",
   "version": "1.0.0",
   "description": "Server for piworld site based on nodejs + springjs",
   "main": "index.js",
@@ -22,9 +22,9 @@
   "author": "Josep Mulet",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/jmulet/piworld-springjs-server/issues"
+    "url": "https://github.com/jmulet/piworld-ts-server/issues"
   },
-  "homepage": "https://github.com/jmulet/piworld-springjs-server#readme",
+  "homepage": "https://github.com/jmulet/piworld-ts-server#readme",
   "dependencies": {
     "async": "^2.6.0",
     "body-parser": "^1.18.2",
@@ -69,6 +69,7 @@
     "nodemon": "^1.14.3",
     "tslint": "^5.8.0",
     "typeorm-model-generator": "^0.2.3",
-    "typings": "^2.1.1"
+    "typings": "^2.1.1",
+    ""
   }
 }

@@ -1,29 +1,18 @@
 <!doctype html>
 <html lang="<%=lang%>">
-
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="piWorld site">
   <meta name="author" content="Josep Mulet">
   <link rel="icon" href="/pda.ico" type="image/x-icon">
-
   <title>piWorld Login</title>
-
-  <!-- Bootstrap core CSS -->
-  <link href="/assets/libs/bootstrap-4.0.0-beta2/css/bootstrap.min.css" rel="stylesheet">
-
-  <!-- Custom styles for this template -->
+  <link href="/assets/libs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="/assets/css/signin.css" rel="stylesheet">
 </head>
-
 <body>
-
-
-
   <div class="container">
     <div class="form-signin">
-
       <div class="dropdown">
         <span>
           <%=__('LANGUAGE')%>
@@ -48,7 +37,6 @@
           </li>
         </ul>
       </div>
-
     </div>
 
     <div class="form-signin">
@@ -95,10 +83,7 @@
       <%}%>       
   </div>
 
-  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-    crossorigin="anonymous"></script>
-  <script src="/assets/libs/bootstrap-4.0.0-beta2/js/bootstrap.min.js"></script>
+  <script src="/assets/bundles/pw-bootstrap.js"></script>
   <script>
     var i18n = <%- JSON.stringify(translations) %>;
     $(function () { 

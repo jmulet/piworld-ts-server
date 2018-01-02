@@ -5,7 +5,7 @@ import { Service } from "typedi";
 export class I18n {
     public static DEFAULT_LANG = "en";
     public static SUPPORTED_LANGS = ["ca", "es", "en"];
-    private TRANSLATIONS = {};
+    public TRANSLATIONS = {};
 
     constructor() {
         this.init();
@@ -18,7 +18,7 @@ export class I18n {
 
             I18n.SUPPORTED_LANGS.forEach((lang) => {
                 try {
-                    this.TRANSLATIONS[lang] = require("./locale_" + lang + ".json");
+                    this.TRANSLATIONS[lang] = require("../locales/locale_" + lang + ".json");
                 } catch (Ex) {
                     this.TRANSLATIONS[lang] = {};
                 }

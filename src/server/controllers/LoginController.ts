@@ -17,6 +17,7 @@ import { UserSrv } from '../services/UserSrv';
 import { config } from '../server.config';
 
 import * as bcrypt from "bcrypt";
+import { I18n } from '../services/I18n';
 
 
 @Controller()
@@ -33,6 +34,9 @@ export class LoginController {
 
     @Inject()
     enrollSrv: EnrollSrv;
+
+    @Inject()
+    i18n: I18n;
 
     @Get("/")
     @UseBefore(LoginMdw)
@@ -189,4 +193,33 @@ export class LoginController {
         await this.sessionSrv.changePassword(session, pwd);
     }
 
+    @Get("/translate")
+    translateGet(@QueryParam("file") file: string, @QueryParam("lang") lang: string, 
+        @Req() request: express.Request, @Res() response: express.Response) {
+       
+        if (!lang) {
+            if(request.headers.cookie) {
+                // Second check for a lang cookie
+                lang = (cookieParser(request, "clang") || "").toLowerCase();
+                if (I18n.SUPPORTED_LANGS.indexOf(lang) < 0) {
+                    lang = null;
+                }
+            }
+            if (!lang) {
+                // Finally, look for request header
+                lang = (request.acceptsLanguages(I18n.SUPPORTED_LANGS) || I18n.DEFAULT_LANG).toLowerCase();                                     
+            }
+        }
+        if (I18n.SUPPORTED_LANGS.indexOf(lang) < 0) {
+            lang = I18n.DEFAULT_LANG;
+        }        
+        const translations = this.i18n.generate("/"+file, lang);
+        let jsFile = "var translations = "+ JSON.stringify(translations);
+        jsFile += ";\n\nvar __ = function(key) {\n";
+        jsFile +="  return translations[key] || key;\n";
+        jsFile +="};\n";
+
+        response.setHeader("content-type", "text/javascript");
+        return response.send(jsFile);
+    }
 }

@@ -5,43 +5,42 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="piWorld site">
   <meta name="author" content="Josep Mulet">
-  <link rel="icon" href="/pda.ico" type="image/x-icon">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <title>piWorld Login</title>
   <link href="/assets/libs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="/assets/css/signin.css" rel="stylesheet">
 </head>
 <body>
+  <div class="main-header">
+      <div class="dropdown pull-right">
+          <span>
+            <%=__('LANGUAGE')%>
+          </span>
+          <button class="btn btn-sm btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="true">
+            <img src="/assets/img/<%=lang%>.png"></img>
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <li>
+              <a href="/login.htm?clang=es">
+                <img src="/assets/img/es.png"> Español </a>
+            </li>
+            <li>
+              <a href="/login.htm?clang=ca">
+                <img src="/assets/img/ca.png"> Català</a>
+            </li>
+            <li>
+              <a href="/login.htm?clang=en">
+                <img src="/assets/img/en.png"> English</a>
+            </li>
+          </ul>
+        </div>
+  </div>
   <div class="container">
     <div class="form-signin">
-      <div class="dropdown">
-        <span>
-          <%=__('LANGUAGE')%>
-        </span>
-        <button class="btn btn-sm btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
-          aria-expanded="true">
-          <img src="/assets/img/<%=lang%>.png"></img>
-          <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-          <li>
-            <a href="/login.htm?clang=es">
-              <img src="/assets/img/es.png"> Español </a>
-          </li>
-          <li>
-            <a href="/login.htm?clang=ca">
-              <img src="/assets/img/ca.png"> Català</a>
-          </li>
-          <li>
-            <a href="/login.htm?clang=en">
-              <img src="/assets/img/en.png"> English</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="form-signin">
-      <h2 class="form-signin-heading">
-        <img src="/assets/img/logo.png" style="width:64px"> piWorld Login</h2>
+      <h3 class="form-signin-heading">
+        <img src="/assets/img/logo.png" style="width:64px"> piWorld Login</h3>
       <label for="parents">
         <%=__('LOGIN_AS')%>
       </label>
@@ -69,23 +68,32 @@
       <button id="submit" class="btn btn-lg btn-primary btn-block" type="submit">
         <%=__('LOGIN')%>
       </button>
-    </div>
-
-    <div id="errAlert" class="form-signin alert alert-danger" style="display: none">
+ 
+    <br/>
+    <div id="errAlert" class="alert alert-danger" style="display: none">
     </div>
 
     <% if( msg ){%>
-      <div id="msgAlert" class="form-signin alert alert-info">
+      <div id="msgAlert" class="alert alert-info">
         <p>
           <%= msg %>
         </p>
       </div>
-      <%}%>       
+      <%}%>
+      
+      <footer class="main-footer">
+        <div class="pull-right hidden-xs">
+            <b>Version</b> 2.4.0
+        </div>
+        <strong>&copy; 2014-2018
+            <a href="https://piworld.es">Josep Mulet</a>.</strong> All rights reserved.
+    </footer>
+  </div>
   </div>
 
   <script src="/assets/bundles/pw-bootstrap.js"></script>
+  <script src="/translate?file=login&lang=<%=lang%>"></script>
   <script>
-    var i18n = <%- JSON.stringify(translations) %>;
     $(function () { 
       var $submit = $("#submit");
       var $parents = $("#parents");
@@ -109,7 +117,7 @@
           $submit.prop("disabled", false);
           if (d.errCode) {
             $errAlert.css("display", "");
-            $errAlert.html("<p>" + i18n[d.errCode] + "</p>");
+            $errAlert.html("<p>" + __(d.errCode) + "</p>");
           } else if(d.redirect) {
             window.location.href = d.redirect;
           }

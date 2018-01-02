@@ -1,4 +1,11 @@
 {
+    "/errors": {
+        "404": "Page not found",
+        "403": "You don't have rights to access this page",
+        "500": "An internal error has occurred in the server",
+        "HOME": "Return the home page"
+    },
+
     "/login": {
         "LOGIN_AS": "Login as",
         "STUDENTS": "Students",

@@ -12,6 +12,8 @@ import { LoginController } from './server/controllers/LoginController';
 import { appServer } from './server/server';
 import { config } from './server/server.config';
 import { BootstrapSrv } from './server/services/BootstrapSrv';
+import { ErrorMdw } from './server/middlewares/ErrorMdw';
+import { NotFoundMdw } from './server/middlewares/NotFoundMdw';
 
 // set up container for dependency-injection
 routingUseContainer(Container);
@@ -37,13 +39,22 @@ createConnection({
 
     // reuses express app, registers all controller routes 
     useExpressServer(appServer.app, {
-        controllers: [  // we specify controllers we want to use
+        defaultErrorHandler: false,
+        // we specify controllers we want to use
+        controllers: [  
             LoginController,
             ErrorController,
             HomeController,
             DesktopController,
+        ],
+        middlewares: [
+            NotFoundMdw,
+            ErrorMdw
         ]
     });
+
+    // Finally set error routes
+    //appServer.errorRoutes();
 
     // Do extra integrity checks on database before starting up server
     const bootstrapSrv = Container.get(BootstrapSrv);

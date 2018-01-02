@@ -1,7 +1,7 @@
 import { ExpressMiddlewareInterface } from 'routing-controllers';
 import { Inject } from 'typedi';
 
-import { I18n } from '../locales/I18n';
+import { I18n } from '../services/I18n';
 import { cookieParser } from './CookieParser';
 
 export class TranslationMdw implements ExpressMiddlewareInterface {

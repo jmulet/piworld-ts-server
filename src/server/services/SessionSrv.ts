@@ -4,6 +4,9 @@ import { SessionModel } from "../model/SessionModel";
 import { UserRoles } from "../entities/UserModel";
 import { LoginsSrv } from "./LoginsSrv";
 
+import { config } from "../server.config";
+import * as bcrypt from "bcrypt";
+
 @Service()
 export class SessionSrv {
     @Inject()
@@ -56,9 +59,13 @@ export class SessionSrv {
         return this.userSrv.save(session.user);
     }
 
-    changePassword(session: SessionModel, newPassword: string) {       
+    async changePassword(session: SessionModel, newPassword: string) {       
         if(session.logins.parents === 0) {
             session.user.mustChgPwd = 0;
+        }
+        // Admin's password is encrypted
+        if (session.user.username === config.admin.username) {
+            session.user.password = await bcrypt.hash(session.user.password, 10);
         }
         return this.changeUserProperty(session, session.logins.parents? 'passwordParents': 'password', newPassword);
     }

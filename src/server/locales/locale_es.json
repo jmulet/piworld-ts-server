@@ -1,4 +1,11 @@
 {
+    "/errors": {
+        "404": "Esta página no existe",
+        "403": "No tiene privilegios para acceder a esta página",
+        "500": "Se ha producido un error interno en el servidor",
+        "HOME": "Volver a la página de inicio"
+    },
+
     "/login": {
         "LOGIN_AS": "Entrar como",
         "STUDENTS": "Estudiantes",

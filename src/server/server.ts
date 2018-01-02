@@ -47,24 +47,52 @@ export class HttpServer {
         const dir = path.resolve(__dirname, "../client/private");
         console.log("Mounting private::  /files as ", dir);
         this.app.use("/files", express.static(dir));
-         
-        // Finally setup error and 404 routes
-        this.app.use( function (err: any, req: express.Request, res: express.Response, next: express.NextFunction ) {
+    }
 
+    // Finally setup error and 404 routes
+    errorRoutes() { 
+        
+        this.app.use( function (req: express.Request, res: express.Response, err: any) {
+            
+            console.log("Upps! finally hit NOT FOUND routes");
+            console.log(req.accepts('json'));
+            console.log(err.stack);
+            
             // respond with html page
             if (req.accepts('html')) {
-                res.render("/errors/404.htm", {error: err.stack});
+                console.log("Sending 404")
+                res.render("errors/404", {error: err.stack});
                 return;
             }
 
             // respond with json
             if (req.accepts('json')) {
-                res.send({ error: 'Page not found or error ' + err });
+                res.status(404).send({ error: 'Page not found or error ' + err });
                 return;
             }
 
         });
 
+        this.app.use( function (req: express.Request, res: express.Response, err: any) {
+            
+            console.log("Upps! finally hit ERROR routes");
+            console.log(req.accepts('json'));
+            console.log(err.stack);
+            
+            // respond with html page
+            if (req.accepts('html')) {
+                console.log("Sending 500")
+                res.render("errors/500", {error: err.stack});
+                return;
+            }
+
+            // respond with json
+            if (req.accepts('json')) {
+                res.status(404).send({ error: 'Page not found or error ' + err });
+                return;
+            }
+
+        });
     }
   
     private expressConfiguration() {

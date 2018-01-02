@@ -1,4 +1,11 @@
 {
+    "/errors": {
+        "404": "Aquesta pàgina no existeix",
+        "403": "No teniu privilegis per accedir aquesta pàgina",
+        "500": "S'ha produït un error intern en el servidor",
+        "HOME": "Torneu a la pàgina d'inici"
+    },
+
     "/login": {
         "LOGIN_AS": "Entra com",
         "STUDENTS": "Estudiants",

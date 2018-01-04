@@ -1,26 +1,42 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="piWorld site">
-    <meta name="author" content="Josep Mulet">
-    <link rel="icon" href="/favicon.ico">
+<html lang="<%=lang%>">
 
-    <title>piWorld desktop</title>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="piWorld site">
+  <meta name="author" content="Josep Mulet">
+  <link rel="icon" href="/favicon.ico">
+  <title>piWorld 404</title>
+  <link href="/assets/libs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/assets/css/signin.css" rel="stylesheet">
+</head>
 
-    <!-- Bootstrap core CSS -->
-    <link href="/assets/libs/bootstrap-4.0.0-beta2/css/bootstrap.min.css" rel="stylesheet">
-  </head>
+<body>
+  <div class="container">
+    <div class="form-signin">
+      <center>
+        <img src="/assets/img/logo2.png" style="width:100px" />
+      </center>
+      <div class="alert alert-warning" style="text-align:center">
+        <h1>403</h1>
+        <h3>
+          <%=translations["403"]%>
+        </h3>
+      </div>
 
-  <body>
+    </div>
+  </div>
 
-    <div class="container">
+  <footer class="main-footer">
+    <center>
+      <button class="btn btn-lg btn-default btn-block" onclick="javascript:window.history.back()">
+        <%=translations["HOME"]%>
+          <i class="glyphicon glyphicon-home"></i>
+      </button>
+    </center>
+  </footer>
 
-    <h1>403 - PAGE NOT ALLOWED</h1>
+</body>
 
-    <h3><a href="/">Return to home page</a></h3>
-
-    </div> <!-- /container -->
-  </body>
 </html>

@@ -6,6 +6,7 @@ import { UserRoles } from '../entities/UserModel';
 import { AuthenticatedMdw } from '../middlewares/AuthenticatedMdw';
 import { AuthorizedMdw } from '../middlewares/AuthorizedMdw';
 import { LoginsSrv } from '../services/LoginsSrv';
+import { TranslationMdw } from '../middlewares/TranslationMdw';
 
 @Controller()
 @UseBefore(AuthenticatedMdw)
@@ -16,22 +17,12 @@ export class HomeController {
 
     @Get("/home.htm")
     @Render("home")
-    async homePage(@Session() session: any, @Req() request: express.Request, @Res() response: express.Response) {
-        
-        const obj =  {
-            pageTitle: "You are logged in",
-            fullname: "",
-            idRole: 200
-        }
- 
-
-        console.log ( await this.loginsSrv.listByUsername(session.user.username) );
-
-
-        obj.fullname = session.user.fullname;
-        obj.idRole = session.user.idRole;
-        //response.render("home", obj);
-        return obj;
+    @UseBefore(TranslationMdw)
+    homePage(@Session() session: any, @Req() request: express.Request, @Res() response: express.Response) {        
+        return {
+            fullname: session.user.fullname,
+            idRole: session.user.idRole
+        };
     }
 
     @Get("/admin.htm")

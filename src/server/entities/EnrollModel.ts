@@ -1,6 +1,9 @@
 import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 import { GroupsModel } from './GroupsModel';
+import { IsNumber, Validate } from 'class-validator';
+import { RoleValidator } from '../validators/RoleValidator';
+import { UserRoles } from './UserModel';
 
 @Entity("enroll")
 export class EnrollModel {
@@ -18,9 +21,10 @@ export class EnrollModel {
         })
     idUser:number;
         
+    @Validate(RoleValidator)
     @Column("int",{ 
         nullable:false,
-        default:"200", 
+        default: UserRoles.student, 
         })
     idRole:number;
 

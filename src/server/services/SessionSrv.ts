@@ -20,6 +20,10 @@ export class SessionSrv {
                 session.user.idRole === UserRoles.teacher_admin );
     }
 
+    isRoot(session: SessionModel): boolean {
+        return ( session.user.idRole === UserRoles.admin );
+    }
+
     isTeacher(session: SessionModel): boolean {
         return ( session.user.idRole === UserRoles.teacher ||  
                  session.user.idRole === UserRoles.teacher_admin || 
@@ -73,4 +77,16 @@ export class SessionSrv {
     changeEmail(session: SessionModel, newEmail: string) {       
         return this.changeUserProperty(session, session.logins.parents? 'emailParents': 'email', newEmail);
     }
+
+    async checkPassword(session: SessionModel, password: string) {       
+        const key = session.logins.parents? 'passwordParents': 'password';
+        // Comparison is different depending if database password is encrypted
+        if (session.user.username === config.admin.username) {
+            return bcrypt.compare(session.user.password, password);
+        } else {
+            return session.user[key] === password;
+        }
+        
+    }
+
 }

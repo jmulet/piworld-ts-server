@@ -1,4 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, OneToOne, JoinColumn, OneToMany, ManyToOne } from 'typeorm';
+import { IsInt, Length, Validate, IsOptional, Min } from 'class-validator';
+import { JsonStringValidator } from '../validators/JsonStringValidator';
+import { UserModel } from './UserModel';
 
 
 @Entity("groups")
@@ -14,22 +17,22 @@ export class GroupsModel {
         })
     groupName:string;
         
-
+    @IsInt()
     @Column("int",{ 
         nullable:false,
-        default:"1", 
+        default: 1, 
         })
     groupLevel:number;
         
-
+    @Length(1, 5)
     @Column("varchar",{ 
         nullable:false,
-        length:5,
-        default:"BAT", 
+        length: 5,
+        default: "BAT", 
         })
     groupStudies:string;
         
-
+    @Length(1, 255)
     @Column("varchar",{ 
         nullable:false,
         length:255,
@@ -37,10 +40,11 @@ export class GroupsModel {
         })
     groupLetter:string;
         
-
-    @Column("int",{ 
+    @IsOptional()
+    @Min(0)
+    @Column("int", { 
         nullable:true, 
-        })
+    })
     groupYear:number;
         
 
@@ -71,11 +75,12 @@ export class GroupsModel {
         })
     currentUnit:number;
         
-
+    @IsOptional()
+    @Validate(JsonStringValidator)
     @Column("longtext",{ 
-        nullable:true, 
+        nullable: true, 
         })
-    gopts:string;
+    gopts: string;
         
 
     @Column("longtext",{ 
@@ -83,4 +88,8 @@ export class GroupsModel {
         })
     thmcss:string;
         
+    // Many groups may be created by one user
+    @ManyToOne((type)=> UserModel, (user) => user.groupsCreated )
+    @JoinColumn({name: "idUserCreator"})
+    creator: UserModel;
 }

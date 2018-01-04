@@ -15,10 +15,10 @@ import * as compression from  "compression";
 import * as session from "express-session";
 import { UserRoles } from "./entities/UserModel";
 import * as helmet from 'helmet'; 
-
+import { config } from './server.config';
+import { ResponseLocalsMdw } from './middlewares/ResponseLocalsMdw';
 
 const MemoryStore = require('memorystore')(session);
-const config = require('./server.config');
 
 export class HttpServer {
     public app: express.Application;
@@ -45,8 +45,9 @@ export class HttpServer {
  
         // This is served static but it requires being authenticated
         const dir = path.resolve(__dirname, "../client/private");
-        console.log("Mounting private::  /files as ", dir);
-        this.app.use("/files", express.static(dir));
+        const mountPoint = path.join("/", config.basePrefix, "files");
+        console.log("Mounting private::  ", mountPoint, " as ", dir);
+        this.app.use(mountPoint, express.static(dir));
     }
 
     // Finally setup error and 404 routes
@@ -119,16 +120,19 @@ export class HttpServer {
         this.app.use(bodyParser.text({ limit: '100mb' }));
         this.app.use(methodOverride());
         this.app.use(compression());
+        this.app.use(ResponseLocalsMdw);
  
 
         // This is served static and public --> it could be handled by ngnix
         const dir = path.resolve(__dirname, "../client/public");
-        console.log("Mounting public:: / as ", dir);
-        this.app.use(express.static(dir));
+        const mountPoint = path.join("/", config.basePrefix);
+        console.log("Mounting public:: ", mountPoint, " as ", dir);
+        this.app.use(mountPoint, express.static(dir));
         
         const dir2 = path.resolve(__dirname, "../client/node_modules");
-        console.log("Mounting public:: /assets/libs as ", dir2);
-        this.app.use("/assets/libs/", express.static(dir2));
+        const mountPoint2 = path.join("/", config.basePrefix, "assets/libs");
+        console.log("Mounting public:: ", mountPoint2, " as ", dir2);
+        this.app.use(mountPoint2, express.static(dir2));
         
         this.app.engine('ejs', cons.ejs);
         this.app.set('view engine', 'ejs');
@@ -156,6 +160,7 @@ export const appServer = HttpServer.bootstrap();
 // shortcut to app instance
 export const app = appServer.app;
 
-global.__publicDir = path.resolve(__dirname, '../public'),
-global.__serverDir = path.resolve(__dirname, './')
+// Expose public and private physical directories
+global.__publicDir = path.resolve(__dirname, '../client/public'),
+global.__serverDir = path.resolve(__dirname, '../client/private')
  

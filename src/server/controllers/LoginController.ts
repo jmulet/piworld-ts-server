@@ -6,8 +6,8 @@ import { Inject } from 'typedi';
 import { LoginsModel } from '../entities/LoginsModel';
 import { UserModel } from '../entities/UserModel';
 import { AuthenticatedMdw } from '../middlewares/AuthenticatedMdw';
-import { cookieParser } from '../middlewares/CookieParser';
-import { LoginMdw } from '../middlewares/LoginMdw';
+import { cookieParser } from '../utils/CookieParser';
+import { AnonymousOnlyMdw } from '../middlewares/AnonymousOnlyMdw';
 import { TranslationMdw } from '../middlewares/TranslationMdw';
 import { SessionModel } from '../model/SessionModel';
 import { EnrollSrv } from '../services/EnrollSrv';
@@ -39,13 +39,13 @@ export class LoginController {
     i18n: I18n;
 
     @Get("/")
-    @UseBefore(LoginMdw)
+    @UseBefore(AnonymousOnlyMdw)
     @Redirect("login.htm")
     indexPage() {
     }
 
     @Get("/login.htm")
-    @UseBefore(LoginMdw)
+    @UseBefore(AnonymousOnlyMdw)
     @UseBefore(TranslationMdw)
     @Render("login")
     loginPage(@QueryParam("logout") msg: any, @Res() response: any) {
@@ -129,7 +129,11 @@ export class LoginController {
             return {errCode: "INVALID_USER"};
         }
 
-        return {redirect: "/desktop.htm"};
+        if (this.sessionSrv.isRoot(session)){
+            return {redirect: "/admin"};
+        } else {
+            return {redirect: "/desktop.htm"};
+        }
     }
 
     @Post("/logout")

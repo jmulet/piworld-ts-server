@@ -2,7 +2,8 @@ import * as express from "express";
 import {Middleware, ExpressErrorMiddlewareInterface} from "routing-controllers";
 import { I18n } from "../services/I18n";
 import { Inject } from "typedi";
-import { cookieParser } from "./CookieParser";
+import { cookieParser } from "../utils/CookieParser";
+import { langInspector } from "../utils/LangInspector";
 
 @Middleware({ type: "after" })
 export class ErrorMdw implements ExpressErrorMiddlewareInterface {
@@ -14,32 +15,20 @@ export class ErrorMdw implements ExpressErrorMiddlewareInterface {
         if (!response.headersSent) {
             let lang = response.locals.lang;
             if (!lang) {
-                if(request.headers.cookie) {
-                    // Second check for a lang cookie
-                    lang = (cookieParser(request, "clang") || "").toLowerCase();
-                    if (I18n.SUPPORTED_LANGS.indexOf(lang) < 0) {
-                        lang = null;
-                    }
-                }
-                if (!lang) {
-                    // Finally, look for request header
-                    lang = (request.acceptsLanguages(I18n.SUPPORTED_LANGS) || I18n.DEFAULT_LANG).toLowerCase();                       
-                  }
+                lang = langInspector(request, response);
             }
-            if (I18n.SUPPORTED_LANGS.indexOf(lang) < 0) {
-                lang = I18n.DEFAULT_LANG;
-            }    
             var translations = this.i18n.generate("/errors", lang);
 
-            if (request.headers.accept.indexOf('application/json') >= 0) {
+            if (request.headers.accept && request.headers.accept.indexOf('application/json') >= 0) {
+                console.log("Estic enviant un error que pot esser de validació");
+                console.log(response);
                 // respond with json
-                response.status(500).send({ msg: this.i18n.i18nTranslate("500"), error: error});
-                return;
+                const httpCode = ( error || {} ).httpCode;
+                response.status(httpCode || 500).send(error || { msg: this.i18n.i18nTranslate("500")});
             }            
-            else {
+            else if (request.headers.accept && request.headers.accept.indexOf('text/html') >= 0) {
                 // respond with html page
                 response.status(500).render("errors/500", {error: error, translations: translations, lang: lang});
-                return;
             }            
         }
     }

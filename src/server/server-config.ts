@@ -5,6 +5,7 @@
 // PLATFORM INDEPENDENT CONFIGURATION
 const _config = {
     hostname: "localhost",
+    basePrefix: "",
     //Admin user (will be created or updated to database table users)
     admin: {
         username: 'root',
@@ -39,7 +40,7 @@ if (_platform.indexOf('win') === 0) {
             port: 3306,
             username: 'root',
             password: '',
-            database: 'imaths'
+            database: 'piworld'
         },
 
         //Configure executable and temporal paths here
@@ -48,7 +49,7 @@ if (_platform.indexOf('win') === 0) {
             python: 'c:\\Python33\\python.exe',
             yacas: '',
             pandoc: 'c:\\Pandoc\\pandoc.exe',
-            tmp: 'c:\\imaths-tmp\\',
+            tmp: 'c:\\pw-tmp\\',
             mysqldump: ''
         },
 
@@ -69,7 +70,7 @@ if (_platform.indexOf('win') === 0) {
             port: 3306,
             username: 'root',
             password: '',
-            database: 'imaths'
+            database: 'piworld'
         },
 
         //Configure executable and temporal paths here
@@ -79,7 +80,7 @@ if (_platform.indexOf('win') === 0) {
             pandoc: '/usr/local/bin/pandoc',
             tex: '/usr/local/texlive/2014basic/bin/universal-darwin/',
             yacas: '/usr/bin/yacas',
-            tmp: '/Users/josep/imaths-tmp/',
+            tmp: '/Users/josep/pw-tmp/',
             mysqldump: '/usr/local/mysql/bin/mysqldump'
         },
 
@@ -98,7 +99,7 @@ if (_platform.indexOf('win') === 0) {
             port: 3306,
             username: 'root',
             password: '',
-            database: 'imaths'
+            database: 'piworld'
         },
 
         //Configure executable and temporal paths here
@@ -108,7 +109,7 @@ if (_platform.indexOf('win') === 0) {
             yacas: '/usr/bin/yacas',
             tex: '',
             pandoc: '/usr/local/bin/pandoc',
-            tmp: '/root/imaths-tmp/',
+            tmp: '/root/pw-tmp/',
             mysqldump: '/usr/bin/mysqldump'
         },
 

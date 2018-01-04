@@ -5,15 +5,11 @@ import { useContainer as routingUseContainer, useExpressServer } from 'routing-c
 import { Container } from 'typedi';
 import { createConnection, useContainer as ormUseContainer } from 'typeorm';
 
-import { DesktopController } from './server/controllers/DesktopController';
-import { ErrorController } from './server/controllers/ErrorController';
-import { HomeController } from './server/controllers/HomeController';
-import { LoginController } from './server/controllers/LoginController';
-import { appServer } from './server/server';
-import { config } from './server/server.config';
-import { BootstrapSrv } from './server/services/BootstrapSrv';
 import { ErrorMdw } from './server/middlewares/ErrorMdw';
 import { NotFoundMdw } from './server/middlewares/NotFoundMdw';
+import { appServer } from './server/server';
+import { config } from './server/server.config';
+import { BootstrapSrv } from './server/services/BootstrapSrv'; 
 
 // set up container for dependency-injection
 routingUseContainer(Container);
@@ -38,25 +34,32 @@ createConnection({
 }).then(async connection => {
 
     // reuses express app, registers all controller routes 
-    useExpressServer(appServer.app, {
+    useExpressServer(appServer.app, { 
         defaultErrorHandler: false,
         // we specify controllers we want to use
         controllers: [  
-            LoginController,
-            ErrorController,
-            HomeController,
-            DesktopController,
+            __dirname+"/server/controllers/*.ts",
+            __dirname+"/server/controllers/*.js",
+            __dirname+"/server/controllers/**/*.ts",
+            __dirname+"/server/controllers/**/*.js",
         ],
         middlewares: [
             NotFoundMdw,
             ErrorMdw
-        ]
+        ],
+        routePrefix: config.basePrefix,
+        validation: false // Disable validation by default
     });
 
-    // Finally set error routes
-    //appServer.errorRoutes();
-
-    // Do extra integrity checks on database before starting up server
+    // Finally show all routes
+    console.log("Mounted routes: ");
+    appServer.app._router.stack.forEach( function(e) {
+        if (e.route) {
+            console.log(e.route.path);
+        }
+    });
+   
+   // Do extra integrity checks on database before starting up server
     const bootstrapSrv = Container.get(BootstrapSrv);
 
     bootstrapSrv.doChecks().then((r) => {

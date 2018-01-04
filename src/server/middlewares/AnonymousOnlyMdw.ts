@@ -1,7 +1,7 @@
 import { ExpressMiddlewareInterface } from "routing-controllers";
 import { SessionModel } from "../model/SessionModel";
  
-export class LoginMdw implements ExpressMiddlewareInterface {
+export class AnonymousOnlyMdw implements ExpressMiddlewareInterface {
  
     use(request: any, response: any, next?: (err?: any) => any): any {
         

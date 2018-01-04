@@ -2,8 +2,9 @@ import { ExpressMiddlewareInterface } from 'routing-controllers';
 import { Inject } from 'typedi';
 
 import { I18n } from '../services/I18n';
-import { cookieParser } from './CookieParser';
-
+import { cookieParser } from '../utils/CookieParser';
+import { langInspector } from '../utils/LangInspector';
+import { config } from '../server.config';
 export class TranslationMdw implements ExpressMiddlewareInterface {
 
     @Inject()
@@ -11,42 +12,15 @@ export class TranslationMdw implements ExpressMiddlewareInterface {
 
     use(request: any, response: any, next?: (err?: any) => any): any {
 
-        let lang;
-        // First check for queryParameter clang
-        lang = ( request.query["clang"] || "" ).toLowerCase();
-        if (I18n.SUPPORTED_LANGS.indexOf(lang) < 0) {
-            lang = null;
-        } else {
-            // set a cookie to prevent using queryParameters on future requests
-            response.cookie("clang", lang);
-        }
-
-        if (!lang) {
-            if(request.headers.cookie) {
-                // Second check for a lang cookie
-                lang = (cookieParser(request, "clang") || "").toLowerCase();
-                if (I18n.SUPPORTED_LANGS.indexOf(lang) < 0) {
-                    lang = null;
-                }
-            }
-            if (!lang) {
-                // Finally, look for request header
-                lang = (request.acceptsLanguages(I18n.SUPPORTED_LANGS) || I18n.DEFAULT_LANG).toLowerCase();                       
-                if (I18n.SUPPORTED_LANGS.indexOf(lang) < 0) {
-                    lang = I18n.DEFAULT_LANG;
-                }        
-            }
-        }
-        
-        const cpath = request.path.split(".")[0];
+        const lang = langInspector(request, response);        
+        const cpath = request.path.split(".")[0].substring(config.basePrefix.length);
         const translations = this.i18n.generate(cpath, lang); 
 
-        response.locals = {
-            translations: translations,
-            __: this.i18n.i18nTranslate(translations),
-            lang: lang
-        };
-     
+        response.locals.translations = translations;
+        response.locals.__ = this.i18n.i18nTranslate(translations);
+        response.locals.lang = lang;
+        
+        console.log(response.locals);
         next();        
         
     }

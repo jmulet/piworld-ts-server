@@ -3,7 +3,8 @@ import * as express from "express";
 import {Middleware, ExpressMiddlewareInterface} from "routing-controllers";
 import { Inject } from "typedi";
 import { I18n } from "../services/I18n";
-import { cookieParser } from "./CookieParser";
+import { cookieParser } from "../utils/CookieParser";
+import { langInspector } from "../utils/LangInspector";
 
 @Middleware({ type: "after" })
 export class NotFoundMdw implements ExpressMiddlewareInterface {
@@ -15,31 +16,16 @@ export class NotFoundMdw implements ExpressMiddlewareInterface {
         if (!response.headersSent) {
             let lang = response.locals.lang;
             if (!lang) {
-                if(request.headers.cookie) {
-                    // Second check for a lang cookie
-                    lang = (cookieParser(request, "clang") || "").toLowerCase();
-                    if (I18n.SUPPORTED_LANGS.indexOf(lang) < 0) {
-                        lang = null;
-                    }
-                }
-                if (!lang) {
-                    // Finally, look for request header
-                    lang = (request.acceptsLanguages(I18n.SUPPORTED_LANGS) || I18n.DEFAULT_LANG).toLowerCase();                       
-                  }
-            }
-            if (I18n.SUPPORTED_LANGS.indexOf(lang) < 0) {
-                lang = I18n.DEFAULT_LANG;
-            }        
-
-            
+                lang = langInspector(request, response);            
+            } 
             var translations = this.i18n.generate("/errors", lang);
 
-            if (request.headers.accept.indexOf('application/json') >= 0) {
+            if (request.headers.accept && request.headers.accept.indexOf('application/json') >= 0) {
                 // respond with json
                 response.status(404).send({msg: this.i18n.i18nTranslate("404")});
                 return;
             }            
-            else {
+            else if (request.headers.accept && request.headers.accept.indexOf('text/html') >= 0) {
                 // respond with html page
                 response.status(404).render("errors/404", {translations: translations, lang: lang});
                 return;

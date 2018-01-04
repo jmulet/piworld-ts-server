@@ -18,6 +18,7 @@
     "homepage": "https://github.com/jmulet/piworld-ts-server#readme",
     "dependencies": {
         "angular": "^1.6.8",
+        "angular-sanitize": "^1.6.8",
         "bootstrap": "^3.3.7",
         "fontawesome-web": "^5.0.2",
         "ionicons": "^3.0.0",

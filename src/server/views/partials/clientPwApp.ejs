@@ -1,0 +1,32 @@
+<script>
+    var pwApp = window.pwApp || { config: {} };
+    pwApp.UserRoles = {
+        admin: 0,
+        teacher_admin: 50, 
+        teacher: 100,
+        teacher_nonediting: 150, 
+        student: 200,
+        guest: 400,
+        parents: 500
+    };
+
+    pwApp.config.supportedLangs = ["es", "ca", "es"];
+
+    pwApp.config.basePrefix = "<%= config.basePrefix %>";
+
+    <% if(locals.lang) { %>
+    pwApp.lang =  "<%= lang %>";
+    <% } else { %>
+    pwApp.lang =  $("html").attr("lang");
+    <% } %>
+
+    <% if (locals.translations) { %>
+    pwApp.translations = <%- JSON.stringify(translations) %>;    
+    <% } else { %>
+    pwApp.translations = {};    
+    <% } %>
+
+    pwApp.__ = function (key) {
+        return pwApp.translations[key] || key;
+    }
+</script>

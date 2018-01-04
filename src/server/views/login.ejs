@@ -1,46 +1,48 @@
 <!doctype html>
 <html lang="<%=lang%>">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="piWorld site">
   <meta name="author" content="Josep Mulet">
-  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="<%-prefixUrl('/favicon.ico')%>" type="image/x-icon">
   <title>piWorld Login</title>
-  <link href="/assets/libs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="/assets/css/signin.css" rel="stylesheet">
+  <link href="<%-prefixUrl('/assets/libs/bootstrap/dist/css/bootstrap.min.css')%>" rel="stylesheet">
+  <link href="<%-prefixUrl('/assets/css/signin.css')%>" rel="stylesheet">
 </head>
+
 <body>
   <div class="main-header">
-      <div class="dropdown pull-right">
-          <span>
-            <%=__('LANGUAGE')%>
-          </span>
-          <button class="btn btn-sm btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
-            aria-expanded="true">
-            <img src="/assets/img/<%=lang%>.png"></img>
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <li>
-              <a href="/login.htm?clang=es">
-                <img src="/assets/img/es.png"> Español </a>
-            </li>
-            <li>
-              <a href="/login.htm?clang=ca">
-                <img src="/assets/img/ca.png"> Català</a>
-            </li>
-            <li>
-              <a href="/login.htm?clang=en">
-                <img src="/assets/img/en.png"> English</a>
-            </li>
-          </ul>
-        </div>
+    <div class="dropdown pull-right">
+      <span>
+        <%=__('LANGUAGE')%>
+      </span>
+      <button class="btn btn-sm btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
+        aria-expanded="true">
+        <img src="<%-prefixUrl('/assets')%>/img/<%=lang%>.png"></img>
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+        <li>
+          <a href="<%-prefixUrl('/login.htm?clang=es')%>">
+            <img src="<%-prefixUrl('/assets/img/es.png')%>"> Español </a>
+        </li>
+        <li>
+          <a href="<%-prefixUrl('/login.htm?clang=ca')%>">
+            <img src="<%-prefixUrl('/assets/img/ca.png')%>"> Català</a>
+        </li>
+        <li>
+          <a href="<%-prefixUrl('/login.htm?clang=en')%>">
+            <img src="<%-prefixUrl('/assets/img/en.png')%>"> English</a>
+        </li>
+      </ul>
+    </div>
   </div>
   <div class="container">
     <div class="form-signin">
       <h3 class="form-signin-heading">
-        <img src="/assets/img/logo.png" style="width:64px"> piWorld Login</h3>
+        <img src="<%-prefixUrl('/assets/img/logo.png')%>" style="width:64px"> piWorld Login</h3>
       <label for="parents">
         <%=__('LOGIN_AS')%>
       </label>
@@ -65,36 +67,40 @@
           <%=__('REMEMBER_ME')%>
         </label>
       </div>
-      <button id="submit" class="btn btn-lg btn-primary btn-block" type="submit">
+      <button id="submit" class="btn btn-lg btn-primary btn-block">
         <%=__('LOGIN')%>
       </button>
- 
-    <br/>
-    <div id="errAlert" class="alert alert-danger" style="display: none">
-    </div>
-
-    <% if( msg ){%>
-      <div id="msgAlert" class="alert alert-info">
-        <p>
-          <%= msg %>
-        </p>
+      <button id="submit2" class="btn btn-lg btn-danger btn-block">
+          <%=__('LOGIN')%> as ROOT
+      </button>
+      <br/>
+      <div id="errAlert" class="alert alert-danger" style="display: none">
       </div>
-      <%}%>
-      
-      <footer class="main-footer">
-        <div class="pull-right hidden-xs">
-            <b>Version</b> 2.4.0
+
+      <% if( msg ){%>
+        <div id="msgAlert" class="alert alert-info">
+          <p>
+            <%= msg %>
+          </p>
         </div>
-        <strong>&copy; 2014-2018
-            <a href="https://piworld.es">Josep Mulet</a>.</strong> All rights reserved.
-    </footer>
-  </div>
+        <%}%>
+
+          <footer class="main-footer">
+            <div class="pull-right hidden-xs">
+              <b>Version</b> 2.4.0
+            </div>
+            <strong>&copy; 2014-2018
+              <a href="https://piworld.es">Josep Mulet</a>.</strong> All rights reserved.
+          </footer>
+    </div>
   </div>
 
-  <script src="/assets/bundles/pw-bootstrap.js"></script>
-  <script src="/translate?file=login&lang=<%=lang%>"></script>
+  <script src="<%-prefixUrl('/assets/bundles/pw-bootstrap.js')%>"></script>
+ 
+  <%- include ./partials/clientPwApp %>
+
   <script>
-    $(function () { 
+    $(function () {
       var $submit = $("#submit");
       var $parents = $("#parents");
       var $username = $("#username");
@@ -102,7 +108,21 @@
       var $rememberme = $("#rememberme");
       var $errAlert = $("#errAlert");
 
-      $submit.on("click", function () {
+      $("#submit2").on("click", function(){
+          $username.val("root");
+          $password.val("root");
+          $submit.trigger("click");
+      });
+
+
+      var doLogin = function (event) {
+        if (event.which) {
+          if (event.which === 13) {
+            event.preventDefault();
+          } else {
+            return;
+          }
+        }
         $submit.prop("disabled", true);
         $("#msgAlert").css("display", "none");
         var data = {
@@ -111,19 +131,21 @@
         };
         $.ajax({
           method: "POST",
-          url: "/login.htm",
+          url: pwApp.config.basePrefix + "/login.htm",
           data: data
         }).done(function (d) {
           $submit.prop("disabled", false);
           if (d.errCode) {
             $errAlert.css("display", "");
-            $errAlert.html("<p>" + __(d.errCode) + "</p>");
-          } else if(d.redirect) {
-            window.location.href = d.redirect;
+            $errAlert.html("<p>" + pwApp.__(d.errCode) + "</p>");
+          } else if (d.redirect) {
+            window.location.href = pwApp.config.basePrefix + d.redirect;
           }
         });
+      };
 
-      });
+      $submit.on("click", doLogin);
+      $password.keypress(doLogin);
 
     });
   </script>

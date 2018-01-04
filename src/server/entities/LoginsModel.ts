@@ -1,5 +1,5 @@
-import { IsDate } from 'class-validator';
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { IsDate, IsInt, Max, Min, IsIP, IsOptional } from 'class-validator';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, BeforeInsert, BeforeUpdate } from 'typeorm';
 
 import { UserModel } from './UserModel';
 
@@ -25,7 +25,9 @@ export class LoginsModel {
     })
     idUser: number;
 
-
+    @IsInt()
+    @Min(0)
+    @Max(1)
     @Column("tinyint", {
         nullable: false,
         default: "0",
@@ -33,6 +35,8 @@ export class LoginsModel {
     parents: number;
 
 
+    @IsOptional()
+    @IsIP()
     @Column("varchar", {
         nullable: true,
         length: 255,
@@ -40,21 +44,33 @@ export class LoginsModel {
     ip: string;
 
 
+    @IsOptional()
+    @IsDate()
     @Column("datetime", {
         nullable: true,
     })
-    @IsDate()
     login: Date;
 
-
+    @IsOptional()
+    @IsDate()
     @Column("datetime", {
         nullable: true,
     })
-    @IsDate()
     logout: Date;
 
     @ManyToOne(type => UserModel, (user)=> user.id)
     @JoinColumn({ name: "idUser" })
     user: UserModel;
+
     
+    @BeforeInsert()
+    setLoginDate() {
+        this.login = new Date();
+    }
+
+    @BeforeUpdate()
+    setLogoutDate() {
+        this.logout = new Date();
+    }
+   
 }

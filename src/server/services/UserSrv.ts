@@ -4,7 +4,7 @@ import { UserModel, UserRoles } from "../entities/UserModel";
 import { UserRepository } from "../repositories/UserRepository";
  
 
-@Service()
+@Service()    
 export class UserSrv {
     userRepository: Repository<UserModel>;
     
@@ -16,19 +16,36 @@ export class UserSrv {
         return this.userRepository.find();
     }
 
-    async findByUsername(username: string){
+    findByUsername(username: string){
         // Load the school relationship as well
-        const user = await  this.userRepository.createQueryBuilder("user")
+        return  this.userRepository.createQueryBuilder("user")
             .innerJoinAndSelect("user.school", "school")
             .where("user.username = :username")
             .setParameters({ username: username})
             .getOne();
-
-        return user;
     }
 
     save(user: UserModel) {
         return this.userRepository.save(user);
     }
   
+    findBySchoolId(schoolId: number, showStudents: boolean): any {
+            // Load the school relationship as well
+            const builder = this.userRepository.createQueryBuilder("user") 
+            .where("user.schoolId = :schoolId");
+
+            if (!showStudents) {
+                builder.andWhere("user.idRole>0").andWhere("user.idRole<"+ UserRoles.student);
+            }
+
+            return builder.setParameters({schoolId: schoolId}).getMany();
+    }
+
+    findById(id) {
+        return this.userRepository.findOneById(id);
+    }
+
+    delete(entity: UserModel){
+        return this.userRepository.delete(entity);
+    }
 }

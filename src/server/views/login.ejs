@@ -8,8 +8,8 @@
   <meta name="author" content="Josep Mulet">
   <link rel="icon" href="<%-prefixUrl('/favicon.ico')%>" type="image/x-icon">
   <title>piWorld Login</title>
-  <link href="<%-prefixUrl('/assets/libs/bootstrap/dist/css/bootstrap.min.css')%>" rel="stylesheet">
-  <link href="<%-prefixUrl('/assets/css/signin.css')%>" rel="stylesheet">
+  <link href="<%-prefixUrl('/assets/libs/bootstrap/pw-bootstrap.min.css')%>" rel="stylesheet">
+  <link href="<%-prefixUrl('/apps/login.css')%>" rel="stylesheet">
 </head>
 
 <body>
@@ -85,17 +85,19 @@
         </div>
         <%}%>
 
-          <footer class="main-footer">
-            <div class="pull-right hidden-xs">
-              <b>Version</b> 2.4.0
-            </div>
-            <strong>&copy; 2014-2018
-              <a href="https://piworld.es">Josep Mulet</a>.</strong> All rights reserved.
-          </footer>
+        
     </div>
+
+      <footer class="main-footer">
+        <div class="pull-right hidden-xs">
+          <b>Version</b> 2.4.0
+        </div>
+        <strong>&copy; 2014-2018
+          <a href="https://piworld.es">Josep Mulet</a>.</strong> All rights reserved.
+      </footer>
   </div>
 
-  <script src="<%-prefixUrl('/assets/bundles/pw-bootstrap.js')%>"></script>
+  <script src="<%-prefixUrl('/assets/libs/bootstrap/pw-bootstrap.js')%>"></script>
  
   <%- include ./partials/clientPwApp %>
 

@@ -10,11 +10,11 @@ import * as http from 'http';
 import * as methodOverride from 'method-override';
 import * as winston from 'winston';
 import * as SocketIO from 'socket.io';
-import * as cons from  "consolidate";
-import * as compression from  "compression";
+import * as cons from "consolidate";
+import * as compression from "compression";
 import * as session from "express-session";
 import { UserRoles } from "./entities/UserModel";
-import * as helmet from 'helmet'; 
+import * as helmet from 'helmet';
 import { config } from './server.config';
 import { ResponseLocalsMdw } from './middlewares/ResponseLocalsMdw';
 
@@ -35,14 +35,14 @@ export class HttpServer {
         // configure logger
         console.log("Calling constructor ...");
         this.loggerConfiguration();
-      
+
         this.app = express();
         this.server = new http.Server(this.app),
-        this.socketio = SocketIO(this.server),
+            this.socketio = SocketIO(this.server),
 
-        // configure express middleware
-        this.expressConfiguration();
- 
+            // configure express middleware
+            this.expressConfiguration();
+
         // This is served static but it requires being authenticated
         const dir = path.resolve(__dirname, "../client/private");
         const mountPoint = path.join("/", config.basePrefix, "files");
@@ -51,18 +51,18 @@ export class HttpServer {
     }
 
     // Finally setup error and 404 routes
-    errorRoutes() { 
-        
-        this.app.use( function (req: express.Request, res: express.Response, err: any) {
-            
+    errorRoutes() {
+
+        this.app.use(function (req: express.Request, res: express.Response, err: any) {
+
             console.log("Upps! finally hit NOT FOUND routes");
             console.log(req.accepts('json'));
             console.log(err.stack);
-            
+
             // respond with html page
             if (req.accepts('html')) {
                 console.log("Sending 404")
-                res.render("errors/404", {error: err.stack});
+                res.render("errors/404", { error: err.stack });
                 return;
             }
 
@@ -74,16 +74,16 @@ export class HttpServer {
 
         });
 
-        this.app.use( function (req: express.Request, res: express.Response, err: any) {
-            
+        this.app.use(function (req: express.Request, res: express.Response, err: any) {
+
             console.log("Upps! finally hit ERROR routes");
             console.log(req.accepts('json'));
             console.log(err.stack);
-            
+
             // respond with html page
             if (req.accepts('html')) {
                 console.log("Sending 500")
-                res.render("errors/500", {error: err.stack});
+                res.render("errors/500", { error: err.stack });
                 return;
             }
 
@@ -95,7 +95,7 @@ export class HttpServer {
 
         });
     }
-  
+
     private expressConfiguration() {
         this.app.use(helmet());
         this.app.set('trust proxy', 1);
@@ -105,38 +105,36 @@ export class HttpServer {
             secret: 'sf!d-.EKg059_sdñl4095j',
             resave: false,
             saveUninitialized: true,
-            cookie: { 
+            cookie: {
                 secure: false,
                 maxAge: 86400000,
                 httpOnly: false
             },
             store: new MemoryStore({
                 checkPeriod: 86400000 // prune expired entries every 24h
-              })            
+            })
         }));
-  
+
         this.app.use(bodyParser.urlencoded({ limit: '100mb', extended: true }));
         this.app.use(bodyParser.json({ limit: '100mb' }));
         this.app.use(bodyParser.text({ limit: '100mb' }));
         this.app.use(methodOverride());
         this.app.use(compression());
         this.app.use(ResponseLocalsMdw);
- 
+
 
         // This is served static and public --> it could be handled by ngnix
-        const dir = path.resolve(__dirname, "../client/public");
-        const mountPoint = path.join("/", config.basePrefix);
-        console.log("Mounting public:: ", mountPoint, " as ", dir);
-        this.app.use(mountPoint, express.static(dir));
-        
-        const dir2 = path.resolve(__dirname, "../client/node_modules");
-        const mountPoint2 = path.join("/", config.basePrefix, "assets/libs");
-        console.log("Mounting public:: ", mountPoint2, " as ", dir2);
-        this.app.use(mountPoint2, express.static(dir2));
-        
+        if (process.env.NODE_ENV !== "production") {
+            config.staticPrefix = config.basePrefix;
+            const dir = path.resolve(__dirname, "../client/public");
+            const mountPoint = path.join("/", config.staticPrefix);
+            console.log("Mounting public:: ", mountPoint, " as ", dir);
+            this.app.use(mountPoint, express.static(dir));
+        }
+
         this.app.engine('ejs', cons.ejs);
         this.app.set('view engine', 'ejs');
-        console.log( 'Mounting views:: ', __dirname + '/views');
+        console.log('Mounting views:: ', __dirname + '/views');
         this.app.set('views', __dirname + '/views');
 
     }
@@ -162,5 +160,5 @@ export const app = appServer.app;
 
 // Expose public and private physical directories
 global.__publicDir = path.resolve(__dirname, '../client/public'),
-global.__serverDir = path.resolve(__dirname, '../client/private')
- 
+    global.__serverDir = path.resolve(__dirname, '../client/private')
+

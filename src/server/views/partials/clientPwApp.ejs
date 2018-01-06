@@ -12,8 +12,8 @@
 
     pwApp.config.supportedLangs = ["es", "ca", "es"];
 
-    pwApp.config.basePrefix = "<%= config.basePrefix %>";
-
+    pwApp.config = <%- JSON.stringify(config) %>;
+    
     <% if(locals.lang) { %>
     pwApp.lang =  "<%= lang %>";
     <% } else { %>

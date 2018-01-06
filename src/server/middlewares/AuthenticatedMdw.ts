@@ -1,6 +1,7 @@
 import { ExpressMiddlewareInterface} from 'routing-controllers';
 import * as express from 'express';
 import { SessionModel } from "../model/SessionModel";
+import { config } from '../server.config';
 
 export class AuthenticatedMdw implements ExpressMiddlewareInterface {
 
@@ -15,7 +16,7 @@ export class AuthenticatedMdw implements ExpressMiddlewareInterface {
                 response.status(403).send({ error: 'User not authenticated' });
             }
             else {
-                response.redirect("/login.htm");
+                response.redirect(config.basePrefix + "/login.htm");
             }
         } else {
             next();

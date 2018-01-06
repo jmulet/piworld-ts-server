@@ -4,7 +4,7 @@ import { Column, Entity, ManyToOne, PrimaryGeneratedColumn, OneToMany, BeforeIns
 import { I18n } from '../services/I18n';
 import { LangValidator } from '../validators/LangValidator';
 import { UserModel } from './UserModel';
-import { IntRangeValidator } from '../validators/JsonStringValidator.1';
+import { IntRangeValidator } from '../validators/IntRangeValidator';
 
 @Entity("schools") 
 export class SchoolModel {

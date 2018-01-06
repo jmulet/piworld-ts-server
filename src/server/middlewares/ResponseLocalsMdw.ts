@@ -10,6 +10,7 @@ export function ResponseLocalsMdw(request: express.Request, response: express.Re
     // Pass a couple of configuration properties to the view engine
     response.locals.config = {
         basePrefix: config.basePrefix,
+        staticPrefix: config.staticPrefix,
         defaultLang: I18n.DEFAULT_LANG
     };
 

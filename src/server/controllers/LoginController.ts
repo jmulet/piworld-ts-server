@@ -40,7 +40,7 @@ export class LoginController {
 
     @Get("/")
     @UseBefore(AnonymousOnlyMdw)
-    @Redirect("login.htm")
+    @Redirect(config.basePrefix+"/login.htm")
     indexPage() {
     }
 
@@ -138,7 +138,7 @@ export class LoginController {
 
     @Post("/logout")
     @UseBefore(AuthenticatedMdw)
-    @Redirect("login.htm?logout")
+    @Redirect(config.basePrefix+"/login.htm?logout")
     async logout(@Req() request: any, @Session() session) {
         try {
             await this.sessionSrv.logout(session);
@@ -173,7 +173,7 @@ export class LoginController {
     }
 
     @Post("/changepwd.htm")
-    @Redirect("/desktop.htm")
+    @Redirect(config.basePrefix+"/desktop.htm")
     @UseBefore(AuthenticatedMdw)
     @UseBefore(TranslationMdw)
     async changePwdPost( @Req() request: express.Request, @Session() session: SessionModel) {
@@ -182,16 +182,16 @@ export class LoginController {
         const pwd2 = request.body.password2;
         
         if (pwd0 !== session.user.password) {
-            return "/changepwd.htm?error=3";
+            return config.basePrefix + "/changepwd.htm?error=3";
         }      
         else if (pwd !== pwd2) {
-            return "/changepwd.htm?error=1";
+            return config.basePrefix + "/changepwd.htm?error=1";
         }
         else if (pwd.length < 4) {
-            return "/changepwd.htm?error=2";
+            return config.basePrefix + "/changepwd.htm?error=2";
         }
         else if (pwd0 === pwd) {
-            return "/changepwd.htm?error=4";
+            return config.basePrefix + "/changepwd.htm?error=4";
         }
 
         await this.sessionSrv.changePassword(session, pwd);

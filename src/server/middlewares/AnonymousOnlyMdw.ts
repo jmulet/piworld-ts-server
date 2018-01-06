@@ -1,5 +1,6 @@
 import { ExpressMiddlewareInterface } from "routing-controllers";
 import { SessionModel } from "../model/SessionModel";
+import { config } from "../server.config";
  
 export class AnonymousOnlyMdw implements ExpressMiddlewareInterface {
  
@@ -9,9 +10,9 @@ export class AnonymousOnlyMdw implements ExpressMiddlewareInterface {
         const session: SessionModel = request.session;
         if (session && session.connectSid) {
             if(session.user.mustChgPwd) {
-                return response.redirect("/changepwd.htm");
+                return response.redirect(config.basePrefix + "/changepwd.htm");
             } else {
-                return response.redirect("/desktop.htm");
+                return response.redirect(config.basePrefix + "/desktop.htm");
             }
         }         
         next();                

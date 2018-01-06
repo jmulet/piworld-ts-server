@@ -5,7 +5,7 @@ import { JsonStringValidator } from '../validators/JsonStringValidator';
 import { Validate, IsInt, Min, Max, IsDate, IsEmail, IsNotEmpty, IsOptional } from 'class-validator';
 import { RoleValidator } from '../validators/RoleValidator';
 import { GroupsModel } from './GroupsModel';
-import { IntRangeValidator } from '../validators/JsonStringValidator.1';
+import { IntRangeValidator } from '../validators/IntRangeValidator';
 
 
 export enum UserRoles {
@@ -87,9 +87,7 @@ export class UserModel {
     @Column("date", {nullable: true})
     created: Date;
  
-    @IsInt()
-    @Min(-1)
-    @Max(3)
+    @Validate(IntRangeValidator, [-1, 1])
     @Column("tinyint", {default: 1})
     valid: number;
     

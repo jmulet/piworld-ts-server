@@ -1,11 +1,40 @@
 /*************************************
  * SETUP YOUR SERVER CONFIGURATION
- *************************************/
+ *************************************
+  Example of configuration using with nginx
+    1. Proxy::  http://piworld.es/demo --> 127.0.0.1:3200/demo
+    2. Use:: http://piworld.es/demo2 to serve static assets
+      
+    location /demo/ {
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header X-Forwarded-Proto $scheme;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header Host $http_host;
+                proxy_set_header X-NginX-Proxy true;
+
+                proxy_pass http://127.0.0.1:3200/demo/;
+                proxy_redirect off;
+    }
+
+        location /demo2/ {
+                # First attempt to serve request as file, then
+                # as directory, then fall back to displaying a 404.
+                root /root/piworld-springjs-server/src/client/public;
+                #expires 0;
+                expires modified 365d;
+                #add_header Cache-Control "public";
+
+                # Uncomment to enable naxsi on this location
+                # include /etc/nginx/naxsi.rules
+        }
+
+ */
 
 // PLATFORM INDEPENDENT CONFIGURATION
 const _config = {
     hostname: "localhost",
-    basePrefix: "",
+    basePrefix: "/demo", //Base prefix for server routes
+    staticPrefix: "/demo2", //Base prefix for the static assets
     //Admin user (will be created or updated to database table users)
     admin: {
         username: 'root',
@@ -91,7 +120,7 @@ if (_platform.indexOf('win') === 0) {
     };
 } else if (_platform === 'linux') {
     console.log('Node platform linux');
-    
+    process.env.NODE_ENV = 'production';
     platformConfig = {
 
         mysql: {

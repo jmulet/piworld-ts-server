@@ -35,7 +35,6 @@ export class ApiCenterController {
     @Delete("/delete")
     @UseBefore(RootOnly)
     async centerDelete(@QueryParam("schoolId") schoolId: number) {             
-        console.log("You want to delete ", schoolId);
         return this.schoolSrv.deleteById(schoolId);
     }
 

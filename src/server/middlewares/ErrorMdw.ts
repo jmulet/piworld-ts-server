@@ -20,9 +20,8 @@ export class ErrorMdw implements ExpressErrorMiddlewareInterface {
             var translations = this.i18n.generate("/errors", lang);
 
             if (request.headers.accept && request.headers.accept.indexOf('application/json') >= 0) {
-                console.log("Estic enviant un error que pot esser de validació");
-                console.log(response);
-                // respond with json
+                console.log(error);
+                 // respond with json
                 const httpCode = ( error || {} ).httpCode;
                 response.status(httpCode || 500).send(error || { msg: this.i18n.i18nTranslate("500")});
             }            

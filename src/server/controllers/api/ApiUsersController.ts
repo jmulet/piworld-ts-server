@@ -57,7 +57,7 @@ export class ApiUsersController {
     async userDelete(@Session() session: SessionModel, @QueryParam("idUser") idUser: number, @Res() response: express.Response) {              
         const sessionUser = session.user;
         const user = await this.userSrv.findById(idUser);
-        console.log("You want to delete ", user);
+        
         if (sessionUser.idRole === UserRoles.admin ||
             (sessionUser.schoolId === user.schoolId) ) {
             return this.userSrv.delete(user);

@@ -28,13 +28,17 @@ export class IntRangeValidator implements ValidatorConstraintInterface {
             return false;
         }
         */
-        const min = args.constraints[0];
-        const max = args.constraints[1];
+        const constraints = args.constraints || [];
+        const min = args.constraints[0] || 0;
+        const max = args.constraints[1] || 1;
         return min <= num && num <= max;
     }
 
     defaultMessage(args: ValidationArguments) { // here you can provide default error message if validation failed
-        return "The number ($value) is not in range " +  args[0] + "-"+ args[1];
+        const constraints = args.constraints || [];
+        const min = args.constraints[0] || 0;
+        const max = args.constraints[1] || 1;
+        return "The number ($value) is not in range " +  min + "-"+ max;
     }
 
 }

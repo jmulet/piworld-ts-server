@@ -20,7 +20,6 @@ export class TranslationMdw implements ExpressMiddlewareInterface {
         response.locals.__ = this.i18n.i18nTranslate(translations);
         response.locals.lang = lang;
         
-        console.log(response.locals);
         next();        
         
     }

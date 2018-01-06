@@ -1,4 +1,4 @@
-var ngApp = angular.module("ngApp", ["ngSanitize", "angular-growl", "AuthModule", "ModalsModule", "PwTableModule"]);
+var ngApp = angular.module("ngApp", ["ngSanitize", "angular-growl", "AuthModule", "ModalsModule", "PwTableModule", "PasswordStrength"]);
 
 function pathJoin(a, b) {
     var a2 = a.trim();
@@ -25,19 +25,23 @@ ngApp.config(['growlProvider', '$httpProvider', function (growlProvider, $httpPr
                 return req;
             },
             'responseError': function(res) {
-                console.log(res.status, res.data); 
-                if (res.status === 500) {
-                    growl.error(res.data);
+                if (res.status === 500) {                
+                    growl.error(res.data.msg || res.data.message || res.data.errors || JSON.stringify(res.data));
                 } else if (res.status === 400 && res.data.errors) {
                     growl.error("Per favor, reviseu els errors del formulari.");
                     // Transform errors to object like notation
+                    if (!Array.isArray(res.data.errors)) {
+                        res.data.errors = [res.data.errors];
+                    }
                     var $errors = {};                
                     res.data.errors.forEach(function (e) {
                         var msg = "";
                         for (var key in e.constraints) {
                             msg += e.constraints[key]+ "\n";
                         }
-                        $errors[e.property] = msg;
+                        if (e.property && msg) {
+                            $errors[e.property] = msg;
+                        }
                     });
                     res.data.errors = $errors;
                 } 
@@ -190,7 +194,7 @@ function AppController($rootScope, $http, growl, Auth, PwTable, $filter, Modals,
     };
 
     vm.edit = function (u) {
-        
+         
         var modal = $uibModal.open({
             animation: true,
             templateUrl: "/admin/userEditDialog.html",
@@ -205,43 +209,45 @@ function AppController($rootScope, $http, growl, Auth, PwTable, $filter, Modals,
                         obj = option;
                     }
                 }
+
+                scope.ValidityOptions = [
+                    {label: 'Disabled', value: 0},
+                    {label: 'Enabled', value: 1},
+                    {label: 'Pending', value: -1},
+                ];
+ 
                 scope.role = obj || scope.UserRoles[0];
-                scope.u = angular.copy(u);;
+                scope.u = angular.copy(u);
+
+                scope.valid = scope.ValidityOptions.filter(function(e){ return e.value === scope.u.valid; })[0] || scope.ValidityOptions[1];
 
                 scope.ok = function() {
                     scope.u.id = parseInt(scope.u.id);
                     scope.u.idRole = scope.role.value;
                     scope.u.valid = parseInt(scope.u.valid);
                     scope.u.email = scope.u.email ? scope.u.email : null;
-                    scope.u.valid = scope.u.valid ? scope.u.valid : 0;
-
-                    // set date if not present
-                    if (!scope.u.id) {
-                        scope.u.created = new Date();
-                    } else {
-                        scope.u.created = new Date(scope.u.created);
-                    }
-
-                    console.log(scope.u);
+                    scope.u.valid = scope.valid.value;
+ 
                     // Save it and close modal if no validation errors
                     $http.post("@/api/users/save", scope.u).then(function (r) {
                         var data = r.data;
                         if ((!u.id && data.id) || (u.id && data.changed)) {
                             growl.success("S'ha desat l'usuari.");
                         } else {
-                            growl.error("No s'ha pogut desar l'usuari :-(");
+                            growl.warning("No s'ha modificat l'usuari");
                         }
                         vm.tableParams.reload();
                         scope.$errors = null;
                         modal.close();
                     }).catch(function (r) {
+                        console.log("UPPS!!!" , r);
                         var data = r.data;
                         scope.$errors = data.errors;            
                     }); 
                 };
 
                 scope.cancel = function() {
-                    modal.dismiss();
+                    modal.close();
                 };
                 
             }]

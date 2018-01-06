@@ -35,5 +35,19 @@
     },
 
     "/desktop": {
+    },
+
+    "/admin/": {
+        "USERNAME": "Usuari",
+        "FULLNAME": "Nom i llinatges",
+        "PASSWORD": "Contrasenya",
+        "RECOVERY_KEY": "Clau de recuperació",
+        "ROLE": "Role",
+        "EMAIL": "Correu electrònic",
+        "EMAILPASSWORD": "Contransenya del correu",
+        "VALID": "Validesa del compte",
+        "PARENTS": "Famílies",
+        "CANCEL": "Cancel·la",
+        "ACCEPT": "Accepta"
     }
 }

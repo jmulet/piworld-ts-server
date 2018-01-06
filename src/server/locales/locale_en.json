@@ -32,5 +32,21 @@
         "PASSWORD_MINLENGTH": "The minimum password length is 4 characters.",
         "PASSWORD_DIFFERENT": "The new and current passwords must be different."
     },
+
     "/desktop": {}
+    ,
+
+    "/admin/": {
+        "USERNAME": "Username",
+        "FULLNAME": "Fullname",
+        "PASSWORD": "Password",
+        "RECOVERY_KEY": "Recovery key",
+        "ROLE": "Role",
+        "EMAIL": "Email",
+        "EMAILPASSWORD": "Email password",
+        "VALID": "Account's validity",
+        "PARENTS": "Family",
+        "CANCEL": "Cancel",
+        "ACCEPT": "Accept"
+    }
 }

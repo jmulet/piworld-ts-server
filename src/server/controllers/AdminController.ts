@@ -9,10 +9,12 @@ import { UserSrv } from '../services/UserSrv';
 import { SchoolSrv } from '../services/SchoolSrv';
 import { SessionModel } from '../model/SessionModel';
 import { SessionSrv } from '../services/SessionSrv';
+import { TranslationMdw } from '../middlewares/TranslationMdw';
 
 @Controller("/admin")
 @UseBefore(AuthenticatedMdw)
 @UseBefore(AuthorizedMdw([UserRoles.admin]))
+@UseBefore(TranslationMdw)
 export class AdminController {
  
     @Inject()

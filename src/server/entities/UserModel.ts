@@ -1,8 +1,9 @@
+import { PasswordValidator } from '../validators/PasswordValidator';
 import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, ManyToOne, OneToMany, BeforeInsert, BeforeUpdate, AfterUpdate } from 'typeorm';
 
 import { SchoolModel } from './SchoolModel';
 import { JsonStringValidator } from '../validators/JsonStringValidator';
-import { Validate, IsInt, Min, Max, IsDate, IsEmail, IsNotEmpty, IsOptional } from 'class-validator';
+import { Validate, IsInt, Min, Max, IsDate, IsEmail, IsNotEmpty, IsOptional, MaxLength, MinLength } from 'class-validator';
 import { RoleValidator } from '../validators/RoleValidator';
 import { GroupsModel } from './GroupsModel';
 import { IntRangeValidator } from '../validators/IntRangeValidator';
@@ -30,7 +31,8 @@ export class UserModel {
     idRole: number;
 
     @IsNotEmpty()
-    @Column("longtext")
+    @MaxLength(255)
+    @Column("varchar", {unique: true})
     username: string;
     
     @IsNotEmpty()
@@ -39,12 +41,14 @@ export class UserModel {
     
     @IsNotEmpty()
     @Column("text")
+    @Validate(PasswordValidator, [4, true])
     password: string;
     
     @IsOptional()
     @Column("text", {
         nullable: true
     })
+    @Validate(PasswordValidator, [4, true])
     passwordParents: string;
     
     @IsOptional()
@@ -82,8 +86,6 @@ export class UserModel {
     @Column({default: 1})
     schoolId: number;
     
-    @IsOptional()
-    @IsDate()
     @Column("date", {nullable: true})
     created: Date;
  

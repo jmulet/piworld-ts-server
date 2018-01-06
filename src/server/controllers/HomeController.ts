@@ -28,9 +28,7 @@ export class HomeController {
     @Get("/admin.htm")
     @UseBefore(AuthorizedMdw([UserRoles.teacher_admin, UserRoles.admin]))
     adminPage(@Session() session: any, @Req() request: express.Request, @Res() response: express.Response) {
-        
-        console.log(session);
-
+         
         const obj =  {
             pageTitle: "Supersecret page",
             fullname: "",

@@ -30,7 +30,7 @@ export class LoginsModel {
     @Max(1)
     @Column("tinyint", {
         nullable: false,
-        default: "0",
+        default: 0,
     })
     parents: number;
 

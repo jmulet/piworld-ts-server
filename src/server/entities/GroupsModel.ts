@@ -9,8 +9,7 @@ export class GroupsModel {
 
     @PrimaryGeneratedColumn("increment", {type: "int"})
     id:number;
-        
-
+    
     @Column("varchar",{ 
         nullable:false,
         length:255, 

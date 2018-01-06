@@ -183,13 +183,19 @@ function AppController($rootScope, $http, growl, Auth, PwTable, $filter, Modals,
 
     vm.newCenter = function () {
         //vm.tableParams.reload();
-        var u = { id: 0, schoolName: "", professorName: "", professorEmail: "", language: "ca", edit: true, enrollpassword: Math.random().toString(36).substring(4), canEnroll: 1, canPublish: 1 };
+        var u = angular.copy(pwApp.entities["SchoolModel"].defaultObject);
+        u.language = "ca";
+        u.enrollpassword = Math.random().toString(36).substring(4);
+        u.edit = true;
+        //var u = { id: 0, schoolName: "", professorName: "", professorEmail: "", language: "ca", edit: true, enrollpassword: Math.random().toString(36).substring(4), canEnroll: 1, canPublish: 1 };
         vm.tableParams0.$data.push(u);
         vm.edit0(u);
     };
 
     vm.newTeacher = function () {
-        var u = {id: 0, fullname: "", username: "", password: "", email: "", idRole: 200, schoolId: vm.selection.id};        
+        //var u = {id: 0, fullname: "", username: "", password: "", email: "", idRole: 200, schoolId: vm.selection.id};        
+        var u = angular.copy(pwApp.entities["UserModel"].defaultObject);
+        u.schoolId = vm.selection.id;
         vm.edit(u);
     };
 
@@ -197,9 +203,10 @@ function AppController($rootScope, $http, growl, Auth, PwTable, $filter, Modals,
          
         var modal = $uibModal.open({
             animation: true,
-            templateUrl: "/admin/userEditDialog.html",
+            templateUrl: "/admin/userEditDialog2.html",
             controller: ['$scope', function(scope) {
                 scope.UserRoles = [];
+                scope.EntityProperties = pwApp.entities["UserModel"].properties;
                 var obj = null;
                 for(var key in pwApp.UserRoles) {
                     var value = pwApp.UserRoles[key];
@@ -239,8 +246,7 @@ function AppController($rootScope, $http, growl, Auth, PwTable, $filter, Modals,
                         vm.tableParams.reload();
                         scope.$errors = null;
                         modal.close();
-                    }).catch(function (r) {
-                        console.log("UPPS!!!" , r);
+                    }).catch(function (r) { 
                         var data = r.data;
                         scope.$errors = data.errors;            
                     }); 

@@ -386,9 +386,7 @@ module.directive('ngPasswordStrength', ['$compile', 'PasswordStrength', function
             $scope.strength = undefined;
 
             $scope.$watch("model", function (password) {
-                console.log(passwordStrength.calculate(password));
-                $scope.strength = displayMinimumStrength(passwordStrength.calculate(password));
-                
+                $scope.strength = displayMinimumStrength(passwordStrength.calculate(password));                
             });
 
             $scope.getColor = function (strength) {

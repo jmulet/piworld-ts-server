@@ -101,7 +101,7 @@ export class HttpServer {
         this.app.set('trust proxy', 1);
 
         this.app.use(session({
-            name: "pwsid",
+            name: config.basePrefix+"pwsid",
             secret: 'sf!d-.EKg059_sdñl4095j',
             resave: false,
             saveUninitialized: true,

@@ -18,6 +18,7 @@ import { config } from '../server.config';
 
 import * as bcrypt from "bcrypt";
 import { I18n } from '../services/I18n';
+import { EncryptedBodyMdw } from '../middlewares/EncryptedBodyMdw';
 
 
 @Controller()
@@ -56,9 +57,9 @@ export class LoginController {
     }
 
     @Post("/login.htm")
+    @UseBefore(EncryptedBodyMdw)
     @UseBefore(TranslationMdw)
     async postLogin(@Req() request: express.Request, @Session() session) {
-
         
         const ipAddr = request.headers['x-forwarded-for'] || request.headers['x-real-ip'] || request.connection.remoteAddress;
 
@@ -100,7 +101,7 @@ export class LoginController {
                 }
 
                 // load session data
-                const connectSid = cookieParser(request)["pwsid"];
+                const connectSid = cookieParser(request)[config.basePrefix+"pwsid"];
                 const parents = credentials.parents ? 1 : 0;
                 const logins = LoginsModel.fromData(user.id, ipAddr + '', new Date(), parents);
                 await this.loginsSrv.save(logins);

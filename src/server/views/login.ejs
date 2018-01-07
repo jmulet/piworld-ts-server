@@ -71,7 +71,7 @@
         <%=__('LOGIN')%>
       </button>
       <button id="submit2" class="btn btn-lg btn-danger btn-block">
-          <%=__('LOGIN')%> as ROOT
+        <%=__('LOGIN')%> as ROOT
       </button>
       <br/>
       <div id="errAlert" class="alert alert-danger" style="display: none">
@@ -85,72 +85,94 @@
         </div>
         <%}%>
 
-        
+
     </div>
 
-      <footer class="main-footer">
-        <div class="pull-right hidden-xs">
-          <b>Version</b> 2.4.0
-        </div>
-        <strong>&copy; 2014-2018
-          <a href="https://piworld.es">Josep Mulet</a>.</strong> All rights reserved.
-      </footer>
+    <footer class="main-footer">
+      <div class="pull-right hidden-xs">
+        <b>Version</b> 2.4.0
+      </div>
+      <strong>&copy; 2014-2018
+        <a href="https://piworld.es">Josep Mulet</a>.</strong> All rights reserved.
+    </footer>
   </div>
 
   <script src="<%-prefixUrl('/assets/libs/bootstrap/pw-bootstrap.js')%>"></script>
- 
+  <script src="<%-prefixUrl('/bower_components/crypto-js/crypto-js.js')%>"></script>
   <%- include ./partials/clientPwApp %>
 
-  <script>
-    $(function () {
-      var $submit = $("#submit");
-      var $parents = $("#parents");
-      var $username = $("#username");
-      var $password = $("#password");
-      var $rememberme = $("#rememberme");
-      var $errAlert = $("#errAlert");
 
-      $("#submit2").on("click", function(){
+    <script>
+
+      function getCookie(cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+          }
+          if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+          }
+        }
+        return "";
+      }
+
+      $(function () {
+        var $submit = $("#submit");
+        var $parents = $("#parents");
+        var $username = $("#username");
+        var $password = $("#password");
+        var $rememberme = $("#rememberme");
+        var $errAlert = $("#errAlert");
+
+        $("#submit2").on("click", function () {
           $username.val("root");
           $password.val("root");
           $submit.trigger("click");
-      });
-
-
-      var doLogin = function (event) {
-        if (event.which) {
-          if (event.which === 13) {
-            event.preventDefault();
-          } else {
-            return;
-          }
-        }
-        $submit.prop("disabled", true);
-        $("#msgAlert").css("display", "none");
-        var data = {
-          username: $username.val(), password: $password.val(),
-          rememberme: $rememberme.prop("checked"), parents: $parents.val()
-        };
-        $.ajax({
-          method: "POST",
-          url: pwApp.config.basePrefix + "/login.htm",
-          data: data
-        }).done(function (d) {
-          $submit.prop("disabled", false);
-          if (d.errCode) {
-            $errAlert.css("display", "");
-            $errAlert.html("<p>" + pwApp.__(d.errCode) + "</p>");
-          } else if (d.redirect) {
-            window.location.href = pwApp.config.basePrefix + d.redirect;
-          }
         });
-      };
 
-      $submit.on("click", doLogin);
-      $password.keypress(doLogin);
 
-    });
-  </script>
+        var doLogin = function (event) {
+          if (event.which) {
+            if (event.which === 13) {
+              event.preventDefault();
+            } else {
+              return;
+            }
+          }
+          $submit.prop("disabled", true);
+          $("#msgAlert").css("display", "none");
+          var data = {
+            username: $username.val(), password: $password.val(),
+            rememberme: $rememberme.prop("checked"), parents: $parents.val()
+          };
+          var key = getCookie(pwApp.config.basePrefix + "pwsid");
+          $.ajax({
+            method: "POST",
+            url: pwApp.config.basePrefix + "/login.htm",
+            data: CryptoJS.AES.encrypt(JSON.stringify(data), key).toString(),
+            contentType: "text/plain;charset=UTF-8"
+          }).done(function (d) {
+            $submit.prop("disabled", false);
+            if (d.errCode) {
+              $errAlert.css("display", "");
+              $errAlert.html("<p>" + pwApp.__(d.errCode) + "</p>");
+            } else if (d.redirect) {
+              window.location.href = pwApp.config.basePrefix + d.redirect;
+            }
+          });
+        };
+
+        $submit.on("click", function(event) {
+          event.which = 0;
+          doLogin(event);
+        });
+        $password.keypress(doLogin);
+
+      });
+    </script>
 </body>
 
 </html>

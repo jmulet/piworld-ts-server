@@ -35,10 +35,17 @@ export class SchoolSrv {
     }
 
     delete(entity: SchoolModel) {
+        if (entity.schoolName === 'buildin_admin_school') {
+            return false;
+        }
         return this.schoolsRepository.delete(entity);
     }
 
-    deleteById(id: number) {
+    async deleteById(id: number) {
+        const entity = await this.findById(id);
+        if (entity && entity.schoolName === 'buildin_admin_school') {
+            return false;
+        }
         return this.schoolsRepository
             .createQueryBuilder()
             .delete()

@@ -5,7 +5,7 @@ import { SessionModel } from "../model/SessionModel";
 import * as CryptoJS from 'crypto-js';
 import { config } from '../server.config'; 
 
-export class EncryptedBodyMdw implements ExpressMiddlewareInterface {
+export class DecryptBodyMdw implements ExpressMiddlewareInterface {
 
     use(request: express.Request, response: express.Response, next?: (err?: any) => any): any {
             if (request.headers["content-type"].indexOf("text/plain;charset=UTF-8") >=0 ) {

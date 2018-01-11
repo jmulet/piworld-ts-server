@@ -16,7 +16,8 @@ export class SchoolModel {
     @IsNotEmpty()
     @Column("varchar",{ 
         nullable:false,
-        length:255, 
+        length:255,
+        unique: true 
         })
     schoolName:string;
 

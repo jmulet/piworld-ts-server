@@ -35,7 +35,9 @@ export class BootstrapSrv {
             school.professorName = config.admin.username;
             school.professorEmail = config.admin.email;
             school.language = config.admin.lang;
-            await this.schoolSrv.save(school);
+            console.log("> Saving school ", school);
+            const saved = await this.schoolSrv.save(school);
+            console.log("! Done");
 
             let user = await this.userSrv.findByUsername(config.admin.username);
             if (!user) {
@@ -54,7 +56,9 @@ export class BootstrapSrv {
             user.emailPassword = config.admin.emailPassword;            
             const hash = await bcrypt.hash(config.admin.password, 10);
             user.password = hash;
-            await this.userSrv.save(user);
+            console.log("> Saving user", user);
+            const userSaved = await this.userSrv.save(user);
+            console.log("! Done");
 
         } catch (Ex) {
             response.errors = Ex;

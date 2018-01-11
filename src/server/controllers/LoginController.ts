@@ -18,7 +18,7 @@ import { config } from '../server.config';
 
 import * as bcrypt from "bcrypt";
 import { I18n } from '../services/I18n';
-import { EncryptedBodyMdw } from '../middlewares/EncryptedBodyMdw';
+import { DecryptBodyMdw } from '../middlewares/DecryptBodyMdw';
 
 
 @Controller()
@@ -57,7 +57,7 @@ export class LoginController {
     }
 
     @Post("/login.htm")
-    @UseBefore(EncryptedBodyMdw)
+    @UseBefore(DecryptBodyMdw)
     @UseBefore(TranslationMdw)
     async postLogin(@Req() request: express.Request, @Session() session) {
         

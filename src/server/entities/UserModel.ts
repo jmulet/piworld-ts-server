@@ -7,6 +7,7 @@ import { Validate, IsInt, Min, Max, IsDate, IsEmail, IsNotEmpty, IsOptional, Max
 import { RoleValidator } from '../validators/RoleValidator';
 import { GroupsModel } from './GroupsModel';
 import { IntRangeValidator } from '../validators/IntRangeValidator';
+import { LoginsModel } from './LoginsModel';
 
 
 export enum UserRoles {
@@ -98,13 +99,18 @@ export class UserModel {
     uopts: string = "{}";
 
     // Many users have associated a "school" object
-    @ManyToOne((type) => SchoolModel, (school) => school.members, {cascadeRemove: false})
+    @ManyToOne((type) => SchoolModel, (school) => school.members, {onDelete: "CASCADE"})
     @JoinColumn({name: "schoolId"})
     school: SchoolModel;
 
     // A user may have created a number of "groups"
     @OneToMany((type)=>GroupsModel, group => group.creator)
     groupsCreated: GroupsModel[]
+
+    // A user may have multiple logins
+    @OneToMany(type => LoginsModel, (login)=> login.user)
+    logins: LoginsModel[];
+
  
     @BeforeInsert()
     setCreationDate() {

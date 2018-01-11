@@ -12,63 +12,25 @@ pwApp.entities['NewsModel'] = {
       "name": "html",
       "type": "longtext",
       "nullable": false,
-      "generated": false,
-      "validation": [
-        {
-          "type": "minLength",
-          "constraints": [
-            1
-          ]
-        }
-      ]
+      "generated": false
     },
     {
       "name": "title",
       "type": "longtext",
       "nullable": false,
-      "generated": false,
-      "validation": [
-        {
-          "type": "minLength",
-          "constraints": [
-            1
-          ]
-        }
-      ]
+      "generated": false
     },
     {
       "name": "expires",
       "type": "datetime",
       "nullable": false,
-      "generated": false,
-      "validation": [
-        {
-          "type": "isDate"
-        },
-        {
-          "type": "conditionalValidation",
-          "constraints": [
-            null
-          ]
-        }
-      ]
+      "generated": false
     },
     {
       "name": "order",
       "type": "int",
       "nullable": false,
-      "generated": false,
-      "validation": [
-        {
-          "type": "min",
-          "constraints": [
-            -1
-          ]
-        },
-        {
-          "type": "isInt"
-        }
-      ]
+      "generated": false
     }
   ],
   "defaultObject": {

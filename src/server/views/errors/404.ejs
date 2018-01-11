@@ -8,15 +8,15 @@
   <meta name="author" content="Josep Mulet">
   <link rel="icon" href="/favicon.ico">
   <title>piWorld 404</title>
-  <link href="/assets/libs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="/assets/css/signin.css" rel="stylesheet">
+  <link href="<%-prefixUrl('/assets/libs/bootstrap/pw-bootstrap.min.css')%>" rel="stylesheet">
+  <link href="<%-prefixUrl('/apps/login.css')%>" rel="stylesheet">
 </head>
 
 <body>
   <div class="container">
     <div class="form-signin">
       <center>
-        <img src="/assets/img/logo2.png" style="width:100px" />
+        <img src="<%-prefixUrl('/assets/img/logo2.png')%>" style="width:100px" />
       </center>
       <div class="alert alert-warning" style="text-align:center">
         <h1>404</h1>
@@ -30,7 +30,7 @@
 
   <footer class="main-footer">
     <center>
-      <a class="btn btn-lg btn-default btn-block" href="/">
+      <a class="btn btn-lg btn-default btn-block" href="<%-prefixUrl('/home.htm')%>">
         <%=translations["HOME"]%>
           <i class="glyphicon glyphicon-home"></i>
       </a>
@@ -39,4 +39,5 @@
 
 </body>
 
+</html>
 </html>

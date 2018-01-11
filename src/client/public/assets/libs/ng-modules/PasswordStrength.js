@@ -36,7 +36,7 @@ module.factory('PasswordStrength', function () {
                 ],
                 i = 0;
 
-            if (password === undefined) {
+            if (password == null) {
                 return undefined;
             }
 

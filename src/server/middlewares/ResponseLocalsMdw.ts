@@ -7,11 +7,21 @@ import * as path from 'path';
 
 export function ResponseLocalsMdw(request: express.Request, response: express.Response, next: express.NextFunction) {
 
+    const session = request.session;
+    const user: any = {};
+    if (session.user) {
+        user.id = session.user.id;
+        user.fullname = session.user.fullname;
+        user.username = session.user.username;
+        user.idRole = session.user.idRole;
+    }
+
     // Pass a couple of configuration properties to the view engine
     response.locals.config = {
         basePrefix: config.basePrefix,
         staticPrefix: config.staticPrefix,
-        defaultLang: I18n.DEFAULT_LANG
+        defaultLang: I18n.DEFAULT_LANG,
+        user: user
     };
 
     response.locals.prefixUrl = function (url){

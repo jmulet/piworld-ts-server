@@ -1,0 +1,21 @@
+<div class="modal-header">
+    <h3 class="modal-title">{{title}}</h3>
+</div>
+<div class="modal-body">
+    <p ng-bind-html="msg"></p>
+    <textarea ng-model="model.text" class="form-control-static" rows='7' style="width:100%"></textarea>
+    <div>
+        Crea els usuaris anteriors amb el següent role:
+        <select   name="idRole" ng-model="role"
+            ng-options="item as item.label disable when item.disabled for item in UserRoles track by item.value">
+        </select>
+        <br/>
+        <input type="checkbox" ng-model="model.mustChgPwd" /> Obliga als nous usuaris a canviar la contrasenya.
+        <br/>
+        <input type="checkbox" ng-model="model.updateIfExists" /> Actualitza el nom i l'email si l'usuari ja existeix a escola #{{schoolId}}.
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-warning" ng-click="cancel()" translate="CANCEL"></button>
+    <button class="btn btn-primary" ng-click="ok()" translate="ACCEPT"></button>
+</div>

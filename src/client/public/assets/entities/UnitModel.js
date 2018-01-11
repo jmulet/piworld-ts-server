@@ -1,6 +1,6 @@
 var pwApp = window.pwApp || {};
 pwApp.entities = pwApp.entities || {};
-pwApp.entities['EnrollModel'] = {
+pwApp.entities['UnitModel'] = {
   "properties": [
     {
       "name": "id",
@@ -15,22 +15,29 @@ pwApp.entities['EnrollModel'] = {
       "generated": false
     },
     {
-      "name": "idUser",
+      "name": "unit",
+      "type": "longtext",
+      "nullable": false,
+      "generated": false
+    },
+    {
+      "name": "order",
       "type": "int",
       "nullable": false,
       "generated": false
     },
     {
-      "name": "idRole",
-      "type": "int",
+      "name": "visible",
+      "type": "tinyint",
       "nullable": false,
       "generated": false
     }
   ],
   "defaultObject": {
     "id": null,
-    "idGroup": null,
-    "idUser": null,
-    "idRole": 200
+    "idGroup": 0,
+    "unit": null,
+    "order": 0,
+    "visible": 2
   }
 };

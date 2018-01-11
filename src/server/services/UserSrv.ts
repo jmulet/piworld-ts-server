@@ -34,8 +34,11 @@ export class UserSrv {
             const builder = this.userRepository.createQueryBuilder("user") 
             .where("user.schoolId = :schoolId");
 
+            // Never include admin since it is created from config file.
             if (!showStudents) {
-                builder.andWhere("user.idRole>0").andWhere("user.idRole<"+ UserRoles.student);
+                builder.andWhere("user.idRole > " + UserRoles.admin).andWhere("user.idRole<"+ UserRoles.student);
+            } else {
+                builder.andWhere("user.idRole > " + UserRoles.admin);
             }
 
             return builder.setParameters({schoolId: schoolId}).getMany();

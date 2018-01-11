@@ -18,62 +18,25 @@ pwApp.entities['GroupsModel'] = {
       "name": "groupLevel",
       "type": "int",
       "nullable": false,
-      "generated": false,
-      "validation": [
-        {
-          "type": "isInt"
-        }
-      ]
+      "generated": false
     },
     {
       "name": "groupStudies",
       "type": "varchar",
       "nullable": false,
-      "generated": false,
-      "validation": [
-        {
-          "type": "length",
-          "constraints": [
-            1,
-            5
-          ]
-        }
-      ]
+      "generated": false
     },
     {
       "name": "groupLetter",
       "type": "varchar",
       "nullable": false,
-      "generated": false,
-      "validation": [
-        {
-          "type": "length",
-          "constraints": [
-            1,
-            255
-          ]
-        }
-      ]
+      "generated": false
     },
     {
       "name": "groupYear",
       "type": "int",
       "nullable": false,
-      "generated": false,
-      "validation": [
-        {
-          "type": "min",
-          "constraints": [
-            0
-          ]
-        },
-        {
-          "type": "conditionalValidation",
-          "constraints": [
-            null
-          ]
-        }
-      ]
+      "generated": false
     },
     {
       "name": "idUserCreator",
@@ -103,22 +66,17 @@ pwApp.entities['GroupsModel'] = {
       "name": "gopts",
       "type": "longtext",
       "nullable": false,
-      "generated": false,
-      "validation": [
-        {
-          "type": "JsonStringValidator"
-        },
-        {
-          "type": "conditionalValidation",
-          "constraints": [
-            null
-          ]
-        }
-      ]
+      "generated": false
     },
     {
       "name": "thmcss",
       "type": "longtext",
+      "nullable": false,
+      "generated": false
+    },
+    {
+      "name": "subject",
+      "type": "int",
       "nullable": false,
       "generated": false
     }
@@ -135,6 +93,7 @@ pwApp.entities['GroupsModel'] = {
     "idSubject": "1",
     "currentUnit": "0",
     "gopts": null,
-    "thmcss": null
+    "thmcss": null,
+    "subject": null
   }
 };

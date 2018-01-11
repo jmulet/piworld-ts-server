@@ -160,5 +160,5 @@ export const app = appServer.app;
 
 // Expose public and private physical directories
 global.__publicDir = path.resolve(__dirname, '../client/public'),
-    global.__serverDir = path.resolve(__dirname, '../client/private')
+global.__serverDir = path.resolve(__dirname, '../client/private')
 

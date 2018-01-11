@@ -12,54 +12,25 @@ pwApp.entities['SchoolModel'] = {
       "name": "schoolName",
       "type": "varchar",
       "nullable": false,
-      "generated": false,
-      "validation": [
-        {
-          "type": "isNotEmpty"
-        }
-      ]
+      "generated": false
     },
     {
       "name": "professorName",
       "type": "varchar",
       "nullable": false,
-      "generated": false,
-      "validation": [
-        {
-          "type": "isNotEmpty"
-        }
-      ]
+      "generated": false
     },
     {
       "name": "professorEmail",
       "type": "varchar",
       "nullable": false,
-      "generated": false,
-      "validation": [
-        {
-          "type": "isEmail",
-          "constraints": [
-            null
-          ]
-        }
-      ]
+      "generated": false
     },
     {
       "name": "language",
       "type": "varchar",
       "nullable": false,
-      "generated": false,
-      "validation": [
-        {
-          "type": "LangValidator"
-        },
-        {
-          "type": "conditionalValidation",
-          "constraints": [
-            null
-          ]
-        }
-      ]
+      "generated": false
     },
     {
       "name": "enrollPassword",
@@ -71,31 +42,13 @@ pwApp.entities['SchoolModel'] = {
       "name": "canEnroll",
       "type": "tinyint",
       "nullable": false,
-      "generated": false,
-      "validation": [
-        {
-          "type": "IntRangeValidator",
-          "constraints": [
-            0,
-            1
-          ]
-        }
-      ]
+      "generated": false
     },
     {
       "name": "canPublish",
       "type": "tinyint",
       "nullable": false,
-      "generated": false,
-      "validation": [
-        {
-          "type": "IntRangeValidator",
-          "constraints": [
-            0,
-            1
-          ]
-        }
-      ]
+      "generated": false
     }
   ],
   "defaultObject": {

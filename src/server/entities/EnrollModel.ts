@@ -1,9 +1,8 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Validate } from 'class-validator';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-import { GroupsModel } from './GroupsModel';
-import { IsNumber, Validate } from 'class-validator';
 import { RoleValidator } from '../validators/RoleValidator';
-import { UserRoles } from './UserModel';
+import { GroupsModel } from './GroupsModel';
 
 @Entity("enroll")
 export class EnrollModel {
@@ -24,11 +23,12 @@ export class EnrollModel {
     @Validate(RoleValidator)
     @Column("int",{ 
         nullable:false,
-        default: UserRoles.student, 
+        default: 200, 
         })
     idRole:number;
 
-    @OneToOne(type => GroupsModel, group => group.id)
+    //Many enroll entries belong to a single group
+    @ManyToOne(type => GroupsModel, group => group.enrolls, {onDelete: "CASCADE"})
     @JoinColumn({name: "idGroup"})
     group: GroupsModel;    
 }

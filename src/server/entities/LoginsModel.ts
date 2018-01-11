@@ -58,7 +58,7 @@ export class LoginsModel {
     })
     logout: Date;
 
-    @ManyToOne(type => UserModel, (user)=> user.id)
+    @ManyToOne(type => UserModel, (user)=> user.logins, {onDelete: "CASCADE"})
     @JoinColumn({ name: "idUser" })
     user: UserModel;
 

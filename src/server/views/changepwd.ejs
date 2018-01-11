@@ -5,15 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="piWorld site">
     <meta name="author" content="Josep Mulet">
-    <link rel="icon" href="/favicon.ico">
+    <link rel="icon" href="<%-prefixUrl('/favicon.ico')%>">
     <title>piWorld change password</title>
-    <link href="/assets/libs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/assets/css/signin.css" rel="stylesheet">
+    <link href="<%-prefixUrl('/assets/libs/bootstrap/pw-bootstrap.min.css')%>" rel="stylesheet">
+    <link href="<%-prefixUrl('/apps/login.css')%>" rel="stylesheet">
   </head>
   <body>
     <div class="container">
        <form class="form-signin" action="/changepwd.htm" method="POST">
-        <h2 class="form-signin-heading"><img src="/assets/img/logo.png" style="width:64px"> piWorld</h2>
+        <h2 class="form-signin-heading"><img src="<%-prefixUrl('/assets/img/logo.png')%>" style="width:64px"> piWorld</h2>
         <h5><%=__('NEW_PASSWORD_REQUIRED')%></h5>
         <label for="password0"> <%=__('OLD')%></label>
         <input type="password" id="password0" name="password0" class="form-control" required autofocus autocomplete="off" autocapitalize="none" autocorrect="off">
@@ -31,6 +31,6 @@
       <%}%>
     </div> 
 
-    <script src="/assets/bundles/pw-bootstrap.js"></script>
+    <script src="<%-prefixUrl('/assets/libs/bootstrap/pw-bootstrap.js')%>"></script>    
   </body>
 </html>

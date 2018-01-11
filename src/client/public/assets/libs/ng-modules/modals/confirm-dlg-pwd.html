@@ -5,14 +5,14 @@
     <div class="modal-body">
         
         <div class="row">
-            <div class="col-sm-4">
-                <img class="push-left" src="/assets/img/questionmark.png" height="100" alt="question"/>           
+            <div class="col-xm-4">
+                <img class="push-left" ng-src="{{basePrefix}}/assets/img/questionmark.png" height="100" alt="question"/>           
             </div>
-            <div class="col-sm-8">
+            <div class="col-xm-8">
                 <p ng-bind-html="msg"></p>
                 
                 <div ng-if="requirePwd">
-                     <img ng-if="requirePwd" src="assets/img/lock.png"  height="50" alt="lock"/>    
+                     <img ng-if="requirePwd" src="{{basePrefix}}/assets/img/lock.png"  height="50" alt="lock"/>    
                     <p><strong>Password required</strong></p> <input id="confirm-input-pwd" type="password" ng-model="cpwd.text" ng-keyup="$event.keyCode === 13 && ok()"/>
                     <p class="alert alert-danger" ng-if="invalidpwd">{{invalidpwd}}</p>
                 </div>

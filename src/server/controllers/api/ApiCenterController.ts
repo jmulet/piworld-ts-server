@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Post, QueryParam, UseBefore } from 'routing-controllers';
+import { Body, Controller, Delete, Get, Post, QueryParam, Session, UseBefore } from 'routing-controllers';
 import { Inject } from 'typedi';
 
 import { SchoolModel } from '../../entities/SchoolModel';
@@ -6,6 +6,8 @@ import { AuthenticatedMdw } from '../../middlewares/AuthenticatedMdw';
 import { AdminsOnly, RootOnly } from '../../middlewares/AuthorizedMdw';
 import { SchoolSrv } from '../../services/SchoolSrv';
 import { SessionSrv } from '../../services/SessionSrv';
+import { SessionModel } from '../../model/SessionModel';
+import { UserRoles } from '../../entities/UserModel';
 
 
 
@@ -22,8 +24,13 @@ export class ApiCenterController {
 
     @Get("/list")
     @UseBefore(AdminsOnly)
-    centerList() {      
-        return this.schoolSrv.list();
+    async centerList(@Session() session: SessionModel) {      
+        let list = await this.schoolSrv.list();
+        const currentUser = session.user;
+        if (currentUser.idRole !== UserRoles.admin) {
+            list = list.filter( (c) => c.schoolName !== 'buildin_admin_school');
+        }
+        return list ;
     }
 
     @Post("/save")

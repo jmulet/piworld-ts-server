@@ -28,5 +28,22 @@
 
     pwApp.__ = function (key) {
         return pwApp.translations[key] || key;
+    };
+    <% if (locals.user) { %>
+    pwApp.user = {id: <%-JSON.stringify(user.id)%>, username: <%-JSON.stringify(user.fullname)%>, username: <%-JSON.stringify(user.fullname)%>, idRole: <%-JSON.stringify(user.idRole)%>};
+    <% } %>
+    function getCookie(cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+          }
+          if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+          }
+        }
+        return "";
     }
 </script>

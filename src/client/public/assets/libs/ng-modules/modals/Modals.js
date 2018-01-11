@@ -4,6 +4,10 @@ var app = angular.module("ModalsModule", ["ui.bootstrap", "AuthModule", "Transla
 
 app.service('Modals', ['$uibModal', '$timeout', 'Auth', '$translate', function ($uibModal, $timeout, Auth, $translate) {
 
+    if(!window.pwApp || !window.pwApp.config.basePrefix) {
+        console.log("Modals require global pwApp variables set.");
+    }
+
     var lastPwdTyped = new Date().getTime();
     var LATENCY = 120000; //2 min.
 
@@ -18,9 +22,9 @@ app.service('Modals', ['$uibModal', '$timeout', 'Auth', '$translate', function (
 
         if (requirePwd) {
             var modalInstance = $uibModal.open({
-                templateUrl: '/assets/ng-modules/modals/su-dlg.html',
+                templateUrl: pwApp.config.basePrefix+'/assets/libs/ng-modules/modals/su-dlg.html',
                 controller: ['$scope',  function ($scope) {
-
+                    $scope.basePrefix = pwApp.config.basePrefix;
                     $scope.cpwd = { text: "" };
                     $scope.invalidpwd = "";
                     var attempts = 0;
@@ -67,9 +71,12 @@ app.service('Modals', ['$uibModal', '$timeout', 'Auth', '$translate', function (
 
     this.notificationdlg = function (title, msg, okcb, opts) {
 
+        var template = opts.logger? "logger-dlg.html": "notification-dlg.html";
+
         var modalInstance = $uibModal.open({
-            templateUrl: '/assets/ng-modules/modals/notification-dlg.html',
+            templateUrl: pwApp.config.basePrefix+'/assets/libs/ng-modules/modals/'+template,
             controller: ['$scope', function ($scope) {
+                $scope.basePrefix = pwApp.config.basePrefix;
                 $scope.ok = function () {
                     modalInstance.close();
                 };
@@ -91,9 +98,9 @@ app.service('Modals', ['$uibModal', '$timeout', 'Auth', '$translate', function (
     this.inputdlg = function (title, msg, inivalue, okcb, cancelcb, opts) {
 
         var modalInstance = $uibModal.open({
-            templateUrl: '/assets/ng-modules/modals/input-dlg.html',
+            templateUrl: pwApp.config.basePrefix+'/assets/libs/ng-modules/modals/input-dlg.html',
             controller: ['$scope', function ($scope) {
-
+                $scope.basePrefix = pwApp.config.basePrefix;
                 $timeout(function () {
                     jQuery('#input-dlg').focus();
                 });
@@ -126,8 +133,9 @@ app.service('Modals', ['$uibModal', '$timeout', 'Auth', '$translate', function (
     this.confirmdlg = function (title, msg, okcb, cancelcb, opts, rejectcb) {
 
         var modalInstance = $uibModal.open({
-            templateUrl: '/assets/ng-modules/modals/confirm-dlg.html',
+            templateUrl: pwApp.config.basePrefix+'/assets/libs/ng-modules/modals/confirm-dlg.html',
             controller: ['$scope', function ($scope) {
+                $scope.basePrefix = pwApp.config.basePrefix;
                 $scope.ok = function () {
                     modalInstance.close();
                 };
@@ -170,9 +178,9 @@ app.service('Modals', ['$uibModal', '$timeout', 'Auth', '$translate', function (
         }
 
         var modalInstance = $uibModal.open({
-            templateUrl: '/assets/ng-modules/modals/confirm-dlg-pwd.html',
+            templateUrl: pwApp.config.basePrefix+'/assets/libs/ng-modules/modals/confirm-dlg-pwd.html',
             controller: ['$scope', 'Auth', function ($scope, Auth) {
-
+                $scope.basePrefix = pwApp.config.basePrefix;
                 $timeout(function () {
                     jQuery('#confirm-input-pwd').focus();
                 });

@@ -2,21 +2,21 @@ body {
     padding-top: 40px;
     padding-bottom: 40px;
     background-color: #eee;
+    background-image: url('../assets/img/bghome.jpg');
   }
   .form-signin {
-    position: fixed;
     margin: auto;
+    margin-top: 50px;
     left: 0;
     right: 0;
     top: 0;
     bottom: 0;
-    max-height: 440px;
     max-width: 400px;
     padding: 15px 40px;
-    background: white;
     border-radius: 10px;
-    overflow-y: auto;
+    background: rgba(255, 255, 255, .8);
   }
+  
   .form-signin .form-signin-heading,
   .form-signin .checkbox {
     margin-bottom: 10px;
@@ -50,7 +50,8 @@ body {
     margin: auto;
     left: 0;
     right: 0;
-    background: whitesmoke;
+    color: whitesmoke;
+    background: #292b2c;
     padding: 8px;
     z-index: 1000;
   }
@@ -60,7 +61,8 @@ body {
     margin: auto;
     left: 0;
     right: 0;
-    background: whitesmoke;
+    color: whitesmoke;
+    background: #292b2c;
     padding: 8px;
     z-index: 1000;
   }

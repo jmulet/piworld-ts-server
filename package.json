@@ -70,6 +70,7 @@
     "nodemon": "^1.14.3",
     "tslint": "^5.8.0",
     "typeorm-model-generator": "^0.2.3",
-    "typings": "^2.1.1"
+    "typings": "^2.1.1",
+    "eslint": "^4.16.0"
   }
 }

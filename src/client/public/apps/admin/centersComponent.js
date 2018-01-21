@@ -3,16 +3,16 @@
     var ngApp = angular.module("ngApp");
 
     var controller = function ($scope, $http, growl, Auth, PwTable, $filter, Modals, $uibModal) {
-        var vm = this;
+        var ctrl = this;
 
-        vm.tableParams0 = new PwTable({
+        ctrl.tableParams0 = new PwTable({
             page: 1,            // show first page
             count: 10,           // count per page
             sorting: ["+fullname"]
         }, function ($defer, params) {
             $http.get('@/api/center/list').then(function (r) {
                 if (r.data.length) {
-                    vm.changeSelection(r.data[0]);
+                    ctrl.changeSelection(r.data[0]);
                 }
                 $defer.resolve(r.data);
             }).catch(function () {
@@ -21,30 +21,30 @@
         });
 
 
-        vm.changeSelection = function (u) {
-            if (vm.selection === null || vm.selection != u) {
-                vm.selection = u;                       
-                vm.onSelection && vm.onSelection({$event: u}); 
+        ctrl.changeSelection = function (u) {
+            if (ctrl.selection === null || ctrl.selection != u) {
+                ctrl.selection = u;                       
+                ctrl.onSelection && ctrl.onSelection({$event: u}); 
             }
         };
 
-        vm.newCenter = function () {
-            //vm.tableParams.reload();
+        ctrl.newCenter = function () {
+            //ctrl.tableParams.reload();
             var u = angular.copy(pwApp.entities["SchoolModel"].defaultObject);
             u.language = "ca";
             u.enrollpassword = Math.random().toString(36).substring(4);
             u.edit = true;
             //var u = { id: 0, schoolName: "", professorName: "", professorEmail: "", language: "ca", edit: true, enrollpassword: Math.random().toString(36).substring(4), canEnroll: 1, canPublish: 1 };
-            vm.tableParams0.$data.push(u);
-            vm.edit0(u);
+            ctrl.tableParams0.$data.push(u);
+            ctrl.edit0(u);
         };
 
-        vm.edit0 = function (u) {
+        ctrl.edit0 = function (u) {
             u.backup = angular.copy(u);
             u.edit = true;
         };
 
-        vm.save0 = function (u) {
+        ctrl.save0 = function (u) {
             u.id = parseInt(u.id);
             u2 = angular.copy(u);
             u2.$errors = null;
@@ -59,9 +59,9 @@
                 } else {
                     growl.error("No s'ha pogut desar el centre :-(");
                 }
-                vm.tableParams0.reload();
-                vm.selection = null;
-                vm.edit = false;
+                ctrl.tableParams0.reload();
+                ctrl.selection = null;
+                ctrl.edit = false;
                 u.$errors = null;
             }).catch(function (r) {
                 var data = r.data;
@@ -73,27 +73,27 @@
         };
 
 
-        vm.cancel0 = function (u) {
+        ctrl.cancel0 = function (u) {
             for (var key in u.backup) {
                 u[key] = u.backup[key];
             }
             delete u.backup;
             u.edit = false;
-            vm.selection = null;
-            vm.tableParams0.reload();
+            ctrl.selection = null;
+            ctrl.tableParams0.reload();
 
         };
 
 
-        vm.confirmDlg0 = function (u) {
+        ctrl.confirmDlg0 = function (u) {
 
             var okcb = function () {
                 $http.delete("@/api/center/delete?schoolId=" + u.id).then(function (r) {
                     if (!r.data.affectedRows) {
                         growl.warning("Unable to delete center " + u.schoolName);
                     }
-                    vm.tableParams0.reload();
-                    vm.selection = null;
+                    ctrl.tableParams0.reload();
+                    ctrl.selection = null;
 
                 }).catch(function (r) {
 

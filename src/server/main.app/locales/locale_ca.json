@@ -1,0 +1,39 @@
+{
+    "/errors": {
+        "404": "Aquesta pàgina no existeix",
+        "403": "No teniu privilegis per accedir aquesta pàgina",
+        "500": "S'ha produït un error intern en el servidor",
+        "HOME": "Torneu a la pàgina d'inici"
+    },
+
+    "/login": {
+        "LOGIN_AS": "Entra com",
+        "STUDENTS": "Estudiants",
+        "FAMILIES": "Famílies",
+        "USERNAME": "Usuari",
+        "PASSWORD": "Contrasenya",
+        "REMEMBER_ME": "Recorda'm",
+        "LOGIN": "Entra",
+        "LANGUAGE": "Idioma",
+        "THANK_YOU": "Heu sortit de la sessió. Fins aviat.",
+        "DISABLED_USER": "Aquest usuari està deshabilitat.",
+        "INVALID_USER": "Aquest usuari no existeix.",
+        "INVALID_PASSWORD": "La contrasenya és incorrecta."
+    },
+
+    "/changepwd": {
+        "NEW_PASSWORD_REQUIRED": "Cal que canvieu la contrasenya",
+        "NEW": "Nova",
+        "OLD": "Contrasenya actual",
+        "REPEAT": "Repetiu",
+        "PASSWORD": "Contrasenya",
+        "SEND": "Enviar",
+        "PASSWORD_WRONG": "La contrasenya actual no és vàlida.",
+        "PASSWORD_MISMATCH": "Les contrasenyes no coincideixen.",
+        "PASSWORD_MINLENGTH": "La longitud mínima és 4 caràcters.",
+        "PASSWORD_DIFFERENT": "La nova contrasenya ha d'ésser diferent a l'actual."
+    },
+
+    "/desktop": {
+    }
+}

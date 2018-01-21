@@ -30,7 +30,7 @@
         return pwApp.translations[key] || key;
     };
     <% if (locals.user) { %>
-    pwApp.user = {id: <%-JSON.stringify(user.id)%>, username: <%-JSON.stringify(user.fullname)%>, username: <%-JSON.stringify(user.fullname)%>, idRole: <%-JSON.stringify(user.idRole)%>};
+    pwApp.user = {id: <%-user.id%>, username: '<%-user.fullname%>', username: '<%-user.username%>', idRole: <%-user.idRole%>, schoolId:  <%-user.schoolId%>};
     <% } %>
     function getCookie(cname) {
         var name = cname + "=";

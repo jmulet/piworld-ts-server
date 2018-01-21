@@ -1,0 +1,38 @@
+{
+    "/errors": {
+        "404": "Page not found",
+        "403": "You don't have rights to access this page",
+        "500": "An internal error has occurred in the server",
+        "HOME": "Return the home page"
+    },
+
+    "/login": {
+        "LOGIN_AS": "Login as",
+        "STUDENTS": "Students",
+        "FAMILIES": "Families",
+        "USERNAME": "Username",
+        "PASSWORD": "Password",
+        "REMEMBER_ME": "Remember me",
+        "LOGIN": "Login",
+        "LANGUAGE": "Language",
+        "THANK_YOU": "You have successfully logout. See you soon.",
+        "DISABLED_USER": "This user is disabled.",
+        "INVALID_USER": "This user does not exist.",
+        "INVALID_PASSWORD": "This password is incorrect."
+    },
+    "/changepwd": {
+        "NEW_PASSWORD_REQUIRED": "Please change your password",
+        "NEW": "New",
+        "OLD": "Current password",
+        "REPEAT": "Repeat",
+        "PASSWORD": "Password",
+        "SEND": "Send",
+        "PASSWORD_WRONG": "Invalid current password.",
+        "PASSWORD_MISMATCH": "Passwords do not match.",
+        "PASSWORD_MINLENGTH": "The minimum password length is 4 characters.",
+        "PASSWORD_DIFFERENT": "The new and current passwords must be different."
+    },
+
+    "/desktop": {}
+
+}

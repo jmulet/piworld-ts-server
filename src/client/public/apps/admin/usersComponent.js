@@ -3,16 +3,16 @@
     var ngApp = angular.module("ngApp");
 
     var controller = function ($rootScope, $http, growl, Auth, PwTable, $filter, Modals, $uibModal, $sce) {
-        var vm = this;
-        vm.showStudents = false;
+        var ctrl = this;
+        ctrl.showStudents = false;
 
-        vm.tableParams = new PwTable({
+        ctrl.tableParams = new PwTable({
             page: 1,            // show first page
             count: 10,           // count per page
             sorting: ["+fullname"]
         }, function ($defer, params) {
-            if (vm.selection && vm.selection.id) {
-                $http.get('@/api/users/list?schoolId=' + vm.selection.id + "&showStudents=" + vm.showStudents).then(function (r) {
+            if (ctrl.selection && ctrl.selection.id) {
+                $http.get('@/api/users/list?schoolId=' + ctrl.selection.id + "&showStudents=" + ctrl.showStudents).then(function (r) {
                     $defer.resolve(r.data);
                 }).catch(function () {
                     $defer.resolve([]);
@@ -22,29 +22,29 @@
             }
         });
 
-        vm.toggle = function () {
-            vm.tableParams.reload();
+        ctrl.toggle = function () {
+            ctrl.tableParams.reload();
         };
 
-        vm.centerChanged = function (u) {
-            vm.onSelect(u);
+        ctrl.centerChanged = function (u) {
+            ctrl.onSelect(u);
         };
 
-        vm.newUser = function () {
-            //var u = {id: 0, fullname: "", username: "", password: "", email: "", idRole: 200, schoolId: vm.selection.id};        
+        ctrl.newUser = function () {
+            //var u = {id: 0, fullname: "", username: "", password: "", email: "", idRole: 200, schoolId: ctrl.selection.id};        
             var u = angular.copy(pwApp.entities["UserModel"].defaultObject);
-            u.schoolId = vm.selection.id;
+            u.schoolId = ctrl.selection.id;
             u.idRole = pwApp.UserRoles.student;
-            vm.edit(u);
+            ctrl.edit(u);
         };
 
-        vm.importUsers = function () {
+        ctrl.importUsers = function () {
             var modalInstance = $uibModal.open({
                 templateUrl: pwApp.config.basePrefix + '/apps/admin/usersImportDialog.html',
                 controller: ['$scope', 'modalParams', function (scope, modalParams) {
                     scope.title = modalParams.title;
                     scope.msg = modalParams.msg;
-                    scope.schoolId = vm.selection.schoolId;
+                    scope.schoolId = ctrl.selection.schoolId;
                     scope.model = { text: "", updateIfExists: false };
                     scope.UserRoles = [];
                     var obj = null;
@@ -89,21 +89,21 @@
             modalInstance.result.then(function (model) {
                 $http.post("@/api/users/import", {
                     csv: model.text,
-                    schoolId: vm.selection.id,
+                    schoolId: ctrl.selection.id,
                     updateIfExists: model.updateIfExists,
                     idRole: model.idRole || pwApp.UserRoles.student,
                     mustChgPwd: model.mustChgPwd? true: false
                 }).then(function (r) {
                     var msg = $sce.trustAsHtml(r.data.join("<br/>"));
                     Modals.notificationdlg("Import result", msg, null, {logger: true});
-                    vm.tableParams.reload();
+                    ctrl.tableParams.reload();
                 });
             });
         };
 
 
 
-        vm.edit = function (u) {
+        ctrl.edit = function (u) {
 
             var modal = $uibModal.open({
                 animation: true,
@@ -147,7 +147,7 @@
                             } else {
                                 growl.warning("No s'ha modificat l'usuari");
                             }
-                            vm.tableParams.reload();
+                            ctrl.tableParams.reload();
                             scope.$errors = null;
                             modal.close();
                         }).catch(function (r) {
@@ -166,11 +166,11 @@
 
 
 
-        vm.confirmDlg = function (u) {
+        ctrl.confirmDlg = function (u) {
 
             var okcb = function () {
                 $http.delete("@/api/users/delete?idUser=" + u.id).then(function (r) {
-                    vm.tableParams.reload();
+                    ctrl.tableParams.reload();
                     
                 }, function (r) {
                     console.log("Error", r);
@@ -181,11 +181,11 @@
 
         };
 
-        vm.$onChanges = function(changes) {
+        ctrl.$onChanges = function(changes) {
              if (changes && changes.school) {
-                //vm.selection = changes.school;
-                vm.selection = changes.school.currentValue;
-                vm.tableParams.reload();
+                //ctrl.selection = changes.school;
+                ctrl.selection = changes.school.currentValue;
+                ctrl.tableParams.reload();
             }
         };
 

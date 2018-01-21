@@ -1,99 +1,97 @@
+import * as bodyParser from 'body-parser';
+import * as compression from 'compression';
+import * as express from 'express';
+import * as session from 'express-session';
+import * as helmet from 'helmet';
+import * as http from 'http';
+import * as methodOverride from 'method-override';
+import * as path from 'path';
+import * as SocketIO from 'socket.io';
+import * as winston from 'winston';
+import * as cons from 'consolidate';
+
+import { ResponseLocalsMdw } from './main.app/middlewares/ResponseLocalsMdw';
+import { config } from './server.config';
+import { NotFoundMdw } from './main.app/middlewares/NotFoundMdw';
+import { ErrorMdw } from './main.app/middlewares/ErrorMdw';
+import { AuthenticatedMdw } from './main.app/middlewares/AuthenticatedMdw';
+
 /*
  * piworld-server for piworld web apps
  * Josep Mulet (pep.mulet@gmail.com)
  * https://github.com/jmulet/piworld-server
  */
-import * as express from 'express';
-import * as bodyParser from 'body-parser';
-import * as path from 'path';
-import * as http from 'http';
-import * as methodOverride from 'method-override';
-import * as winston from 'winston';
-import * as SocketIO from 'socket.io';
-import * as cons from "consolidate";
-import * as compression from "compression";
-import * as session from "express-session";
-import { UserRoles } from "./entities/UserModel";
-import * as helmet from 'helmet';
-import { config } from './server.config';
-import { ResponseLocalsMdw } from './middlewares/ResponseLocalsMdw';
-
 const MemoryStore = require('memorystore')(session);
 
-export class HttpServer {
-    public app: express.Application;
-    public router: express.Router;
-    public server: http.Server;
-    public socketio: SocketIO.Server;
+export class PwHttpServer {
+    adminInstance: any;
+    private static instance: PwHttpServer;
+    app: express.Application;
+    router: express.Router;
+    server: http.Server;
+    socketio: SocketIO.Server;
 
-    public static bootstrap(): HttpServer {
-        console.log("Creating a new httpServer ...");
-        return new HttpServer();
+    public static getInstance(): PwHttpServer {
+        if (!PwHttpServer.instance) {
+            console.log("Creating a new httpServer:  " + config.basePrefix);
+            PwHttpServer.instance = new PwHttpServer();
+        }
+        return PwHttpServer.instance;
     }
 
-    private constructor() {
-        // configure logger
-        console.log("Calling constructor ...");
-        this.loggerConfiguration();
+    public install(clazz, mountPoint='/', isAdmin=false) {
+        console.log("* Installing app ");
+        const appInstance = new clazz();
+        this.app.use(mountPoint, appInstance.app);
+        if (isAdmin) {
+            this.adminInstance = appInstance;
+        }
 
-        this.app = express();
-        this.server = new http.Server(this.app),
-            this.socketio = SocketIO(this.server),
+        //appInstance may have administration views associated that must be mounted by admin.app
+        if (this.adminInstance && appInstance.adminTasks && !isAdmin) {
+            this.adminInstance.installedApps.push(appInstance.adminTasks);
+        }
+    }
 
-            // configure express middleware
-            this.expressConfiguration();
+    public getAdminTasks() {
+        return this.adminInstance? this.adminInstance.installedApps : [];
+    }
 
+    public listen() {
+
+        // Add authenticated static middleware
         // This is served static but it requires being authenticated
         const dir = path.resolve(__dirname, "../client/private");
         const mountPoint = path.join("/", config.basePrefix, "files");
         console.log("Mounting private::  ", mountPoint, " as ", dir);
+        this.app.use(mountPoint, new AuthenticatedMdw().use);
         this.app.use(mountPoint, express.static(dir));
+
+        // Finally add error 400 and 500 routes
+        this.errorRoutes();
+
+        // Listen app
+        this.app.listen(config.express.port);
+        console.log("piWorld-ts server is up and running on port " + config.express.port);
     }
 
-    // Finally setup error and 404 routes
-    errorRoutes() {
+    private constructor() {
+        // configure logger
+        console.log("Configuring httpServer ...");
+        this.loggerConfiguration();
 
-        this.app.use(function (req: express.Request, res: express.Response, err: any) {
+        this.app = express();
+        this.server = new http.Server(this.app),
+        this.socketio = SocketIO(this.server),
 
-            console.log("Upps! finally hit NOT FOUND routes");
-            console.log(req.accepts('json'));
-            console.log(err.stack);
+        // configure express middleware
+        this.expressConfiguration();
+    }
 
-            // respond with html page
-            if (req.accepts('html')) {
-                console.log("Sending 404")
-                res.render("errors/404", { error: err.stack });
-                return;
-            }
-
-            // respond with json
-            if (req.accepts('json')) {
-                res.status(404).send({ error: 'Page not found or error ' + err });
-                return;
-            }
-
-        });
-
-        this.app.use(function (req: express.Request, res: express.Response, err: any) {
-
-            console.log("Upps! finally hit ERROR routes");
-            console.log(req.accepts('json'));
-            console.log(err.stack);
-
-            // respond with html page
-            if (req.accepts('html')) {
-                console.log("Sending 500")
-                res.render("errors/500", { error: err.stack });
-                return;
-            }
-
-            // respond with json
-            if (req.accepts('json')) {
-                res.status(404).send({ error: 'Page not found or error ' + err });
-                return;
-            }
-
-        });
+    // Finally setup 404 and 500 routes
+    private errorRoutes() {
+        this.app.use( NotFoundMdw );
+        this.app.use( ErrorMdw );
     }
 
     private expressConfiguration() {
@@ -124,7 +122,7 @@ export class HttpServer {
 
 
         // This is served static and public --> it could be handled by ngnix
-        if (process.env.NODE_ENV !== "production") {
+        if (config.serveStatic !== false) {
             config.staticPrefix = config.basePrefix;
             const dir = path.resolve(__dirname, "../client/public");
             const mountPoint = path.join("/", config.staticPrefix);
@@ -140,7 +138,7 @@ export class HttpServer {
     }
 
     private loggerConfiguration() {
-        console.log("configuring winston ...");
+        console.log("Configuring logger ...");
         winston.add(winston.transports.File, {
             name: 'pw-info-log',
             filename: './log/piworld-server.log',
@@ -151,13 +149,7 @@ export class HttpServer {
         );
     }
 }
-
-// serverInstance
-export const appServer = HttpServer.bootstrap();
-
-// shortcut to app instance
-export const app = appServer.app;
-
+ 
 // Expose public and private physical directories
 global.__publicDir = path.resolve(__dirname, '../client/public'),
 global.__serverDir = path.resolve(__dirname, '../client/private')

@@ -1,0 +1,16 @@
+
+{
+    "/admin/": {
+        "USERNAME": "Usuario",
+        "FULLNAME": "Nombre completo",
+        "PASSWORD": "Contraseña",
+        "RECOVERY_KEY": "Clave de recuperación",
+        "ROLE": "Role",
+        "EMAIL": "Email",
+        "EMAILPASSWORD": "Contraseña del Email",
+        "VALID": "Validez de la cuenta",
+        "PARENTS": "Familia",
+        "CANCEL": "Cancelar",
+        "ACCEPT": "Aceptar"
+    }
+}

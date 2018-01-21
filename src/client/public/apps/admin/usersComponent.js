@@ -4,7 +4,7 @@
 
     var controller = function ($rootScope, $http, growl, Auth, PwTable, $filter, Modals, $uibModal, $sce) {
         var ctrl = this;
-        ctrl.showStudents = false;
+        ctrl.showStudents = true;
 
         ctrl.tableParams = new PwTable({
             page: 1,            // show first page

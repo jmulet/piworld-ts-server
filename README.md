@@ -1,3 +1,5 @@
+> __Important__: This project is under development. Contributors are welcome. For production, please see repository [jmulet/piworld](https://github.com/jmulet/piworld)
+
 # piworld-ts-server
 
 ### About:

@@ -1,6 +1,6 @@
 > __Important__: This project is under development. Contributors are welcome. For production, please see repository [jmulet/piworld](https://github.com/jmulet/piworld)
 
-# piworld-ts-server
+# ![Logo](/screenshots/logo.png)  piworld-ts-server
 
 ### About:
 
@@ -42,3 +42,11 @@ The project includes the following features:
 ### Build: 
 
   npm build
+
+### Screenshots:
+
+#### Login page
+![Login](/screenshots/login.png) 
+
+#### Administration desktop
+![Admin](/screenshots/admin.png)

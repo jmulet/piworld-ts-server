@@ -22,7 +22,8 @@ export class MainApp extends BaseApp {
      
     constructor() {
         super();
-        this.create("admin.app", __dirname);
+        this.config.path = "desktop.htm";
+        this.create("Desktop", __dirname);
     
         const bootstrapSrv = Container.get(BootstrapSrv);
         

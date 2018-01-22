@@ -23,7 +23,9 @@ export class AdminApp extends BaseApp {
 
     constructor() {
          super();
-         this.create("admin.app", __dirname);
+         this.config.path = "/admin";
+         this.config.isAdmin = true;
+         this.create("Admin", __dirname);
     }
 }
 

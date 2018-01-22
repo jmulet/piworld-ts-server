@@ -35,12 +35,12 @@ createConnection({
     // Get an instance of the main httpServer
     const pwServer = PwHttpServer.getInstance();
 
-    // Use main.app in mainapp
+    // Install application's routes
     pwServer.install(MainApp);
-    pwServer.install(AdminApp, "/", true);
+    pwServer.install(AdminApp);
     pwServer.install(ClassroomApp);
 
-    pwServer.listen();
+    pwServer.listen({handleErrors: (process.env.NODE_ENV === 'production'), mountStaticPrivate: true});
 
 }).catch(error => {
     console.log("TypeORM connection error: ", error);

@@ -23,8 +23,15 @@ import { AuthenticatedMdw } from './main.app/middlewares/AuthenticatedMdw';
  */
 const MemoryStore = require('memorystore')(session);
 
+export interface ListenOptions {
+    handleErrors?: boolean;
+    mountStaticPrivate?: boolean;
+    port?: string;
+}
+
 export class PwHttpServer {
     adminInstance: any;
+    installedApps = [];
     private static instance: PwHttpServer;
     app: express.Application;
     router: express.Router;
@@ -39,16 +46,17 @@ export class PwHttpServer {
         return PwHttpServer.instance;
     }
 
-    public install(clazz, mountPoint='/', isAdmin=false) {
+    public install(clazz) {
         console.log("* Installing app ");
         const appInstance = new clazz();
-        this.app.use(mountPoint, appInstance.app);
-        if (isAdmin) {
+        this.app.use(appInstance.config.mountPoint, appInstance.app);
+        this.installedApps.push(appInstance);
+        if (appInstance.config.isAdmin) {
             this.adminInstance = appInstance;
         }
 
         //appInstance may have administration views associated that must be mounted by admin.app
-        if (this.adminInstance && appInstance.adminTasks && !isAdmin) {
+        if (this.adminInstance && appInstance.adminTasks && !appInstance.config.isAdmin) {
             this.adminInstance.installedApps.push(appInstance.adminTasks);
         }
     }
@@ -57,22 +65,31 @@ export class PwHttpServer {
         return this.adminInstance? this.adminInstance.installedApps : [];
     }
 
-    public listen() {
+    public getInstalledApps() {
+        return this.installedApps? this.installedApps : [];
+    }
 
+    public listen(options?: ListenOptions) {
+        options = options || {};
         // Add authenticated static middleware
         // This is served static but it requires being authenticated
-        const dir = path.resolve(__dirname, "../client/private");
-        const mountPoint = path.join("/", config.basePrefix, "files");
-        console.log("Mounting private::  ", mountPoint, " as ", dir);
-        this.app.use(mountPoint, new AuthenticatedMdw().use);
-        this.app.use(mountPoint, express.static(dir));
-
+        if (options.mountStaticPrivate) {
+            const dir = path.resolve(__dirname, "../client/private");
+            const mountPoint = path.join("/", config.basePrefix, "files");
+            console.log("Mounting private::  ", mountPoint, " as ", dir);
+            this.app.use(mountPoint, new AuthenticatedMdw().use);
+            this.app.use(mountPoint, express.static(dir));
+        }
         // Finally add error 400 and 500 routes
-        this.errorRoutes();
-
+        //if (options.handleErrors) 
+        {
+            console.log("Installing 404 & 500 error middelwares");
+            this.errorRoutes();
+        }
         // Listen app
-        this.app.listen(config.express.port);
-        console.log("piWorld-ts server is up and running on port " + config.express.port);
+        const port = options.port || config.express.port;
+        this.app.listen(port);
+        console.log("piWorld-ts server is up and running on port " + port);
     }
 
     private constructor() {

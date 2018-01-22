@@ -33,7 +33,6 @@ export class AdminController {
 
         // Gather all admin tasks installed by the diferent apps
         const adminTasks = PwHttpServer.getInstance().getAdminTasks();
-        console.log(adminTasks);
         const idRole = session.user.idRole;
         // Filter this admin tasks according to the current role
         const filteredAdminTasks = [];
@@ -46,14 +45,19 @@ export class AdminController {
                 filteredAdminTasks.push(at2);
             }
         });
-        console.log(JSON.stringify(filteredAdminTasks));
+        console.log(JSON.stringify(adminTasks), JSON.stringify(filteredAdminTasks));
+
+        const applications = PwHttpServer.getInstance().getInstalledApps();
+        const apps = applications.map( (e)=> e.config);
+        
 
         return  {
             user: session.user,
             uopts: session.uopts || {},
             isAdmin: true,
             news: [],
-            adminTasks: filteredAdminTasks
+            adminTasks: filteredAdminTasks,
+            applications: apps
         }
     }
 }

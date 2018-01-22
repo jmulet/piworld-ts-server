@@ -13,9 +13,8 @@ export function ErrorMdw(error: any, request: express.Request, response: express
             lang = langInspector(request, response);
         }
         var translations = i18n.generate("/errors", lang);
-
-        if (request.headers.accept && request.headers.accept.indexOf('application/json') >= 0) {
-            console.log(error);
+        console.log(error);
+        if (request.headers.accept && request.headers.accept.indexOf('application/json') >= 0) {           
             // respond with json
             const httpCode = (error ||  {}).httpCode;
             response.status(httpCode || 500).send(error ||  { msg: this.i18n.i18nTranslate("500") });

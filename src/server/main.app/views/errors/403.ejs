@@ -7,7 +7,7 @@
   <meta name="description" content="piWorld site">
   <meta name="author" content="Josep Mulet">
   <link rel="icon" href="/favicon.ico">
-  <title>piWorld 404</title>
+  <title>piWorld 403</title>
   <link href="<%-prefixUrl('/assets/libs/bootstrap/pw-bootstrap.min.css')%>" rel="stylesheet">
   <link href="<%-prefixUrl('/apps/login.css')%>" rel="stylesheet">
 </head>
@@ -19,9 +19,9 @@
         <img src="<%-prefixUrl('/assets/img/logo2.png')%>" style="width:100px" />
       </center>
       <div class="alert alert-warning" style="text-align:center">
-        <h1>404</h1>
+        <h1>403</h1>
         <h3>
-          <%=translations["404"]%>
+          <%=translations["403"]%>
         </h3>
       </div>
 
@@ -30,14 +30,13 @@
 
   <footer class="main-footer">
     <center>
-      <a class="btn btn-lg btn-primary" href="<%-prefixUrl('/desktop.htm')%>">
+      <button class="btn btn-lg btn-primary" onclick="javascript:window.history.back()">
         <i class="glyphicon glyphicon-home"></i>
-        <%=translations["HOME"]%>        
-      </a>
+        <%=translations["HOME"]%>          
+      </button>
     </center>
   </footer>
 
 </body>
 
-</html>
 </html>

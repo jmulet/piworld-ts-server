@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
 
-<body class="hold-transition skin-red sidebar-mini" ng-controller="navigation">
+<body class="hold-transition skin-red sidebar-mini fixed" ng-controller="navigation">
 
     <div growl></div>
     
@@ -41,7 +41,7 @@
                     <b>pi</b>World</span>
             </a>
             <!-- Header Navbar: style can be found in header.less -->
-            <nav class="navbar navbar-static-top">
+            <nav class="navbar navbar-fixed-top">
                 <!-- Sidebar toggle button-->
                 <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
                     <span class="sr-only">Toggle navigation</span>
@@ -131,8 +131,32 @@
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu" data-widget="tree">
                     <li class="header">MAIN NAVIGATION</li>
+
+                     
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-laptop"></i>
+                            <span>Applications</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu menu-open" style="display: block">
+                            <% applications.forEach( (app) => { %>
+                            <li>
+                                <a href="<%=prefixUrl(app.path)%>">
+                                    <i class="far fa-circle"></i> <%= app.name %></a>
+                            </li>
+                            <% }) %>
+                        </ul>
+                    </li>
+                </ul>
+
+
+            <ul class="sidebar-menu" data-widget="tree">
+                    <li class="header">ADMINISTRATION</li>
                     
-                    <% if(user.idRole === 0) { %>
+                <% if(user.idRole === 0) { %>
                     <li class="treeview">
                         <a href="#" ng-click="centersAndUsers()">
                             <i class="fa fa-laptop"></i>
@@ -157,17 +181,19 @@
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>
                         </a>
-                        <ul class="treeview-menu menu-open">
+                        <ul class="treeview-menu menu-open" style="display:block">
                             <% at.tasks.forEach( (t) => { %>
                             <li>
                                 <a href="#" ng-click="openAdminTask('<%=prefixUrl(t.path) %>')">
-                                    <i class="far fa-circle"></i> <%= t.name %></a>
+                                    <i class="far fa-circle red"></i> <%= t.name %></a>
                             </li>
                             <% }) %>
                         </ul>
                     </li>
                     <% }) %>
+
                 </ul>
+
             </section>
             <!-- /.sidebar -->
         </aside>
@@ -179,12 +205,12 @@
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h1>
-                    Admin Desktop
-                    <small class="hidden-xs">site administrative tasks start here</small>
+                    Administration
+                    <small class="hidden-xs">administrative tasks start here</small>
                 </h1>
                 <ol class="breadcrumb">
                     <li>
-                        <a href="/desktop.htm">
+                        <a href="<%=prefixUrl('/desktop.htm')%>">
                             <i class="fa fa-dashboard"></i> Desktop</a>
                     </li>
                     <li class="active">Admin</li>
@@ -198,21 +224,15 @@
                 <% }  else if (user.idRole < 200) { %>                
                 <u-component ng-if="isCentersAndUsers"></u-component>
                 <% } %>
-                <iframe ng-if="!isCentersAndUsers" src="{{iframeSrc}}" frameborder=0 style="width:100%; height:500px">
+                <iframe ng-if="!isCentersAndUsers" ng-src="{{iframeSrc}}" frameborder=0 style="width:100%; height:500px">
                 </iframe>
             </section>
             <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->
-
-        <footer class="main-footer">
-            <div class="pull-right hidden-xs">
-                <b>Version</b> 2.4.0
-            </div>
-            <strong>Copyright &copy; 2014-2018
-                <a href="https://piworld.es">Josep Mulet</a>.</strong> All rights reserved.
-        </footer>
-
+   
+        <%- include ../../views/partials/footer %>
+ 
            </div>
     <!-- ./wrapper -->
 

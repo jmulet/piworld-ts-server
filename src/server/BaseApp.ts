@@ -3,14 +3,32 @@ import * as consolidate from 'consolidate';
 import { useExpressServer } from 'routing-controllers';
 import { config } from './server.config';
 
-export abstract class BaseApp {
-    app: express.Application;
+export interface AppConfigOptions {
+    isAdmin: boolean,
+    mountPoint: string,
+    path: string,
+    name: string,
+    icon: string
+}
 
+export abstract class BaseApp {
+
+    app: express.Application;
+    
+    config: AppConfigOptions = {
+        isAdmin: false,
+        mountPoint: "/",
+        path: "",
+        name: "App",
+        icon: ""
+    };
+    
     constructor() {
-        this.app = express();
+        this.app = express();       
     }
 
     create(appName: string, dirname: string) {
+        this.config.name = appName;
         console.log("Creating app ", appName, " ...");
 
         // reuses express app, registers all controller routes 

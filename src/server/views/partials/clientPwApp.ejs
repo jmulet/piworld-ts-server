@@ -1,5 +1,5 @@
 <script>
-    var pwApp = window.pwApp || { config: {} };
+    var pwApp = window.pwApp || {};
     pwApp.UserRoles = {
         admin: 0,
         teacher_admin: 50, 
@@ -10,14 +10,13 @@
         parents: 500
     };
 
+    pwApp.config = <%- JSON.stringify(config) %>;
     pwApp.config.supportedLangs = ["es", "ca", "es"];
 
-    pwApp.config = <%- JSON.stringify(config) %>;
-    
     <% if(locals.lang) { %>
     pwApp.lang =  "<%= lang %>";
     <% } else { %>
-    pwApp.lang =  $("html").attr("lang");
+    pwApp.lang = document.getElementsByTagName("html")[0].lang;
     <% } %>
 
     <% if (locals.translations) { %>

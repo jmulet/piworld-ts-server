@@ -5,6 +5,7 @@ import { AuthenticatedMdw } from '../middlewares/AuthenticatedMdw';
 import { SessionModel } from '../model/SessionModel';
 import { NewsSrv } from '../services/NewsSrv';
 import { SessionSrv } from '../services/SessionSrv';
+import { PwHttpServer } from '../../server';
 
 @Controller()
 @UseBefore(AuthenticatedMdw)
@@ -20,12 +21,17 @@ export class DesktopController {
     @Render("desktop")
     async desktopPage(@Session() session: SessionModel) {
         
+        const applications = PwHttpServer.getInstance().getInstalledApps();
+        const apps = applications.map( (e)=> e.config);
+        
+
         const news = await this.newsSrv.list();
         return  {
             user: session.user,
             uopts: session.uopts || {},
             isAdmin: this.sessionSrv.isAdmin(session),
-            news: news
+            news: news,
+            applications: apps
         }
                     
     }

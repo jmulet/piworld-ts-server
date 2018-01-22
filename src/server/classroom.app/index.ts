@@ -25,6 +25,7 @@ export class ClassroomApp extends BaseApp {
 
     constructor() {
         super();
+        this.config.path += "/classroom";
 
         // Tell admin.app which administrative tasks must load
         this.adminTasks = {
@@ -39,7 +40,7 @@ export class ClassroomApp extends BaseApp {
         };
 
         // bootstrap app
-        this.create("classroom.app", __dirname);     
+        this.create("Classroom", __dirname);     
     }
 
 }

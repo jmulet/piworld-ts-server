@@ -1,9 +1,9 @@
 import * as express from 'express';
-
 import { config } from '../../server.config';
 import { I18n } from '../services/I18n';
 import * as path from 'path';
- 
+
+const packageJson = require('../../../../package.json'); 
 
 export function ResponseLocalsMdw(request: express.Request, response: express.Response, next: express.NextFunction) {
 
@@ -22,7 +22,9 @@ export function ResponseLocalsMdw(request: express.Request, response: express.Re
         basePrefix: config.basePrefix,
         staticPrefix: config.staticPrefix,
         defaultLang: I18n.DEFAULT_LANG,
-        user: user
+        user: user,
+        version: packageJson.version,
+        author: packageJson.author
     };
 
     response.locals.prefixUrl = function (url){

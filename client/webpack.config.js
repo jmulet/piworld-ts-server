@@ -19,7 +19,7 @@ module.exports = {
                  "./node_modules/admin-lte/dist/css/skins/skin-yellow.min.css",
                  "./src/libs/angular/growl/angular-growl.min.css",
                  "./src/mystyles.css"],
-        'login/login': ["./src/apps/login/login.js", "./src/apps/login/login.css"],
+        'login': ["./src/apps/login/login.js", "./src/apps/login/login.css"],
         'admin/admin': "./src/apps/admin/home.js"
     },
     output: {

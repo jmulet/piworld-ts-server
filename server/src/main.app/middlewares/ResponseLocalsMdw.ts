@@ -3,6 +3,7 @@ import { config } from '../../server.config';
 import { I18n } from '../services/I18n';
 import * as path from 'path';
 import { langInspector } from '../utils/LangInspector';
+import { PwHttpServer } from '../../server';
 
 const packageJson = require('../../../package.json'); 
 
@@ -34,6 +35,8 @@ export function ResponseLocalsMdw(request: express.Request, response: express.Re
     response.locals.prefixUrl = function (url){
         return path.join(config.basePrefix, url);
     };
+    
+    response.locals.env = PwHttpServer.getInstance().app.get("env");
  
     next();
 }

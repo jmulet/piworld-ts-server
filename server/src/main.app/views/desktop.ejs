@@ -44,17 +44,18 @@
                     </div>
                     <div class="box-body">
 
-                        <ul>
+                        <ul class="list list-unstyled">
                             <% applications.forEach( (app) => { %>
                                 <li>
                                     <a href="<%=prefixUrl(app.path)%>">
-                                        <i class="far fa-circle"></i>
+                                        <i class="fa fa-circle"></i>
                                         <%= app.name %>
                                     </a>
                                 </li>
                                 <% }) %>
                                 <li>
                                     <% if (user.idRole < 200) { %>
+                                        <i class="fa fa-circle"></i>
                                         <a href="<%=prefixUrl('admin')%>">Administration</a>
                                     <% } %>
                                 </li>
@@ -115,7 +116,8 @@
     <script>
         $(document).ready(function () {
             //Bootstrap angular here!  
-            var socket = io.connect('/', {parser: socketio_ejson_parser, path: pwApp.config.socketPath, forceNew: true}); 
+            //parser: socketio_ejson_parser,
+            var socket = SocketJS.connect('/', { path: pwApp.config.socketPath, forceNew: true}); 
             socket.emit("msg", "Hola mundo");         
             socket.on("msg", function(msg){ 
                 console.log(msg);

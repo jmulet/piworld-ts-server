@@ -1,5 +1,8 @@
 
-/src/server/server.config.ts
-/src/client/node_modules
+/server/src/server.config.ts
+/client/node_modules
+/client/dist
+/server/node_modules
+/client/dist
 /build/
 /node_modules/

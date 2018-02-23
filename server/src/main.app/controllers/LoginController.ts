@@ -112,13 +112,7 @@ export class LoginController {
                 session.user = user;
                 session.logins = logins;
                 session.enrolls = enrolls;
-                try {
-                    session.uopts = JSON.parse(user.uopts);
-                } catch(Ex){
-                    console.log(Ex);
-                    session.uopts = {};
-                }
-
+               
                 if (user.mustChgPwd) {
                     return {redirect: "/changepwd.htm"};
                 }

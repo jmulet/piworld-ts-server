@@ -14,7 +14,7 @@ import { SchoolSrv } from '../../../main.app/services/SchoolSrv';
 import { SessionSrv } from '../../../main.app/services/SessionSrv';
 import { SessionModel } from '../../../main.app/model/SessionModel';
 import { UserRoles } from '../../../main.app/entities/UserModel';
-import { UserModel } from '../../../main.app/entities/index';
+import { UserModel } from '../../../main.app/entities/UserModel';
 import { UsersImportModel } from '../../../main.app/model/UsersImportModel';
 import { UserSrv } from '../../../main.app/services/UserSrv';
 
@@ -49,11 +49,11 @@ export class ApiUsersController {
 
     @Post("/save")
     @UseBefore(AdminsAndTeachersOnly)
-    async userSave( @Session() session: SessionModel, @Body({ validate: true }) user: UserModel, @Res() response: express.Response) {
+    async userSave( @Session() session: SessionModel, @Body({ validate: true }) entity: UserModel, @Res() response: express.Response) {
         const sessionUser = session.user;
         if (sessionUser.idRole === UserRoles.admin ||
-            (sessionUser.schoolId === user.schoolId)) {
-            return this.userSrv.save(user);
+            (sessionUser.schoolId === entity.schoolId)) {
+            return this.userSrv.save(entity);
         } else {
             return response.status(400).send({ msg: "You can only edit users of your schoolId." });
         }

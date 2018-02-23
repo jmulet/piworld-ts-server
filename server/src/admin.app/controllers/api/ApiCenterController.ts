@@ -39,7 +39,7 @@ export class ApiCenterController {
 
     @Post("/save")
     @UseBefore(AdminsOnly)
-    centerSave(@Body({ validate: true }) entity: SchoolModel) {      
+    centerSave(@Body({ validate: true }) entity: SchoolModel) {            
         return this.schoolSrv.save(entity);
     }
 

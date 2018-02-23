@@ -1,3 +1,4 @@
 
 ./src/server.config.ts
 ./node_modules/
+./dist

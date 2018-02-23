@@ -4,7 +4,12 @@
     "repository": {
         "type": "git",
         "url": "git+https://github.com/jmulet/piworld-ts-server.git"
-      },
+    },
+    "scripts": {
+        "serve": "./serve.sh",
+        "build": "cd server && npm run build && cd ../client && npm run build",
+        "start": "cd server && npm run start"       
+    },
     "keywords": [
         "client",
         "angularjs",

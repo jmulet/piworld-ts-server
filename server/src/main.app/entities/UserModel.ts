@@ -96,9 +96,9 @@ export class UserModel {
     @Column("tinyint", {default: 1})
     valid: number;
     
-    @Validate(JsonStringValidator)
-    @Column("longtext", {nullable: true})
-    uopts: string = "{}";
+    @IsOptional()
+    @Column("json", {nullable: true})
+    uopts: any;
 
     // Many users have associated a "school" object
     @ManyToOne((type) => SchoolModel, (school) => school.members, {onDelete: "CASCADE"})
@@ -117,6 +117,7 @@ export class UserModel {
     @BeforeInsert()
     setCreationDate() {
         this.created = new Date();
+        this.uopts = {};
     }
 
     @BeforeUpdate()

@@ -4,8 +4,9 @@
     "description": "Server for piworld site based on nodejs + springjs",
     "main": "index.js",
     "scripts": {
-        "build": "webpack",
-        "buildify": "node buldify.js && cp -r ./node_modules/fontawesome-web/webfonts ./public/assets/libs && cp -r ./node_modules/bootstrap/fonts ./public/assets/libs"
+        "serve": "webpack --watch --progress",
+        "compile": "webpack",
+        "build": "webpack"
     },
     "keywords": [
         "client",
@@ -38,6 +39,8 @@
     },
     "devDependencies": {
         "@ngtools/webpack": "^1.9.6",
+        "browser-sync": "^2.23.6",
+        "browser-sync-webpack-plugin": "^2.0.1",
         "buildify": "^0.4.0",
         "clean-webpack-plugin": "^0.1.18",
         "copy-webpack-plugin": "^4.3.1",

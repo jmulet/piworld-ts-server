@@ -19,8 +19,8 @@ The project includes the following features:
 - etc...
 
 ### Installation:
-
-- Install de latest versions of nodejs and npm
+- Install mysql5.7 or later, (json type required)
+- Install the latest versions of nodejs and npm
 - Install latest typescript compiler
 - Clone this repository in your computer
 - Install dependencies: npm install

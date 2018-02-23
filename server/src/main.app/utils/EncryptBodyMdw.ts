@@ -1,7 +1,7 @@
 import * as CryptoJS from 'crypto-js';
 import * as express from 'express';
 
-import { config } from '../server.config';
+import { config } from '../../server.config';
 import { cookieParser } from '../utils/CookieParser';
 
 export function encryptJSON(obj: object, request: express.Request, response?: express.Response): string {

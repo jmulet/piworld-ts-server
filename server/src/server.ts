@@ -15,10 +15,15 @@ import { config } from './server.config';
 import { NotFoundMdw } from './main.app/middlewares/NotFoundMdw';
 import { ErrorMdw } from './main.app/middlewares/ErrorMdw';
 import { AuthenticatedMdw } from './main.app/middlewares/AuthenticatedMdw';
-import { ejsonBodyParser } from './main.app/utils/ejsonBodyParser'; 
+import { ejsonBodyParser } from './main.app/utils/ejsonBodyParser';
 import * as sharedsession from 'express-socket.io-session';
 import * as EJSON from 'ejson';
 import { sockets } from './sockets';
+import * as chai from 'chai';
+import * as chaiHttp from 'chai-http';
+chai.use(chaiHttp);
+
+const colors = require('colors/safe');
 
 /*
  * piworld-server for piworld web apps
@@ -26,6 +31,7 @@ import { sockets } from './sockets';
  * https://github.com/jmulet/piworld-server
  */
 const MemoryStore = require('memorystore')(session);
+const MemcachedStore = require('connect-memcached')(session);
 
 export interface ListenOptions {
     handleErrors?: boolean;
@@ -34,6 +40,7 @@ export interface ListenOptions {
 }
 
 export class PwHttpServer {
+    agent: any;
     adminInstance: any;
     installedApps = [];
     private static instance: PwHttpServer;
@@ -51,7 +58,6 @@ export class PwHttpServer {
     }
 
     public install(clazz) {
-        console.log("* Installing app ");
         const appInstance = new clazz();
         this.app.use(appInstance.config.mountPoint, appInstance.app);
         this.installedApps.push(appInstance);
@@ -66,14 +72,15 @@ export class PwHttpServer {
     }
 
     public getAdminTasks() {
-        return this.adminInstance? this.adminInstance.installedApps : [];
+        return this.adminInstance ? this.adminInstance.installedApps : [];
     }
 
     public getInstalledApps() {
-        return this.installedApps? this.installedApps : [];
+        return this.installedApps ? this.installedApps : [];
     }
 
     public listen(options?: ListenOptions) {
+
         options = options || {};
         // Add authenticated static middleware
         // This is served static but it requires being authenticated
@@ -91,29 +98,58 @@ export class PwHttpServer {
             this.errorRoutes();
         }
         // Listen app
-        const port = options.port || config.express.port;
-        this.server.listen(port, function () {
-            winston.info(new Date() + ': piworld server started listening to port ' + port);
+        let port = options.port || config.express.port;
+        if (process.env.NODE_ENV === 'test') {
+            port = port + Math.floor(Math.random() * 1000);
+        }
+        config.port = port;
+
+
+        if (process.env.NODE_ENV === 'test') {
+            this.agent = chai.request.agent(this.app);
+            winston.info(colors.magenta(new Date() + ': Running tests !'));
+            this.runTests();
+        } else {
+
+            this.server.listen(port, () => {
+                this.server.listen(port, () => {
+                    winston.info(colors.green(new Date() + ': piworld server started listening to port ' + port));
+
+                    if (process.env.NODE_ENV === 'test') {
+                        winston.info(colors.magenta(new Date() + ': Running tests !'));
+                        this.runTests();
+                    }
+
+                });
+
+            });
+
+
+        }
+    }
+
+    private runTests() {
+        this.installedApps.forEach(async (app) => {
+            app.tests && await app.tests();
         });
-         
     }
 
     private constructor() {
         // configure logger
-        console.log("Configuring httpServer ...");
+        console.log("Configuring httpServer...");
         this.loggerConfiguration();
 
         this.app = express();
         this.server = new http.Server(this.app);
-        
+
         this.io = SocketIO({
-           path: '/ddp',
-           parser: require('./main.app/utils/socket.io-ejson-parser'),
-           pingInterval: 10000,
-           pingTimeout: 5000,
-           cookie: false
+            path: '/ddp',
+            parser: require('./main.app/utils/socketio-ejson-parser'),
+            pingInterval: 10000,
+            pingTimeout: 5000,
+            cookie: false
         });
-      
+
         this.io.attach(this.server);
         sockets(this.io);
 
@@ -123,16 +159,30 @@ export class PwHttpServer {
 
     // Finally setup 404 and 500 routes
     private errorRoutes() {
-        this.app.use( NotFoundMdw );
-        this.app.use( ErrorMdw );
+        this.app.use(NotFoundMdw);
+        this.app.use(ErrorMdw);
     }
 
     private expressConfiguration() {
         this.app.use(helmet());
         this.app.set('trust proxy', 1);
 
+        // Try to connect to MemCached otherwise use MemoryStore
+        let sessionStore;
+
+        if (config.useMemcached) {
+            sessionStore = new MemcachedStore({
+                hosts: ['127.0.0.1:11211']
+            })
+        } else {
+            console.log(colors.red("Error: Memcached is disabled. Fallback on MemoryStore"));
+            sessionStore = new MemoryStore({
+                checkPeriod: 86400000 // prune expired entries every 24h
+            });
+        }
+ 
         const appSession = session({
-            name: config.basePrefix+"pwsid",
+            name: config.basePrefix + "pwsid",
             secret: 'sf!d-.EKg059_sdñl4095j',
             resave: false,
             saveUninitialized: true,
@@ -141,27 +191,24 @@ export class PwHttpServer {
                 maxAge: 86400000,
                 httpOnly: false
             },
-            store: new MemoryStore({
-                checkPeriod: 86400000 // prune expired entries every 24h
-            })
+            store: sessionStore
         });
-
         this.app.use(appSession);
 
         // Use shared session middleware for socket.io
         // setting autoSave:true
         this.io.use(sharedsession(appSession, {
-            autoSave:true
-        })); 
+            autoSave: true 
+        }));
 
 
         this.app.use(bodyParser.urlencoded({ limit: '100mb', extended: true }));
         //this.app.use(bodyParser.json({ limit: '100mb'}));
         //Use extended json deserializer
-        this.app.use(ejsonBodyParser({limit: '100mb'}));
+        this.app.use(ejsonBodyParser({ limit: '100mb' }));
         //Tell express which serializer must use   
         this.app.set("json serializer", EJSON);
-          
+
         this.app.use(bodyParser.text({ limit: '100mb' }));
         this.app.use(methodOverride());
         this.app.use(compression());
@@ -169,6 +216,8 @@ export class PwHttpServer {
         // Inspect lang and add useful data to response.locals for template engine
         // Only is required for GET requests and content-type text/html
         this.app.use(ResponseLocalsMdw);
+
+
 
 
         // This is served static and public --> it could be handled by ngnix
@@ -199,8 +248,8 @@ export class PwHttpServer {
         );
     }
 }
- 
+
 // Expose public and private physical directories
 global.__publicDir = path.resolve(__dirname, '../../client/dist/public'),
-global.__serverDir = path.resolve(__dirname, '../../client/dist/private')
+    global.__serverDir = path.resolve(__dirname, '../../client/dist/private')
 

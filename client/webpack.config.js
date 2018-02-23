@@ -7,19 +7,20 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const CssEntryPlugin = require("css-entry-webpack-plugin");
 const version = require('./package.json').version;
 const CopyPlugin = require('copy-webpack-plugin');
+const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
  
 module.exports = {
     entry: {
         'vendor': "./src/vendor.js",
         'styles': ["./node_modules/bootstrap/dist/css/bootstrap.min.css",
-                 "./node_modules/bootstrap/dist/css/bootstrap-theme.min.css",
-                 "./node_modules/admin-lte/dist/css/AdminLTE.min.css",
-                 "./node_modules/admin-lte/dist/css/skins/skin-blue.min.css",
-                 "./node_modules/admin-lte/dist/css/skins/skin-red.min.css",
-                 "./node_modules/admin-lte/dist/css/skins/skin-yellow.min.css",
-                 "./src/libs/angular/growl/angular-growl.min.css",
-                 "./src/mystyles.css"],
-        'login': ["./src/apps/login/login.js", "./src/apps/login/login.css"],
+                   "./node_modules/bootstrap/dist/css/bootstrap-theme.min.css",
+                   "./node_modules/admin-lte/dist/css/AdminLTE.min.css",
+                   "./node_modules/admin-lte/dist/css/skins/skin-blue.min.css",
+                   "./node_modules/admin-lte/dist/css/skins/skin-red.min.css",
+                   "./node_modules/admin-lte/dist/css/skins/skin-yellow.min.css",
+                   "./src/libs/angular/growl/angular-growl.min.css",
+                   "./src/mystyles.css"],
+         'login': ["./src/apps/login/login.js", "./src/apps/login/login.css"],
         'admin/admin': "./src/apps/admin/home.js"
     },
     output: {
@@ -50,7 +51,7 @@ module.exports = {
         new webpack.optimize.UglifyJsPlugin({
             mangle: true,
             compress: {
-                drop_console: false,
+                drop_console: false,    //Change in production
                 warnings: false,
                 sequences: true,
                 dead_code: true,
@@ -58,13 +59,23 @@ module.exports = {
                 booleans: true,
                 unused: true,
                 if_return: true,
-                join_vars: true,
-                drop_console: true
+                join_vars: true 
             }
         }),
+        new BrowserSyncPlugin({
+            // browse to http://localhost:3200/ during development,
+            // ./demo directory is being served
+            host: 'localhost',
+            port: 3100, 
+            proxy: 'http://localhost:3200/demo/',
+          }, {
+             reload: false 
+          }),
+        /*
         new BundleAnalyzerPlugin({
             analyzerMode: 'static'
         }),
+        */
         /*
         new CssEntryPlugin({
             output: {

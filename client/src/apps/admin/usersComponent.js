@@ -40,7 +40,7 @@
 
         ctrl.importUsers = function () {
             var modalInstance = $uibModal.open({
-                templateUrl: pwApp.config.basePrefix + '/apps/admin/usersImportDialog.html',
+                template: require('./usersImportDialog.html'),
                 controller: ['$scope', 'modalParams', function (scope, modalParams) {
                     scope.title = modalParams.title;
                     scope.msg = modalParams.msg;
@@ -101,13 +101,13 @@
             });
         };
 
-
+ 
 
         ctrl.edit = function (u) {
 
             var modal = $uibModal.open({
                 animation: true,
-                templateUrl: pwApp.config.basePrefix + "/apps/admin/userEditDialog.html",
+                template: require("./userEditDialog.html"),
                 controller: ['$scope', function (scope) {
                     scope.UserRoles = [];
                     scope.EntityProperties = pwApp.entities["UserModel"].properties;
@@ -138,7 +138,7 @@
                         scope.u.valid = parseInt(scope.u.valid);
                         scope.u.email = scope.u.email ? scope.u.email : null;
                         scope.u.valid = scope.valid.value;
-
+                     
                         // Save it and close modal if no validation errors
                         $http.post("@/api/users/save", scope.u).then(function (r) {
                             var data = r.data;
@@ -192,7 +192,7 @@
     };
 
     controller.$inject = ['$rootScope', '$http', 'growl', 'Auth', 'PwTable', '$filter', 'Modals', '$uibModal', '$sce' ];
-
+ 
     ngApp.component("usersComponent", {
         bindings: {
             school: "<" 

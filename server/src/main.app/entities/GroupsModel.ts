@@ -78,11 +78,10 @@ export class GroupsModel {
     currentUnit: number;
 
     @IsOptional()
-    @Validate(JsonStringValidator)
-    @Column("longtext", {
+    @Column("json", {
         nullable: true,
     })
-    gopts: string;
+    gopts: any;
 
     @Column("longtext", {
         nullable: true,

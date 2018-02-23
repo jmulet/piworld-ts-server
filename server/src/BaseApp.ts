@@ -2,6 +2,7 @@ import * as express from 'express';
 import * as consolidate from 'consolidate';
 import { useExpressServer } from 'routing-controllers';
 import { config } from './server.config';
+import * as colors from 'colors/safe';
 
 export interface AppConfigOptions {
     isAdmin: boolean,
@@ -29,7 +30,7 @@ export abstract class BaseApp {
 
     create(appName: string, dirname: string) {
         this.config.name = appName;
-        console.log("Creating app ", appName, " ...");
+        console.log(colors.magenta("Creating app " + appName + " ..."));
 
         // reuses express app, registers all controller routes 
         useExpressServer(this.app, {
@@ -43,7 +44,8 @@ export abstract class BaseApp {
             ],
             routePrefix: config.basePrefix,
             // Disable validation by default - enabled it in controllers
-            validation: false
+            validation: true,
+            classTransformer: true
         });
 
 
@@ -58,7 +60,19 @@ export abstract class BaseApp {
             console.log("Mounted routes: ");
             this.app._router.stack.forEach(function (e) {
                 if (e.route) {
-                    console.log(Object.keys(e.route.methods), "  ", e.route.path);
+                    const method = (Object.keys(e.route.methods)[0] || "").toUpperCase();
+                    let colorify;
+                    if(method==="DELETE") {
+                        colorify = colors.red;
+                    } else if(method==="GET") {
+                        colorify = colors.cyan;
+                    } else if(method==="POST" || method==="PUT") {
+                        colorify = colors.green;
+                    } 
+                    else {
+                       colorify = colors.grey;
+                    }
+                    console.log( colorify(method + "\t\t" + e.route.path));
                 }
             });
         }

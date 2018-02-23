@@ -32,6 +32,7 @@
 
 // PLATFORM INDEPENDENT CONFIGURATION
 const _config = {
+    useMemcached: false,
     hostname: "localhost",
     basePrefix: "/demo", //Base prefix for server routes
     staticPrefix: "/demo2", //Base prefix for the static assets

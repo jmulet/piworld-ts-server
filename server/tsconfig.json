@@ -7,4 +7,12 @@
         "experimentalDecorators": true,
         "sourceMap": true,
         "outDir": "dist"
-    }}
+    },
+    "exclude": [
+            "node_modules",
+            "dist",
+            "src/trash/**",
+            "src/main.app/tests/**",
+            "global.d.ts"
+        ]
+    }

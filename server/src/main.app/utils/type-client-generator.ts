@@ -6,7 +6,7 @@ import { ColumnMetadata } from 'typeorm/metadata/ColumnMetadata';
 import { EntityMetadata } from 'typeorm/metadata/EntityMetadata';
 
 import * as Entities from '../entities';
-import { config } from '../server.config';
+import { config } from '../../server.config';
 
 export function typeClientGenerator() {
 
@@ -63,7 +63,7 @@ export function typeClientGenerator() {
         builder.push("var pwApp = window.pwApp || {};");
         builder.push("pwApp.entities = pwApp.entities || {};");
         builder.push("pwApp.entities['" + entityMetadata.name + "'] = " + JSON.stringify(entity, null, 2) + ";");
-        var directory = path.join(global.__publicDir, "/assets/entities/" + entityMetadata.name + ".js");
+        var directory = path.join(global.__publicDir, "../../src/libs/entities/" + entityMetadata.name + ".js");
         fs.writeFileSync(directory, builder.join("\n")); 
         
         console.log("> Generated entity for client to " + directory);

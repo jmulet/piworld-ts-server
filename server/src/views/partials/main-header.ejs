@@ -18,6 +18,42 @@
     <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
 
+            <li class="dropdown messages-menu">
+                <!--participants-->
+                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-users"></i>
+                        <span class="label label-success" ng-bind="count.totalConnected"></span>
+                </a> 
+                <ul class="dropdown-menu">
+                    <li class="header"><span ng-bind="count.totalConnected"></span> users online</li>
+                    <li>
+                      <!-- inner menu: contains the actual data -->
+                      <ul class="menu">
+                        <li ng-repeat="u in onlineUsers track by $index"><!-- start message -->
+                          <a href="#">
+                            <div class="pull-left">
+                              <img ng-src="{{u.icon}}" class="img-circle" alt="User Image">
+                            </div>
+                            <h4>
+                              <span ng-bind="u.fullname"></span>
+                              <small><i class="fa fa-clock-o"></i>{{u.login}}</small>
+                            </h4>
+                          </a>
+                        </li>
+                        <!-- end message -->                        
+                        <li class="footer"><a href="#">See all participants</a></li>
+                        </ul>
+                  </ul>
+            </li>
+
+            <li class="dropdown messages-menu">
+                 <!--messages-->    
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-envelope-o"></i>
+                        <span class="label label-success" ng-bind="chatsRecieved.length"></span>
+                </a>
+            </li>   
+
             <!-- User Account: style can be found in dropdown.less -->
             <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">

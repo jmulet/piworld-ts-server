@@ -45,9 +45,10 @@ $(function () {
       var d = typeof(r)==='string'? EJSON.parse(r): r;
       $submit.prop("disabled", false);
       if (d.errCode) {
+        // Invalid login
         $errAlert.css("display", "");
         $errAlert.html("<p>" + pwApp.__(d.errCode) + "</p>");
-      } else if (d.redirect) {
+      } else if (d.redirect) {         
         window.location.href = d.redirect;
       }
     });

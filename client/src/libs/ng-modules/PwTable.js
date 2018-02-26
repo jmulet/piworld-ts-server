@@ -2,7 +2,7 @@
 
 var app = angular.module("PwTableModule", []);
 
-app.factory('PwTable', ['$q', '$filter', function ($q, $filter) {
+app.factory('PwTable', ['$q', '$filter', '$timeout', function ($q, $filter, $timeout) {
 
     var factory = function (params, datafunc) {
         var self = this;
@@ -88,7 +88,8 @@ app.factory('PwTable', ['$q', '$filter', function ($q, $filter) {
                 self.allData = data;
                 self.params.page = 1;
                 self.paginate();
-                self.$loading = false;
+                $timeout(function() {self.$loading = false;}, 1000);
+                
             });
         };
 

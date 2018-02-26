@@ -6,7 +6,7 @@ import { AuthenticatedMdw } from "../../main.app/middlewares/AuthenticatedMdw";
 export class UnitsController {
 
     @Get("/")
-    @Render("units")
+    @Render("classroom")
     units() {
         
     }

@@ -8,8 +8,8 @@
 <br>
 <input type="checkbox" ng-model="vm.showStudents" ng-change="vm.toggle()"></input>Show students
 
-<div loading-container="vm.tableParams.$loading">
-    <table class="table table-hover table-responsive">
+<div loading-container="vm.tableParams.$loading" class="table-responsive">
+    <table class="table table-hover">
         <thead>
             <tr>
                 <th ng-click="vm.tableParams.sortBy('id')" class="cursor-hand"> id

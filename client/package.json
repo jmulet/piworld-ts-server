@@ -39,6 +39,9 @@
     },
     "devDependencies": {
         "@ngtools/webpack": "^1.9.6",
+        "@types/angular": "^1.6.43",
+        "@types/jquery": "^3.3.0",
+        "@types/node": "^9.4.6",
         "browser-sync": "^2.23.6",
         "browser-sync-webpack-plugin": "^2.0.1",
         "buildify": "^0.4.0",

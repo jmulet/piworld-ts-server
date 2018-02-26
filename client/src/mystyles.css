@@ -25,3 +25,12 @@
 .main-header .sidebar-toggle:before {
     content: "" !important;
 }
+
+.content-wrapper {
+    overflow: auto;
+}
+
+.loading-spinner {
+    background: rgba(150, 150, 150, 0.5);
+    z-index: 1000;
+}

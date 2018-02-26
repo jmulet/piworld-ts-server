@@ -14,7 +14,7 @@ function AppController($http) {
 AppController.$inject = ["$http"];
 
 ngApp.component("appComponent", {
-    template: require('./desktop.html'),  
+    template: require('./classroom.html'),  
     controller: AppController,
     controllerAs: "vm"
 });

@@ -21,6 +21,7 @@ import { I18n } from '../services/I18n';
 import { DecryptBodyMdw } from '../middlewares/DecryptBodyMdw';
 import { PwHttpServer } from '../../server';
 
+const io = PwHttpServer.getInstance().io;
 
 @Controller()
 export class LoginController {
@@ -150,7 +151,7 @@ export class LoginController {
                 redirect = prefixUrl("/desktop.htm");
             }
         }
-
+  
         return {redirect: redirect};
     }
 
@@ -160,6 +161,20 @@ export class LoginController {
     async logout(@Req() request: any, @Session() session) {
         try {
             await this.sessionSrv.logout(session);
+            const ns = io.of('/');
+            if (session.currentSocketId) {
+                // get current socket object              
+                const socket = ns.connected[session.currentSocketId];           
+                // do something with it
+                console.log("current socket", socket);     
+            }
+            const u = {
+                id: session.user.id,
+                username: session.user.username,
+                fullname: session.user.fullname,
+                totalConnected: Object.keys(ns.connected).length
+            }
+            io.sockets.emit("usersLogedout", u);
         } catch (Ex) {
             console.log(Ex);
         }

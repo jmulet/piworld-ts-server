@@ -1,25 +1,5 @@
-require('../../libs/entities/UserModel.js');
-require('../../libs/entities/SchoolModel.js');
-
-function pathJoin(a, b) {
-    var a2 = a.trim();
-    var b2 = b.trim();
-    if (a2[a2.length - 1] === "/") {
-        a2 = a2.substr(0, a2.length - 1);
-    }
-    if (b2[0] === "/") {
-        b2 = b2.substr(b, b2.length - 1);
-    }
-    return a2 + "/" + b2;
-}
-
-
-var ngApp = angular.module("ngApp", ["ngSanitize", "angular-growl", "AuthModule", "ModalsModule",
-    "PwTableModule", "TranslateModule"]);
-
-require('./centersComponent.js');
-require('./usersComponent.js');
-
+var socketio_ejson_parser = require('../libs/socketio-ejson-parser');
+var ngApp = angular.module("ngApp");
 
 ngApp.config(['growlProvider', '$httpProvider', function (growlProvider, $httpProvider) {
     growlProvider.globalTimeToLive(5000);
@@ -122,50 +102,34 @@ function formErrors() {
     }
 }
 
-
 ngApp.directive("formErrors", formErrors);
 
-function AppController($http) {
-    var ctrl = this;
-    ctrl.selection = null;
 
-    if (pwApp.user.idRole > 0) {
-        $http.get('@/api/center/list?id=' + pwApp.user.schoolId).then(function (r) {
-            ctrl.school = r.data;
-        }).catch(function () {
+ngApp.factory('socket', ['$timeout', function ($timeout) {
+    var socket = SocketJS.connect({ path: pwApp.config.socketPath, forceNew: true, parser: socketio_ejson_parser});     
+    // Strange bug. If not emiting, then no response is recieved on connect
+    socket.emit("socketStart");
 
+    return {
+      on: function (eventName, callback) {
+        socket.on(eventName, function () {              
+          var args = arguments;
+          console.log("socket on:: ", eventName, args);
+          $timeout(function () {
+            callback.apply(socket, args);
+          });
         });
-    }
-
-    ctrl.centerChanged = function (u) {
-        ctrl.selection = u;
-    };
-};
-
-AppController.$inject = ["$http"];
-
-ngApp.component("cuComponent", {
-    template: require('./centersAndUsers.html'), //pwApp.config.staticPrefix + "/apps/admin/centersAndUsers.html",
-    controller: AppController,
-    controllerAs: "vm"
-});
-
-ngApp.component("uComponent", {
-    template: require('./users.html'), // pwApp.config.staticPrefix + "/apps/admin/users.html",
-    controller: AppController,
-    controllerAs: "vm"
-});
-
-ngApp.controller("navigation", ["$scope", function ($scope) {
-    $scope.isCentersAndUsers = true;
-
-    $scope.centersAndUsers = function () {
-        $scope.isCentersAndUsers = true;
-        $scope.iframeSrc = null;
-    };
-
-    $scope.openAdminTask = function (url) {
-        $scope.isCentersAndUsers = false;
-        $scope.iframeSrc = url;
+      },
+      emit: function (eventName, data, callback) {
+        socket.emit(eventName, data, function () {
+          console.log("socket emit:: ", eventName, data);
+          var args = arguments;
+          $timeout(function () {
+            if (callback) {
+              callback.apply(socket, args);
+            }
+          });
+        })
+      }
     };
 }]);

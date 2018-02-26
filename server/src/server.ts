@@ -200,8 +200,7 @@ export class PwHttpServer {
         this.io.use(sharedsession(appSession, {
             autoSave: true 
         }));
-
-
+      
         this.app.use(bodyParser.urlencoded({ limit: '100mb', extended: true }));
         //this.app.use(bodyParser.json({ limit: '100mb'}));
         //Use extended json deserializer
@@ -216,8 +215,6 @@ export class PwHttpServer {
         // Inspect lang and add useful data to response.locals for template engine
         // Only is required for GET requests and content-type text/html
         this.app.use(ResponseLocalsMdw);
-
-
 
 
         // This is served static and public --> it could be handled by ngnix

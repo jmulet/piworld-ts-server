@@ -20,8 +20,10 @@ module.exports = {
                    "./node_modules/admin-lte/dist/css/skins/skin-yellow.min.css",
                    "./src/libs/angular/growl/angular-growl.min.css",
                    "./src/mystyles.css"],
-         'login': ["./src/apps/login/login.js", "./src/apps/login/login.css"],
-        'admin/admin': "./src/apps/admin/home.js"
+        'login': ["./src/apps/login/login.js", "./src/apps/login/login.css"],
+        'admin/admin': "./src/apps/admin/admin.js",
+        'desktop/desktop': "./src/apps/desktop/desktop.js",
+        'classroom/classroom': "./src/apps/classroom/classroom.js"
     },
     output: {
         path: path.resolve(__dirname, 'dist', 'public'),
@@ -62,6 +64,7 @@ module.exports = {
                 join_vars: true 
             }
         }),
+        /*
         new BrowserSyncPlugin({
             // browse to http://localhost:3200/ during development,
             // ./demo directory is being served
@@ -69,8 +72,9 @@ module.exports = {
             port: 3100, 
             proxy: 'http://localhost:3200/demo/',
           }, {
-             reload: false 
+             reload: true 
           }),
+         */
         /*
         new BundleAnalyzerPlugin({
             analyzerMode: 'static'

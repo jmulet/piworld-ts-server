@@ -2,102 +2,19 @@
 <html lang="<%=lang%>">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>piWorld admin desktop</title>
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <link href="<%-prefixUrl('/styles.'+config.version+'.bundle.css')%>" rel="stylesheet">
-    <!--[if lt IE 9]>
-          <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <%- include ../../views/partials/head %>
 </head>
 
 <body class="hold-transition skin-red sidebar-mini fixed" ng-controller="navigation">
 
     <div growl></div>
-    
+
     <!-- Site wrapper -->
     <div class="wrapper">
 
-        <header class="main-header">
-            <!-- Logo -->
-            <a href="<%-prefixUrl('/desktop.htm')%>" class="logo">
-                <!-- mini logo for sidebar mini 50x50 pixels -->
-                <span class="logo-mini">
-                    <b>p</b>W</span>
-                <!-- logo for regular state and mobile devices -->
-                <span class="logo-lg">
-                    <b>pi</b>World</span>
-            </a>
-            <!-- Header Navbar: style can be found in header.less -->
-            <nav class="navbar navbar-fixed-top">
-                <!-- Sidebar toggle button-->
-                <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="fa fa-bars"></span>                    
-                </a>
-
-                <div class="navbar-custom-menu">
-                    <ul class="nav navbar-nav">
-
-                        <!-- User Account: style can be found in dropdown.less -->
-                        <li class="dropdown user user-menu">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <img src="<%-prefixUrl('/assets/img/avatar/')%><%=uopts.avatar || 0%>.png" class="user-image" alt="User Image">
-                                <span class="hidden-xs">
-                                    <small>
-                                        <%=user.fullname%>
-                                    </small>
-                                </span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <!-- User image -->
-                                <li class="user-header">
-                                    <img src="<%-prefixUrl('/assets/img/avatar/')%><%=uopts.avatar || 0%>.png" class="img-circle" alt="User Image">
-
-                                    <p>
-                                        <%=user.fullname%>
-                                            <small>
-                                                <%=user.username%>
-                                            </small>
-                                    </p>
-                                </li>
-                                <!-- Menu Body -->
-                                <li class="user-body">
-                                    <div class="row">
-                                        <div class="col-xs-4 text-center">
-                                            <a href="#">Avatar</a>
-                                        </div>
-                                        <div class="col-xs-4 text-center">
-                                            <a href="#">Profile</a>
-                                        </div>
-                                        <div class="col-xs-4 text-center">
-                                            <a href="#">Punts</a>
-                                        </div>
-                                    </div>
-                                    <!-- /.row -->
-                                </li>
-                                <!-- Menu Footer-->
-                                <li class="user-footer">
-                                    <div class="pull-left">
-                                            <a class="btn btn-default btn-flat" href="<%-prefixUrl('./changepwd.htm')%>">Change pwd</a>
-                                         
-                                    </div>                                     
-                                    <div class="pull-right">
-                                        <form action="<%-prefixUrl('logout')%>" method="POST">
-                                            <button class="btn btn-default btn-flat" type="submit">Sign out</button>
-                                        </form>
-                                    </div>
-                                </li>
-                            </ul>
-                        </li>
-                        
-                    </ul>
-                </div>
-            </nav>
-        </header>
+            <header class="main-header">
+                    <%- include ../../views/partials/main-header %>        
+            </header>
 
         <!-- =============================================== -->
 
@@ -115,15 +32,15 @@
                             <small>
                                 <%=user.username%>
                             </small>
-                        </p>                         
+                        </p>
                     </div>
                 </div>
- 
+
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu" data-widget="tree">
                     <li class="header">MAIN NAVIGATION</li>
 
-                     
+
                     <li class="treeview">
                         <a href="#">
                             <i class="fa fa-laptop"></i>
@@ -134,54 +51,60 @@
                         </a>
                         <ul class="treeview-menu menu-open" style="display: block">
                             <% applications.forEach( (app) => { %>
-                            <li>
-                                <a href="<%=prefixUrl(app.path)%>">
-                                    <i class="fa fa-circle"></i> <%= app.name %></a>
-                            </li>
-                            <% }) %>
+                                <li>
+                                    <a href="<%=prefixUrl(app.path)%>">
+                                        <i class="fa fa-circle"></i>
+                                        <%= app.name %>
+                                    </a>
+                                </li>
+                                <% }) %>
                         </ul>
                     </li>
                 </ul>
 
 
-            <ul class="sidebar-menu" data-widget="tree">
+                <ul class="sidebar-menu" data-widget="tree">
                     <li class="header">ADMINISTRATION</li>
-                    
-                <% if(user.idRole === 0) { %>
-                    <li class="treeview">
-                        <a href="#" ng-click="centersAndUsers()">
-                            <i class="fa fa-laptop"></i>
-                            <span> Centers and users </span>
-                        </a>
-                    </li>
-                    <% } else if(user.idRole < 200) { %>
+
+                    <% if(user.idRole === 0) { %>
                         <li class="treeview">
                             <a href="#" ng-click="centersAndUsers()">
                                 <i class="fa fa-laptop"></i>
-                                <span> Users </span>
+                                <span> Centers and users </span>
                             </a>
                         </li>
-                    <% } %>
-
-                    <% adminTasks.forEach( (at) => { %>
-                    <li class="treeview">
-                        <a href="#">
-                            <i class="fa fa-laptop"></i>
-                            <span><%= at.name %></span>
-                            <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                        </a>
-                        <ul class="treeview-menu menu-open" style="display:block">
-                            <% at.tasks.forEach( (t) => { %>
-                            <li>
-                                <a href="#" ng-click="openAdminTask('<%=prefixUrl(t.path) %>')">
-                                    <i class="fa fa-circle red"></i> <%= t.name %></a>
+                        <% } else if(user.idRole < 200) { %>
+                            <li class="treeview">
+                                <a href="#" ng-click="centersAndUsers()">
+                                    <i class="fa fa-laptop"></i>
+                                    <span> Users </span>
+                                </a>
                             </li>
-                            <% }) %>
-                        </ul>
-                    </li>
-                    <% }) %>
+                            <% } %>
+
+                                <% adminTasks.forEach( (at) => { %>
+                                    <li class="treeview">
+                                        <a href="#">
+                                            <i class="fa fa-laptop"></i>
+                                            <span>
+                                                <%= at.name %>
+                                            </span>
+                                            <span class="pull-right-container">
+                                                <i class="fa fa-angle-left pull-right"></i>
+                                            </span>
+                                        </a>
+                                        <ul class="treeview-menu menu-open" style="display:block">
+                                            <% at.tasks.forEach( (t) => { %>
+                                                <li>
+                                                    <a href="#" ng-click="openAdminTask('<%=prefixUrl(t.path) %>')">
+                                                        <i class="fa fa-circle red"></i>
+                                                        <%= t.name %>
+                                                    </a>
+                                                </li>
+                                                <% }) %>
+                                        </ul>
+                                    </li>
+                                    <% }) %>
 
                 </ul>
 
@@ -211,35 +134,35 @@
             <!-- Main content: bootstrap angular here -->
             <section id="app-content" class="content">
                 <% if (user.idRole === 0) { %>
-                <cu-component ng-if="isCentersAndUsers"></cu-component>
-                <% }  else if (user.idRole < 200) { %>                
-                <u-component ng-if="isCentersAndUsers"></u-component>
-                <% } %>
-                <iframe ng-if="!isCentersAndUsers" ng-src="{{iframeSrc}}" frameborder=0 style="width:100%; height:500px">
-                </iframe>
+                    <cu-component ng-if="isCentersAndUsers"></cu-component>
+                    <% }  else if (user.idRole < 200) { %>
+                        <u-component ng-if="isCentersAndUsers"></u-component>
+                        <% } %>
+                            <iframe ng-if="!isCentersAndUsers" ng-src="{{iframeSrc}}" frameborder=0 style="width:100%; height:500px">
+                            </iframe>
             </section>
             <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->
-   
+
         <%- include ../../views/partials/footer %>
- 
-           </div>
+
+    </div>
     <!-- ./wrapper -->
 
-    
+
     <script src="<%-prefixUrl('/common.'+config.version+'.js')%>"></script>
     <%- include ../../views/partials/clientPwApp %>
-    <script src="<%-prefixUrl('/vendor.'+config.version+'.bundle.js')%>"></script>
-    <script src="<%-prefixUrl('/admin/admin.'+config.version+'.bundle.js')%>"></script>
+        <script src="<%-prefixUrl('/vendor.'+config.version+'.bundle.js')%>"></script>
+        <script src="<%-prefixUrl('/admin/admin.'+config.version+'.bundle.js')%>"></script>
 
-    <script>
-        $(document).ready(function () {
-            angular.element(function() {
-              angular.bootstrap(document, ['ngApp']);
-            });
-        })
-    </script>
+        <script>
+            $(document).ready(function () {
+                angular.element(function () {
+                    angular.bootstrap(document, ['ngApp']);
+                });
+            })
+        </script>
 </body>
 
 </html>

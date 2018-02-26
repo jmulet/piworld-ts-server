@@ -1,7 +1,7 @@
 import { GroupsModel } from './GroupsModel';
 import { Index, Entity, PrimaryColumn, Column, OneToOne, OneToMany, ManyToOne, JoinColumn, PrimaryGeneratedColumn } from "typeorm";
 import { MaxLength, IsNotEmpty } from "class-validator";
-import { ActivityModel } from './ActivityModel';
+import { ActivityModel } from '../../classroom.app/entities/ActivityModel';
 
 
 @Entity("subjects")

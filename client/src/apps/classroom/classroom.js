@@ -3,12 +3,16 @@ require('../ngApp-deps.js');
 
 var ngApp = angular.module("ngApp", ["ngSanitize", "angular-growl", "AuthModule", "ModalsModule",
     "PwTableModule", "TranslateModule", "LoadingContainer"]);
- 
-require('../ngApp-config.js');
+
+require('../ngApp-config');
+require('./Session'); 
+require('./components/pwc-units'); 
 
 function AppController($http) {
     var ctrl = this;
-    
+    ctrl.user = pwApp.user;
+    ctrl.group = null;
+    ctrl.collapsed = false;
 };
 
 AppController.$inject = ["$http"];

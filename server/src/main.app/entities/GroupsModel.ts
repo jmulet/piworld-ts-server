@@ -4,7 +4,7 @@ import { IsInt, Length, Validate, IsOptional, Min } from 'class-validator';
 import { JsonStringValidator } from '../validators/JsonStringValidator';
 import { UserModel } from './UserModel';
 import { SubjectModel } from './SubjectModel';
-import { UnitModel } from './UnitModel';
+import { UnitModel } from '../../classroom.app/entities/UnitModel';
 
 
 @Entity("groups")

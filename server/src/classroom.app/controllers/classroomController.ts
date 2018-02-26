@@ -7,8 +7,7 @@ export class UnitsController {
 
     @Get("/")
     @Render("classroom")
-    units() {
-        
+    classroom() {        
     }
 
 }

@@ -15,6 +15,7 @@ import { BaseApp } from '../BaseApp';
  * https://github.com/jmulet/piworld-server
  */
 export class MainApp extends BaseApp {
+
     static entities = [
         __dirname + "/entities/*.ts",
         __dirname + "/entities/*.js"
@@ -37,11 +38,11 @@ export class MainApp extends BaseApp {
     }
 
 
-    /**
     
     //Generate client entities and services from annotated classes.
+    /*
     typeClientGenerator();
-    **/
+    */
 
 }
 

@@ -1,7 +1,8 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { IsNotEmpty, Validate } from 'class-validator';
-import { IntRangeValidator } from '../validators/IntRangeValidator';
-import { GroupsModel } from './GroupsModel';
+import { IntRangeValidator } from '../../main.app/validators/IntRangeValidator';
+import { GroupsModel } from '../../main.app/entities/GroupsModel';
+import { AssignmentModel } from './AssignmentModel';
 
 export enum UnitVisibility {
     hidden = 0,
@@ -49,5 +50,9 @@ export class UnitModel {
     @ManyToOne( (type)=> GroupsModel, (group) => group.units, {onDelete: "CASCADE"})
     @JoinColumn({name: "idGroup"})
     group: GroupsModel;
+
+     // Reference to the parent unit of this assignment
+     @OneToMany( (type)=> AssignmentModel, (assignment) => assignment.unit)
+     assignments: AssignmentModel[];
         
 }

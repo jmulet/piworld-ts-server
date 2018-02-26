@@ -1,10 +1,10 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-import { GroupsModel } from './GroupsModel';
+import { GroupsModel } from '../../main.app/entities/GroupsModel';
 import { IsNumber, Validate, IsNotEmpty } from 'class-validator';
-import { RoleValidator } from '../validators/RoleValidator';
-import { UserRoles, UserModel } from './UserModel';
-import { SubjectModel } from './SubjectModel';
+import { RoleValidator } from '../../main.app/validators/RoleValidator';
+import { UserRoles, UserModel } from '../../main.app/entities/UserModel';
+import { SubjectModel } from '../../main.app/entities/SubjectModel';
 
 export enum ActivityTypes {
     basic = 0

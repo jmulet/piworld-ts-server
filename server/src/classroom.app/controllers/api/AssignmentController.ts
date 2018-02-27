@@ -5,6 +5,7 @@
  import { AdminsAndTeachersOnly } from '../../../main.app/middlewares/AuthorizedMdw';
  import { AssignmentSrv } from '../../services/AssignmentSrv';
  import { SessionModel } from '../../../main.app/model/SessionModel';
+import { AssignmentModel } from '../../entities';
    
  @Controller("/api/assignments")
  @UseBefore(AuthenticatedMdw) 

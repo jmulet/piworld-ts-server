@@ -1,7 +1,8 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { IsNotEmpty, Validate } from 'class-validator';
-import { IntRangeValidator } from '../../main.app/validators/IntRangeValidator';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+
 import { GroupsModel } from '../../main.app/entities/GroupsModel';
+import { IntRangeValidator } from '../../main.app/validators/IntRangeValidator';
 import { AssignmentModel } from './AssignmentModel';
 
 export enum UnitVisibility {

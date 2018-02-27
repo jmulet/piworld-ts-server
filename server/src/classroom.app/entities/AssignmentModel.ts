@@ -1,7 +1,8 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-import { IsNotEmpty, Validate } from 'class-validator';
-import { UnitModel } from './UnitModel';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+
 import { AssignmentUsersModel } from './AssignmentUsersModel';
+import { UnitModel } from './UnitModel';
+
   
  
 @Entity("assignments")

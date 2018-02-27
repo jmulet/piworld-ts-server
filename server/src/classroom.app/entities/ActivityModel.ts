@@ -1,9 +1,6 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { IsNotEmpty } from 'class-validator';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-import { GroupsModel } from '../../main.app/entities/GroupsModel';
-import { IsNumber, Validate, IsNotEmpty } from 'class-validator';
-import { RoleValidator } from '../../main.app/validators/RoleValidator';
-import { UserRoles, UserModel } from '../../main.app/entities/UserModel';
 import { SubjectModel } from '../../main.app/entities/SubjectModel';
 
 export enum ActivityTypes {

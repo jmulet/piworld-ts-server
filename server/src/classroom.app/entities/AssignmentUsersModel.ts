@@ -1,6 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { IsNotEmpty, Validate } from 'class-validator';
-import { AssignmentModel } from '.';
+
+import { AssignmentModel } from './AssignmentModel';
+
   
  
 @Entity("assignments_users")

@@ -1,7 +1,8 @@
 import { IsNotEmpty } from 'class-validator';
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 import { SubjectModel } from '../../main.app/entities/SubjectModel';
+import { RatingModel } from '.';
 
 export enum ActivityTypes {
     basic = 0
@@ -108,4 +109,7 @@ export class ActivityModel {
     @JoinColumn({name: "idSubject"})
     subject: SubjectModel;
 
+
+    @OneToMany( (type)=> RatingModel, (rating) => rating.activity)
+    ratings: RatingModel[];
 }

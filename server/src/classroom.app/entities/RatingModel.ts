@@ -1,5 +1,6 @@
 import { IsDate, IsNotEmpty } from 'class-validator';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { ActivityModel } from './ActivityModel';
 
 @Entity("ratings")
 export class RatingModel {
@@ -22,4 +23,8 @@ export class RatingModel {
         default: 3
     })
     vrate: number;
+
+    @ManyToOne( (type)=> ActivityModel, (activity) => activity.ratings, {onDelete: "CASCADE"})
+    @JoinColumn({name: "idActivity"})
+    activity: ActivityModel;
 }

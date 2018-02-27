@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, OneToMany, ManyToOne, JoinColumn } from 'typeorm';
 import { VisualizationQuizzModel } from './VisualizationQuizzModel';
+import { LoginsModel } from '../../main.app/entities';
 
 
 @Entity("visualization")
@@ -32,4 +33,9 @@ export class VisualizationModel {
     
     @OneToMany( (type)=> VisualizationQuizzModel, (visualizationQuizz) => visualizationQuizz.visualization)
     visualizationUsers: VisualizationQuizzModel[];
+
+    //Many visualization can be of one login
+    @ManyToOne( (type)=> LoginsModel)
+    @JoinColumn({name: "idLogins"})
+    login: LoginsModel;
 }

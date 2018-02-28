@@ -87,7 +87,7 @@ pwApp.entities['UserModel'] = {
     },
     {
       "name": "uopts",
-      "type": "longtext",
+      "type": "json",
       "nullable": false,
       "generated": false
     }

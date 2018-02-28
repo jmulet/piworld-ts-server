@@ -1,15 +1,26 @@
 import { IsNotEmpty } from 'class-validator';
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, OneToMany, BeforeInsert } from 'typeorm';
 
 import { SubjectModel } from '../../main.app/entities/SubjectModel';
 import { RatingModel } from '.';
 
 export enum ActivityTypes {
-    basic = 0
+    video = 'V',
+    upload = 'U',
+    quizz = 'Q',
+    advanced = 'A'
 }
 
 export enum ActivityShareTypes {
+    private = 0,
+    protected = 1,
     public = 2
+}
+
+export interface JSONi18n {
+    ca: string,
+    es: string,
+    en: string
 }
 
 @Entity("activities")
@@ -18,11 +29,12 @@ export class ActivityModel {
     @PrimaryGeneratedColumn("increment", { type: "int" })
     id: number;
 
-    @Column("text", {
+    @Column("json", {
         nullable: true,
     })
-    levels: string;
+    levels: string[];
 
+    @IsNotEmpty()
     @Column("int", {
         nullable: false,
         default: 1
@@ -30,17 +42,17 @@ export class ActivityModel {
     idSubject: number;
 
     @IsNotEmpty()
-    @Column("text", {
+    @Column("json", {
         nullable: true,
     })
-    activity: string;
+    activity: JSONi18n;
 
     @Column("varchar", {
         length: 11,
         nullable: false,
-        default: ActivityTypes.basic
+        default: ActivityTypes.video
     })
-    activityType: number;
+    activityType: string;
 
     @Column("tinyint", {
         nullable: false,
@@ -58,10 +70,10 @@ export class ActivityModel {
     @Column("datetime", {
         nullable: false
     })
-    createdWhen: Date;
+    protected createdWhen: Date;
 
-    @Column("text")
-    description: string;
+    @Column("json")
+    description: JSONi18n;
 
     @Column("int")
     difficulty: number;
@@ -109,7 +121,11 @@ export class ActivityModel {
     @JoinColumn({name: "idSubject"})
     subject: SubjectModel;
 
-
     @OneToMany( (type)=> RatingModel, (rating) => rating.activity)
     ratings: RatingModel[];
+
+    @BeforeInsert()
+    setCreationDate() {
+        this.createdWhen = new Date();
+    }
 }

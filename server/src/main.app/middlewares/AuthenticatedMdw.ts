@@ -14,6 +14,7 @@ export class AuthenticatedMdw implements ExpressMiddlewareInterface {
         const session = request.session;
         if (!request.session || !request.session.connectSid) {
             console.log("Sorry! You need authentication to access route " + request.path);
+            console.log(session);
             if (request.headers && request.headers.accept && request.headers.accept.indexOf('application/json') >= 0) {
                 response.status(403).send({ error: 'User not authenticated' });
             }

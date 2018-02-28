@@ -1,6 +1,6 @@
 var pwApp = window.pwApp || {};
 pwApp.entities = pwApp.entities || {};
-pwApp.entities['GroupsModel'] = {
+pwApp.entities['AssignmentModel'] = {
   "properties": [
     {
       "name": "id",
@@ -9,91 +9,84 @@ pwApp.entities['GroupsModel'] = {
       "generated": true
     },
     {
-      "name": "groupName",
-      "type": "varchar",
-      "nullable": false,
-      "generated": false
-    },
-    {
-      "name": "groupLevel",
+      "name": "idUser",
       "type": "int",
       "nullable": false,
       "generated": false
     },
     {
-      "name": "groupStudies",
-      "type": "varchar",
-      "nullable": false,
-      "generated": false
-    },
-    {
-      "name": "groupLetter",
-      "type": "varchar",
-      "nullable": false,
-      "generated": false
-    },
-    {
-      "name": "groupYear",
+      "name": "idUnit",
       "type": "int",
       "nullable": false,
       "generated": false
     },
     {
-      "name": "idUserCreator",
+      "name": "postDate",
+      "type": "datetime",
+      "nullable": false,
+      "generated": false
+    },
+    {
+      "name": "order",
       "type": "int",
       "nullable": false,
       "generated": false
     },
     {
-      "name": "enrollPassword",
-      "type": "varchar",
+      "name": "fromDate",
+      "type": "datetime",
       "nullable": false,
       "generated": false
     },
     {
-      "name": "idSubject",
-      "type": "int",
+      "name": "toDate",
+      "type": "datetime",
       "nullable": false,
       "generated": false
     },
     {
-      "name": "currentUnit",
-      "type": "int",
+      "name": "maxAttempts",
+      "type": "tinyint",
       "nullable": false,
       "generated": false
     },
     {
-      "name": "gopts",
-      "type": "json",
-      "nullable": false,
-      "generated": false
-    },
-    {
-      "name": "thmcss",
+      "name": "instructions",
       "type": "longtext",
       "nullable": false,
       "generated": false
     },
     {
-      "name": "subject",
-      "type": "int",
+      "name": "applyToAll",
+      "type": "tinyint",
+      "nullable": false,
+      "generated": false
+    },
+    {
+      "name": "params",
+      "type": "json",
+      "nullable": false,
+      "generated": false
+    },
+    {
+      "name": "visible",
+      "type": "tinyint",
       "nullable": false,
       "generated": false
     }
   ],
   "defaultObject": {
     "id": null,
-    "groupName": null,
-    "groupLevel": 1,
-    "groupStudies": "BAT",
-    "groupLetter": "A",
-    "groupYear": null,
-    "idUserCreator": "0",
-    "enrollPassword": null,
-    "idSubject": "1",
-    "currentUnit": "0",
-    "gopts": null,
-    "thmcss": null,
-    "subject": null
+    "idUser": null,
+    "idUnit": null,
+    "postDate": null,
+    "order": 0,
+    "fromDate": null,
+    "toDate": null,
+    "maxAttempts": 0,
+    "instructions": null,
+    "applyToAll": 0,
+    "params": null,
+    "visible": 1
   }
 };

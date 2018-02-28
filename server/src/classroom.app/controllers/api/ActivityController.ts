@@ -9,7 +9,6 @@ import { langInspector } from '../../../main.app/utils/LangInspector';
 import { ActivityModel } from '../../entities';
 import { ActivitySrv } from '../../services/ActivitySrv';
 
-∫
    
  @Controller("/api/activity")
  export class AssignmentsController {
@@ -21,9 +20,9 @@ import { ActivitySrv } from '../../services/ActivitySrv';
      async search(@QueryParam("text") text: string, @QueryParam("limit") limit: number, @QueryParam("offset") offset: number,
         @Req() request: Request, @Res() response: Response ) {             
          const result = await this.activitySrv.search(text, limit, offset);
-         // Need to apply select valid translation of result
+         // Need to apply translation of result
          const lang = langInspector(request, response);    
-         return filterLang(result, ["activity"], lang);
+         return filterLang(result, ["activity", "description"], lang);
      }
    
      @Post("/save")

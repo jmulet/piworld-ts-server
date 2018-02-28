@@ -109,7 +109,7 @@ export class LoginController {
                 await this.loginsSrv.save(logins);
                 const enrolls = await this.enrollSrv.list(user.id);
                 
-                session.connectSid = connectSid;
+                session.connectSid = connectSid || session.id;
                 session.user = user;
                 session.logins = logins;
                 session.enrolls = enrolls;

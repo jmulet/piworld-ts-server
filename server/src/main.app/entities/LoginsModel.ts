@@ -1,7 +1,8 @@
 import { IsDate, IsInt, Max, Min, IsIP, IsOptional } from 'class-validator';
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, BeforeInsert, BeforeUpdate } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, BeforeInsert, BeforeUpdate, OneToMany } from 'typeorm';
 
 import { UserModel } from './UserModel';
+import { VisualizationModel } from '../../classroom.app/entities';
 
 
 @Entity("logins")
@@ -62,6 +63,8 @@ export class LoginsModel {
     @JoinColumn({ name: "idUser" })
     user: UserModel;
 
+    @OneToMany(type => VisualizationModel, (visualization)=> visualization.logins)
+    visualizations: VisualizationModel[];
     
     @BeforeInsert()
     setLoginDate() {

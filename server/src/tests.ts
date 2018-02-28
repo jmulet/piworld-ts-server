@@ -14,6 +14,7 @@ import { ClassroomApp } from './classroom.app/';
 
 const colors = require('colors/safe');
 
+/** Sets test mode in express env */
 process.env.NODE_ENV = "test";
 
 // set up container for dependency-injection

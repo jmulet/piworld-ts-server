@@ -35,7 +35,7 @@ export class VisualizationModel {
     visualizationUsers: VisualizationQuizzModel[];
 
     //Many visualization can be of one login
-    @ManyToOne( (type)=> LoginsModel)
+    @ManyToOne( (type)=> LoginsModel, (logins)=>logins.visualizations, {onDelete:'CASCADE'})
     @JoinColumn({name: "idLogins"})
-    login: LoginsModel;
+    logins: LoginsModel;
 }

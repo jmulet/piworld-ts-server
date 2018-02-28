@@ -19,6 +19,8 @@ import { ejsonBodyParser } from './main.app/utils/ejsonBodyParser';
 import * as sharedsession from 'express-socket.io-session';
 import * as EJSON from 'ejson';
 import { sockets } from './sockets';
+
+// Setup server agent for testing
 import * as chai from 'chai';
 import * as chaiHttp from 'chai-http';
 chai.use(chaiHttp);
@@ -105,27 +107,19 @@ export class PwHttpServer {
         config.port = port;
 
 
-        if (process.env.NODE_ENV === 'test') {
-            this.agent = chai.request.agent(this.app);
-            winston.info(colors.magenta(new Date() + ': Running tests !'));
-            this.runTests();
-        } else {
-
             this.server.listen(port, () => {
                 this.server.listen(port, () => {
                     winston.info(colors.green(new Date() + ': piworld server started listening to port ' + port));
-
+ 
                     if (process.env.NODE_ENV === 'test') {
+                        this.agent = chai.request.agent('http://localhost:'+config.port+config.basePrefix);
                         winston.info(colors.magenta(new Date() + ': Running tests !'));
                         this.runTests();
-                    }
-
+                    } 
                 });
 
             });
 
-
-        }
     }
 
     private runTests() {

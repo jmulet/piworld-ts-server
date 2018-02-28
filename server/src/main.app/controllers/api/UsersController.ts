@@ -5,7 +5,7 @@ import { SessionModel } from '../../model/SessionModel';
 
 @Controller("/api")
 @UseBefore(AuthenticatedMdw)
-export class ApiController {
+export class UsersController {
  
     @Get("/user/groups")
     userGroups(@Session() session: SessionModel) {        

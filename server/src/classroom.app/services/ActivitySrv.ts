@@ -26,7 +26,6 @@ export class ActivitySrv {
     }
 
     public async deleteById(id: number) {
-        const entity = await this.activityRepository.findOneById(id);
-        return this.activityRepository.delete(entity);
+        return this.activityRepository.deleteById(id);
     }
 }

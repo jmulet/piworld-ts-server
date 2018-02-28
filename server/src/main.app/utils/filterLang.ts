@@ -7,7 +7,7 @@ export function filterLang(result, fields, lang) {
     result.forEach( (e, i) => {
         fields.forEach( (f) => {
             const json = e[f] || {};
-            e[f] = json[lang] || json[I18n.DEFAULT_LANG] || json.stringify();
+            result[i][f] = json[lang] || json[I18n.DEFAULT_LANG] || json.stringify();
         });
     });
 

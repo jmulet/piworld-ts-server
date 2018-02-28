@@ -10,7 +10,7 @@ pwApp.entities['ActivityModel'] = {
     },
     {
       "name": "levels",
-      "type": "text",
+      "type": "json",
       "nullable": false,
       "generated": false
     },
@@ -22,7 +22,7 @@ pwApp.entities['ActivityModel'] = {
     },
     {
       "name": "activity",
-      "type": "text",
+      "type": "json",
       "nullable": false,
       "generated": false
     },
@@ -52,7 +52,7 @@ pwApp.entities['ActivityModel'] = {
     },
     {
       "name": "description",
-      "type": "text",
+      "type": "json",
       "nullable": false,
       "generated": false
     },
@@ -110,7 +110,7 @@ pwApp.entities['ActivityModel'] = {
     "levels": null,
     "idSubject": 1,
     "activity": null,
-    "activityType": 0,
+    "activityType": "V",
     "share": 2,
     "createdBy": null,
     "createdWhen": null,

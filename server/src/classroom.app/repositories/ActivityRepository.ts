@@ -13,10 +13,10 @@ export class ActivityRepository extends Repository<ActivityModel> {
 
     search(text: string, limit?: number, offset?: number) {
         let builder = this.createQueryBuilder("activity")
-        .where("activity LIKE '%:text%'")
-        .orWhere("createdBy LIKE '%:text%'")
-        .orWhere("description LIKE '%:text%'")
-        .setParameters({text: text});
+        .where("activity LIKE :text")
+        .orWhere("createdBy LIKE :text")
+        .orWhere("description LIKE :text")
+        .setParameters({text: "%" + text+ "%"});
 
         if (limit) {
             builder = builder.limit(limit);

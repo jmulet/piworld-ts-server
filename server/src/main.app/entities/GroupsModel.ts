@@ -1,5 +1,5 @@
 import { EnrollModel } from './';
-import { Column, Entity, PrimaryGeneratedColumn, OneToOne, JoinColumn, OneToMany, ManyToOne } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, OneToOne, JoinColumn, OneToMany, ManyToOne, BeforeInsert } from 'typeorm';
 import { IsInt, Length, Validate, IsOptional, Min } from 'class-validator';
 import { JsonStringValidator } from '../validators/JsonStringValidator';
 import { UserModel } from './UserModel';
@@ -58,7 +58,7 @@ export class GroupsModel {
 
 
     @Column("varchar", {
-        nullable: false,
+        nullable: true,
         length: 255,
     })
     enrollPassword: string;
@@ -95,6 +95,7 @@ export class GroupsModel {
 
     // Many groups have associated one subject
     @ManyToOne((type) => SubjectModel, (subject) => subject.groups, { onDelete: "CASCADE" })
+    @JoinColumn({ name: "idSubject" })
     subject: SubjectModel;
 
     //One group has many enroll entries
@@ -104,4 +105,11 @@ export class GroupsModel {
     //One group has many units 
     @OneToMany((type) => UnitModel, (unit) => unit.group)
     units: UnitModel[];
+
+    @BeforeInsert()
+    fixes() {
+        if (!this.groupName) {
+            this.groupName = this.groupLevel + " " + this.groupStudies + " " + this.groupLetter;
+        }
+    }
 }

@@ -8,6 +8,8 @@ import { langInspector } from '../utils/LangInspector';
 const i18n = Container.get(I18n);
 
 export function NotFoundMdw(request: express.Request, response: express.Response, next: express.NextFunction): void {
+    console.log("404 - " + request.path + "; method: "+request.method);
+
     if (!response.headersSent) {
         let lang = response.locals.lang;
         if (!lang) {

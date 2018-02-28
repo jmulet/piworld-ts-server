@@ -1,8 +1,9 @@
-import * as express from 'express';
-import * as consolidate from 'consolidate';
-import { useExpressServer } from 'routing-controllers';
-import { config } from './server.config';
 import * as colors from 'colors/safe';
+import * as consolidate from 'consolidate';
+import * as express from 'express';
+import { useExpressServer } from 'routing-controllers';
+
+import { config } from './server.config';
 
 export interface AppConfigOptions {
     isAdmin: boolean,
@@ -14,7 +15,7 @@ export interface AppConfigOptions {
 
 export abstract class BaseApp {
 
-    app: express.Application;
+     app: express.Application;
     
     config: AppConfigOptions = {
         isAdmin: false,
@@ -23,6 +24,8 @@ export abstract class BaseApp {
         name: "App",
         icon: ""
     };
+
+    
     
     constructor() {
         this.app = express();       

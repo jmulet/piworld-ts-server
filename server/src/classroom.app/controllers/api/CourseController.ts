@@ -3,28 +3,27 @@
  import { Inject } from 'typedi';
  import { AuthenticatedMdw } from '../../../main.app/middlewares/AuthenticatedMdw';
  import { AdminsAndTeachersOnly } from '../../../main.app/middlewares/AuthorizedMdw';
- import { AssignmentSrv } from '../../services/AssignmentSrv';
+ import { CourseSrv } from '../../services/CourseSrv';
  import { SessionModel } from '../../../main.app/model/SessionModel';
- import { AssignmentModel } from '../../entities';
+ import { CourseModel } from '../../entities/CourseModel';
    
- @Controller("/api/assignments")
+ @Controller("/api/course")
  @UseBefore(AuthenticatedMdw) 
- export class AssignmentsController {
+ export class CourseController {
    
      @Inject()
-     assignmentSrv: AssignmentSrv;
-   
+     courseSrv: CourseSrv;
+     
      @Post("/")
      @UseBefore(AdminsAndTeachersOnly)
-     assignmentSave(@Body({ validate: true }) entity: AssignmentModel) {            
-         return this.assignmentSrv.save(entity);
+     save(@Body({ validate: true }) entity: CourseModel) {            
+         return this.courseSrv.save(entity);
      }
  
      @Delete("/")
      @UseBefore(AdminsAndTeachersOnly)
-     async assignmentDelete(@QueryParam("idAssignment") idAssignment: number) {             
-         await this.assignmentSrv.deleteById(idAssignment);
-         return true;
+     del(@QueryParam("idCourse") idAssignment: number) {             
+         return this.courseSrv.deleteById(idAssignment);
      }
  
  }

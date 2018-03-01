@@ -11,3 +11,5 @@ export {RatingModel} from "./RatingModel";
 export {VisualizationModel} from "./VisualizationModel";
 export {VisualizationQuizzModel} from "./VisualizationQuizzModel";
 export {UploadModel} from "./UploadModel";
+export {CourseModel} from "./CourseModel";
+export {CourseGroupsModel} from "./CourseGroupsModel";

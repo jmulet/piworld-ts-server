@@ -4,8 +4,9 @@ import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 't
 import { RoleValidator } from '../validators/RoleValidator';
 import { GroupsModel } from './GroupsModel';
 
-@Entity("enroll")
+@Entity("groups_enroll")
 export class EnrollModel {
+
 
     @PrimaryGeneratedColumn("increment", {type: "int"})
     id: number;

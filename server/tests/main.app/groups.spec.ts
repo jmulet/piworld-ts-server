@@ -5,6 +5,9 @@ import * as chai from 'chai';
 import {GroupsModel} from '../../src/main.app/entities/GroupsModel';
 import {config} from '../../src/server.config';
 import { TestConfig } from '../TestConfig';
+import { EnrollModel, UserModel } from '../../src/main.app/entities';
+import { UserRoles } from '../../src/main.app/entities/UserModel';
+import { GroupsSrv } from '../../src/main.app/services/GroupsSrv';
 const expect = chai.expect;
 const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
@@ -26,15 +29,8 @@ describe("Groups controller", function(){
  
 
     it("creates a new group /api/group/ POST", async function() {
-        const g = new GroupsModel();    
-        g.currentUnit = 0;
-        g.groupLetter = "A"
-        g.groupLevel = 1;
-        g.groupStudies = "BATX";
-        g.groupYear = 2017;
-        g.idSubject = 1;
-        g.idUserCreator = 1;
-
+        const g = GroupsSrv.fromData("my group", 2017, 1);    
+      
         let res = await this.agent.post("/api/group/").send(g);
         const result = JSON.parse(res.text);
         expect(result).to.have.property("id");

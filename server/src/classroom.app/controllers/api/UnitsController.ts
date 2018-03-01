@@ -15,14 +15,20 @@ import { UnitModel } from '../../entities';
      unitSrv: UnitSrv;
    
      @Get("/listAssigned")
-     listAssigned(@QueryParam("idGroup") idGroup: number, @QueryParam("idUser") idUser: number) {             
+     listAssigned(@QueryParam("idCourse") idGroup: number, @QueryParam("idUser") idUser: number) {             
          return this.unitSrv.listAssigned(idGroup, idUser);
      }
 
      @Get("/listCreated")
      @UseBefore(AdminsAndTeachersOnly)
-     listCreated(@QueryParam("idGroup") idGroup: number) {             
+     listCreated(@QueryParam("idCourse") idGroup: number) {             
          return this.unitSrv.listCreated(idGroup);
+     }
+
+     @Get("/listUnits")
+     @UseBefore(AdminsAndTeachersOnly)
+     listUnitsOnly(@QueryParam("idCourse") idGroup: number) {             
+         return this.unitSrv.listUnitsOnly(idGroup);
      }
 
      @Post("/")

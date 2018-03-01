@@ -26,8 +26,8 @@ export class UnitSrv {
         return this.UnitRepository.remove(entity);
     }
 
-    listByIdGroup(idGroup: number) {
-        return this.UnitRepository.listByIdGroup(idGroup);
+    listByIdCourse(idCourse: number) {
+        return this.UnitRepository.listByIdCourse(idCourse);
     }
     
     listAssigned(idGroup: number, idUser: number) {
@@ -36,5 +36,9 @@ export class UnitSrv {
 
     listCreated(idGroup: number) {
         return this.UnitRepository.listCreated(idGroup);
+    }
+
+    listUnitsOnly(idGroup: number) {
+        return this.UnitRepository.listUnitsOnly(idGroup);
     }
 }

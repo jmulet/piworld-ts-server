@@ -2,11 +2,15 @@ import { EnrollModel } from './';
 import { Column, Entity, PrimaryGeneratedColumn, OneToOne, JoinColumn, OneToMany, ManyToOne, BeforeInsert } from 'typeorm';
 import { IsInt, Length, Validate, IsOptional, Min } from 'class-validator';
 import { JsonStringValidator } from '../validators/JsonStringValidator';
-import { UserModel } from './UserModel';
+import { UserModel, UserRoles } from './UserModel';
 import { SubjectModel } from './SubjectModel';
 import { UnitModel } from '../../classroom.app/entities/UnitModel';
 
-
+export interface GroupsOptions {
+    useInPda?: boolean;
+    sendToParents?: boolean;
+}
+ 
 @Entity("groups")
 export class GroupsModel {
 
@@ -17,37 +21,14 @@ export class GroupsModel {
         nullable: false,
         length: 255,
     })
-    groupName: string;
-
-    @IsInt()
-    @Column("int", {
-        nullable: false,
-        default: 1,
-    })
-    groupLevel: number;
-
-    @Length(1, 5)
-    @Column("varchar", {
-        nullable: false,
-        length: 5,
-        default: "BAT",
-    })
-    groupStudies: string;
-
-    @Length(1, 255)
-    @Column("varchar", {
-        nullable: false,
-        length: 255,
-        default: "A",
-    })
-    groupLetter: string;
+    name: string;
 
     @IsOptional()
     @Min(0)
     @Column("int", {
         nullable: true,
     })
-    groupYear: number;
+    year: number;
 
 
     @Column("int", {
@@ -56,32 +37,11 @@ export class GroupsModel {
     })
     idUserCreator: number;
 
-
-    @Column("varchar", {
-        nullable: true,
-        length: 255,
-    })
-    enrollPassword: string;
-
-
-    @Column("int", {
-        nullable: false,
-        default: "1",
-    })
-    idSubject: number;
-
-
-    @Column("int", {
-        nullable: false,
-        default: "0",
-    })
-    currentUnit: number;
-
     @IsOptional()
     @Column("json", {
         nullable: true,
     })
-    gopts: any;
+    gopts: GroupsOptions;
 
     @Column("longtext", {
         nullable: true,
@@ -99,17 +59,15 @@ export class GroupsModel {
     subject: SubjectModel;
 
     //One group has many enroll entries
-    @OneToMany(type => EnrollModel, enroll => enroll.group)
+    @OneToMany(type => EnrollModel, enroll => enroll.group, { cascade: ["insert", "update"] })
     enrolls: EnrollModel[];
 
     //One group has many units 
-    @OneToMany((type) => UnitModel, (unit) => unit.group)
+    @OneToMany((type) => UnitModel, (unit) => unit.course, { cascade: ["insert", "update"] })
     units: UnitModel[];
 
     @BeforeInsert()
-    fixes() {
-        if (!this.groupName) {
-            this.groupName = this.groupLevel + " " + this.groupStudies + " " + this.groupLetter;
-        }
+    insert() {
+        this.gopts = this.gopts ||  {};       
     }
 }

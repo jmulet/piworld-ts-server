@@ -12,11 +12,19 @@ export class EnrollSrv {
         this.enrollRepository = getRepository(EnrollModel);
     }
 
+    static fromData(idUser?: number, idRole?: number) {
+        const entity = new EnrollModel();
+        entity.idUser= idUser;
+        entity.idRole = idRole;
+        return entity;
+    }
+    
+
     /**
      * List all groups which idUser is enrolled to
      * @param idUser 
      */
-    public list(idUser: number) {
+    list(idUser: number) {
         return this.enrollRepository.createQueryBuilder("enroll")
             .innerJoinAndSelect("enroll.group", "group")
             .where("enroll.idUser=:idUser", {idUser: idUser})

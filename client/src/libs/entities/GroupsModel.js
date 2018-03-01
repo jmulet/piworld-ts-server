@@ -9,55 +9,19 @@ pwApp.entities['GroupsModel'] = {
       "generated": true
     },
     {
-      "name": "groupName",
+      "name": "name",
       "type": "varchar",
       "nullable": false,
       "generated": false
     },
     {
-      "name": "groupLevel",
-      "type": "int",
-      "nullable": false,
-      "generated": false
-    },
-    {
-      "name": "groupStudies",
-      "type": "varchar",
-      "nullable": false,
-      "generated": false
-    },
-    {
-      "name": "groupLetter",
-      "type": "varchar",
-      "nullable": false,
-      "generated": false
-    },
-    {
-      "name": "groupYear",
+      "name": "year",
       "type": "int",
       "nullable": false,
       "generated": false
     },
     {
       "name": "idUserCreator",
-      "type": "int",
-      "nullable": false,
-      "generated": false
-    },
-    {
-      "name": "enrollPassword",
-      "type": "varchar",
-      "nullable": false,
-      "generated": false
-    },
-    {
-      "name": "idSubject",
-      "type": "int",
-      "nullable": false,
-      "generated": false
-    },
-    {
-      "name": "currentUnit",
       "type": "int",
       "nullable": false,
       "generated": false
@@ -73,20 +37,21 @@ pwApp.entities['GroupsModel'] = {
       "type": "longtext",
       "nullable": false,
       "generated": false
+    },
+    {
+      "name": "subject",
+      "type": "int",
+      "nullable": false,
+      "generated": false
     }
   ],
   "defaultObject": {
     "id": null,
-    "groupName": null,
-    "groupLevel": 1,
-    "groupStudies": "BAT",
-    "groupLetter": "A",
-    "groupYear": null,
+    "name": null,
+    "year": null,
     "idUserCreator": "0",
-    "enrollPassword": null,
-    "idSubject": "1",
-    "currentUnit": "0",
     "gopts": null,
-    "thmcss": null
+    "thmcss": null,
+    "subject": null
   }
 };

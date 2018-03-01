@@ -21,21 +21,21 @@ import { ActivitySrv } from '../../services/ActivitySrv';
         @Req() request: Request, @Res() response: Response ) {             
          const result = await this.activitySrv.search(text, limit, offset);
          // Need to apply translation of result
-         const lang = langInspector(request, response);    
+         const lang = await langInspector(request, response);    
          return filterLang(result, ["activity", "description"], lang);
      }
    
-     @Post("/save")
+     @Post("/")
      @UseBefore(AuthenticatedMdw) 
      @UseBefore(AdminsAndTeachersOnly)
      save(@Body({ validate: true }) entity: ActivityModel) {            
          return this.activitySrv.save(entity);
      }
  
-     @Delete("/delete")
+     @Delete("/")
      @UseBefore(AuthenticatedMdw) 
      @UseBefore(AdminsAndTeachersOnly)
-     delete(@QueryParam("idActivity") idActivity: number) {             
+     del(@QueryParam("idActivity") idActivity: number) {             
          return this.activitySrv.deleteById(idActivity);
      }
  

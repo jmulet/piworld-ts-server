@@ -14,16 +14,17 @@ import { AssignmentModel } from '../../entities';
      @Inject()
      assignmentSrv: AssignmentSrv;
    
-     @Post("/save")
+     @Post("/")
      @UseBefore(AdminsAndTeachersOnly)
      assignmentSave(@Body({ validate: true }) entity: AssignmentModel) {            
          return this.assignmentSrv.save(entity);
      }
  
-     @Delete("/delete")
+     @Delete("/")
      @UseBefore(AdminsAndTeachersOnly)
-     assignmentDelete(@QueryParam("idAssignment") idAssignment: number) {             
-         return this.assignmentSrv.deleteById(idAssignment);
+     async assignmentDelete(@QueryParam("idAssignment") idAssignment: number) {             
+         await this.assignmentSrv.deleteById(idAssignment);
+         return true;
      }
  
  }

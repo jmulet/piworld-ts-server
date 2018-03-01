@@ -16,12 +16,12 @@ export class UploadSrv {
     }
 
     delete(entity: UploadModel) {
-        return this.uploadRepository.delete(entity);
+        return this.uploadRepository.remove(entity);
     }
 
     async deleteById(id: number) {
-        const entity = await this.uploadRepository.findOneById(id);
-        return this.uploadRepository.delete(entity);
+        const entity = await this.uploadRepository.find({id: id});
+        return this.uploadRepository.remove(entity);
     }
 
     list(idAssignment: number, idUser?: number) {

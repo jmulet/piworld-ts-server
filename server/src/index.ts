@@ -30,7 +30,7 @@ createConnection({
                ...AdminApp.entities,
                ...ClassroomApp.entities],
     synchronize: true,
-    logging: false // process.env.NODE_ENV !== 'production'
+    logging:  process.env.NODE_ENV !== 'production'
 
 }).then(connection => {
 

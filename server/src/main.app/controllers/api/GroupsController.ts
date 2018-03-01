@@ -5,22 +5,32 @@ import { GroupsModel } from '../../entities/GroupsModel';
 import { GroupsSrv } from '../../services/GroupsSrv';
 import { AdminsAndTeachersOnly } from '../../middlewares/AuthorizedMdw';
 
-@Controller("/api")
+@Controller("/api/group")
 @UseBefore(AuthenticatedMdw)
 export class GroupsController {
  
     @Inject()
     groupsSrv: GroupsSrv;
 
-    @Post("/group/save")
+    @Post("/")
     @UseBefore(AdminsAndTeachersOnly)
     save(@Body({validate: true}) entity: GroupsModel) {        
         return this.groupsSrv.save(entity);
     }
+   
+    @Get("/")
+    get(@QueryParam("idGroup") idGroup: number) {        
+        return this.groupsSrv.find(idGroup);
+    }
+
+    @Get("/created")
+    getCreated(@QueryParam("idUser") idUser: number) {        
+        return this.groupsSrv.findCreated(idUser);
+    }
     
-    @Delete("/group/delete")
+    @Delete("/")
     @UseBefore(AdminsAndTeachersOnly)
-    delete(@QueryParam("idGroup") idGroup: number) {        
+    async del(@QueryParam("idGroup") idGroup: number) {     
         return this.groupsSrv.deleteById(idGroup);
     }
 }

@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, BeforeInsert } from 'typeorm';
 
 import { AssignmentUsersModel } from './AssignmentUsersModel';
 import { UnitModel } from './UnitModel';
@@ -25,10 +25,14 @@ export class AssignmentModel {
     })
     order: number;
 
-    @Column("datetime")
+    @Column("datetime",{
+        nullable: true
+    })
     fromDate: Date;
 
-    @Column("datetime")
+    @Column("datetime", {
+        nullable: true
+    })
     toDate: Date;
 
     @Column("tinyint", {
@@ -53,7 +57,7 @@ export class AssignmentModel {
     visible: number;
 
     // Reference to the parent unit of this assignment
-    @ManyToOne( (type)=> UnitModel, (unit) => unit.assignments, {onDelete: "CASCADE"})
+    @ManyToOne( (type)=> UnitModel, (unit) => unit.assignments, {onDelete: "CASCADE", cascade: true})
     @JoinColumn({name: "idUnit"})
     unit: UnitModel;
 
@@ -61,4 +65,9 @@ export class AssignmentModel {
      @OneToMany( (type)=> AssignmentUsersModel, (assignmentUsers) => assignmentUsers.assignment)
      assignmentUsers: AssignmentUsersModel[];
         
+     @BeforeInsert()
+     update(){
+        this.postDate = new Date();
+        this.params = this.params || {};
+     }
 }

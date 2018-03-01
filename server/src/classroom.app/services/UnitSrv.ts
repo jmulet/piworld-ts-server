@@ -13,17 +13,17 @@ export class UnitSrv {
         this.UnitRepository = getCustomRepository(UnitRepository); 
     }
  
-    save(entity: UnitModel) {
+    save(entity: UnitModel) { 
         return this.UnitRepository.save(entity);
     }
 
     delete(entity: UnitModel) {
-        return this.UnitRepository.delete(entity);
+        return this.UnitRepository.remove(entity);
     }
 
-    async deleteById(id: number) {
-        const entity = await this.UnitRepository.findOneById(id);
-        return this.UnitRepository.delete(entity);
+    async deleteById(idUnit: number) {
+        const entity = await this.UnitRepository.findOne({id: idUnit});
+        return this.UnitRepository.remove(entity);
     }
 
     listByIdGroup(idGroup: number) {

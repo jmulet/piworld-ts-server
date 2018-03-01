@@ -16,12 +16,12 @@ export class VisualizationSrv {
     }
 
     delete(entity: VisualizationModel) {
-        return this.visualizationRepository.delete(entity);
+        return this.visualizationRepository.remove(entity);
     }
 
     async deleteById(id: number) {
-        const entity = await this.visualizationRepository.findOneById(id);
-        return this.visualizationRepository.delete(entity);
+        const entity = await this.visualizationRepository.find({id: id});
+        return this.visualizationRepository.remove(entity);
     }
 
     list(idAssignment: number, idUser?: number) {

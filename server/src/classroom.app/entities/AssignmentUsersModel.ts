@@ -17,8 +17,10 @@ export class AssignmentUsersModel {
     idUser: number;
  
     // Reference to the parent assignment
-    @ManyToOne( (type)=> AssignmentModel, (assignment) => assignment.assignmentUsers, {onDelete: "CASCADE", cascadeAll: true})
+    @ManyToOne( (type)=> AssignmentModel, (assignment) => assignment.assignmentUsers, {cascade: true})
     @JoinColumn({name: "idAssignment"})
     assignment: AssignmentModel;
         
 }
+
+

@@ -13,19 +13,20 @@ export class ActivitySrv {
         this.activityRepository = getCustomRepository(ActivityRepository); 
     }
 
-    public search(text: string, limit?: number, offset?: number) {
+    search(text: string, limit?: number, offset?: number) {
         return this.activityRepository.search(text, limit, offset);
     }
 
-    public save(entity: ActivityModel) {
+    save(entity: ActivityModel) {
         return this.activityRepository.save(entity);
     }
 
-    public delete(entity: ActivityModel) {
-        return this.activityRepository.delete(entity);
+    delete(entity: ActivityModel) {
+        return this.activityRepository.remove(entity);
     }
 
-    public async deleteById(id: number) {
-        return this.activityRepository.deleteById(id);
+    async deleteById(id: number) {
+        await this.activityRepository.delete(id);
+        return true;
     }
 }

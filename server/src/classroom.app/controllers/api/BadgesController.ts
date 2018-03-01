@@ -22,15 +22,15 @@ import { BadgesSrv } from '../../services/BadgesSrv';
             return this.badgesSrv.list(idGroup, idUser, fromDate, toDate, fromType, toType);         
      }
    
-     @Post("/save")
+     @Post("/")
      @UseBefore(AdminsAndTeachersOnly)
      save(@Body({ validate: true }) entity: BadgesModel) {            
          return this.badgesSrv.save(entity);
      }
  
-     @Delete("/delete")
+     @Delete("/")
      @UseBefore(AdminsAndTeachersOnly)
-     delete(@QueryParam("idActivity") idActivity: number) {             
+     del(@QueryParam("idActivity") idActivity: number) {             
          return this.badgesSrv.deleteById(idActivity);
      }
  

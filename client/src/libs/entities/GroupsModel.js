@@ -73,12 +73,6 @@ pwApp.entities['GroupsModel'] = {
       "type": "longtext",
       "nullable": false,
       "generated": false
-    },
-    {
-      "name": "subject",
-      "type": "int",
-      "nullable": false,
-      "generated": false
     }
   ],
   "defaultObject": {
@@ -93,7 +87,6 @@ pwApp.entities['GroupsModel'] = {
     "idSubject": "1",
     "currentUnit": "0",
     "gopts": null,
-    "thmcss": null,
-    "subject": null
+    "thmcss": null
   }
 };

@@ -19,22 +19,18 @@ export class UnitModel {
     id:number;
         
 
-    @Column("int",{ 
-        nullable:false,
+    @Column("int",{
         default: 0, 
         })
     idGroup:number;
         
 
     @IsNotEmpty()
-    @Column("longtext",{ 
-        nullable:false, 
-        })
+    @Column("longtext")
     unit:string;
         
 
     @Column("int",{ 
-        nullable:false,
         default: 0, 
         })
     order:number;
@@ -42,18 +38,17 @@ export class UnitModel {
 
     @Validate(IntRangeValidator, [0, 3])
     @Column("tinyint",{ 
-        nullable:false,
         default: UnitVisibility.auto, 
         })
     visible: number;
 
     // Reference to the parent group of this unit
-    @ManyToOne( (type)=> GroupsModel, (group) => group.units, {onDelete: "CASCADE"})
+    @ManyToOne((type)=> GroupsModel, (group) => group.units, {onDelete: "CASCADE", cascade: true})
     @JoinColumn({name: "idGroup"})
     group: GroupsModel;
 
      // Reference to the parent unit of this assignment
-     @OneToMany( (type)=> AssignmentModel, (assignment) => assignment.unit)
+     @OneToMany((type)=> AssignmentModel, (assignment) => assignment.unit, {cascade: ["insert", "update"]})
      assignments: AssignmentModel[];
         
 }

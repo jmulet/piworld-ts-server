@@ -16,12 +16,12 @@ export class ChatSrv {
     }
 
     delete(entity: ChatModel) {
-        return this.chatRepository.delete(entity);
+        return this.chatRepository.remove(entity);
     }
 
     async deleteById(id: number) {
-        const entity = await this.chatRepository.findOneById(id);
-        return this.chatRepository.delete(entity);
+        const entity = await this.chatRepository.find({id: id});
+        return this.chatRepository.remove(entity);
     }
 
     list(idGroup: number, idUser?: number, fromDate?: Date, toDate?: Date, isFor?: number, parents?: number) {

@@ -1,5 +1,5 @@
 import { Service } from 'typedi';
-import { getRepository, Repository } from 'typeorm';
+import { getRepository, Repository, Entity } from 'typeorm';
  
 import { GroupsModel } from '../entities/GroupsModel';
 
@@ -11,16 +11,25 @@ export class GroupsSrv {
     constructor(){
         this.repository = getRepository(GroupsModel); 
     }
+
+    find(idGroup: number){
+        return this.repository.findOne({id: idGroup});
+    }
+
+    findCreated(idUser: number){
+        return this.repository.find({idUserCreator: idUser});
+    }
  
-    public save(entity: GroupsModel) {
+    save(entity: GroupsModel) {
         return this.repository.save(entity);
     }
 
-    public delete(entity: GroupsModel) {
-        return this.repository.delete(entity);
+    del(entity: GroupsModel) {
+        return this.repository.remove(entity);
     }
 
-    public deleteById(id: number) {
-         return this.repository.deleteById(id);
+    async deleteById(idGroup: number) {
+         const entity = await this.repository.find({id: idGroup});
+         return this.repository.remove(entity);            
     }
 }

@@ -17,12 +17,12 @@ export class RatingSrv {
     }
 
     delete(entity: RatingModel) {
-        return this.ratingRepository.delete(entity);
+        return this.ratingRepository.remove(entity);
     }
 
     async deleteById(id: number) {
-        const entity = await this.ratingRepository.findOneById(id);
-        return this.ratingRepository.delete(entity);
+        const entity = await this.ratingRepository.find({id: id});
+        return this.ratingRepository.remove(entity);
     }
 
     ratingByActivityAndUser(idActivity: number, idUser: number) {

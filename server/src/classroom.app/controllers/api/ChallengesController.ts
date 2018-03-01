@@ -22,15 +22,15 @@ import { ChallengeSrv } from '../../services/ChallengeSrv';
             return this.challengesSrv.list(level, day, idUser)
      }
    
-     @Post("/save")
+     @Post("/")
      @UseBefore(AdminsAndTeachersOnly)
      save(@Body({ validate: true }) entity: ChallengesModel) {            
          return this.challengesSrv.save(entity);
      }
  
-     @Delete("/delete")
+     @Delete("/")
      @UseBefore(AdminsAndTeachersOnly)
-     delete(@QueryParam("idChallenge") idChallenge: number) {             
+     del(@QueryParam("idChallenge") idChallenge: number) {             
          return this.challengesSrv.deleteById(idChallenge);
      }
  

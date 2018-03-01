@@ -14,12 +14,11 @@ export class UnitRepository extends Repository<UnitModel> {
     // Load units with associated assignments visible to a given user
     listAssigned(idGroup: number, idUser: number) {
         return  this.createQueryBuilder("unit")
-        .innerJoinAndSelect("unit.assignments", "assignment")
-        .leftJoin("assignment.assignmentUsers", "assignmentUsers")
-        .where("unit.idGroup=:idGroup")
-        .andWhere("unit.visible=1")
-        .andWhere("unit.applyToAll=1")
-        .setParameters({idGroup: idGroup})
+        .leftJoinAndSelect("unit.assignments", "assignment")
+        .leftJoinAndSelect("assignment.assignmentUsers", "assignmentUsers")
+        .where("unit.idGroup=:idGroup", {idGroup: idGroup})
+        .andWhere("unit.visible>0")
+        .andWhere("assignment.visible IS NULL").orWhere("assignment.visible>0") 
         .orderBy("unit.order", "ASC")
         .getMany();
     } 
@@ -27,10 +26,9 @@ export class UnitRepository extends Repository<UnitModel> {
     // Load units with associated assignments created by the teacher
     listCreated(idGroup: number) {
         return  this.createQueryBuilder("unit")
-        .innerJoinAndSelect("unit.assignments", "assignment")
+        .leftJoinAndSelect("unit.assignments", "assignment")
         .leftJoinAndSelect("assignment.assignmentUsers", "assignmentUsers")
-        .where("unit.idGroup=:idGroup")
-        .setParameters({idGroup: idGroup})
+        .where("unit.idGroup=:idGroup", {idGroup: idGroup})
         .orderBy("unit.order", "ASC")
         .getMany();
     }

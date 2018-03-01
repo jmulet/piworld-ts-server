@@ -16,12 +16,12 @@ export class BadgesSrv {
     }
 
     delete(entity: BadgesModel) {
-        return this.badgesRepository.delete(entity);
+        return this.badgesRepository.remove(entity);
     }
 
     async deleteById(id: number) {
-        const entity = await this.badgesRepository.findOneById(id);
-        return this.badgesRepository.delete(entity);
+        const entity = await this.badgesRepository.find({id: id});
+        return this.badgesRepository.remove(entity);
     }
 
     list(idGroup: number, idUser: number, fromDate?: Date, toDate?: Date, fromType?: number, toType?: number) {

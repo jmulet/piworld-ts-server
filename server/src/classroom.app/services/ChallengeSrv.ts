@@ -16,12 +16,12 @@ export class ChallengeSrv {
     }
 
     delete(entity: ChallengesModel) {
-        return this.challengesRepository.delete(entity);
+        return this.challengesRepository.remove(entity);
     }
 
     async deleteById(id: number) {
-        const entity = await this.challengesRepository.findOneById(id);
-        return this.challengesRepository.delete(entity);
+        const entity = await this.challengesRepository.find({id: id});
+        return this.challengesRepository.remove(entity);
     }
 
     list(level: string, day: Date, idUser?: number) {

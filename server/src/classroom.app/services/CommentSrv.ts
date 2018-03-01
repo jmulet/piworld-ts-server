@@ -17,12 +17,12 @@ export class CommentSrv {
     }
 
     delete(entity: CommentModel) {
-        return this.commentRepository.delete(entity);
+        return this.commentRepository.remove(entity);
     }
 
     async deleteById(id: number) {
-        const entity = await this.commentRepository.findOneById(id);
-        return this.commentRepository.delete(entity);
+        const entity = await this.commentRepository.find({id: id});
+        return this.commentRepository.remove(entity);
     }
 
     list(idActivity: number, idUser?: number, fromDate?: Date, toDate?: Date) {

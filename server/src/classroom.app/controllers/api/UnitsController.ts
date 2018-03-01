@@ -5,6 +5,7 @@
  import { AdminsAndTeachersOnly } from '../../../main.app/middlewares/AuthorizedMdw';
  import { UnitSrv } from '../../services/UnitSrv';
  import { SessionModel } from '../../../main.app/model/SessionModel';
+import { UnitModel } from '../../entities';
    
  @Controller("/api/units")
  @UseBefore(AuthenticatedMdw) 
@@ -24,13 +25,13 @@
          return this.unitSrv.listCreated(idGroup);
      }
 
-     @Post("/save")
+     @Post("/")
      @UseBefore(AdminsAndTeachersOnly)
-     assignmentSave(@Body({ validate: true }) entity: AssignmentModel) {            
+     assignmentSave(@Body({ validate: true }) entity: UnitModel) {            
          return this.unitSrv.save(entity);
      }
  
-     @Delete("/delete")
+     @Delete("/")
      @UseBefore(AdminsAndTeachersOnly)
      assignmentDelete(@QueryParam("idAssignment") idAssignment: number) {             
          return this.unitSrv.deleteById(idAssignment);

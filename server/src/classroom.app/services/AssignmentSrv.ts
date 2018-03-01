@@ -31,11 +31,11 @@ export class AssignmentSrv {
     }
 
     public delete(entity: AssignmentModel) {
-        return this.AssignmentRepository.delete(entity);
+        return this.AssignmentRepository.remove(entity);
     }
 
     public async deleteById(id: number) {
-        const entity = await this.AssignmentRepository.findOneById(id);
-        return this.AssignmentRepository.delete(entity);
+        const entity = await this.AssignmentRepository.find({id: id});
+        return this.AssignmentRepository.remove(entity);
     }
 }

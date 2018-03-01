@@ -19,12 +19,7 @@ import { ejsonBodyParser } from './main.app/utils/ejsonBodyParser';
 import * as sharedsession from 'express-socket.io-session';
 import * as EJSON from 'ejson';
 import { sockets } from './sockets';
-
-// Setup server agent for testing
-import * as chai from 'chai';
-import * as chaiHttp from 'chai-http';
-chai.use(chaiHttp);
-
+ 
 const colors = require('colors/safe');
 
 /*
@@ -42,7 +37,6 @@ export interface ListenOptions {
 }
 
 export class PwHttpServer {
-    agent: any;
     adminInstance: any;
     installedApps = [];
     private static instance: PwHttpServer;
@@ -103,30 +97,18 @@ export class PwHttpServer {
         let port = options.port || config.express.port;
         if (process.env.NODE_ENV === 'test') {
             port = port + Math.floor(Math.random() * 1000);
-        }
+        } 
         config.port = port;
 
 
             this.server.listen(port, () => {
                 this.server.listen(port, () => {
-                    winston.info(colors.green(new Date() + ': piworld server started listening to port ' + port));
- 
-                    if (process.env.NODE_ENV === 'test') {
-                        this.agent = chai.request.agent('http://localhost:'+config.port+config.basePrefix);
-                        winston.info(colors.magenta(new Date() + ': Running tests !'));
-                        this.runTests();
-                    } 
+                    winston.info(colors.green(new Date() + ': piworld server started listening to port ' + port)); 
                 });
-
             });
 
     }
 
-    private runTests() {
-        this.installedApps.forEach(async (app) => {
-            app.tests && await app.tests();
-        });
-    }
 
     private constructor() {
         // configure logger

@@ -1,8 +1,10 @@
-
+import { IsDate, IsNotEmpty } from 'class-validator';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { IsNotEmpty, IsDate } from 'class-validator';
-import { UserModel } from '../../main.app/entities';
-import { GroupsModel } from '../../classroom.app/entities';
+
+import { GroupsModel } from '../../classroom.app/entities/GroupsModel';
+import { UserModel } from '../../main.app/entities/UserModel';
+
+
   
 @Entity("pda_badges")
 export class PdaBadgesModel {

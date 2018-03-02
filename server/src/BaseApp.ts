@@ -61,7 +61,7 @@ export abstract class BaseApp {
         // Finally show all routes
         if (process.env.NODE_ENV !== 'production') {
             console.log("Mounted routes: ");
-            this.app._router.stack.forEach(function (e) {
+            ((this.app._router || {}).stack || []).forEach(function (e) {
                 if (e.route) {
                     const method = (Object.keys(e.route.methods)[0] || "").toUpperCase();
                     let colorify;

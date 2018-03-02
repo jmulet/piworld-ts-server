@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { UserModel } from '../../main.app/entities';
-import { PdaActivityModel } from '.';
+import { UserModel } from '../../main.app/entities/UserModel';
+import { PdaActivityModel } from './PdaActivityModel';
 
 @Entity("pda_activity_grades")
 export class PdaActivityGrades {

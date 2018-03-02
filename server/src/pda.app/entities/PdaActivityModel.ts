@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-import { UserModel } from '../../main.app/entities';
-import { GroupsModel } from '../../classroom.app/entities';
-import { PdaActivityGrades } from '.';
+import { UserModel } from '../../main.app/entities/UserModel';
+import { GroupsModel } from '../../classroom.app/entities/GroupsModel';
+import { PdaActivityGrades } from './PdaActivityGrades';
  
 
 @Entity("pda_activities")

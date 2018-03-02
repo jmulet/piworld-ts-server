@@ -2,7 +2,9 @@ import { IsNotEmpty } from 'class-validator';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, OneToMany, BeforeInsert } from 'typeorm';
 
 import { SubjectModel } from '../../main.app/entities/SubjectModel';
-import { RatingModel } from '.';
+import { RatingModel } from './RatingModel';
+import { SectionModel } from './SectionModel';
+import { CommentModel } from '.';
 
 export enum ActivityTypes {
     video = 'V',
@@ -23,7 +25,15 @@ export interface JSONi18n {
     en: string
 }
 
-@Entity("activities")
+export interface ActivityParams {    
+    ytid: string;
+    ytqu: number;
+    ggbid: string;
+    hasAct: number;
+    createjs: number;
+}
+
+@Entity("class_activities")
 export class ActivityModel {
 
     @PrimaryGeneratedColumn("increment", { type: "int" })
@@ -83,32 +93,8 @@ export class ActivityModel {
     })
     icon: string;
 
-    @Column("varchar", {
-        nullable: true
-    })
-    ytid: string;
-
-    @Column("tinyint", {
-        nullable: false,
-        default: 0
-    })
-    ytqu: number;
-
-    @Column("varchar", {
-        nullable: true
-    })
-    ggbid: string;
-
-    @Column("int", {
-        nullable: false,
-        default: 0
-    })
-    hasAct: number;
-
-    @Column("tinyint", {
-        nullable: true
-    })
-    createjs: number;
+    @Column("json")
+    params: ActivityParams;
 
     @Column("int", {
         nullable: false,
@@ -117,12 +103,18 @@ export class ActivityModel {
     counter: number;
 
     // Many activities belong to one subject
-    @ManyToOne( (type) => SubjectModel, (subject) => subject.activities, {onDelete: "CASCADE"})
+    @ManyToOne( (type) => SubjectModel, (subject) => subject._activities)
     @JoinColumn({name: "idSubject"})
-    subject: SubjectModel;
+    _subject: SubjectModel;
 
-    @OneToMany( (type)=> RatingModel, (rating) => rating.activity)
-    ratings: RatingModel[];
+    @OneToMany( (type)=> RatingModel, (rating) => rating._activity, {onDelete: "CASCADE", cascade: ["remove"]})
+    _ratings: RatingModel[];
+
+    @OneToMany( (type)=> SectionModel, (section) => section._activity, {onDelete: "CASCADE", cascade: ["remove"]})
+    _sections: SectionModel[];
+
+    @OneToMany( (type)=> CommentModel, (comments) => comments._activity, {onDelete: "CASCADE", cascade: ["remove"]})
+    _comments: CommentModel[];
 
     @BeforeInsert()
     setCreationDate() {

@@ -1,11 +1,13 @@
 import { IsInt, IsNotEmpty, Length } from 'class-validator';
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
-import { UnitModel } from '.';
-import { SubjectModel } from '../../main.app/entities';
-import { CourseGroupsModel } from './CourseGroupsModel';
+import { UnitModel } from './UnitModel';
+import { SubjectModel } from '../../main.app/entities/SubjectModel';
+import { GroupsModel } from './GroupsModel';
+import { ChallengesQuizzModel, BadgesModel, ChatModel } from '.';
+import { BooksAssignModel } from '../../books.app/entities/BooksAssignModel';
 
-@Entity("courses")
+@Entity("class_courses")
 export class CourseModel {
 
     @PrimaryGeneratedColumn("increment", { type: "int" })
@@ -60,14 +62,25 @@ export class CourseModel {
     })
     enrollPassword: string;
 
-    @ManyToOne((type)=> SubjectModel, (subject) => subject, {cascade: ["remove"]})
+    @ManyToOne((type)=> SubjectModel, (subject) => subject._courses)
     @JoinColumn({name: "idSubject"})
-    subject: SubjectModel;
+    _subject: SubjectModel;
 
-    @OneToMany((type)=> UnitModel, (unit) => unit.course, {cascade: ["insert", "update"]})
-    units: UnitModel[];
+    @OneToMany((type)=> UnitModel, (unit) => unit._course, {onDelete: "CASCADE", cascade: ["remove"]})
+    _units: UnitModel[];
 
-    @OneToMany((type)=> CourseGroupsModel, (courseGroups) => courseGroups.course, {cascade: ["insert", "update"]})
-    courseGroups: CourseGroupsModel[];
+    @OneToMany((type)=> GroupsModel, (courseGroups) => courseGroups._course, {onDelete: "CASCADE", cascade: ["remove"]})
+    _courseGroups: GroupsModel[];
 
+    @OneToMany((type)=> ChallengesQuizzModel, (challenges) => challenges._course, {onDelete: "CASCADE", cascade: ["remove"]})
+    _challengeUsers: GroupsModel[];
+
+    @OneToMany((type)=> BadgesModel, (badge) => badge._course, {onDelete: "CASCADE", cascade: ["remove"]})
+    _badges: BadgesModel[];
+    
+    @OneToMany((type)=> ChatModel, (chat) => chat._course, {onDelete: "CASCADE", cascade: ["remove"]})
+    _chats: ChatModel[];
+
+    @OneToMany((type)=> BooksAssignModel, (bookAssign) => bookAssign._course, {onDelete: "CASCADE", cascade: ["remove"]})
+    _bookAssignments: BooksAssignModel[]
 }

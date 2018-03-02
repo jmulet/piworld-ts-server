@@ -1,16 +1,18 @@
 import { IsDate, IsNotEmpty, Validate } from 'class-validator';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
 
 import { IntRangeValidator } from '../../main.app/validators/IntRangeValidator';
+import { CourseModel } from './CourseModel';
+import { UserModel } from '../../main.app/entities/UserModel';
 
-@Entity("chat")
+@Entity("class_chat")
 export class ChatModel {
 
     @PrimaryGeneratedColumn("increment", { type: "int" })
     id: number;
 
     @Column("int")
-    idGroup: number;
+    idCourse: number;
 
     @Column("int")
     idUser: number;
@@ -30,4 +32,13 @@ export class ChatModel {
     @Validate(IntRangeValidator, [0,1])
     @Column("tinyint")
     parents: number;
+
+    @ManyToOne((type) => CourseModel, (course)=>course._chats)
+    @JoinColumn({name: "idCourse"})
+    _course: CourseModel;    
+
+    @ManyToOne((type) => UserModel, (user)=>user._chats)
+    @JoinColumn({name: "idUser"})
+    _user: UserModel;    
+
 }

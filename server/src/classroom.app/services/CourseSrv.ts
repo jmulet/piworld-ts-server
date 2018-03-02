@@ -2,7 +2,7 @@ import { Service, Inject } from 'typedi';
 import { Repository, getRepository } from 'typeorm';
 
 import { CourseModel } from '../entities/CourseModel';
-import { GroupsSrv } from '../../main.app/services/GroupsSrv';
+import { GroupsSrv } from './GroupsSrv';
 import { CourseGroupsModel } from '../entities';
 
 @Service()

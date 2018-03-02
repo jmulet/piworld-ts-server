@@ -26,11 +26,11 @@ export class VisualizationSrv {
 
     list(idAssignment: number, idUser?: number) {
  
-        let builder = this.visualizationRepository.createQueryBuilder("v").innerJoinAndSelect("v.visualizationUsers", "vq")
+        let builder = this.visualizationRepository.createQueryBuilder("v").innerJoinAndSelect("v._visualizationUsers", "vq")
         .where("v.idAssignment=:idAssignment", {idAssignment: idAssignment});
         
         if (idUser) {
-            builder = builder.innerJoin("v.login", "l").andWhere("l.idUser =:idUser", {idUser: idUser});
+            builder = builder.innerJoin("v._login", "l").andWhere("l.idUser =:idUser", {idUser: idUser});
         }
         
         return builder.getMany();    

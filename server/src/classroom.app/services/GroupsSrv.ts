@@ -1,10 +1,12 @@
-import { Service, Inject } from 'typedi';
-import { getRepository, Repository, Entity } from 'typeorm';
- 
-import { GroupsModel } from '../entities/GroupsModel';
-import { EnrollSrv } from './EnrollSrv';
-import { UserRoles } from '../entities/UserModel';
+import { Inject, Service } from 'typedi';
+import { getRepository, Repository } from 'typeorm';
 
+import { UserRoles } from '../../main.app/entities/UserModel';
+import { GroupsModel } from '../entities/GroupsModel';
+import { EnrollSrv } from './GroupEnrollSrv';
+
+ 
+ 
 
 @Service()
 export class GroupsSrv {
@@ -17,11 +19,11 @@ export class GroupsSrv {
         this.repository = getRepository(GroupsModel); 
     }
    
-   static fromData(name?: string, year?: number, idUserCreator?: number) {
+   static fromData(name?: string, year?: number, idCourse?: number) {
         const entity = new GroupsModel();
         entity.name = name;
         entity.year = year;
-        entity.idUserCreator = idUserCreator;
+        entity.idCourse = idCourse;
         return entity;
     }
 
@@ -29,16 +31,18 @@ export class GroupsSrv {
         return this.repository.findOne({id: idGroup});
     }
 
-    findCreated(idUser: number){
-        return this.repository.find({idUserCreator: idUser});
+    findCreated(idCourse: number){
+        return this.repository.find({idCourse: idCourse});
     }
  
     save(entity: GroupsModel) {
         //And enroll the creator automagically
+        /*
         if (!entity.enrolls) {
-            const enroll1 = EnrollSrv.fromData(entity.idUserCreator, UserRoles.teacher_admin);
+            const enroll1 = EnrollSrv.fromData(entity.idCourse, UserRoles.teacher_admin);
             entity.enrolls = [ enroll1 ];
         }
+        */
         return this.repository.save(entity);
     }
 

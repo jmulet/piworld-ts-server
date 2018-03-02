@@ -3,7 +3,7 @@ import { VisualizationQuizzModel } from './VisualizationQuizzModel';
 import { LoginsModel } from '../../main.app/entities';
 
 
-@Entity("visualization")
+@Entity("class_visualization")
 export class VisualizationModel {
 
     @PrimaryGeneratedColumn("increment", { type: "int" })
@@ -30,12 +30,14 @@ export class VisualizationModel {
         default: 0
     })
     vseconds: number;
-    
-    @OneToMany( (type)=> VisualizationQuizzModel, (visualizationQuizz) => visualizationQuizz.visualization)
-    visualizationUsers: VisualizationQuizzModel[];
-
+   
     //Many visualization can be of one login
-    @ManyToOne( (type)=> LoginsModel, (logins)=>logins.visualizations, {onDelete:'CASCADE'})
+    @ManyToOne( (type)=> LoginsModel, (logins)=>logins._visualizations)
     @JoinColumn({name: "idLogins"})
-    logins: LoginsModel;
+    _logins: LoginsModel;
+
+     
+    @OneToMany( (type)=> VisualizationQuizzModel, (visualizationQuizz) => visualizationQuizz._visualization, {onDelete: "CASCADE", cascade: ["remove"]})
+    _visualizationUsers: VisualizationQuizzModel[];
+
 }

@@ -23,7 +23,7 @@ export class SchoolSrv {
     }
 
     findById(schoolId: number) {
-        return this.schoolsRepository.findOneById(schoolId);
+        return this.schoolsRepository.findOne({id: schoolId});
     }
 
     save(entity: SchoolModel){
@@ -38,7 +38,7 @@ export class SchoolSrv {
         if (entity.schoolName === 'buildin_admin_school') {
             return false;
         }
-        return this.schoolsRepository.delete(entity);
+        return this.schoolsRepository.remove(entity);
     }
 
     async deleteById(id: number) {

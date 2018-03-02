@@ -5,21 +5,11 @@ import { UserModel } from './UserModel';
 import { VisualizationModel } from '../../classroom.app/entities';
 
 
-@Entity("logins")
+@Entity("pw_logins")
 export class LoginsModel {
-
-    static fromData(idUser = 0, ip = "", login = new Date(), parents: 0 | 1 = 0): LoginsModel  {
-        const logInstance = new LoginsModel();
-        logInstance.idUser = idUser;
-        logInstance.ip = ip;
-        logInstance.login = login;
-        logInstance.parents = parents;
-        return logInstance;
-    }
 
     @PrimaryGeneratedColumn("increment", { type: "int" })
     id: number;
-
 
     @Column("int", {
         nullable: true,
@@ -59,12 +49,12 @@ export class LoginsModel {
     })
     logout: Date;
 
-    @ManyToOne(type => UserModel, (user)=> user.logins, {onDelete: "CASCADE"})
+    @ManyToOne(type => UserModel, (user)=> user._logins)
     @JoinColumn({ name: "idUser" })
-    user: UserModel;
+    _user: UserModel;
 
-    @OneToMany(type => VisualizationModel, (visualization)=> visualization.logins)
-    visualizations: VisualizationModel[];
+    @OneToMany(type => VisualizationModel, (visualization)=> visualization._logins, {onDelete: "CASCADE", cascade: ["remove"]})
+    _visualizations: VisualizationModel[];
     
     @BeforeInsert()
     setLoginDate() {

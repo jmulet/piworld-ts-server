@@ -19,7 +19,7 @@ export class UserSrv {
     findByUsername(username: string){
         // Load the school relationship as well
         return  this.userRepository.createQueryBuilder("user")
-            .innerJoinAndSelect("user.school", "school")
+            .innerJoinAndSelect("user._school", "school")
             .where("user.username = :username")
             .setParameters({ username: username})
             .getOne();
@@ -45,7 +45,7 @@ export class UserSrv {
     }
 
     findById(id) {
-        return this.userRepository.findOneById(id);
+        return this.userRepository.findOne({id: id});
     }
 
     delete(entity: UserModel){

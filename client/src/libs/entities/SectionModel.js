@@ -1,6 +1,6 @@
 var pwApp = window.pwApp || {};
 pwApp.entities = pwApp.entities || {};
-pwApp.entities['ActivityModel'] = {
+pwApp.entities['SectionModel'] = {
   "properties": [
     {
       "name": "id",
@@ -9,62 +9,62 @@ pwApp.entities['ActivityModel'] = {
       "generated": true
     },
     {
-      "name": "levels",
-      "type": "json",
-      "nullable": false,
-      "generated": false
-    },
-    {
-      "name": "idSubject",
+      "name": "idUnit",
       "type": "int",
       "nullable": false,
       "generated": false
     },
     {
-      "name": "activity",
-      "type": "json",
+      "name": "idActivity",
+      "type": "int",
       "nullable": false,
       "generated": false
     },
     {
-      "name": "activityType",
-      "type": "varchar",
+      "name": "idUserCreator",
+      "type": "int",
       "nullable": false,
       "generated": false
     },
     {
-      "name": "share",
-      "type": "tinyint",
-      "nullable": false,
-      "generated": false
-    },
-    {
-      "name": "createdBy",
-      "type": "varchar",
-      "nullable": false,
-      "generated": false
-    },
-    {
-      "name": "createdWhen",
+      "name": "postDate",
       "type": "datetime",
       "nullable": false,
       "generated": false
     },
     {
-      "name": "description",
-      "type": "json",
-      "nullable": false,
-      "generated": false
-    },
-    {
-      "name": "difficulty",
+      "name": "order",
       "type": "int",
       "nullable": false,
       "generated": false
     },
     {
-      "name": "icon",
-      "type": "varchar",
+      "name": "fromDate",
+      "type": "datetime",
+      "nullable": false,
+      "generated": false
+    },
+    {
+      "name": "toDate",
+      "type": "datetime",
+      "nullable": false,
+      "generated": false
+    },
+    {
+      "name": "maxAttempts",
+      "type": "tinyint",
+      "nullable": false,
+      "generated": false
+    },
+    {
+      "name": "instructions",
+      "type": "longtext",
+      "nullable": false,
+      "generated": false
+    },
+    {
+      "name": "applyToAll",
+      "type": "tinyint",
       "nullable": false,
       "generated": false
     },
@@ -75,25 +75,25 @@ pwApp.entities['ActivityModel'] = {
       "generated": false
     },
     {
-      "name": "counter",
-      "type": "int",
+      "name": "visible",
+      "type": "tinyint",
       "nullable": false,
       "generated": false
     }
   ],
   "defaultObject": {
     "id": null,
-    "levels": null,
-    "idSubject": 1,
-    "activity": null,
-    "activityType": "V",
-    "share": 2,
-    "createdBy": null,
-    "createdWhen": null,
-    "description": null,
-    "difficulty": null,
-    "icon": null,
+    "idUnit": null,
+    "idActivity": null,
+    "idUserCreator": null,
+    "postDate": null,
+    "order": 0,
+    "fromDate": null,
+    "toDate": null,
+    "maxAttempts": 0,
+    "instructions": null,
+    "applyToAll": 0,
     "params": null,
-    "counter": 0
+    "visible": 1
   }
 };

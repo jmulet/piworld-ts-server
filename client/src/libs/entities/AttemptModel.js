@@ -1,6 +1,6 @@
 var pwApp = window.pwApp || {};
 pwApp.entities = pwApp.entities || {};
-pwApp.entities['ChallengesQuizzModel'] = {
+pwApp.entities['AttemptModel'] = {
   "properties": [
     {
       "name": "id",
@@ -9,7 +9,7 @@ pwApp.entities['ChallengesQuizzModel'] = {
       "generated": true
     },
     {
-      "name": "idChallenge",
+      "name": "idSectionAssign",
       "type": "int",
       "nullable": false,
       "generated": false
@@ -21,37 +21,44 @@ pwApp.entities['ChallengesQuizzModel'] = {
       "generated": false
     },
     {
-      "name": "idCourse",
-      "type": "int",
-      "nullable": false,
-      "generated": false
-    },
-    {
-      "name": "when",
+      "name": "attemptStart",
       "type": "datetime",
       "nullable": false,
       "generated": false
     },
     {
-      "name": "answer",
-      "type": "longtext",
+      "name": "attemptEnd",
+      "type": "datetime",
       "nullable": false,
       "generated": false
     },
     {
-      "name": "valid",
+      "name": "done",
       "type": "tinyint",
+      "nullable": false,
+      "generated": false
+    },
+    {
+      "name": "score",
+      "type": "int",
+      "nullable": false,
+      "generated": false
+    },
+    {
+      "name": "level",
+      "type": "int",
       "nullable": false,
       "generated": false
     }
   ],
   "defaultObject": {
     "id": null,
-    "idChallenge": null,
+    "idSectionAssign": null,
     "idUser": null,
-    "idCourse": null,
-    "when": null,
-    "answer": null,
-    "valid": null
+    "attemptStart": null,
+    "attemptEnd": null,
+    "done": null,
+    "score": 0,
+    "level": 0
   }
 };

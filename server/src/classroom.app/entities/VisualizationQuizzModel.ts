@@ -3,32 +3,32 @@ import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 't
 import { IntRangeValidator } from '../../main.app/validators/IntRangeValidator';
 import { VisualizationModel } from './VisualizationModel';
 
-@Entity("visualization_quizz")
+@Entity("class_visualization_quizz")
 export class VisualizationQuizzModel {
-     
+
     @PrimaryGeneratedColumn("increment", { type: "int" })
     id: number;
 
     @Column("int")
     idVisualization: number;
- 
-    @Column("longtext")
-    answer: string;      
 
     @Column("longtext")
-    rightAnwer: string;      
+    answer: string;
+
+    @Column("longtext")
+    rightAnwer: string;
 
     @Validate(IntRangeValidator, [0, 1])
     @Column("tinyint")
-    isValid: number;      
+    isValid: number;
 
     @Column("tinyint", {
         default: 0
     })
     penalty: number;
-     
-    @ManyToOne( (type)=> VisualizationModel, (visualization) => visualization.visualizationUsers, {onDelete: "CASCADE"})
-    @JoinColumn({name: "idVisualization"})
-    visualization: VisualizationModel;
-         
+
+    @ManyToOne((type) => VisualizationModel, (visualization) => visualization._visualizationUsers)
+    @JoinColumn({ name: "idVisualization" })
+    _visualization: VisualizationModel;
+
 }

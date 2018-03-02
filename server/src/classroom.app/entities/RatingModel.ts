@@ -1,8 +1,9 @@
 import { IsDate, IsNotEmpty } from 'class-validator';
 import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { ActivityModel } from './ActivityModel';
+import { UserModel } from '../../main.app/entities/UserModel';
 
-@Entity("ratings")
+@Entity("class_ratings")
 export class RatingModel {
 
     @PrimaryGeneratedColumn("increment", { type: "int" })
@@ -24,7 +25,11 @@ export class RatingModel {
     })
     vrate: number;
 
-    @ManyToOne( (type)=> ActivityModel, (activity) => activity.ratings, {onDelete: "CASCADE"})
+    @ManyToOne( (type)=> ActivityModel, (activity) => activity._ratings,)
     @JoinColumn({name: "idActivity"})
-    activity: ActivityModel;
+    _activity: ActivityModel;
+
+    @ManyToOne( (type)=> UserModel, (user) => user._ratings)
+    @JoinColumn({name: "idUser"})
+    _user: UserModel;
 }

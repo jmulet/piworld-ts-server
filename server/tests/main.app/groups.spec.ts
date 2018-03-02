@@ -2,12 +2,12 @@ import 'es6-shim';
 import 'reflect-metadata';
 
 import * as chai from 'chai';
-import {GroupsModel} from '../../src/main.app/entities/GroupsModel';
+import {GroupsModel} from '../../src/classroom.app/entities/GroupsModel';
 import {config} from '../../src/server.config';
 import { TestConfig } from '../TestConfig';
 import { EnrollModel, UserModel } from '../../src/main.app/entities';
 import { UserRoles } from '../../src/main.app/entities/UserModel';
-import { GroupsSrv } from '../../src/main.app/services/GroupsSrv';
+import { GroupsSrv } from '../../src/classroom.app/services/GroupsSrv';
 const expect = chai.expect;
 const chaiHttp = require('chai-http');
 chai.use(chaiHttp);

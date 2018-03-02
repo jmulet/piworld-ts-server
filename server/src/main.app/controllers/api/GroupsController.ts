@@ -1,8 +1,8 @@
 import { Controller, Get, Render, Session, UseBefore, Body, Delete, QueryParam, Post } from 'routing-controllers';
 import { Inject } from 'typedi';
 import { AuthenticatedMdw } from '../../middlewares/AuthenticatedMdw';
-import { GroupsModel } from '../../entities/GroupsModel';
-import { GroupsSrv } from '../../services/GroupsSrv';
+import { GroupsModel } from '../../../classroom.app/entities/GroupsModel';
+import { GroupsSrv } from '../../../classroom.app/services/GroupsSrv';
 import { AdminsAndTeachersOnly } from '../../middlewares/AuthorizedMdw';
 
 @Controller("/api/group")

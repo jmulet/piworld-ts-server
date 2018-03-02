@@ -4,7 +4,7 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { ChallengesQuizzModel } from './ChallengesQuizzModel';
 
 
-@Entity("challenges")
+@Entity("class_challenges")
 export class ChallengesModel {
 
     @PrimaryGeneratedColumn("increment", { type: "int" })
@@ -37,6 +37,6 @@ export class ChallengesModel {
     @Column("longtext")
     ranswer: string;
 
-    @OneToMany( (type)=> ChallengesQuizzModel, (challengeQuizz) => challengeQuizz.challenge)
-    challengeUsers: ChallengesQuizzModel[];
+    @OneToMany( (type)=> ChallengesQuizzModel, (challengeQuizz) => challengeQuizz._challenge, {onDelete: "CASCADE", cascade: ["remove"]})
+    _challengeUsers: ChallengesQuizzModel[];
 }

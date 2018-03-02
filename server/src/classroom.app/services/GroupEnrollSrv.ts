@@ -1,19 +1,19 @@
 import { Service } from 'typedi';
 import { getRepository, Repository } from 'typeorm';
 
-import { EnrollModel } from '../entities/EnrollModel';
+import { GroupsEnrollModel } from '../entities/GroupsEnrollModel';
 
 
 @Service()
 export class EnrollSrv {
-    enrollRepository: Repository<EnrollModel>;
+    enrollRepository: Repository<GroupsEnrollModel>;
 
     constructor() {
-        this.enrollRepository = getRepository(EnrollModel);
+        this.enrollRepository = getRepository(GroupsEnrollModel);
     }
 
     static fromData(idUser?: number, idRole?: number) {
-        const entity = new EnrollModel();
+        const entity = new GroupsEnrollModel();
         entity.idUser= idUser;
         entity.idRole = idRole;
         return entity;
@@ -26,7 +26,7 @@ export class EnrollSrv {
      */
     list(idUser: number) {
         return this.enrollRepository.createQueryBuilder("enroll")
-            .innerJoinAndSelect("enroll.group", "group")
+            .innerJoinAndSelect("enroll._group", "group")
             .where("enroll.idUser=:idUser", {idUser: idUser})
             .getMany();
     }

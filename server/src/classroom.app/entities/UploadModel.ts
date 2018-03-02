@@ -1,14 +1,16 @@
 import { IsNotEmpty } from 'class-validator';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { SectionModel } from './SectionModel';
+import { UserModel } from '../../main.app/entities/UserModel';
  
-@Entity("uploads")
+@Entity("class_uploads")
 export class UploadModel {
 
     @PrimaryGeneratedColumn("increment", {type: "int"})
     id:number;
         
     @Column("int")
-    idAssignment: number;
+    idSection: number;
         
     @Column("int")
     idUser: number;
@@ -31,4 +33,12 @@ export class UploadModel {
 
     @Column("longtext")
     feedback: string;
+
+    @ManyToOne((type) => SectionModel, (section) => section._uploads)
+    @JoinColumn({name: "idSection"})
+    _section: SectionModel;
+
+    @ManyToOne((type) => UserModel, (users) => users._uploads)
+    @JoinColumn({name: "idUser"})
+    _user: number;
 }

@@ -1,7 +1,9 @@
 import { IsDate, IsNotEmpty } from 'class-validator';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { UserModel } from '../../main.app/entities/UserModel';
+import { ActivityModel } from './ActivityModel';
 
-@Entity("comments")
+@Entity("class_comments")
 export class CommentModel {
 
     @PrimaryGeneratedColumn("increment", { type: "int" })
@@ -20,4 +22,12 @@ export class CommentModel {
     @IsNotEmpty()
     @Column("longtext")
     comment: string;
+
+    @ManyToOne((type) => UserModel, (users)=>users._comments)
+    @JoinColumn({name: "idUser"})
+    _user: UserModel;
+ 
+    @ManyToOne((type) => ActivityModel, (activity)=>activity._comments)
+    @JoinColumn({name: "idActivity"})
+    _activity: ActivityModel;    
 }

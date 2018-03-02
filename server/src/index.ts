@@ -11,6 +11,8 @@ import { PwHttpServer } from './server';
 import { MainApp } from './main.app/';
 import { AdminApp } from './admin.app/';
 import { ClassroomApp } from './classroom.app/';
+import { PdaApp } from './pda.app/';
+import { BooksApp } from './books.app/';
 
 const colors = require('colors/safe');
   
@@ -28,7 +30,10 @@ createConnection({
     /* Remember to add entities from loaded apps here */
     entities: [...MainApp.entities,
                ...AdminApp.entities,
-               ...ClassroomApp.entities],
+               ...ClassroomApp.entities,
+               ...BooksApp.entities,
+               ...PdaApp.entities
+            ],
     synchronize: true,
     logging:  process.env.NODE_ENV !== 'production'
 
@@ -41,6 +46,8 @@ createConnection({
     pwServer.install(MainApp);
     pwServer.install(AdminApp);
     pwServer.install(ClassroomApp);
+    pwServer.install(PdaApp);
+    pwServer.install(BooksApp);
 
     pwServer.listen({handleErrors: (process.env.NODE_ENV === 'production'), mountStaticPrivate: true});
 

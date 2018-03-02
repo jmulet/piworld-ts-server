@@ -6,7 +6,7 @@ import { LangValidator } from '../validators/LangValidator';
 import { UserModel } from './UserModel';
 import { IntRangeValidator } from '../validators/IntRangeValidator';
 
-@Entity("schools") 
+@Entity("pw_schools") 
 export class SchoolModel {
     changed: boolean;
 
@@ -66,8 +66,8 @@ export class SchoolModel {
     canPublish:number;
 
     // One School may have many members
-    @OneToMany((type) => UserModel, (user) => user.school)
-    members: UserModel[];
+    @OneToMany((type) => UserModel, (user) => user._school)
+    _members: UserModel[];
 
     @BeforeInsert()
     checkEmails() {

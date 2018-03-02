@@ -12,6 +12,15 @@ export class LoginsSrv {
         this.loginsRepository = getRepository(LoginsModel);
     }
 
+    static fromData(idUser = 0, ip = "", login = new Date(), parents: 0 | 1 = 0): LoginsModel  {
+        const logInstance = new LoginsModel();
+        logInstance.idUser = idUser;
+        logInstance.ip = ip;
+        logInstance.login = login;
+        logInstance.parents = parents;
+        return logInstance;
+    }
+    
     //Important return statement since a promise is returned to the controller layer
     save(login: LoginsModel) {
         return this.loginsRepository.save(login);

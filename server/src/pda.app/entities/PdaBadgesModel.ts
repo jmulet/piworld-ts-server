@@ -1,15 +1,14 @@
-import { IsDate, IsNotEmpty } from 'class-validator';
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
-import { UserModel } from '../../main.app/entities/UserModel';
-import { CourseModel } from './CourseModel';
 
-
-@Entity("class_badges")
-export class BadgesModel {
-
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { IsNotEmpty, IsDate } from 'class-validator';
+import { UserModel } from '../../main.app/entities';
+import { GroupsModel } from '../../classroom.app/entities';
+  
+@Entity("pda_badges")
+export class PdaBadgesModel {
     @PrimaryGeneratedColumn("increment", { type: "int" })
     id: number;
-
+    
     @Column("int")
     idUser: number;
 
@@ -17,7 +16,7 @@ export class BadgesModel {
     idCreator: number;
 
     @Column("int")
-    idCourse: number;
+    idGroup: number;
 
     @Column("tinyint", {
         nullable: true
@@ -37,6 +36,9 @@ export class BadgesModel {
     })
     rscore: number;
 
+    @Column("longtext")
+    description: string;
+
     @ManyToOne( (type) => UserModel, (user) => user._badgesOwned)
     @JoinColumn({name: "idUser"})
     _user: UserModel;
@@ -45,8 +47,8 @@ export class BadgesModel {
     @JoinColumn({name: "idCreator"})
     _creator: UserModel;
 
-    @ManyToOne( (type) => CourseModel, (course) => course._badges)
-    @JoinColumn({name: "idCourse"})
-    _course: CourseModel;
+    @ManyToOne( (type) => GroupsModel, (group) => group._pdaBadges)
+    @JoinColumn({name: "idGroup"})
+    _group: GroupsModel;
 
 }

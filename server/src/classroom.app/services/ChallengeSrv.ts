@@ -26,7 +26,7 @@ export class ChallengeSrv {
 
     list(level: string, day: Date, idUser?: number) {
  
-        let builder = this.challengesRepository.createQueryBuilder("c").innerJoinAndSelect("c.challengeUsers", "cu")
+        let builder = this.challengesRepository.createQueryBuilder("c").innerJoinAndSelect("c._challengeUsers", "cu")
             .where("c.level=:level", {level: level}).andWhere("c.day=:day", {day: day});
         
         if (idUser) {

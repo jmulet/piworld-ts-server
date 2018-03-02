@@ -1,21 +1,25 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, BeforeInsert } from 'typeorm';
 
-import { AssignmentUsersModel } from './AssignmentUsersModel';
-import { UnitModel } from './UnitModel';
-
+import { SectionAssignModel } from './SectionAssignModel';
+import { UnitModel } from './UnitModel'; 
+import { ActivityModel } from './ActivityModel';
+import { UploadModel } from '.';
   
  
-@Entity("assignments")
-export class AssignmentModel {
+@Entity("class_sections")
+export class SectionModel {
 
     @PrimaryGeneratedColumn("increment", {type: "int"})
     id:number;
 
     @Column("int")
-    idUser: number;
+    idUnit: number;
 
     @Column("int")
-    idUnit: number;
+    idActivity: number;
+
+    @Column("int")
+    idUserCreator: number;
 
     @Column("datetime")
     postDate: Date;
@@ -57,17 +61,25 @@ export class AssignmentModel {
     visible: number;
 
     // Reference to the parent unit of this assignment
-    @ManyToOne( (type)=> UnitModel, (unit) => unit.assignments, {onDelete: "CASCADE", cascade: true})
+    @ManyToOne( (type)=> UnitModel, (unit) => unit._sections)
     @JoinColumn({name: "idUnit"})
-    unit: UnitModel;
+    _unit: UnitModel;
 
-     // Reference to the list of user assignments
-     @OneToMany( (type)=> AssignmentUsersModel, (assignmentUsers) => assignmentUsers.assignment)
-     assignmentUsers: AssignmentUsersModel[];
+
+    @ManyToOne( (type)=> ActivityModel, (activity) => activity._sections)
+    @JoinColumn({name: "idActivity"})
+    _activity: ActivityModel;
+
+    @OneToMany((type) => UploadModel, (upload) => upload._section, {onDelete: "CASCADE", cascade: ["remove"]})
+    _uploads: UploadModel[];
+    
+    // Reference to the list of user assignments
+    @OneToMany( (type)=> SectionAssignModel, (sectionAssignment) => sectionAssignment._section, {onDelete: "CASCADE", cascade: ["remove"]})
+    _sectionAssignments: SectionAssignModel[];
         
-     @BeforeInsert()
-     update(){
+    @BeforeInsert()
+    update(){
         this.postDate = new Date();
         this.params = this.params || {};
-     }
+    }
 }

@@ -10,7 +10,7 @@ import { cookieParser } from '../utils/CookieParser';
 import { AnonymousOnlyMdw } from '../middlewares/AnonymousOnlyMdw';
 import { TranslationMdw } from '../middlewares/TranslationMdw';
 import { SessionModel } from '../model/SessionModel';
-import { EnrollSrv } from '../services/EnrollSrv';
+import { EnrollSrv } from '../../classroom.app/services/GroupEnrollSrv';
 import { LoginsSrv } from '../services/LoginsSrv';
 import { SessionSrv } from '../services/SessionSrv';
 import { UserSrv } from '../services/UserSrv';
@@ -105,7 +105,7 @@ export class LoginController {
                 // load session data
                 const connectSid = cookieParser(request)[config.basePrefix+"pwsid"];
                 const parents = credentials.parents ? 1 : 0;
-                const logins = LoginsModel.fromData(user.id, ipAddr + '', new Date(), parents);
+                const logins = LoginsSrv.fromData(user.id, ipAddr + '', new Date(), parents);
                 await this.loginsSrv.save(logins);
                 const enrolls = await this.enrollSrv.list(user.id);
                 

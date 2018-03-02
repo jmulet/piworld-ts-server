@@ -21,11 +21,11 @@ export class NewsSrv {
     }
 
     public delete(entity: NewsModel) {
-        return this.newsRepository.delete(entity);
+        return this.newsRepository.remove(entity);
     }
 
     public async deleteById(id: number) {
-        const entity = await this.newsRepository.findOneById(id);
-        return this.newsRepository.delete(entity);
+        const entity = await this.newsRepository.find({id: id});
+        return this.newsRepository.remove(entity);
     }
 }

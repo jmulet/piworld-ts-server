@@ -1,9 +1,9 @@
 import { Container } from 'typedi/Container';
 
-import { EnrollModel } from '../entities/EnrollModel';
+import { EnrollModel } from '../../classroom.app/entities/GroupsEnrollModel';
 import { LoginsModel } from '../entities/LoginsModel';
 import { UserModel, UserRoles } from '../entities/UserModel';
-import { EnrollSrv } from './EnrollSrv';
+import { EnrollSrv } from '../../classroom.app/services/GroupEnrollSrv';
 import { LoginsSrv } from './LoginsSrv';
 import { UserSrv } from './UserSrv';
 

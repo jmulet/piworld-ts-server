@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { MinLength, IsInt, Min, IsOptional, IsDate } from 'class-validator';
 
-@Entity("news")
+@Entity("pw_news")
 export class NewsModel {
 
     @PrimaryGeneratedColumn("increment", {type: "int"})

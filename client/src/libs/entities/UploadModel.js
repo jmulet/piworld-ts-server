@@ -9,7 +9,7 @@ pwApp.entities['UploadModel'] = {
       "generated": true
     },
     {
-      "name": "idAssignment",
+      "name": "idSection",
       "type": "int",
       "nullable": false,
       "generated": false
@@ -53,7 +53,7 @@ pwApp.entities['UploadModel'] = {
   ],
   "defaultObject": {
     "id": null,
-    "idAssignment": null,
+    "idSection": null,
     "idUser": null,
     "file": null,
     "message": null,

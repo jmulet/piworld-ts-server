@@ -1,11 +1,11 @@
 import { Validate } from 'class-validator';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-import { RoleValidator } from '../validators/RoleValidator';
+import { RoleValidator } from '../../main.app/validators/RoleValidator';
 import { GroupsModel } from './GroupsModel';
 
-@Entity("groups_enroll")
-export class EnrollModel {
+@Entity("class_course_groups_enroll")
+export class GroupsEnrollModel {
 
 
     @PrimaryGeneratedColumn("increment", {type: "int"})
@@ -29,7 +29,7 @@ export class EnrollModel {
     idRole:number;
 
     //Many enroll entries belong to a single group
-    @ManyToOne(type => GroupsModel, group => group.enrolls, {onDelete: "CASCADE"})
+    @ManyToOne(type => GroupsModel, group => group._enrolls)
     @JoinColumn({name: "idGroup"})
-    group: GroupsModel;    
+    _group: GroupsModel;    
 }

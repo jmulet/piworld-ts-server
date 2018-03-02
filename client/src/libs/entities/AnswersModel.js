@@ -1,6 +1,6 @@
 var pwApp = window.pwApp || {};
 pwApp.entities = pwApp.entities || {};
-pwApp.entities['ChatModel'] = {
+pwApp.entities['AnswersModel'] = {
   "properties": [
     {
       "name": "id",
@@ -9,49 +9,35 @@ pwApp.entities['ChatModel'] = {
       "generated": true
     },
     {
-      "name": "idCourse",
+      "name": "idQuestion",
       "type": "int",
       "nullable": false,
       "generated": false
     },
     {
-      "name": "idUser",
-      "type": "int",
+      "name": "answer",
+      "type": "text",
       "nullable": false,
       "generated": false
     },
     {
-      "name": "day",
-      "type": "datetime",
-      "nullable": false,
-      "generated": false
-    },
-    {
-      "name": "msg",
-      "type": "longtext",
-      "nullable": false,
-      "generated": false
-    },
-    {
-      "name": "isFor",
-      "type": "int",
-      "nullable": false,
-      "generated": false
-    },
-    {
-      "name": "parents",
+      "name": "isCorrect",
       "type": "tinyint",
+      "nullable": false,
+      "generated": false
+    },
+    {
+      "name": "seconds",
+      "type": "int",
       "nullable": false,
       "generated": false
     }
   ],
   "defaultObject": {
     "id": null,
-    "idCourse": null,
-    "idUser": null,
-    "day": null,
-    "msg": null,
-    "isFor": null,
-    "parents": null
+    "idQuestion": null,
+    "answer": null,
+    "isCorrect": null,
+    "seconds": null
   }
 };

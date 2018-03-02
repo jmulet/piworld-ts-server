@@ -21,7 +21,7 @@ pwApp.entities['GroupsModel'] = {
       "generated": false
     },
     {
-      "name": "idUserCreator",
+      "name": "idCourse",
       "type": "int",
       "nullable": false,
       "generated": false
@@ -39,7 +39,7 @@ pwApp.entities['GroupsModel'] = {
       "generated": false
     },
     {
-      "name": "subject",
+      "name": "_creator",
       "type": "int",
       "nullable": false,
       "generated": false
@@ -49,9 +49,9 @@ pwApp.entities['GroupsModel'] = {
     "id": null,
     "name": null,
     "year": null,
-    "idUserCreator": "0",
+    "idCourse": "0",
     "gopts": null,
     "thmcss": null,
-    "subject": null
+    "_creator": null
   }
 };

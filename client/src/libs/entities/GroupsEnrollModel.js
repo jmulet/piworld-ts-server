@@ -1,6 +1,6 @@
 var pwApp = window.pwApp || {};
 pwApp.entities = pwApp.entities || {};
-pwApp.entities['ChallengesQuizzModel'] = {
+pwApp.entities['GroupsEnrollModel'] = {
   "properties": [
     {
       "name": "id",
@@ -9,7 +9,7 @@ pwApp.entities['ChallengesQuizzModel'] = {
       "generated": true
     },
     {
-      "name": "idChallenge",
+      "name": "idGroup",
       "type": "int",
       "nullable": false,
       "generated": false
@@ -21,37 +21,16 @@ pwApp.entities['ChallengesQuizzModel'] = {
       "generated": false
     },
     {
-      "name": "idCourse",
+      "name": "idRole",
       "type": "int",
-      "nullable": false,
-      "generated": false
-    },
-    {
-      "name": "when",
-      "type": "datetime",
-      "nullable": false,
-      "generated": false
-    },
-    {
-      "name": "answer",
-      "type": "longtext",
-      "nullable": false,
-      "generated": false
-    },
-    {
-      "name": "valid",
-      "type": "tinyint",
       "nullable": false,
       "generated": false
     }
   ],
   "defaultObject": {
     "id": null,
-    "idChallenge": null,
+    "idGroup": null,
     "idUser": null,
-    "idCourse": null,
-    "when": null,
-    "answer": null,
-    "valid": null
+    "idRole": 200
   }
 };

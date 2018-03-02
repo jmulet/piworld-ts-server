@@ -3,9 +3,11 @@ import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 't
 
 import { IntRangeValidator } from '../../main.app/validators/IntRangeValidator';
 import { ChallengesModel } from './ChallengesModel';
+import { UserModel } from '../../main.app/entities/UserModel';
+import { CourseModel } from './CourseModel';
 
 
-@Entity("challenges_quizz")
+@Entity("class_challenges_quizz")
 export class ChallengesQuizzModel {
     @PrimaryGeneratedColumn("increment", { type: "int" })
     id: number;
@@ -15,6 +17,9 @@ export class ChallengesQuizzModel {
 
     @Column("int")
     idUser: number;
+
+    @Column("int")
+    idCourse: number;
 
     @IsDate()
     @Column("datetime")
@@ -26,10 +31,17 @@ export class ChallengesQuizzModel {
     @Validate(IntRangeValidator, [0,1])
     @Column("tinyint")
     valid: number
-
     
-    @ManyToOne( (type)=> ChallengesModel, (challenge) => challenge.challengeUsers, {onDelete: "CASCADE", cascadeAll: true})
+    @ManyToOne( (type)=> ChallengesModel, (challenge) => challenge._challengeUsers)
     @JoinColumn({name: "idChallenge"})
-    challenge: ChallengesModel;
+    _challenge: ChallengesModel;
+
+    @ManyToOne( (type)=> UserModel, (user) => user._challengeUsers)
+    @JoinColumn({name: "idUser"})
+    _user: UserModel;
+
+    @ManyToOne( (type)=> CourseModel, (course) => course._challengeUsers)
+    @JoinColumn({name: "idCourse"})
+    _course: CourseModel;
          
 }

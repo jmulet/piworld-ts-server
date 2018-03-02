@@ -1,9 +1,9 @@
 import { IsNotEmpty, Validate } from 'class-validator';
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
-import { GroupsModel } from '../../main.app/entities/GroupsModel';
+import { GroupsModel } from './GroupsModel';
 import { IntRangeValidator } from '../../main.app/validators/IntRangeValidator';
-import { AssignmentModel } from './AssignmentModel';
+import { SectionModel } from './SectionModel';
 import { CourseModel } from './CourseModel';
 
 export enum UnitVisibility {
@@ -13,7 +13,7 @@ export enum UnitVisibility {
     expanded = 3
 }
 
-@Entity("units")
+@Entity("class_units")
 export class UnitModel {
 
     constructor(unit?: string, idCourse?: number, visible?: 0 | 1 | 2 ) {
@@ -50,12 +50,12 @@ export class UnitModel {
     visible: number;
 
     // Reference to the parent group of this unit
-    @ManyToOne((type)=> CourseModel, (course) => course.units, {onDelete: "CASCADE", cascade: true})
+    @ManyToOne((type)=> CourseModel, (course) => course._units)
     @JoinColumn({name: "idCourse"})
-    course: CourseModel;
+    _course: CourseModel;
 
      // Reference to the parent unit of this assignment
-     @OneToMany((type)=> AssignmentModel, (assignment) => assignment.unit, {cascade: ["insert", "update"]})
-     assignments: AssignmentModel[];
+     @OneToMany((type)=> SectionModel, (section) => section._unit, {onDelete: "CASCADE", cascade: ["remove"]})
+     _sections: SectionModel[];
         
 }

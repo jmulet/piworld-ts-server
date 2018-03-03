@@ -2,3 +2,4 @@
 ./src/server.config.ts
 ./node_modules/
 ./dist
+./ormconfig.json

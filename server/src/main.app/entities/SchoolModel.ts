@@ -5,6 +5,12 @@ import { I18n } from '../services/I18n';
 import { LangValidator } from '../validators/LangValidator';
 import { UserModel } from './UserModel';
 import { IntRangeValidator } from '../validators/IntRangeValidator';
+import { HolidayModel } from './HolidayModel';
+import { TermsModel } from './TermsModel'; 
+
+export interface SchoolOptions {
+    year: number;
+}
 
 @Entity("pw_schools") 
 export class SchoolModel {
@@ -65,9 +71,18 @@ export class SchoolModel {
         })
     canPublish:number;
 
+    @Column("json")
+    sopts: SchoolOptions;
+
     // One School may have many members
     @OneToMany((type) => UserModel, (user) => user._school)
     _members: UserModel[];
+
+    @OneToMany((type)=>HolidayModel, (holiday)=>holiday._school, {onDelete: "CASCADE", cascade: ["remove"]})
+    _holidays: HolidayModel[];
+
+    @OneToMany((type)=>TermsModel, (term)=>term._school, {onDelete: "CASCADE", cascade: ["remove"]})
+    _terms: TermsModel[];
 
     @BeforeInsert()
     checkEmails() {

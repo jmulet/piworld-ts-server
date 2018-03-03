@@ -49,6 +49,12 @@ pwApp.entities['SchoolModel'] = {
       "type": "tinyint",
       "nullable": false,
       "generated": false
+    },
+    {
+      "name": "sopts",
+      "type": "json",
+      "nullable": false,
+      "generated": false
     }
   ],
   "defaultObject": {
@@ -59,6 +65,7 @@ pwApp.entities['SchoolModel'] = {
     "language": "en",
     "enrollPassword": null,
     "canEnroll": 0,
-    "canPublish": 1
+    "canPublish": 1,
+    "sopts": null
   }
 };

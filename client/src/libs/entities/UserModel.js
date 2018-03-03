@@ -9,6 +9,12 @@ pwApp.entities['UserModel'] = {
       "generated": true
     },
     {
+      "name": "schoolId",
+      "type": "int",
+      "nullable": false,
+      "generated": false
+    },
+    {
       "name": "idRole",
       "type": "int",
       "nullable": false,
@@ -33,18 +39,6 @@ pwApp.entities['UserModel'] = {
       "generated": false
     },
     {
-      "name": "passwordParents",
-      "type": "text",
-      "nullable": false,
-      "generated": false
-    },
-    {
-      "name": "emailParents",
-      "type": "text",
-      "nullable": false,
-      "generated": false
-    },
-    {
       "name": "mustChgPwd",
       "nullable": false,
       "generated": false
@@ -62,20 +56,14 @@ pwApp.entities['UserModel'] = {
       "generated": false
     },
     {
-      "name": "phone",
+      "name": "recovery",
       "type": "text",
       "nullable": false,
       "generated": false
     },
     {
-      "name": "schoolId",
-      "type": "int",
-      "nullable": false,
-      "generated": false
-    },
-    {
       "name": "created",
-      "type": "date",
+      "type": "datetime",
       "nullable": false,
       "generated": false
     },
@@ -94,18 +82,15 @@ pwApp.entities['UserModel'] = {
   ],
   "defaultObject": {
     "id": null,
+    "schoolId": 1,
     "idRole": null,
     "username": null,
     "fullname": null,
     "password": null,
-    "passwordParents": null,
-    "emailParents": null,
     "mustChgPwd": 0,
     "email": null,
     "emailPassword": null,
-    "phone": null,
-    "schoolId": 1,
-    "created": null,
+    "recovery": null,
     "valid": 1,
     "uopts": null
   }

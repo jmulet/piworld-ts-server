@@ -1,5 +1,5 @@
 import { PasswordValidator } from '../validators/PasswordValidator';
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, ManyToOne, OneToMany, BeforeInsert, BeforeUpdate, AfterUpdate } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, ManyToOne, OneToMany, BeforeInsert, BeforeUpdate, AfterUpdate, CreateDateColumn } from 'typeorm';
 
 import { SchoolModel } from './SchoolModel';
 import { JsonStringValidator } from '../validators/JsonStringValidator';
@@ -10,6 +10,8 @@ import { IntRangeValidator } from '../validators/IntRangeValidator';
 import { LoginsModel } from './LoginsModel';
 import { UploadModel, CommentModel, ChallengesQuizzModel, BadgesModel, RatingModel, ChatModel } from '../../classroom.app/entities';
 import { PdaBadgesModel, PdaActivityGrades } from '../../pda.app/entities';
+import { OffspringModel } from './OffspringModel';
+import { PdaMessageModel } from '../../pda.app/entities/PdaMessageModel';
 
 
 export abstract class UserRoles {
@@ -30,6 +32,10 @@ export class UserModel {
 
     @PrimaryGeneratedColumn("increment", {type: "int"})
     id:number;
+        
+    @IsInt()
+    @Column({default: 1})
+    schoolId: number;
 
     @Validate(RoleValidator)
     @Column("int")
@@ -45,23 +51,9 @@ export class UserModel {
     fullname: string;
     
     @IsNotEmpty()
-    @Column("text")
+    @Column("text", {select: false})
     @Validate(PasswordValidator, [4, true])
     password: string;
-    
-    @IsOptional()
-    @Column("text", {
-        nullable: true
-    })
-    @Validate(PasswordValidator, [4, true])
-    passwordParents: string;
-    
-    @IsOptional()
-    @IsEmail()
-    @Column("text", {
-        nullable: true
-    })
-    emailParents: string;
     
     @IsOptional()
     @Validate(IntRangeValidator, [0, 1])
@@ -71,27 +63,26 @@ export class UserModel {
     @IsOptional()
     @IsEmail()
     @Column("text", {
-        nullable: true
+        nullable: true,
+        select: false
     })
     email: string;
     
     @IsOptional()
     @Column("text", {
-        nullable: true
+        nullable: true,
+        select: false
     })
     emailPassword: string;
     
     @IsOptional()
     @Column("text", {
-        nullable: true
+        nullable: true,
+        select: false
     })
-    phone: string;
-    
-    @IsInt()
-    @Column({default: 1})
-    schoolId: number;
-    
-    @Column("date", {nullable: true})
+    recovery: string;
+
+    @CreateDateColumn()
     created: Date;
  
     @Validate(IntRangeValidator, [-1, 1])
@@ -106,6 +97,11 @@ export class UserModel {
     @ManyToOne((type) => SchoolModel, (school) => school._members)
     @JoinColumn({name: "schoolId"})
     _school: SchoolModel;
+
+    // A user (which is PARENTS role) may contain many "offspring"
+    @OneToMany((type) => OffspringModel, offspring => offspring._parent, {onDelete: "CASCADE", cascade: ["remove"]})
+    _offspring: OffspringModel[]
+
 
     // A user may have created a number of "groups"
     @OneToMany((type) => GroupsModel, group => group._creator, {onDelete: "CASCADE", cascade: ["remove"]})
@@ -135,16 +131,21 @@ export class UserModel {
 
     @OneToMany((type)=> ChatModel, (chat) => chat._user, {onDelete: "CASCADE", cascade: ["remove"]})
     _chats: ChatModel[];
+
+    @OneToMany((type)=> PdaMessageModel, (message) => message._user, {onDelete: "CASCADE", cascade: ["remove"]})
+    _pdaMessages: PdaMessageModel[];
  
     @OneToMany((type)=> PdaBadgesModel, (badge) => badge._user, {onDelete: "CASCADE", cascade: ["remove"]})
     _pdaBadges: PdaBadgesModel[];
 
     @OneToMany((type)=> PdaActivityGrades, (grade) => grade._user, {onDelete: "CASCADE", cascade: ["remove"]})
     _pdaGrades: PdaActivityGrades[];
+
+    @OneToMany((type)=> OffspringModel, (offspring) => offspring._child, {onDelete: "CASCADE", cascade: ["remove"]})
+    _childParents: OffspringModel[];
  
     @BeforeInsert()
-    setCreationDate() {
-        this.created = new Date();
+    onInsert() {
         this.uopts = {};
     }
 

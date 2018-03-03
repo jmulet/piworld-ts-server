@@ -3,6 +3,7 @@ import { Index, Entity, PrimaryColumn, Column, OneToOne, OneToMany, ManyToOne, J
 import { MaxLength, IsNotEmpty } from "class-validator";
 import { ActivityModel } from '../../classroom.app/entities/ActivityModel';
 import { CourseModel } from '../../classroom.app/entities';
+import { SubjectCategoryModel } from './SubjectCategoryModel';
 
 
 @Entity("pw_subjects")
@@ -35,4 +36,7 @@ export class SubjectModel {
     // Relation between courses and subjects
     @OneToMany((type)=>CourseModel, (course)=>course._subject, {onDelete: "CASCADE", cascade: ["remove"]})
     _courses: CourseModel[]
+
+    @OneToMany((type)=>SubjectCategoryModel, (category)=>category._subject, {onDelete: "CASCADE", cascade: ["remove"]})
+    _categories: CourseModel[]
 }

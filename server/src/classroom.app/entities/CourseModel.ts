@@ -6,6 +6,7 @@ import { SubjectModel } from '../../main.app/entities/SubjectModel';
 import { GroupsModel } from './GroupsModel';
 import { ChallengesQuizzModel, BadgesModel, ChatModel } from '.';
 import { BooksAssignModel } from '../../books.app/entities/BooksAssignModel';
+import { PdaMessageModel } from '../../pda.app/entities/PdaMessageModel';
 
 @Entity("class_courses")
 export class CourseModel {
@@ -80,6 +81,9 @@ export class CourseModel {
     
     @OneToMany((type)=> ChatModel, (chat) => chat._course, {onDelete: "CASCADE", cascade: ["remove"]})
     _chats: ChatModel[];
+
+    @OneToMany((type)=> PdaMessageModel, (message) => message._course, {onDelete: "CASCADE", cascade: ["remove"]})
+    _pdaMessages: PdaMessageModel[];
 
     @OneToMany((type)=> BooksAssignModel, (bookAssign) => bookAssign._course, {onDelete: "CASCADE", cascade: ["remove"]})
     _bookAssignments: BooksAssignModel[]

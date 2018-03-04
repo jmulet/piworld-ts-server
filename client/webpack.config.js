@@ -12,6 +12,7 @@ const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 module.exports = {
     entry: {
         'vendor': "./src/vendor.js",
+        'pwc': "./src/pwc.js",
         'styles': ["./node_modules/bootstrap/dist/css/bootstrap.min.css",
                    "./node_modules/bootstrap/dist/css/bootstrap-theme.min.css",
                    "./node_modules/admin-lte/dist/css/AdminLTE.min.css",
@@ -21,7 +22,7 @@ module.exports = {
                    "./src/libs/angular/growl/angular-growl.min.css",
                    "./src/mystyles.css"],
         'login': ["./src/apps/login/login.js", "./src/apps/login/login.css"],
-        'admin/admin': "./src/apps/admin/admin.js",
+        'admin/admin': ["./src/apps/admin/admin.js", "./node_modules/angular-multiple-select/build/multiple-select.min.css"],
         'desktop/desktop': "./src/apps/desktop/desktop.js",
         'classroom/classroom': "./src/apps/classroom/classroom.js"
     },

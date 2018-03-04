@@ -1,17 +1,17 @@
 
 (function () {
 
-    var app = angular.module("TranslateModule", []);
+    var app = angular.module("TranslateModule", ["pwCore"]);
 
-    app.service('$translate', function() {
+    app.service('$translate', ["Translations", "Lang", function(Translations, Lang) {
 
-        var TRANSLATIONS = {}; 
+        var TRANS= {}; 
 
         this.addTranslations = function(lang, dict){
-            var langDict = TRANSLATIONS[lang];
+            var langDict = TRANS[lang];
             if (!langDict) {
                 langDict = {};
-                TRANSLATIONS[lang] = langDict;
+                TRANS[lang] = langDict;
             }
 
             Object.keys(dict).forEach( function(key) {
@@ -19,16 +19,16 @@
             });
         };
 
-        if (pwApp.translations) {
-            this.addTranslations(pwApp.lang, pwApp.translations);
+        if (Translations) {
+            this.addTranslations(Lang, Translations);
         }
 
         this.find = function(key) {
-            return (TRANSLATIONS[pwApp.lang] || {})[key] || key;
+            return (TRANS[Lang] || {})[key] || key;
         }
 
         return this;
-    });
+    }]);
 
     app.directive('translate', ['$translate', function ($translate) {
 

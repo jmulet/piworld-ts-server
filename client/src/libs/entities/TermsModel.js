@@ -1,6 +1,4 @@
-var pwApp = window.pwApp || {};
-pwApp.entities = pwApp.entities || {};
-pwApp.entities['TermsModel'] = {
+module.exports = {
   "properties": [
     {
       "name": "id",

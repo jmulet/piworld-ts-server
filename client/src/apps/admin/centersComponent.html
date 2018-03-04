@@ -79,8 +79,9 @@
 
                     <td style="width:150px">
                         <div>
-                            <button class='fa fa-trash' title="delete" ng-if="!u.edit && u.id" ng-click='vm.confirmDlg0(u)'> </button>
+                            <button class='btn-danger fa fa-trash' title="delete" ng-if="!u.edit && u.id" ng-click='vm.confirmDlg0(u)'> </button>
                             <button class='fa fa-pencil' title="edit" ng-if="!u.edit" ng-click='vm.edit0(u)'> </button>
+                            <button class='btn-info fa fa-cog' title="configuration" ng-if="!u.edit" ng-click='vm.config0(u)'> </button>
                             <button class='btn-success fa fa-save' title="save" ng-if="u.edit" ng-click='vm.save0(u)'> </button>
                             <button class='btn-danger fa fa-stop' title="cancel" ng-if="u.edit" ng-click='vm.cancel0(u)'>
                             </button>

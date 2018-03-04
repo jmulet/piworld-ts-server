@@ -58,28 +58,26 @@ export class SessionSrv {
         return session.logins.id;
     }
 
-    changeUserProperty(session: SessionModel, key: "password" | "passwordParents" | "email" | "emailParents" | "emailPassword", value: string) {
+    changeUserProperty(session: SessionModel, key: "password" | "email" | "emailPassword", value: string) {
         session.user[key] = value;
         return this.userSrv.save(session.user);
     }
 
     async changePassword(session: SessionModel, newPassword: string) {       
-        if(session.logins.parents === 0) {
-            session.user.mustChgPwd = 0;
-        }
+        session.user.mustChgPwd = 0;
         // Admin's password is encrypted
         if (session.user.username === config.admin.username) {
             session.user.password = await bcrypt.hash(session.user.password, 10);
         }
-        return this.changeUserProperty(session, session.logins.parents? 'passwordParents': 'password', newPassword);
+        return this.changeUserProperty(session, 'password', newPassword);
     }
     
     changeEmail(session: SessionModel, newEmail: string) {       
-        return this.changeUserProperty(session, session.logins.parents? 'emailParents': 'email', newEmail);
+        return this.changeUserProperty(session, 'email', newEmail);
     }
 
     async checkPassword(session: SessionModel, password: string) {       
-        const key = session.logins.parents? 'passwordParents': 'password';
+        const key = 'password';
         // Comparison is different depending if database password is encrypted
         if (session.user.username === config.admin.username) {
             return bcrypt.compare(session.user.password, password);

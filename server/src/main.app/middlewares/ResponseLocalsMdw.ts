@@ -16,7 +16,7 @@ export function ResponseLocalsMdw(request: express.Request, response: express.Re
         user.fullname = session.user.fullname;
         user.username = session.user.username;
         user.idRole = session.user.idRole;
-        user.schoolId = session.user.schoolId;
+        user.idSchool = session.user.idSchool;
     }
 
     // Pass a couple of configuration properties to the view engine
@@ -26,7 +26,8 @@ export function ResponseLocalsMdw(request: express.Request, response: express.Re
         defaultLang: I18n.DEFAULT_LANG,
         user: user,
         version: packageJson.version,
-        author: packageJson.author
+        author: packageJson.author,
+        socketPath: 'ddp'
     };
 
     // Pass the lang

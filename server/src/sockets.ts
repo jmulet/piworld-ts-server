@@ -28,9 +28,9 @@ export function sockets(io) {
        
         if (session && session.user && session.enrolls) {
             // Join to the room for the school of that user
-            socket.join('schoolId' + session.user.schoolId);
+            socket.join('idSchool' + session.user.idSchool);
             console.log("socket.io connect", socket.conn.id, session.user.fullname);
-            console.log('joined to room ', 'schoolId' + session.user.schoolId);
+            console.log('joined to room ', 'idSchool' + session.user.idSchool);
             // Join to the room for each group where the user belongs to
             // Todo: These groups can be as student or parent?
             session.enrolls.forEach( (e) => {

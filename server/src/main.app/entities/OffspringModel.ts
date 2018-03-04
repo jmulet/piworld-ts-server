@@ -26,4 +26,6 @@ export class OffspringModel {
     @ManyToOne((type) => UserModel, (user) => user._childParents)
     @JoinColumn({name: "idChild"})
     _child: UserModel;
+
+    username: string;
 }

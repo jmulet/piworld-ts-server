@@ -1,19 +1,18 @@
 import { Body, Controller, Delete, Get, Post, QueryParam, Session, UseBefore } from 'routing-controllers';
 import { Inject } from 'typedi';
 
-import { SchoolModel } from '../../../main.app/entities/SchoolModel';
-import { AuthenticatedMdw } from '../../../main.app/middlewares/AuthenticatedMdw';
-import { AdminsOnly, RootOnly } from '../../../main.app/middlewares/AuthorizedMdw';
-import { SchoolSrv } from '../../../main.app/services/SchoolSrv';
-import { SessionSrv } from '../../../main.app/services/SessionSrv';
-import { SessionModel } from '../../../main.app/model/SessionModel';
-import { UserRoles } from '../../../main.app/entities/UserModel';
+import { SchoolModel } from '../../entities/SchoolModel';
+import { AuthenticatedMdw } from '../../middlewares/AuthenticatedMdw';
+import { AdminsOnly, RootOnly } from '../../middlewares/AuthorizedMdw';
+import { SchoolSrv } from '../../services/SchoolSrv';
+import { SessionSrv } from '../../services/SessionSrv';
+import { SessionModel } from '../../model/SessionModel';
+import { UserRoles } from '../../entities/UserModel';
 
 
-
-@Controller("/api/center")
+@Controller("/api/school")
 @UseBefore(AuthenticatedMdw) 
-export class ApiCenterController {
+export class ApiSchoolController {
   
     @Inject()
     schoolSrv: SchoolSrv;
@@ -24,7 +23,7 @@ export class ApiCenterController {
 
     @Get("/list")
     @UseBefore(AdminsOnly)
-    async centerList(@Session() session: SessionModel, @QueryParam("id") id: number) {      
+    async centerList(@Session() session: SessionModel, @QueryParam("idSchool") id: number) {      
         if (id) {
             return this.schoolSrv.findById(id);
         } else {
@@ -37,16 +36,16 @@ export class ApiCenterController {
         }        
     }
 
-    @Post("/save")
+    @Post("/")
     @UseBefore(AdminsOnly)
     centerSave(@Body({ validate: true }) entity: SchoolModel) {            
         return this.schoolSrv.save(entity);
     }
 
-    @Delete("/delete")
+    @Delete("/")
     @UseBefore(RootOnly)
-    async centerDelete(@QueryParam("schoolId") schoolId: number) {             
-        return this.schoolSrv.deleteById(schoolId);
+    async centerDelete(@QueryParam("idSchool") idSchool: number) {             
+        return this.schoolSrv.deleteById(idSchool);
     }
 
 }

@@ -6,7 +6,11 @@ export class PasswordValidator implements ValidatorConstraintInterface {
   
     validate(password: string, args: ValidationArguments) {       
         if (password == null) {
-            return false;
+            if (!args.object["id"]) {
+                return false;
+            } else {
+                return true;
+            }
         }
         const constraints = args.constraints || [];
 

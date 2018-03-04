@@ -1,6 +1,4 @@
-var pwApp = window.pwApp || {};
-pwApp.entities = pwApp.entities || {};
-pwApp.entities['VisualizationModel'] = {
+module.exports = {
   "properties": [
     {
       "name": "id",

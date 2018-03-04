@@ -1,10 +1,11 @@
 import { UserModel, UserRoles } from "../entities/UserModel";
+import { OffspringModel } from "../entities";
 
 
 export class UsersImportModel {
     mustChgPwd: boolean;
     csv: string;
-    schoolId: number;
+    idSchool: number;
     updateIfExists: boolean;
     idRole: number;
 
@@ -31,7 +32,8 @@ export class UsersImportModel {
                 const fullname = (n > 1 ? fields[1].trim() : "");
                 const password = (n > 2 ? fields[2].trim() : "").replace(/ /g, "");
                 const email = (n > 3 ? fields[3].trim() : "");
-                const phone = (n > 4 ? fields[4].trim() : "");
+                const recovery = (n > 4 ? fields[4].trim() : "");
+                const children = (n > 5 ? fields[5].trim() : "");
 
                 if (username && fullname) {
                     const user = new UserModel();
@@ -39,11 +41,28 @@ export class UsersImportModel {
                     user.fullname = fullname;
                     user.password = password;
                     user.email = email? email: null;
-                    user.phone = phone;
-                    user.schoolId = this.schoolId;
+                    user.recovery = recovery;
+                    user.idSchool = this.idSchool;
                     user.idRole = this.idRole || UserRoles.student;       
                     user.valid = 1;
                     user.mustChgPwd = this.mustChgPwd? 1 : 0;             
+                    if (children) {
+                        try {
+                            const childrenUsernames = children.replace("[", "").replace("]", "").split(",");
+                            childrenUsernames.forEach( (e, i) => childrenUsernames[i] = e.replace(/\"/g, "").replace(/\'/g, "").trim());
+                            if (childrenUsernames.length) {
+                                user._offspring = [];
+                                childrenUsernames.forEach( (ch) => {
+                                    const offspring = new OffspringModel();
+                                    offspring.username = ch;
+                                    user._offspring.push(offspring);
+                                }); 
+                            }
+                        } catch(Ex) {     
+                            console.log(Ex);
+                            logErrors.push(Ex);                       
+                        }
+                    }
                     parsed.push(user);                    
                     } else  {
                         logErrors.push("Error: Username and fullname required in line -> " + ll);

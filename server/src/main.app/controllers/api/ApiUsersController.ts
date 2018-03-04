@@ -5,22 +5,22 @@ import { Inject } from 'typedi';
 
  
   
-import { DecryptBodyMdw } from '../../../main.app/middlewares/DecryptBodyMdw';
+import { DecryptBodyMdw } from '../../middlewares/DecryptBodyMdw';
  
-import { SchoolModel } from '../../../main.app/entities/SchoolModel';
-import { AuthenticatedMdw } from '../../../main.app/middlewares/AuthenticatedMdw';
-import { AdminsOnly, AdminsAndTeachersOnly } from '../../../main.app/middlewares/AuthorizedMdw';
-import { SchoolSrv } from '../../../main.app/services/SchoolSrv';
-import { SessionSrv } from '../../../main.app/services/SessionSrv';
-import { SessionModel } from '../../../main.app/model/SessionModel';
-import { UserRoles } from '../../../main.app/entities/UserModel';
-import { UserModel } from '../../../main.app/entities/UserModel';
-import { UsersImportModel } from '../../../main.app/model/UsersImportModel';
-import { UserSrv } from '../../../main.app/services/UserSrv';
+import { SchoolModel } from '../../entities/SchoolModel';
+import { AuthenticatedMdw } from '../../middlewares/AuthenticatedMdw';
+import { AdminsOnly, AdminsAndTeachersOnly } from '../../middlewares/AuthorizedMdw';
+import { SchoolSrv } from '../../services/SchoolSrv';
+import { SessionSrv } from '../../services/SessionSrv';
+import { SessionModel } from '../../model/SessionModel';
+import { UserRoles } from '../../entities/UserModel';
+import { UserModel } from '../../entities/UserModel';
+import { UsersImportModel } from '../../model/UsersImportModel';
+import { UserSrv } from '../../services/UserSrv';
 
 
 
-@Controller("/api/users")
+@Controller("/api/user")
 @UseBefore(AuthenticatedMdw)
 export class ApiUsersController {
 
@@ -38,21 +38,23 @@ export class ApiUsersController {
 
     @Get("/list")
     @UseBefore(AdminsAndTeachersOnly)
-    usersList( @Session() session: SessionModel, @QueryParam("showStudents") showStudents: boolean, @QueryParam("schoolId") schoolId: number) {
+    usersList( @Session() session: SessionModel, @QueryParam("filter") filter: string, @QueryParam("idSchool") schoolId: number,
+    @QueryParam("offspring") offspring: number,) {
         if (!this.sessionSrv.isRoot(session)) {
             // Teachers can only access their schoolId
-            schoolId = session.user.schoolId;
+            schoolId = session.user.idSchool;
         }
-        return this.userSrv.findBySchoolId(schoolId, showStudents);
+        // Must return the list of offspring (specially for parents)
+        return this.userSrv.findBySchoolId(schoolId, filter, offspring);
     }
 
 
-    @Post("/save")
+    @Post("/")
     @UseBefore(AdminsAndTeachersOnly)
     async userSave( @Session() session: SessionModel, @Body({ validate: true }) entity: UserModel, @Res() response: express.Response) {
         const sessionUser = session.user;
         if (sessionUser.idRole === UserRoles.admin ||
-            (sessionUser.schoolId === entity.schoolId)) {
+            (sessionUser.idSchool === entity.idSchool)) {
             return this.userSrv.save(entity);
         } else {
             return response.status(400).send({ msg: "You can only edit users of your schoolId." });
@@ -63,13 +65,13 @@ export class ApiUsersController {
     @UseBefore(AdminsAndTeachersOnly)
     async usersImport( @Session() session: SessionModel, @Body() usersImportModel: UsersImportModel, @Res() response: express.Response) {
         const sessionUser = session.user;
-        if (!usersImportModel.schoolId) {
-            usersImportModel.schoolId = sessionUser.schoolId;
+        if (!usersImportModel.idSchool) {
+            usersImportModel.idSchool = sessionUser.idSchool;
         }
 
         const { parsed, logErrors } = usersImportModel.parse();
         let promises = [];
-
+        console.log("parsed", parsed);
 
         // First step is to validate UserModels
         parsed.forEach(async (user) => {
@@ -96,7 +98,7 @@ export class ApiUsersController {
             }
 
             if (sessionUser.idRole === UserRoles.admin ||
-                (sessionUser.schoolId === user.schoolId)) {
+                (sessionUser.idSchool === user.schoolId)) {
                 const found = findResults[index];
                 if (found) {
                     if (usersImportModel.updateIfExists) {
@@ -134,7 +136,7 @@ export class ApiUsersController {
         return logErrors;
     }
 
-    @Delete("/delete")
+    @Delete("/")
     @UseBefore(AdminsOnly)
     async userDelete( @Session() session: SessionModel, @QueryParam("idUser") idUser: number, @Res() response: express.Response) {
 
@@ -144,7 +146,7 @@ export class ApiUsersController {
             return response.status(400).send({ msg: "User " + idUser + " does not exist." });
         }
         if (sessionUser.idRole === UserRoles.admin ||
-            (sessionUser.schoolId === user.schoolId)) {
+            (sessionUser.idSchool === user.idSchool)) {
             await this.userSrv.delete(user);
             return response.status(200).send(user);
         } else {

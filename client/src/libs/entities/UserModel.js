@@ -1,6 +1,4 @@
-var pwApp = window.pwApp || {};
-pwApp.entities = pwApp.entities || {};
-pwApp.entities['UserModel'] = {
+module.exports = {
   "properties": [
     {
       "name": "id",
@@ -9,7 +7,7 @@ pwApp.entities['UserModel'] = {
       "generated": true
     },
     {
-      "name": "schoolId",
+      "name": "idSchool",
       "type": "int",
       "nullable": false,
       "generated": false
@@ -82,7 +80,7 @@ pwApp.entities['UserModel'] = {
   ],
   "defaultObject": {
     "id": null,
-    "schoolId": 1,
+    "idSchool": 1,
     "idRole": null,
     "username": null,
     "fullname": null,

@@ -1,10 +1,16 @@
+var UserModel = require("../../libs/entities/UserModel");
 
-(function ()  {
-    var ngApp = angular.module("ngApp");
+module.exports = function (ngApp) {
 
-    var controller = function ($rootScope, $http, growl, Auth, PwTable, $filter, Modals, $uibModal, $sce) {
+    var controller = function ($rootScope, $http, growl, Auth, PwTable, $filter, Modals, $uibModal, $sce, UserRolesMap) {
         var ctrl = this;
-        ctrl.showStudents = true;
+        ctrl.filter = {idRole: "*"};
+
+        ctrl.roleChanged = function(idRole) {
+            console.log("role changed to "+ idRole);
+            ctrl.filter.idRole = idRole;
+            ctrl.toggle();
+        };
 
         ctrl.tableParams = new PwTable({
             page: 1,            // show first page
@@ -12,7 +18,7 @@
             sorting: ["+fullname"]
         }, function ($defer, params) {
             if (ctrl.selection && ctrl.selection.id) {
-                $http.get('@/api/users/list?schoolId=' + ctrl.selection.id + "&showStudents=" + ctrl.showStudents).then(function (r) {
+                $http.get('@/api/user/list?offspring=1&idSchool=' + ctrl.selection.id + "&filter=" + ctrl.filter.idRole).then(function (r) {
                     $defer.resolve(r.data);
                 }).catch(function () {
                     $defer.resolve([]);
@@ -31,42 +37,34 @@
         };
 
         ctrl.newUser = function () {
-            //var u = {id: 0, fullname: "", username: "", password: "", email: "", idRole: 200, schoolId: ctrl.selection.id};        
-            var u = angular.copy(pwApp.entities["UserModel"].defaultObject);
-            u.schoolId = ctrl.selection.id;
-            u.idRole = pwApp.UserRoles.student;
+            //var u = {id: 0, fullname: "", username: "", password: "", email: "", idRole: 200, idSchool: ctrl.selection.id};        
+            var u = angular.copy(UserModel.defaultObject);
+            u.idSchool = ctrl.selection.id;
+            u.idRole = UserRolesMap.student;
             ctrl.edit(u);
         };
 
         ctrl.importUsers = function () {
             var modalInstance = $uibModal.open({
                 template: require('./usersImportDialog.html'),
-                controller: ['$scope', 'modalParams', function (scope, modalParams) {
-                    scope.title = modalParams.title;
-                    scope.msg = modalParams.msg;
-                    scope.schoolId = ctrl.selection.schoolId;
-                    scope.model = { text: "", updateIfExists: false };
-                    scope.UserRoles = [];
-                    var obj = null;
-                    for (var key in pwApp.UserRoles) {
-                        var value = pwApp.UserRoles[key];
-                        var option = { label: key, value: value, disabled: value < pwApp.user.idRole };
-                        scope.UserRoles.push(option);
-                        if (value === 200) {
-                            obj = option;
+                controller: ['$scope', function (scope) {
+                    scope.title = "User import @ " + ctrl.selection.schoolName;
+                    scope.msg = "Paste users with this format<br>"
+                        + "<i><b>username</b></i> : <i><b>fullname</b></i> : <i><b>password</b></i> : <i>email</i> : <i>Recovery key</i>";
+                    scope.model = { csv: "", idSchool: ctrl.selection.id, updateIfExists: false, idRole: UserRolesMap.student, mustChgPwd: false };
+
+                    scope.roleChanged = function (idRole) {
+                        scope.model.idRole = idRole;
+                        if (idRole === UserRolesMap.parents) {
+                            scope.msg = "Paste users with this format<br>"
+                                + "<i><b>username</b></i> : <i><b>fullname</b></i> : <i><b>password</b></i> : <i>email</i> : <i>Recovery key</i> : <i>[child username1, ...]</i>";
+                        } else {
+                            scope.msg = "Paste users with this format<br>"
+                                + "<i><b>username</b></i> : <i><b>fullname</b></i> : <i><b>password</b></i> : <i>email</i> : <i>Recovery key</i>";
                         }
-                    }
-
-                    scope.ValidityOptions = [
-                        { label: 'Disabled', value: 0 },
-                        { label: 'Enabled', value: 1 },
-                        { label: 'Pending', value: -1 },
-                    ];
-
-                    scope.role = obj || scope.UserRoles[2];
+                    };
 
                     scope.ok = function () {
-                        scope.model.idRole = scope.role.value;
                         modalInstance.close(scope.model);
                     };
 
@@ -74,94 +72,112 @@
                         modalInstance.dismiss('cancel');
                     };
                 }],
-                size: 's',
-                resolve: {
-                    modalParams: function () {
-                        return {
-                            title: "Importació massiva d'alumnes",
-                            msg: "Aferrau el llistat amb aquest format<br>"
-                                + "<i><b>username</b></i> : <i><b>fullname</b></i> : <i><b>password</b></i> : <i>email</i> : <i>Recovery key</i>"
-                        };
-                    }
-                }
+                size: 's'
             });
 
             modalInstance.result.then(function (model) {
-                $http.post("@/api/users/import", {
-                    csv: model.text,
-                    schoolId: ctrl.selection.id,
-                    updateIfExists: model.updateIfExists,
-                    idRole: model.idRole || pwApp.UserRoles.student,
-                    mustChgPwd: model.mustChgPwd? true: false
-                }).then(function (r) {
+                $http.post("@/api/user/import", model).then(function (r) {
                     var msg = $sce.trustAsHtml(r.data.join("<br/>"));
-                    Modals.notificationdlg("Import result", msg, null, {logger: true});
+                    Modals.notificationdlg("Import result", msg, null, { logger: true });
                     ctrl.tableParams.reload();
                 });
             });
         };
 
- 
+
 
         ctrl.edit = function (u) {
-
-            var modal = $uibModal.open({
-                animation: true,
-                template: require("./userEditDialog.html"),
-                controller: ['$scope', function (scope) {
-                    scope.UserRoles = [];
-                    scope.EntityProperties = pwApp.entities["UserModel"].properties;
-                    var obj = null;
-                    for (var key in pwApp.UserRoles) {
-                        var value = pwApp.UserRoles[key];
-                        var option = { label: key, value: value, disabled: value < pwApp.user.idRole };
-                        scope.UserRoles.push(option);
-                        if (value === u.idRole) {
-                            obj = option;
-                        }
-                    }
-
-                    scope.ValidityOptions = [
-                        { label: 'Disabled', value: 0 },
-                        { label: 'Enabled', value: 1 },
-                        { label: 'Pending', value: -1 },
-                    ];
-
-                    scope.role = obj || scope.UserRoles[0];
-                    scope.u = angular.copy(u);
-
-                    scope.valid = scope.ValidityOptions.filter(function (e) { return e.value === scope.u.valid; })[0] || scope.ValidityOptions[1];
-
-                    scope.ok = function () {
-                        scope.u.id = parseInt(scope.u.id);
-                        scope.u.idRole = scope.role.value;
-                        scope.u.valid = parseInt(scope.u.valid);
-                        scope.u.email = scope.u.email ? scope.u.email : null;
-                        scope.u.valid = scope.valid.value;
-                     
-                        // Save it and close modal if no validation errors
-                        $http.post("@/api/users/save", scope.u).then(function (r) {
-                            var data = r.data;
-                            if ((!u.id && data.id) || (u.id && data.changed)) {
-                                growl.success("S'ha desat l'usuari.");
-                            } else {
-                                growl.warning("No s'ha modificat l'usuari");
+            //Load all students in the current school (to allow parents select offspring)
+            $http.get("@/api/user/list?idSchool=" + ctrl.selection.id + "&filter=" + UserRolesMap.student).then(function (r) {
+                var students = r.data;
+                var modal = $uibModal.open({
+                    animation: true,
+                    template: require("./userEditDialog.html"),
+                    controller: ['$scope', function (scope) {
+                        scope.students = students;
+                        scope.studentsSelected = [];
+                        if (u._offspring) {
+                            for(var i=0; i<u._offspring.length; i++){
+                                var offspring = u._offspring[i];
+                                for(var j=0; j<students.length; j++){
+                                    var st = students[j];
+                                    if(st.id === offspring.idChild) {
+                                        st.idOffspring = offspring.id;
+                                        scope.studentsSelected.push(st);
+                                        break;
+                                    }
+                                } 
                             }
-                            ctrl.tableParams.reload();
-                            scope.$errors = null;
+                        }
+                        if(!scope.studentsSelected.length) {     
+                            scope.studentsSelected.push(u);                           
+                        }
+                        scope.RoleParents = UserRolesMap.parents;
+                        scope.opts = { showPwdField: u.id <= 0 };
+                        scope.UserRoles = [];
+                        scope.EntityProperties = UserModel.properties;
+
+                        scope.u = angular.copy(u);
+                        
+                        scope.roleChanged = function (idRole) {
+                            scope.u.idRole = idRole;
+                        };
+
+                        scope.statusChanged = function (status) {
+                            scope.u.valid = status;
+                        };
+
+                        scope.afterSelect = function(item) {
+                            console.log("Selected", item);
+                            console.log("array", scope.studentsSelected);
+                        }
+
+                        scope.ok = function () {
+                            scope.u.id = parseInt(scope.u.id);
+                            scope.u.email = scope.u.email ? scope.u.email : null;
+                            if (!scope.opts.showPwdField) {
+                                delete scope.u.password;
+                            }
+                            if (scope.u.idRole === UserRolesMap.parents) {
+                                scope.u._offspring = [];
+                                for (var i=0; i< scope.studentsSelected.length; i++) {
+                                    var st = scope.studentsSelected[i];
+                                    if (st.idRole!==UserRolesMap.parents) {
+                                        scope.u._offspring.push({idParent: scope.u.id, idChild: st.id});   
+                                    }
+                                }
+                                console.log(scope.u);
+                            } else {
+                                // Delete any associated offspring
+                                scope.u._offspring = [];
+                            }
+
+                            // Save it and close modal if no validation errors
+                            $http.post("@/api/user", scope.u).then(function (r) {
+                                var data = r.data;
+                                if ((!u.id && data.id) || (u.id && data.changed)) {
+                                    growl.success("S'ha desat l'usuari.");
+                                } else {
+                                    growl.warning("No s'ha modificat l'usuari");
+                                }
+                                ctrl.tableParams.reload();
+                                scope.$errors = null;
+                                modal.close();
+                            }).catch(function (r) {
+                                var data = r.data;
+                                scope.$errors = data.errors;
+                            });
+                        };
+
+                        scope.cancel = function () {
                             modal.close();
-                        }).catch(function (r) {
-                            var data = r.data;
-                            scope.$errors = data.errors;
-                        });
-                    };
+                        };
 
-                    scope.cancel = function () {
-                        modal.close();
-                    };
+                    }]
+                });
 
-                }]
             });
+
         };
 
 
@@ -169,9 +185,9 @@
         ctrl.confirmDlg = function (u) {
 
             var okcb = function () {
-                $http.delete("@/api/users/delete?idUser=" + u.id).then(function (r) {
+                $http.delete("@/api/user?idUser=" + u.id).then(function (r) {
                     ctrl.tableParams.reload();
-                    
+
                 }, function (r) {
                     console.log("Error", r);
                 });
@@ -181,8 +197,8 @@
 
         };
 
-        ctrl.$onChanges = function(changes) {
-             if (changes && changes.school) {
+        ctrl.$onChanges = function (changes) {
+            if (changes && changes.school) {
                 //ctrl.selection = changes.school;
                 ctrl.selection = changes.school.currentValue;
                 ctrl.tableParams.reload();
@@ -191,14 +207,15 @@
 
     };
 
-    controller.$inject = ['$rootScope', '$http', 'growl', 'Auth', 'PwTable', '$filter', 'Modals', '$uibModal', '$sce' ];
- 
+    controller.$inject = ['$rootScope', '$http', 'growl', 'Auth', 'PwTable', '$filter', 'Modals', '$uibModal', '$sce', 'UserRolesMap'];
+
     ngApp.component("usersComponent", {
         bindings: {
-            school: "<" 
+            school: "<"
         },
-        template: require("./usersComponent.html"), //pwApp.config.basePrefix + "/apps/admin/usersComponent.html",
+        template: require("./usersComponent.html"),
         controller: controller,
         controllerAs: "vm"
     })
-})();
+
+};

@@ -35,7 +35,7 @@ export class UserModel {
         
     @IsInt()
     @Column({default: 1})
-    schoolId: number;
+    idSchool: number;
 
     @Validate(RoleValidator)
     @Column("int")
@@ -50,7 +50,6 @@ export class UserModel {
     @Column("longtext")
     fullname: string;
     
-    @IsNotEmpty()
     @Column("text", {select: false})
     @Validate(PasswordValidator, [4, true])
     password: string;
@@ -63,22 +62,19 @@ export class UserModel {
     @IsOptional()
     @IsEmail()
     @Column("text", {
-        nullable: true,
-        select: false
+        nullable: true
     })
     email: string;
     
     @IsOptional()
     @Column("text", {
-        nullable: true,
-        select: false
+        nullable: true
     })
     emailPassword: string;
     
     @IsOptional()
     @Column("text", {
-        nullable: true,
-        select: false
+        nullable: true
     })
     recovery: string;
 
@@ -95,7 +91,7 @@ export class UserModel {
 
     // Many users have associated a "school" object
     @ManyToOne((type) => SchoolModel, (school) => school._members)
-    @JoinColumn({name: "schoolId"})
+    @JoinColumn({name: "idSchool"})
     _school: SchoolModel;
 
     // A user (which is PARENTS role) may contain many "offspring"

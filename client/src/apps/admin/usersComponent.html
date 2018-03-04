@@ -6,7 +6,14 @@
     Users in {{vm.selection.schoolName}}
 </h5>
 <br>
-<input type="checkbox" ng-model="vm.showStudents" ng-change="vm.toggle()"></input>Show students
+<div class="row">
+        <div class="col-xs-1">    
+                Show role 
+        </div>
+        <div class="col-xs-5">
+            <pwc-role-picker id-role="vm.filter.idRole" all-roles="true" on-changes="vm.roleChanged($event)"></pwc-role-picker>
+        </div>        
+</div>
 
 <div loading-container="vm.tableParams.$loading" class="table-responsive">
     <table class="table table-hover">
@@ -25,8 +32,8 @@
                 <th ng-click="vm.tableParams.sortBy('email')" class="cursor-hand"> Email
                     <b ng-class="vm.tableParams.params.classes.email"></b>
                 </th>
-                <th ng-click="vm.tableParams.sortBy('phone')" class="cursor-hand"> Recovery Key
-                    <b ng-class="vm.tableParams.params.classes.phone"></b>
+                <th ng-click="vm.tableParams.sortBy('recovery')" class="cursor-hand"> Recovery Key
+                    <b ng-class="vm.tableParams.params.classes.recovery"></b>
                 </th>
                 <th ng-click="vm.tableParams.sortBy('idRole')" class="cursor-hand"> Role
                     <b ng-class="vm.tableParams.params.classes.idRole"></b>
@@ -55,7 +62,7 @@
                     <span>{{u.email}}</span>
                 </td>
                 <td>
-                    <span>{{u.phone}}</span>
+                    <span>{{u.recovery}}</span>
                 </td>
                 <td>
                     <span>{{u.idRole | rolename}}</span>

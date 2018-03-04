@@ -6,79 +6,77 @@
 </div>
 
 <div class="modal-body" form-errors="$errors">
-    <label for="username">
-        <span translate="USERNAME"></span>
-    </label>
-    <input class="form-control" name="username" id="username" type="text" ng-model="u.username" uib-popover="{{$errors['username']}}"
-        popover-trigger="'outsideClick'" />
+    <uib-tabset active="active">
+        <uib-tab index="0" heading="User {{u.idRole===RoleParents?' - Family':''}}">
 
-    <label for="fullname">
-        <span translate="FULLNAME"></span>
-    </label>
-    <input class="form-control" name="fullname" id="fullname" type="text" ng-model="u.fullname" uib-popover="{{$errors['fullname']}}"
-        popover-trigger="'outsideClick'" />
+            <label for="idRole">
+                <span translate="ROLE"></span>
+            </label>
 
-    <label for="password">
-        <span translate="PASSWORD"></span>
-    </label>
-    <input class="form-control" name="password" id="password" type="text" ng-model="u.password" uib-popover="{{$errors['password']}}"
-        popover-trigger="'outsideClick'" ng-password-strength autocomplete="off" autocapitalize="none" autocorrect="off" />
+            <pwc-role-picker id-role="u.idRole" on-changes="roleChanged($event)"></pwc-role-picker>
 
-    <label for="phone">
-        <span translate="RECOVERY_KEY"></span>
-    </label>
-    <input class="form-control" name="phone" id="phone" type="text" ng-model="u.phone" uib-popover="{{$errors['phone']}}" popover-trigger="'outsideClick'"/>
+            <label for="username">
+                <span translate="USERNAME"></span>
+            </label>
+            <input class="form-control" name="username" id="username" type="text" ng-model="u.username" uib-popover="{{$errors['username']}}"
+                popover-trigger="'outsideClick'" />
 
-    <label for="idRole">
-        <span translate="ROLE"></span>
-    </label>
-    <select class="form-control" name="idRole" ng-model="role" uib-popover="{{$errors['idRole']}}" popover-trigger="'mouseenter'"
-        ng-options="item as item.label disable when item.disabled for item in UserRoles track by item.value">
-    </select>
+            <label for="fullname">
+                <span translate="FULLNAME"></span>
+            </label>
+            <input class="form-control" name="fullname" id="fullname" type="text" ng-model="u.fullname" uib-popover="{{$errors['fullname']}}"
+                popover-trigger="'outsideClick'" />
 
-    <label for="email">
-        <span translate="EMAIL"></span>
-    </label>
-    <input class="form-control" name="email" id="email" type="text" ng-model="u.email" uib-popover="{{$errors['email']}}" popover-trigger="'outsideClick'"
-    />
+            <label for="password">
+                <span translate="PASSWORD"></span>
+                <button ng-if="u.id" class="btn-danger" ng-click="opts.showPwdField=!opts.showPwdField;">Change</button>
+            </label>
+            <input ng-if="opts.showPwdField" class="form-control" name="password" id="password" type="text" ng-model="u.password" uib-popover="{{$errors['password']}}"
+                popover-trigger="'outsideClick'" ng-password-strength autocomplete="off" autocapitalize="none" autocorrect="off"
+            />
+
+            <br/>
+            <label for="recovery">
+                <span translate="RECOVERY_KEY"></span>
+            </label>
+            <input class="form-control" name="recovery" id="recovery" type="text" ng-model="u.recovery" uib-popover="{{$errors['recovery']}}"
+                popover-trigger="'outsideClick'" />
+
+            <label for="email">
+                <span translate="EMAIL"></span>
+            </label>
+            <input class="form-control" name="email" id="email" type="text" ng-model="u.email" uib-popover="{{$errors['email']}}" popover-trigger="'outsideClick'"
+            />
+
+            <label for="emailPassword">
+                <span translate="EMAILPASSWORD"></span>
+            </label>
+            <input class="form-control" class="form-control" name="email" id="emailPassword" type="text" ng-model="u.emailPassword" uib-popover="{{$errors['emailPassword']}}"
+                popover-trigger="'outsideClick'" />
+
+            <label for="valid">
+                <span translate="VALID"></span>
+            </label>
+            <user-status-picker status="u.valid" on-changes="statusChanged($event)"></user-status-picker>
+
+            <label for="mustChgPwd">
+                <span translate="MUSTCHGPWD"></span>
+            </label>
+            <input name="mustChgPwd" id="mustChgPwd" type="checkbox" ng-model="u.mustChgPwd" uib-popover="{{$errors['mustChgPwd']}}"
+                popover-trigger="'mouseenter'" />
+            <br/>
+        </uib-tab>
+        <uib-tab ng-if="u.idRole===RoleParents" index="1" heading="Offspring ({{studentsSelected.length}})">
+            <div style="min-height:200px">
+                <multiple-autocomplete ng-model="studentsSelected" after-select-item="afterSelect" object-property="fullname" suggestions-arr="students">
+                </multiple-autocomplete>
+            </div>
+        </uib-tab>
+    </uib-tabset>
 
 
-    <label for="emailPassword">
-        <span translate="EMAILPASSWORD"></span>
-    </label>
-    <input class="form-control" class="form-control" name="email" id="emailPassword" type="text" ng-model="u.emailPassword" uib-popover="{{$errors['emailPassword']}}"
-        popover-trigger="'outsideClick'" />
-
-    <label for="valid">
-        <span translate="VALID"></span>
-    </label>
-    <select class="form-control" name="valid" ng-model="valid" uib-popover="{{$errors['valid']}}" popover-trigger="'mouseenter'"
-        ng-options="item as item.label for item in ValidityOptions track by item.value">
-    </select>
-
-    <label for="parents">
-        <span translate="PARENTS"></span>
-    </label>
-    <input name="parents" id="parents" type="checkbox" ng-model="u.parents" uib-popover="{{$errors['parents']}}" popover-trigger="'mouseenter'"/>
-    <br/>
 
 
-    <div ng-if="u.parents">
-        <label for="passwordParents">
-            <span translate="PASSWORD"></span>
-            <span translate="PARENTS"></span>
-        </label>
-        <input class="form-control" name="email" id="passwordParents" type="text" ng-model="u.passwordParents" uib-popover="{{$errors['passwordParents']}}"
-            popover-trigger="'outsideClick'" ng-password-strength autocomplete="off" autocapitalize="none" autocorrect="off"
-        />
-
-        <label for="emailParents">
-            <span translate="EMAIL"></span>
-            <span translate="PARENTS"></span>
-        </label>
-        <input class="form-control" name="email" id="emailParents" type="text" ng-model="u.emailParents" uib-popover="{{$errors['emailParents']}}"
-            popover-trigger="'outsideClick'" />
-    </div>
 </div>
 <div class="modal-footer">
     <button class="btn btn-warning fa fa-remove" ng-click="cancel()">

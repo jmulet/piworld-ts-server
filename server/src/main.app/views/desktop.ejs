@@ -110,9 +110,10 @@
     </div>
     <!-- ./wrapper -->
     
-    <script src="<%-prefixUrl('/common.'+config.version+'.js')%>"></script>
-    <%- include ../../views/partials/clientPwApp %>
+    <script src="<%-prefixUrl('/common.'+config.version+'.js')%>"></script>    
     <script src="<%-prefixUrl('/vendor.'+config.version+'.bundle.js')%>"></script>
+    <%- include ../../views/partials/clientPwApp %>
+    <script src="<%-prefixUrl('/pwc.'+config.version+'.bundle.js')%>"></script>
     <script src="<%-prefixUrl('/desktop/desktop.'+config.version+'.bundle.js')%>"></script>
     <script>
         $(document).ready(function() {

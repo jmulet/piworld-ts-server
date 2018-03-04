@@ -7,13 +7,11 @@ import { UserModel } from '../entities/UserModel';
 @EntityRepository(UserModel)
 export class UserRepository extends Repository<UserModel> {
        
-    public list() {
+    list() {
         return this.find();
     }
 
-    public findByUsername(username: string){
+    findByUsername(username: string){
         return this.findOne({username: username});
     }
-
-    
 }

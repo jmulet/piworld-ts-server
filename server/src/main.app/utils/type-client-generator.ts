@@ -60,9 +60,7 @@ export function typeClientGenerator() {
         });
 
         let builder = [];
-        builder.push("var pwApp = window.pwApp || {};");
-        builder.push("pwApp.entities = pwApp.entities || {};");
-        builder.push("pwApp.entities['" + entityMetadata.name + "'] = " + JSON.stringify(entity, null, 2) + ";");
+         builder.push("module.exports = " + JSON.stringify(entity, null, 2) + ";");
         var directory = path.join(global.__publicDir, "../../src/libs/entities/" + entityMetadata.name + ".js");
         fs.writeFileSync(directory, builder.join("\n")); 
         

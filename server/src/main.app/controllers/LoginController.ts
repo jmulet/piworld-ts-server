@@ -4,7 +4,7 @@ import { Controller, Get, Post, QueryParam, Redirect, Render, Req, Res, Session,
 import { Inject } from 'typedi';
 
 import { LoginsModel } from '../entities/LoginsModel';
-import { UserModel } from '../entities/UserModel';
+import { UserModel, UserRoles } from '../entities/UserModel';
 import { AuthenticatedMdw } from '../middlewares/AuthenticatedMdw';
 import { cookieParser } from '../utils/CookieParser';
 import { AnonymousOnlyMdw } from '../middlewares/AnonymousOnlyMdw';
@@ -80,21 +80,21 @@ export class LoginController {
 
         let user: UserModel;
         try {
-            user = await this.userSrv.findByUsername(credentials.username);
+            user = await this.userSrv.findByUsername(credentials.username, ["password"]);
         } catch (Ex) {
             console.log(Ex);
             return {errCode: "INVALID_USER"};
         }
  
         if (user) {
-            const password = credentials.parents? user.passwordParents : user.password;
+            const password = user.password;
             let correctPassword = false;
     
-            // Assume that admin password is always encrypted in database
-            if (credentials.username === config.admin.username) {
+            // Assume that non-student's password are always encrypted in database
+            if (user.idRole < UserRoles.student) {              
                 correctPassword = await bcrypt.compare(credentials.password, password);
             } else {
-                correctPassword =  (password === credentials.password);
+                correctPassword = (password === credentials.password);
             }
 
             if (correctPassword) {
@@ -106,13 +106,11 @@ export class LoginController {
                 const connectSid = cookieParser(request)[config.basePrefix+"pwsid"];
                 const parents = credentials.parents ? 1 : 0;
                 const logins = LoginsSrv.fromData(user.id, ipAddr + '', new Date(), parents);
-                await this.loginsSrv.save(logins);
-                const enrolls = await this.enrollSrv.list(user.id);
-                
+                await this.loginsSrv.save(logins); 
+
                 session.connectSid = connectSid || session.id;
                 session.user = user;
-                session.logins = logins;
-                session.enrolls = enrolls;
+                session.logins = logins; 
                
                 if (user.mustChgPwd) {
                     return {redirect: "/changepwd.htm"};

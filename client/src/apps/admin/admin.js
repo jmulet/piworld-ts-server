@@ -1,21 +1,24 @@
-require('../../libs/entities/UserModel.js');
-require('../../libs/entities/SchoolModel.js');
-require('../../libs/ng-modules/LoadingContainer.js');
+require('../../libs/ng-modules/LoadingContainer');
+// require('../../libs/ng-modules/picklist');
+require('angular-multiple-select');
+
 require('../ngApp-deps.js');
+require('./modules/pwcRolePicker');
+require('./modules/pwcStatusPicker');
 
-var ngApp = angular.module("ngApp", ["ngSanitize", "angular-growl", "AuthModule", "ModalsModule",
-    "PwTableModule", "TranslateModule", "LoadingContainer"]);
+var ngApp = angular.module("ngApp", ["pwCore", "ngSanitize", "angular-growl", "AuthModule", "ModalsModule",
+    "PwTableModule", "TranslateModule", "LoadingContainer", "pwcRolePicker", "pwcStatusPicker", "multipleSelect"]);
 
-require('./centersComponent.js');
-require('./usersComponent.js');
-require('../ngApp-config.js');
+require('./centersComponent.js')(ngApp);
+require('./usersComponent.js')(ngApp);
+require('../ngApp-config.js')(ngApp);
 
-function AppController($http) {
+function AppController($http, User) {
     var ctrl = this;
     ctrl.selection = null;
 
-    if (pwApp.user.idRole > 0) {
-        $http.get('@/api/center/list?id=' + pwApp.user.schoolId).then(function (r) {
+    if (User.idRole > 0) {
+        $http.get('@/api/school/list?idSchool=' + User.idSchool).then(function (r) {
             ctrl.school = r.data;
         }).catch(function () {
 
@@ -27,21 +30,21 @@ function AppController($http) {
     };
 };
 
-AppController.$inject = ["$http"];
+AppController.$inject = ["$http", "User"];
 
 ngApp.component("cuComponent", {
-    template: require('./centersAndUsers.html'), //pwApp.config.staticPrefix + "/apps/admin/centersAndUsers.html",
+    template: require('./centersAndUsers.html'), 
     controller: AppController,
     controllerAs: "vm"
 });
 
 ngApp.component("uComponent", {
-    template: require('./users.html'), // pwApp.config.staticPrefix + "/apps/admin/users.html",
+    template: require('./users.html'), 
     controller: AppController,
     controllerAs: "vm"
 });
 
-ngApp.controller("navigation", ["$scope", "socket", "growl", function ($scope, socket, growl) {
+ngApp.controller("navigation", ["$scope", "socket", "growl", "User", function ($scope, socket, growl, User) {
     var ctrl = $scope;
     ctrl.chatsRecieved = [];
     ctrl.onlineUsers = [];
@@ -59,7 +62,7 @@ ngApp.controller("navigation", ["$scope", "socket", "growl", function ($scope, s
             var found = ctrl.onlineUsers.filter(function(e) { return e.id === user.id} );
             if (found.length === 0) {
                 ctrl.onlineUsers.push(user);
-                if (user.id !== pwApp.user.id) {
+                if (user.id !== User.id) {
                     growl.info(user.fullname + " ha iniciat sessió");
                 }
             }

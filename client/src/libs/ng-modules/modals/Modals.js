@@ -1,13 +1,10 @@
 (function(){
 
-var app = angular.module("ModalsModule", ["ui.bootstrap", "AuthModule", "TranslateModule"]);
+var app = angular.module("ModalsModule", ["pwCore", "ui.bootstrap", "AuthModule", "TranslateModule"]);
 
-app.service('Modals', ['$uibModal', '$timeout', 'Auth', '$translate', function ($uibModal, $timeout, Auth, $translate) {
-
-    if(!window.pwApp || !window.pwApp.config.basePrefix) {
-        console.log("Modals require global pwApp variables set.");
-    }
-
+app.service('Modals', ['$uibModal', '$timeout', 'Auth', '$translate', 'Config',
+         function ($uibModal, $timeout, Auth, $translate, Config) {
+  
     var lastPwdTyped = new Date().getTime();
     var LATENCY = 120000; //2 min.
 
@@ -24,7 +21,7 @@ app.service('Modals', ['$uibModal', '$timeout', 'Auth', '$translate', function (
             var modalInstance = $uibModal.open({
                 template: require('./su-dlg.html'),
                 controller: ['$scope',  function ($scope) {
-                    $scope.basePrefix = pwApp.config.basePrefix;
+                    $scope.basePrefix = Config.basePrefix;
                     $scope.cpwd = { text: "" };
                     $scope.invalidpwd = "";
                     var attempts = 0;
@@ -76,7 +73,7 @@ app.service('Modals', ['$uibModal', '$timeout', 'Auth', '$translate', function (
         var modalInstance = $uibModal.open({
             template: require('./'+template),
             controller: ['$scope', function ($scope) {
-                $scope.basePrefix = pwApp.config.basePrefix;
+                $scope.basePrefix = Config.basePrefix;
                 $scope.ok = function () {
                     modalInstance.close();
                 };
@@ -100,7 +97,7 @@ app.service('Modals', ['$uibModal', '$timeout', 'Auth', '$translate', function (
         var modalInstance = $uibModal.open({
             templat: require('./input-dlg.html'),
             controller: ['$scope', function ($scope) {
-                $scope.basePrefix = pwApp.config.basePrefix;
+                $scope.basePrefix = Config.basePrefix;
                 $timeout(function () {
                     jQuery('#input-dlg').focus();
                 });
@@ -135,7 +132,7 @@ app.service('Modals', ['$uibModal', '$timeout', 'Auth', '$translate', function (
         var modalInstance = $uibModal.open({
             template: require('./confirm-dlg.html'),
             controller: ['$scope', function ($scope) {
-                $scope.basePrefix = pwApp.config.basePrefix;
+                $scope.basePrefix = Config.basePrefix;
                 $scope.ok = function () {
                     modalInstance.close();
                 };
@@ -180,7 +177,7 @@ app.service('Modals', ['$uibModal', '$timeout', 'Auth', '$translate', function (
         var modalInstance = $uibModal.open({
             template: require('./confirm-dlg-pwd.html'),
             controller: ['$scope', 'Auth', function ($scope, Auth) {
-                $scope.basePrefix = pwApp.config.basePrefix;
+                $scope.basePrefix = Config.basePrefix;
                 $timeout(function () {
                     jQuery('#confirm-input-pwd').focus();
                 });

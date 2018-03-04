@@ -22,8 +22,8 @@ export class SchoolSrv {
             .getOne();
     }
 
-    findById(schoolId: number) {
-        return this.schoolsRepository.findOne({id: schoolId});
+    findById(idSchool: number) {
+        return this.schoolsRepository.findOne({id: idSchool});
     }
 
     save(entity: SchoolModel){

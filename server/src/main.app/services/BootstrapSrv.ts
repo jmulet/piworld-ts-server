@@ -41,13 +41,11 @@ export class BootstrapSrv {
                 user = new UserModel();
                 user.username = config.admin.username;
                 user.created = new Date();
-                user.emailParents = "";
                 user.mustChgPwd = 0;
                 user.idRole = UserRoles.admin;
-                user.passwordParents = "";
-                user.uopts = "{}";
+                user.uopts = {};
             }
-            user.schoolId = school.id;
+            user.idSchool = school.id;
             user.fullname = "Administrator";
             user.email = config.admin.email;
             user.emailPassword = config.admin.emailPassword;            

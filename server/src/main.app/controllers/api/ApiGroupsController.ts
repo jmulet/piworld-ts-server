@@ -7,7 +7,7 @@ import { AdminsAndTeachersOnly } from '../../middlewares/AuthorizedMdw';
 
 @Controller("/api/group")
 @UseBefore(AuthenticatedMdw)
-export class GroupsController {
+export class ApiGroupsController {
  
     @Inject()
     groupsSrv: GroupsSrv;

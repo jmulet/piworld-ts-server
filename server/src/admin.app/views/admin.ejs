@@ -3,6 +3,7 @@
 
 <head>
     <%- include ../../views/partials/head %>
+    <link href="<%-prefixUrl('/admin/admin.'+config.version+'.bundle.css')%>" rel="stylesheet">
 </head>
 
 <body class="hold-transition skin-red sidebar-mini fixed" ng-controller="navigation">
@@ -152,9 +153,10 @@
 
 
     <script src="<%-prefixUrl('/common.'+config.version+'.js')%>"></script>
+    <script src="<%-prefixUrl('/vendor.'+config.version+'.bundle.js')%>"></script>
     <%- include ../../views/partials/clientPwApp %>
-        <script src="<%-prefixUrl('/vendor.'+config.version+'.bundle.js')%>"></script>
-        <script src="<%-prefixUrl('/admin/admin.'+config.version+'.bundle.js')%>"></script>
+    <script src="<%-prefixUrl('/pwc.'+config.version+'.bundle.js')%>"></script>
+    <script src="<%-prefixUrl('/admin/admin.'+config.version+'.bundle.js')%>"></script>
 
         <script>
             $(document).ready(function () {

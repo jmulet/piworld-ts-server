@@ -54,9 +54,7 @@ module.exports = function (ngApp) {
                 var data = r.data;
                 if ((!u.id && data.id) || (u.id && data.changed)) {
                     growl.success("S'ha desat el centre.");
-                } else {
-                    growl.error("No s'ha pogut desar el centre :-(");
-                }
+                }   
                 ctrl.tableParams0.reload();
                 ctrl.selection = null;
                 ctrl.edit = false;
@@ -87,19 +85,20 @@ module.exports = function (ngApp) {
                 template: require('./centersConfig.html'),
                 controller: ['$scope', function (scope) {
                     scope.title = "Options of  " + s.schoolName;
-                    scope.json = JSON.stringify(s.sopts ||  { year: 2018 }, null, 2);
+                    scope.idSchool = ctrl.selection.id;
+                    scope.json = angular.copy(s.sopts ||  { year: 2017 });
+                    if(!scope.json.year) {
+                        scope.json.year = 2017;
+                    }
                     scope.ok = function () {
                         // Test if json is valid
-                        try {
-                            var sopts = JSON.parse(scope.json);
-                            s.sopts = sopts;
-                            $http.post("@/api/school", s).then(function (r) {
+                        try { 
+                            $http.post("@/api/school", scope.json).then(function (r) {
                                 var data = r.data;
+                                s.sopts = scope.json;
                                 if ((!s.id && data.id) || (s.id && data.changed)) {
                                     growl.success("S'ha desat el centre.");
-                                } else {
-                                    growl.error("No s'ha pogut desar el centre :-(");
-                                }
+                                }  
                             });
                         } catch (Ex) {
                             console.log(Ex);

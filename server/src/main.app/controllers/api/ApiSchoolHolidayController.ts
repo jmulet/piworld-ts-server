@@ -28,11 +28,12 @@ export class ApiSchoolHolidayController {
 
     @Get("/list")
     @UseBefore(AdminsOnly)
-    async list(@Session() session: SessionModel, @QueryParam("idSchool") id: number, @QueryParam("schoolName") name: string) {      
+    async list(@Session() session: SessionModel, @QueryParam("idSchool") id: number,
+               @QueryParam("schoolName") name: string, @QueryParam("year") year: number) {      
         if (name) {
-            return this.holidaySrv.findBySchoolName(name);        
+            return this.holidaySrv.findBySchoolName(name, year);        
         } else {
-            return this.holidaySrv.findBySchoolId(id);        
+            return this.holidaySrv.findBySchoolId(id, year);        
         }
     }
 

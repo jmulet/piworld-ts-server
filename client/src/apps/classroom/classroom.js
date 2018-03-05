@@ -1,8 +1,8 @@
-require('../../libs/ng-modules/LoadingContainer.js');
+require('../../libs/ng-modules/pwLoadingContainer.js');
 require('../ngApp-deps.js');
 
 var ngApp = angular.module("ngApp", ["ngSanitize", "angular-growl", "AuthModule", "ModalsModule",
-    "PwTableModule", "TranslateModule", "LoadingContainer"]);
+    "PwTableModule", "TranslateModule", "pwLoadingContainer"]);
 
 require('../ngApp-config');
 require('./Session'); 

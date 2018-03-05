@@ -15,15 +15,21 @@ export class HolidayModel {
     @Column("int")
     idSchool: number;
 
-    @IsDate()
-    @Column("date")
-    fromDate: number;
+    @IsInt()
+    @Column("int",{
+        default: 2017
+    })
+    year: number;
 
     @IsDate()
-    @Column("date")
+    @Column("datetime")
+    fromDate: Date;
+
+    @IsDate()
+    @Column("datetime")
     // Validation toDate must be larger or equal to fromDate
     @Validate(HolidayValidator)
-    toDate: number;
+    toDate: Date;
 
     @Column("longtext")
     description: string;

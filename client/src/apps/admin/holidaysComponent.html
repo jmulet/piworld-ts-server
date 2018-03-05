@@ -1,0 +1,76 @@
+<h4>Holidays in {{vm.year}}
+    <button ng-click="vm.create()" class="btn btn-success"><span class="fa fa-plus"></span></button>
+    <button ng-click="vm.reload()" class="btn btn-default"><span class="fa fa-sync-alt"></span></button>
+</h4>
+<table class="table table-responsive table-striped">
+    <thead>
+        <tr>
+            <td>From date</td>
+            <td>To date</td>
+            <td>Description</td>
+            <td>Actions</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="h in vm.holidays track by h.id">
+            <th>
+                <span ng-if="!h.edit">
+                    <span>{{h.fromDate | date: 'dd/MM/yyyy'}}</span>
+                </span>
+                <span ng-if="h.edit">
+                    <p class="input-group">
+                        <input type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy" ng-model="h.fromDate" is-open="h.opened1" datepicker-options="dateOptions"
+                            ng-required="true" close-text="Close" />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="h.opened1=true">
+                                <i class="glyphicon glyphicon-calendar"></i>
+                            </button>
+                        </span>
+                    </p>
+                </span>
+            </th>
+            <th>
+                <span ng-if="!h.edit">
+                    <span>{{h.toDate | date: 'dd/MM/yyyy'}}</span>
+                </span>
+                <span ng-if="h.edit">
+                        <p class="input-group">
+                                <input type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy" ng-model="h.toDate" is-open="h.opened2" datepicker-options="dateOptions"
+                                    ng-required="true" close-text="Close" />
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="h.opened2=true">
+                                        <i class="glyphicon glyphicon-calendar"></i>
+                                    </button>
+                                </span>
+                            </p>
+                </span>
+            </th>
+            <th>
+                <span ng-if="!h.edit">
+                    <span ng-bind="h.description"></span>
+                </span>
+                <span ng-if="h.edit">
+                    <textarea style="width:100%" ng-model="h.description"></textarea>
+                </span>
+            </th>
+            <th>
+                <span ng-if="!h.edit">
+                    <button class="btn btn-xs btn-default" ng-click="vm.edit(h)">
+                        <span class="fa fa-pencil"></span>
+                    </button>
+                    <button class="btn btn-xs btn-danger" ng-click="vm.remove(h)">
+                        <span class="fa fa-trash"></span>
+                    </button>
+                </span>
+                <span ng-if="h.edit">
+                    <button class="btn btn-xs btn-danger" ng-click="vm.cancel(h)">
+                        <span class="fa fa-times"></span>
+                    </button>
+                    <button class="btn btn-xs btn-success" ng-click="vm.save(h)">
+                        <span class="fa fa-save"></span>
+                    </button>
+                </span>
+            </th>
+        </tr>
+    </tbody>
+</table>

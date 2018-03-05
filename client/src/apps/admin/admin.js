@@ -1,16 +1,19 @@
-require('../../libs/ng-modules/LoadingContainer');
+require('../../libs/ng-modules/pwLoadingContainer');
+require('../../libs/ng-modules/pwRolePicker');
+require('../../libs/ng-modules/pwStatusPicker');
 // require('../../libs/ng-modules/picklist');
 require('angular-multiple-select');
 
 require('../ngApp-deps.js');
-require('./modules/pwcRolePicker');
-require('./modules/pwcStatusPicker');
+
 
 var ngApp = angular.module("ngApp", ["pwCore", "ngSanitize", "angular-growl", "AuthModule", "ModalsModule",
-    "PwTableModule", "TranslateModule", "LoadingContainer", "pwcRolePicker", "pwcStatusPicker", "multipleSelect"]);
+    "PwTableModule", "TranslateModule", "pwLoadingContainer", "pwRolePicker", "pwStatusPicker", "multipleSelect"]);
 
 require('./centersComponent.js')(ngApp);
 require('./usersComponent.js')(ngApp);
+require('./holidaysComponent.js')(ngApp);
+require('./termsComponent.js')(ngApp);
 require('../ngApp-config.js')(ngApp);
 
 function AppController($http, User) {

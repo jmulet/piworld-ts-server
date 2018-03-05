@@ -13,14 +13,20 @@ module.exports = {
       "generated": false
     },
     {
+      "name": "year",
+      "type": "int",
+      "nullable": false,
+      "generated": false
+    },
+    {
       "name": "fromDate",
-      "type": "date",
+      "type": "datetime",
       "nullable": false,
       "generated": false
     },
     {
       "name": "toDate",
-      "type": "date",
+      "type": "datetime",
       "nullable": false,
       "generated": false
     },
@@ -34,6 +40,7 @@ module.exports = {
   "defaultObject": {
     "id": null,
     "idSchool": null,
+    "year": 2017,
     "fromDate": null,
     "toDate": null,
     "description": null

@@ -1,6 +1,7 @@
 import * as bodyParser from 'body-parser';
 import * as compression from 'compression';
-import * as express from 'express';
+// This is the custom express server to allow EJSON support
+import * as express from 'express-pw';
 import * as session from 'express-session';
 import * as helmet from 'helmet';
 import * as http from 'http';

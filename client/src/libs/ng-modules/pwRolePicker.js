@@ -1,5 +1,5 @@
 (function () {
-    var ngModule = angular.module("pwcRolePicker", ["pwCore"]);
+    var ngModule = angular.module("pwRolePicker", ["pwCore"]);
 
     var controller = function (UserRoles) {
         var ctrl = this;

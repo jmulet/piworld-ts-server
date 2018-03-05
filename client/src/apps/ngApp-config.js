@@ -13,7 +13,7 @@ module.exports = function (ngApp) {
                         req.url = Config.basePrefix + req.url.substr(1);
                     }
                     return req;
-                },
+                },                 
                 'responseError': function (res) {
                     if (res.status === 500) {
                         growl.error(res.data.msg || res.data.message || res.data.errors || JSON.stringify(res.data));
@@ -40,6 +40,25 @@ module.exports = function (ngApp) {
             }
         }]);
 
+        // Uses EJSON instead JSON to transform the body
+        $httpProvider.defaults.transformRequest = function(data){
+            if (data === undefined) {
+                return data;
+            }
+            return EJSON.stringify(data);
+        };
+
+         // Uses EJSON instead JSON to revive the reponses 
+         $httpProvider.defaults.transformResponse = function(data, headersGetter){            
+            if (data === undefined) {
+                return data;
+            }
+            var contentType = headersGetter("Content-Type");
+            if (contentType && contentType.toLowerCase().indexOf("application/json")>=0) {
+                return EJSON.parse(data);
+            }            
+            return data;
+        };
 
     }]);
 

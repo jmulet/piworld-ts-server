@@ -126,12 +126,7 @@ module.exports = function (ngApp) {
                         scope.statusChanged = function (status) {
                             scope.u.valid = status;
                         };
-
-                        scope.afterSelect = function(item) {
-                            console.log("Selected", item);
-                            console.log("array", scope.studentsSelected);
-                        }
-
+ 
                         scope.ok = function () {
                             scope.u.id = parseInt(scope.u.id);
                             scope.u.email = scope.u.email ? scope.u.email : null;
@@ -157,9 +152,7 @@ module.exports = function (ngApp) {
                                 var data = r.data;
                                 if ((!u.id && data.id) || (u.id && data.changed)) {
                                     growl.success("S'ha desat l'usuari.");
-                                } else {
-                                    growl.warning("No s'ha modificat l'usuari");
-                                }
+                                }  
                                 ctrl.tableParams.reload();
                                 scope.$errors = null;
                                 modal.close();

@@ -2,7 +2,24 @@
     <h3 class="modal-title">{{title}}</h3>
 </div>
 <div class="modal-body">
-    <textarea ng-model="json" style="width:100%" rows="10"></textarea>
+    <uib-tabset active="active">
+        <uib-tab index="0" heading="Parameters">
+            <div style="height:300px; overflow-y:auto">
+                <label for="year">Academic start year</label>
+                <input class="form-control" id="year" name="year" type="number" ng-model="json.year" min="2000"/>
+            </div>
+        </uib-tab>
+        <uib-tab index="1" heading="Holidays">
+            <div style="height:300px; overflow-y:auto">
+                <pwc-holidays id-school="idSchool" year="json.year"></pwc-holidays>
+            </div>
+        </uib-tab>
+        <uib-tab index="2" heading="Terms">
+            <div style="height:300px; overflow-y:auto">
+                <pwc-terms id-school="idSchool" year="json.year"></pwc-terms>
+            </div>
+        </uib-tab>
+    </uib-tabset>
 </div>
 <div class="modal-footer">
     <button class="btn btn-warning" ng-click="cancel()" translate="CANCEL"></button>

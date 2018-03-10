@@ -1,0 +1,35 @@
+<div>
+    <label for="username" class="sr-only">
+        <span translate="USERNAME"></span>
+    </label>
+    <input type="text" id="username" [(ngModel)]="model.username" class="form-control" placeholder="{{ 'USERNAME' | translate}}" required autofocus
+        autocomplete="off" autocapitalize="none" autocorrect="off">
+    <label for="password" class="sr-only">
+            <span translate="PASSWORD"></span>
+    </label>
+    <input type="password" id="password" [(ngModel)]="model.password" class="form-control" placeholder="{{ 'PASSWORD' | translate}}" required autocomplete="off"
+        autocapitalize="none" autocorrect="off">
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" id="rememberme" [(ngModel)]="model.rememberme"> <span translate="REMEMBER_ME"></span>
+        </label>
+    </div>
+    <button id="submit" class="btn btn-lg btn-primary btn-block" (click)="doLogin()">
+        <span translate="LOGIN"></span>
+    </button>
+
+    <button id="submit2" class="btn btn-lg btn-danger btn-block" (click)="rootLogin()">
+            <span translate="LOGIN as ROOT"></span>
+    </button>
+
+    <br/>
+    <div *ngIf="opts.showAlert" id="errAlert" class="alert alert-danger">
+        {{alert}}
+    </div>
+
+    <div *ngIf="msg" id="msgAlert" class="alert alert-info">
+        <p>
+            {{msg}}
+        </p>
+    </div>
+</div>

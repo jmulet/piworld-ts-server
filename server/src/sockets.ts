@@ -26,24 +26,26 @@ export function sockets(io) {
         // so it won't be updated
         const session = socket.handshake.session;
        
-        if (session && session.user && session.enrolls) {
+        if (session && session.user) {
             // Join to the room for the school of that user
             socket.join('idSchool' + session.user.idSchool);
             console.log("socket.io connect", socket.conn.id, session.user.fullname);
             console.log('joined to room ', 'idSchool' + session.user.idSchool);
             // Join to the room for each group where the user belongs to
             // Todo: These groups can be as student or parent?
-            session.enrolls.forEach( (e) => {
-                socket.join('groupId' + e.idGroup);
-                console.log('joined to room ', 'groupId' + e.idGroup);
-            });      
+            if (session.courses) {
+                session.courses.forEach( (e) => {
+                    socket.join('groupId' + e.idGroup);
+                    console.log('joined to room ', 'groupId' + e.idGroup);
+                });      
+            }
             
         }
 
         socket.on('socketStart', () => {
+            console.log('socketStart');
             const uopts = session.user.uopts || {};
-            const ns = io.of("/");  
-            const totalConnected = Object.keys(ns.connected).length;          
+            const totalConnected = Object.keys(SocketStore).length;          
             if (!session.currentSocketId) {
                 const u = {
                     id: session.user.id,
@@ -55,6 +57,7 @@ export function sockets(io) {
                 };
                 socket.broadcast.emit('usersLogedin', u);            
                 SocketStore[socket.id] = u;
+                console.log("broadcast usersLogedin", u);
             } 
             // Always send to the current socket the entire list of online users
             // which we assume to be those in SocketStore
@@ -62,6 +65,7 @@ export function sockets(io) {
             socket.emit('usersOnline', allUsers);            
             session.currentSocketId = socket.id;
             session.save();
+            console.log("emit userOnline", allUsers);
         });
         
         socket.on('disconnect', (socket: any) => {

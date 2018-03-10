@@ -40,66 +40,20 @@
     </div>
   </div>
   <div class="container" ng-controller="loginCtrl">
-    <div class="form-signin">
-      <h3 class="form-signin-heading">
-        <img src="<%-prefixUrl('/assets/img/logo.png')%>" style="width:64px"> piWorld Login</h3>
-       
-      <br/>
-      <label for="username" class="sr-only">
-        <%=__('USERNAME')%>
-      </label>
-      <input type="text" id="username" ng-model="model.username" class="form-control" placeholder="<%=__('USERNAME')%>" required autofocus
-        autocomplete="off" autocapitalize="none" autocorrect="off">
-      <label for="password" class="sr-only">
-        <%=__('PASSWORD')%>
-      </label>
-      <input type="password" id="password" ng-model="model.password" class="form-control" placeholder="<%=__('PASSWORD')%>" required autocomplete="off"
-        autocapitalize="none" autocorrect="off">
-      <div class="checkbox">
-        <label>
-          <input type="checkbox" id="rememberme" ng-model="model.rememberme">
-          <%=__('REMEMBER_ME')%>
-        </label>
-      </div>
-      <button id="submit" class="btn btn-lg btn-primary btn-block" ng-click="doLogin()">
-        <%=__('LOGIN')%>
-      </button>
-     <%if(env==='development'){%>
-      <button id="submit2" class="btn btn-lg btn-danger btn-block" ng-click="rootLogin()">
-        <%=__('LOGIN')%> as ROOT
-      </button>
-      <%}%>
-      <br/>
-      <div ng-if="opts.showAlert" id="errAlert" class="alert alert-danger">
-        {{alert}}
-      </div>
-
-      <% if( msg ){%>
-        <div id="msgAlert" class="alert alert-info">
-          <p>
-            <%= msg %>
-          </p>
-        </div>
-        <%}%>
-
-
+      <div class="form-signin">
+          <h3 class="form-signin-heading">
+            <img src="<%-prefixUrl('/assets/img/logo.png')%>" style="width:64px">piWorld Login</h3>
+          <br/>
+          <app-component></app-component>
     </div>
-
-    <%- include ../../views/partials/footer %>
   </div>
 
-  <script src="<%-prefixUrl('/common.'+config.version+'.js')%>"></script>
-  <script src="<%-prefixUrl('/vendor.'+config.version+'.bundle.js')%>"></script>
   <%- include ../../views/partials/clientPwApp %>
-  <script src="<%-prefixUrl('/pwc.'+config.version+'.bundle.js')%>"></script>
+  <script src="<%-prefixUrl('/common.'+config.version+'.js')%>"></script>
+  <script src="<%-prefixUrl('/polyfills.'+config.version+'.bundle.js')%>"></script>
+  <script src="<%-prefixUrl('/vendor.'+config.version+'.bundle.js')%>"></script>
   <script src="<%-prefixUrl('/login.'+config.version+'.bundle.js')%>"></script>
-  <script>
-      $(document).ready(function () {
-          angular.element(function () {
-              angular.bootstrap(document, ['ngApp']);
-          });
-      })
-  </script>
+
 </body>
 
 </html>

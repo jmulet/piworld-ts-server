@@ -1,0 +1,64 @@
+<script>
+    function capitalize(input) {
+        return input.charAt(0).toUpperCase() + input.substr(1).toLowerCase();
+    }
+    function getCookie(cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+    angular.module("pwCore", [])
+<% if (locals.user) { %>
+        .constant("User", {
+            id: <%-user.id %>,
+            fullaname: '<%-user.fullname%>',
+            username: '<%-user.username%>',
+            idRole: <%-user.idRole %>,
+            idSchool:  <%-user.idSchool %>
+        })
+<% } %>        
+        .constant("UserRolesMap", {
+          admin: 0,
+          teacher_admin: 50,
+          teacher: 100,
+          teacher_nonediting: 150,
+          student: 200,
+          guest: 400,
+          parents: 500
+         })
+        .constant("supportedLangs", ["es", "ca", "es"])
+        .constant("Config", <%-JSON.stringify(config)%>)
+<% if (locals.lang) { %>
+        .constant("Lang", "<%=lang%>")
+<% } else { %>
+        .constant("Lang", document.getElementsByTagName("html")[0].lang)
+<% } %>
+<% if (locals.translations) { %>
+        .constant("Translations", <%-JSON.stringify(translations)%>)    
+<% } else { %>
+        .constant("Translations", {})
+<% } %>
+        .factory("UserRoles", ["UserRolesMap", "User", function (UserRolesMap, User) {
+            var UserRoles = [];
+            for (var key in UserRolesMap) {
+                 var value = UserRolesMap[key];
+                 var option = { label: capitalize(key), value: value, disabled: value < User.idRole };
+                 UserRoles.push(option);
+            }
+             return UserRoles;
+        }])
+        .factory("__", ["Translations", function(Translations){
+            return function(key) {
+                return Translations[key] || key;
+            };
+        }]);
+</script>

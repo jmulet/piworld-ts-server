@@ -17,6 +17,7 @@ export function ResponseLocalsMdw(request: express.Request, response: express.Re
         user.username = session.user.username;
         user.idRole = session.user.idRole;
         user.idSchool = session.user.idSchool;
+        user.uopts = session.user.uopts || {};
     }
 
     // Pass a couple of configuration properties to the view engine

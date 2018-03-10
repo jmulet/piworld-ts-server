@@ -55,8 +55,10 @@ export class UserSrv {
             if (offspring) {
                 builder = builder.leftJoinAndSelect("user._offspring", "offspring");
             }             
-            builder = builder.where("user.idSchool = :idSchool");
-
+            if (idSchool) {
+                builder = builder.where("user.idSchool = :idSchool", {idSchool: idSchool});
+            }
+            
             // Never include admin since it is created from config file.
             if (!filter || filter === "*") {
                 builder = builder.andWhere("user.idRole > " + UserRoles.admin);
@@ -64,7 +66,7 @@ export class UserSrv {
                 builder = builder.andWhere("user.idRole > " + UserRoles.admin).andWhere("user.idRole="+ filter);                
             }
 
-            return builder.setParameters({idSchool: idSchool}).getMany();
+            return builder.getMany();
     }
 
     findById(id) {

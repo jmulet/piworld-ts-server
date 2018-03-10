@@ -1,0 +1,47 @@
+<h4>
+    Centers</h4>
+<p-table [columns]="cols" [value]="centers" [paginator]="true" [rows]="10">
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th *ngFor="let col of columns">
+                {{col.header}}
+            </th>
+            <th>
+                Actions
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr>
+            <td *ngFor="let col of columns">
+                {{rowData[col.field]}}
+            </td>
+            <td>
+                <button (click)="onRowSelected(rowData)">cccc</button>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+
+<div *ngIf="centerSelected">
+    <h4>Users in center {{centerSelected.schoolName}}</h4>
+    Filter role:
+    <app-role-picker [(idRole)]="idRole" [all]="true"></app-role-picker>
+
+    <p-table [columns]="cols2" [value]="users" [paginator]="true" [rows]="10">
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngFor="let col of columns">
+                    {{col.header}}
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr>
+                <td *ngFor="let col of columns">
+                    {{rowData[col.field]}}
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

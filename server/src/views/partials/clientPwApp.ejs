@@ -2,31 +2,9 @@
     function capitalize(input) {
         return input.charAt(0).toUpperCase() + input.substr(1).toLowerCase();
     }
-    function getCookie(cname) {
-        var name = cname + "=";
-        var ca = document.cookie.split(';');
-        for (var i = 0; i < ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0) == ' ') {
-                c = c.substring(1);
-            }
-            if (c.indexOf(name) == 0) {
-                return c.substring(name.length, c.length);
-            }
-        }
-        return "";
-    }
-    angular.module("pwCore", [])
-<% if (locals.user) { %>
-        .constant("User", {
-            id: <%-user.id %>,
-            fullaname: '<%-user.fullname%>',
-            username: '<%-user.username%>',
-            idRole: <%-user.idRole %>,
-            idSchool:  <%-user.idSchool %>
-        })
-<% } %>        
-        .constant("UserRolesMap", {
+    window.pwCore = window.pwCore || {};
+       
+    window.pwCore["UserRoles"] = {
           admin: 0,
           teacher_admin: 50,
           teacher: 100,
@@ -34,31 +12,29 @@
           student: 200,
           guest: 400,
           parents: 500
-         })
-        .constant("supportedLangs", ["es", "ca", "es"])
-        .constant("Config", <%-JSON.stringify(config)%>)
+         };
+    window.pwCore["supportedLangs"] = ["es", "ca", "es"];
+    window.pwCore["Config"] = <%-JSON.stringify(config)%>;
 <% if (locals.lang) { %>
-        .constant("Lang", "<%=lang%>")
+    window.pwCore["Lang"] = "<%=lang%>";
 <% } else { %>
-        .constant("Lang", document.getElementsByTagName("html")[0].lang)
+    window.pwCore["Lang"] = document.getElementsByTagName("html")[0].lang;
 <% } %>
 <% if (locals.translations) { %>
-        .constant("Translations", <%-JSON.stringify(translations)%>)    
+    window.pwCore["Translations"] =  <%-JSON.stringify(translations)%>;    
 <% } else { %>
-        .constant("Translations", {})
+    window.pwCore["Translations"] = {};
 <% } %>
-        .factory("UserRoles", ["UserRolesMap", "User", function (UserRolesMap, User) {
-            var UserRoles = [];
-            for (var key in UserRolesMap) {
-                 var value = UserRolesMap[key];
-                 var option = { label: capitalize(key), value: value, disabled: value < User.idRole };
-                 UserRoles.push(option);
-            }
-             return UserRoles;
-        }])
-        .factory("__", ["Translations", function(Translations){
-            return function(key) {
-                return Translations[key] || key;
+    window.pwCore["__"] =  function(key) {
+                return pwCore["Translations"][key] || key;
             };
-        }]);
+    window.pwCore["UserRolesList"] =  function(key) {
+        var UserRoles = [];
+        for (var key in window.pwCore["UserRoles"]) {
+                 var value = window.pwCore["UserRoles"][key];
+                 var option = { label: capitalize(key), value: value, disabled: value < window.pwCore["Config"].user.idRole };
+                 UserRoles.push(option);
+        }
+        return UserRoles;
+    };
 </script>

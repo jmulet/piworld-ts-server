@@ -1,0 +1,37 @@
+<div class="sidebar">
+    <nav class="sidebar-nav">
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link" href="index.html">
+                    <i class="icon-speedometer"></i> Dashboard
+                    <span class="badge badge-primary">NEW</span>
+                </a>
+            </li>
+            <li class="nav-item nav-dropdown open">
+                    <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-star"></i> Administration</a>
+                    <ul class="nav-dropdown-items">
+                         <li class="nav-item">
+                             <a class="nav-link" href="#" onclick="javascript:location.hash = '#centers';"><i class="fa fa-circle"></i> Users and centers</a>
+                          </li>      
+                          <li class="nav-item">
+                                <a class="nav-link" href="#" onclick="javascript:location.hash = '#other';"><i class="fa fa-circle"></i> Other</a>
+                          </li>                                                           
+                    </ul>
+            </li>
+            <li class="nav-item nav-dropdown open">
+                    <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-star"></i> Applications</a>
+                    <ul class="nav-dropdown-items">
+                            <% applications.forEach( (app) => { %>
+                                <li class="nav-item">
+                                        <a class="nav-link" href="<%=prefixUrl(app.path)%>"><i class="fa fa-circle"></i> <%= app.name %></a>
+                                    </li>                                    
+                                <% }) %>                        
+                    </ul>
+            </li>
+        </ul>
+    </nav>
+    <button class="sidebar-minimizer brand-minimizer" type="button"></button>
+</div>
+
+
+ 

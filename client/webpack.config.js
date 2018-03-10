@@ -13,22 +13,29 @@ const AngularCompilerPlugin = require('@ngtools/webpack').AngularCompilerPlugin;
 
 module.exports = {
     entry: {
-        'vendor': "./src/vendor.js",
-        'vendor5': "./src/vendor5.ts",
+        'vendor': "./src/vendor.ts",
         'polyfills': "./src/polyfills.ts",
-        'pwc': "./src/pwc.js",
-        'styles': ["./node_modules/bootstrap/dist/css/bootstrap.min.css",
-            "./node_modules/bootstrap/dist/css/bootstrap-theme.min.css",
-            "./node_modules/admin-lte/dist/css/AdminLTE.min.css",
-            "./node_modules/admin-lte/dist/css/skins/skin-blue.min.css",
-            "./node_modules/admin-lte/dist/css/skins/skin-red.min.css",
-            "./node_modules/admin-lte/dist/css/skins/skin-yellow.min.css",
-            "./src/libs/angular/growl/angular-growl.min.css",
-            "./src/mystyles.css"],
-        'login': ["./src/apps/login/login.js", "./src/apps/login/login.css"],
-        'admin/admin': ["./src/apps/admin/admin.js", "./node_modules/angular-multiple-select/build/multiple-select.min.css"],
-        'desktop/desktop': ["./src/apps/desktop-ts/desktop.ts", "./src/apps/desktop-ts/desktop.css"],
-        'classroom/classroom': "./src/apps/classroom/classroom.js"
+        'login': ["./src/apps/login/login.ts", "./src/apps/login/login.css"],
+        'admin/admin': ["./src/apps/admin/admin.ts", "./src/apps/admin/admin.css"],         
+        'desktop/desktop': ["./src/apps/desktop/desktop.ts", "./src/apps/desktop/desktop.css"],
+        //'classroom/classroom': "./src/apps/classroom/classroom.js"
+
+        'styles': [
+            "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+            "./node_modules/coreui.io/Static_Starter_GULP/css/font-awesome.min.css",
+            "./node_modules/coreui.io/Static_Starter_GULP/css/simple-line-icons.css",
+            "./node_modules/coreui.io/Static_Starter_GULP/css/style.css",
+            // "./node_modules/bootstrap/dist/css/bootstrap-theme.min.css",
+            "./node_modules/primeng/resources/primeng.min.css",
+            "./node_modules/primeng/resources/themes/omega/theme.css",
+            //"./src/assets/css/AdminLTE.css",    //It has been modified to change some rules
+            //"./node_modules/admin-lte/dist/css/skins/skin-blue.min.css",
+            //"./node_modules/admin-lte/dist/css/skins/skin-red.min.css",
+            //"./node_modules/admin-lte/dist/css/skins/skin-yellow.min.css",
+            //"./src/libs/angular/growl/angular-growl.min.css",
+            "./src/mystyles.css"]
+            //'vendor': "./src/vendorjs.js",
+            //'pwc': "./src/pwc.js",
     },
     output: {
         path: path.resolve(__dirname, 'dist', 'public'),
@@ -39,11 +46,27 @@ module.exports = {
             $: 'jquery',
             jQuery: 'jquery',
             EJSON: 'ejson',
-            CryptoJS: 'crypto-js'
+            CryptoJS: 'crypto-js',
+            Popper: 'popper.js'
         }),
         new CleanWebpackPlugin(['dist/public'], {
             exclude: ['*.html']
         }),
+         // Move everything that is shared in entries login, vendor ---> to bundle vendor       
+         new webpack.optimize.CommonsChunkPlugin({
+            name: 'vendor',
+            chunks: ['desktop/desktop', 'admin/admin', 'login'],
+            //filename: '[name].' + version + '.js',
+            minChunks: 2
+        }),
+     
+        // This is the common or manifest: extracts webpack boilerplate
+        new webpack.optimize.CommonsChunkPlugin({
+         name: "common",
+         filename: '[name].' + version + '.js',
+         minChunks: Infinity        
+        }),
+    
         new webpack.ContextReplacementPlugin(
             // The (\\|\/) piece accounts for path separators in *nix and Windows
 
@@ -54,43 +77,16 @@ module.exports = {
                 // your Angular Async Route paths relative to this root directory
             }
         ),
+        /*
         // This is the AoT compiler; requires @angular/compiler-cli
         new AngularCompilerPlugin({
             tsConfigPath: './tsconfig.json',
             entryModule: './src/apps/desktop-ts/desktop.module#AppModule',
             sourceMap: true
         }),
-        new webpack.optimize.CommonsChunkPlugin({
-            names: ['common'],
-            // (the commons chunk name)          
-            filename: '[name].' + version + '.js',
-            // (the filename of the commons chunk)          
-            minChunks: Infinity,
-            // (Modules must be shared between 3 entries)          
-            // chunks: ["pageA", "pageB"],
-            // (Only use these entries)
-        }),
-        new webpack.optimize.CommonsChunkPlugin({
-            names: ['vendor5', 'polyfills'],
-            // (the commons chunk name)          
-            filename: '[name].' + version + '.js',
-            // (the filename of the commons chunk)          
-            minChunks: Infinity,
-            // (Modules must be shared between 3 entries)          
-            // chunks: ["pageA", "pageB"],
-            // (Only use these entries)
-        }),
-        new webpack.optimize.CommonsChunkPlugin({
-            names: ['vendor'],
-            // (the commons chunk name)          
-            filename: '[name].' + version + '.js',
-            // (the filename of the commons chunk)          
-            minChunks: Infinity,
-            // (Modules must be shared between 3 entries)          
-            // chunks: ["pageA", "pageB"],
-            // (Only use these entries)
-        }),
+       */
         // Aixo fa el tree shaking a més de comprimir
+        /*
         new webpack.optimize.UglifyJsPlugin({
             mangle: {
                 exclude: ["picklist", "oclazyload"]
@@ -107,6 +103,7 @@ module.exports = {
                 join_vars: true
             }
         }),
+        */
         /*
         new BrowserSyncPlugin({
             // browse to http://localhost:3200/ during development,
@@ -118,11 +115,13 @@ module.exports = {
              reload: true 
           }),
          */
-        /*
+        
+         /*
         new BundleAnalyzerPlugin({
             analyzerMode: 'static'
         }),
         */
+       
         /*
         new CssEntryPlugin({
             output: {
@@ -137,16 +136,22 @@ module.exports = {
     ],
     resolve: {
         // Add `.ts` and `.tsx` as a resolvable extension.
-        extensions: ['.ts', '.tsx', '.js']
+        extensions: ['.ts', '.tsx', '.js'],
+        alias: {
+            // This alias selects jquery.slim (No ajax, No effects) instead of full jquery.
+            'jquery': 'jquery/dist/jquery.slim.js',
+        }
     },
     module: {
         rules: [
+            /*
             //This is the AoT compiler
             {
                 test: /(?:\.ngfactory\.js|\.ngstyle\.js|\.ts)$/,
                 loader: '@ngtools/webpack'
             }
             ,
+            */
             {
                 test: /\.css$/,
                 use: ExtractTextPlugin.extract({
@@ -191,5 +196,9 @@ module.exports = {
                 loader: 'raw-loader'
             }
         ]
+    }, 
+    node:  {
+        fs: "empty"
     }
+    
 };

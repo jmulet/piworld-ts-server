@@ -184,7 +184,6 @@ export class LoginController {
         session.destroy();
     }
 
-
     @Get("/changepwd.htm")
     @UseBefore(AuthenticatedMdw)
     @UseBefore(TranslationMdw)

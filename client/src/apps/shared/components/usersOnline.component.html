@@ -1,0 +1,29 @@
+<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+    <i class="fa fa-users"></i>
+    <span class="badge badge-pill badge-info">{{count.totalConnected}}</span>
+</a>
+<div class="dropdown-menu dropdown-menu-right">
+
+    <div class="dropdown-header">
+        <strong>Online</strong>
+    </div>
+ 
+    <ul class="menu" style="max-height:400px; overflow-y: auto;">
+             <!-- start message -->
+            <a class="dropdown-item" href="#" *ngFor="let u of onlineUsers">
+                <span class="pull-left">
+                    <img [src]="u.icon" class="img-circle" alt="User Image">
+                </span>
+                 <span [innerHtml]="u.username"></span>
+                 <small>
+                        <i class="fa fa-clock-o"></i>{{u.login}}
+                </small>                
+            </a>
+        
+        <!-- end message -->
+        <a class="dropdown-item" href="#">
+            See all participants 
+        </a>
+    </ul>
+
+</div>

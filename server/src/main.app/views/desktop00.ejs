@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="<%=lang%>">
+<head>
+    <%- include ../../views/partials/head %>
+</head>
+<body class="hold-transition skin-blue sidebar-mini fixed" ng-controller="navigation">
+    <div growl></div>
+
+    <div class="wrapper">
+        <header class="main-header">
+                <%- include ../../views/partials/main-header %>        
+        </header>
+                
+        <aside class="main-sidebar">            
+            <section class="sidebar">
+                    <%- include ../../views/partials/sidebar %>
+            </section>
+        </aside>
+
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    Desktop
+                    <small class="hidden-xs">choose your app</small>
+                </h1>
+                <ol class="breadcrumb">
+                    <li class="active">Desktop</li>
+                </ol>
+            </section>
+
+            <!-- Main content: bootstrap angular here -->
+            <section id="app-content" class="content">
+                <!-- Applications box -->
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Applications</h3>
+
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+
+                        <ul class="list list-unstyled">
+                            <% applications.forEach( (app) => { %>
+                                <li>
+                                    <a href="<%=prefixUrl(app.path)%>">
+                                        <i class="fa fa-circle"></i>
+                                        <%= app.name %>
+                                    </a>
+                                </li>
+                                <% }) %>
+                                <li>
+                                    <% if (user.idRole < 200) { %>
+                                        <i class="fa fa-circle"></i>
+                                        <a href="<%=prefixUrl('admin')%>">Administration</a>
+                                    <% } %>
+                                </li>
+                        </ul>
+
+                    </div>
+                </div>
+
+                <!-- Applications /.box -->
+
+                <!-- News box -->
+                <% if(news.length > 0) { %>
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">News</h3>
+
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+
+                        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner" role="listbox">
+                                <% news.forEach( (n, index)=> { %>
+                                    <div class="item <%= index===0?'active':'' %>">
+                                        <%- n.html %>
+                                    </div>
+                                    <% }) %>
+                            </div>
+                            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+                <%}%>
+
+                <app-component></app-component>                
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <%- include ../../views/partials/footer %>
+    </div>
+    <!-- ./wrapper -->
+    
+    <script src="<%-prefixUrl('/common.'+config.version+'.js')%>"></script>    
+    <script src="<%-prefixUrl('/polyfills.'+config.version+'.bundle.js')%>"></script>
+    <script src="<%-prefixUrl('/vendor5.'+config.version+'.bundle.js')%>"></script>
+    <!--
+    <%- include ../../views/partials/clientPwApp %>
+    <script src="<%-prefixUrl('/pwc.'+config.version+'.bundle.js')%>"></script>
+    -->
+    <!-- Testing angular5 -->
+    <script src="<%-prefixUrl('/desktop/desktop.'+config.version+'.bundle.js')%>"></script>
+    <!--
+    <script>
+        $(document).ready(function() {
+            angular.element(function() {
+              angular.bootstrap(document, ['ngApp']);
+            });
+        })
+    </script>
+    -->
+</body>
+
+</html>

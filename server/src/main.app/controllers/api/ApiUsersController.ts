@@ -1,6 +1,6 @@
 import { validate } from 'class-validator';
 import * as express from 'express';
-import { Body, Controller, Delete, Get, Post, QueryParam, Req, Res, Session, UseBefore } from 'routing-controllers';
+import { Body, Controller, Delete, Get, Post, QueryParam, Req, Res, Session, UseBefore, Redirect } from 'routing-controllers';
 import { Inject } from 'typedi';
 
  
@@ -17,8 +17,10 @@ import { UserRoles } from '../../entities/UserModel';
 import { UserModel } from '../../entities/UserModel';
 import { UsersImportModel } from '../../model/UsersImportModel';
 import { UserSrv } from '../../services/UserSrv';
+import { config } from '../../../server.config';
+import { PwHttpServer } from '../../../server';
 
-
+const io = PwHttpServer.getInstance().io;
 
 @Controller("/api/user")
 @UseBefore(AuthenticatedMdw)
@@ -36,10 +38,41 @@ export class ApiUsersController {
         return this.sessionSrv.checkPassword(session, request.body.password);
     }
 
+    @Get("/logout")
+    @UseBefore(AuthenticatedMdw)
+    async logout(@Req() request: any, @Session() session) {
+        try {
+            await this.sessionSrv.logout(session);
+            const ns = io.of('/');
+            if (session.currentSocketId) {
+                // get current socket object              
+                const socket = ns.connected[session.currentSocketId];           
+                // do something with it
+                console.log("current socket", socket);     
+            }
+            const u = {
+                id: session.user.id,
+                username: session.user.username,
+                fullname: session.user.fullname,
+                totalConnected: Object.keys(ns.connected).length
+            }
+            io.sockets.emit("usersLogedout", u);
+        } catch (Ex) {
+            console.log(Ex);
+        }
+        delete session.connectSid;
+        delete session.user;
+        delete session.logins;
+        delete session.enrolls;
+        delete session.uopts;
+        session.destroy();
+        return {url: config.basePrefix+"/login.htm?logout"};
+    }
+    
     @Get("/list")
     @UseBefore(AdminsAndTeachersOnly)
     usersList( @Session() session: SessionModel, @QueryParam("filter") filter: string, @QueryParam("idSchool") schoolId: number,
-    @QueryParam("offspring") offspring: number,) {
+    @QueryParam("offspring") offspring: number) {
         if (!this.sessionSrv.isRoot(session)) {
             // Teachers can only access their schoolId
             schoolId = session.user.idSchool;

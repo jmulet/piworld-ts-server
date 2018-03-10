@@ -1,35 +1,12 @@
-@import '../node_modules/font-awesome/css/font-awesome.min.css';
-
-.ng-password-strength-bar {
-    height: 3px;
-    background-color: #eee;
-    margin-bottom: 3px;
+header.app-header.navbar {
+    height: 45px !important;
 }
-
-.ng-password-strength-bar-inner {
-    height: 100%;
-}
-
-.ng-password-strength-bar-inner.green {
-    background-color: #61ae00;
-}
-
-.ng-password-strength-bar-inner.orange {
-    background-color: #F90;
-}
-
-.ng-password-strength-bar-inner.red {
-    background-color: #F00;
-}
-
-.main-header .sidebar-toggle:before {
-    content: "" !important;
-}
-
-.content-wrapper {
-    overflow: auto;
-}
-
+.navbar-brand {
+    background-image: url('./assets/img/logo.png') !important;
+    background-size: 40px 40px !important;
+    height: 45px !important;
+    width: 130px !important;
+} 
 .loading-spinner {
     background: rgba(150, 150, 150, 0.5);
     z-index: 1000;

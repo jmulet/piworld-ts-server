@@ -2,7 +2,7 @@ import 'es6-shim';
 import 'reflect-metadata';
 
 import * as chai from 'chai';
-import {GroupsModel} from '../../src/classroom.app/entities/GroupsModel';
+import {GroupsModel} from '../../src/main.app/entities/classroom/GroupsModel';
 import {config} from '../../src/server.config';
 import { TestConfig } from '../TestConfig';
 import { EnrollModel, UserModel } from '../../src/main.app/entities';

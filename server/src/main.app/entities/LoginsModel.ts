@@ -2,7 +2,7 @@ import { IsDate, IsInt, Max, Min, IsIP, IsOptional } from 'class-validator';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, BeforeInsert, BeforeUpdate, OneToMany } from 'typeorm';
 
 import { UserModel } from './UserModel';
-import { VisualizationModel } from '../../classroom.app/entities';
+import { VisualizationModel } from './classroom/VisualizationModel';
 
 
 @Entity("pw_logins")
@@ -49,11 +49,11 @@ export class LoginsModel {
     })
     logout: Date;
 
-    @ManyToOne(type => UserModel, (user)=> user._logins)
+    @ManyToOne(type => UserModel, (user)=> user._logins, {onDelete: "CASCADE"})
     @JoinColumn({ name: "idUser" })
     _user: UserModel;
 
-    @OneToMany(type => VisualizationModel, (visualization)=> visualization._logins, {onDelete: "CASCADE", cascade: ["remove"]})
+    @OneToMany(type => VisualizationModel, (visualization)=> visualization._logins)
     _visualizations: VisualizationModel[];
     
     @BeforeInsert()

@@ -1,5 +1,5 @@
 import { UserModel, UserRoles } from "../entities/UserModel";
-import { OffspringModel } from "../entities";
+import { OffspringModel } from "../entities/OffspringModel";
 
 
 export class UsersImportModel {

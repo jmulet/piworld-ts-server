@@ -22,7 +22,7 @@ export class LoginComponent {
             path: getParameterByName("path")
         };
         this.opts = { processing: false, showAlert: false };
-    } 
+    }
 
     rootLogin() {
         this.model.username = "root";

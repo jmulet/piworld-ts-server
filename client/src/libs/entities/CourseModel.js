@@ -16,7 +16,12 @@ module.exports = {
       "name": "name",
       "type": "varchar",
       "nullable": false,
-      "generated": false
+      "generated": false,
+      "validation": [
+        {
+          "type": "isNotEmpty"
+        }
+      ]
     },
     {
       "name": "description",
@@ -28,13 +33,27 @@ module.exports = {
       "name": "courseLevel",
       "type": "int",
       "nullable": false,
-      "generated": false
+      "generated": false,
+      "validation": [
+        {
+          "type": "isInt"
+        }
+      ]
     },
     {
       "name": "courseStudies",
       "type": "varchar",
       "nullable": false,
-      "generated": false
+      "generated": false,
+      "validation": [
+        {
+          "type": "length",
+          "constraints": [
+            1,
+            5
+          ]
+        }
+      ]
     },
     {
       "name": "idSubject",

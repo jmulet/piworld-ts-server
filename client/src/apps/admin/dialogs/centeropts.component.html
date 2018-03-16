@@ -1,0 +1,138 @@
+<p-dialog header="Edit Center Options" [(visible)]="visible" [modal]="true" [responsive]="true" [width]="650">
+
+    <p-tabView [style]="{'height': '400px'}" (onChange)="tabChanged($event)">
+        <p-tabPanel header="Holidays in {{school.sopts.year}}">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>From</th>
+                        <th>To</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let rowData of holidays">
+                        <th>{{rowData.id}}</th>
+                        <th>
+                            <span *ngIf="!rowData._backup">
+                                {{rowData.fromDate | date: 'dd/MM/yyyy'}}
+                            </span>
+                            <span *ngIf="rowData._backup">
+                                <p-calendar [(ngModel)]="rowData.fromDate" dateFormat="dd/mm/yy" [inputStyle]="{width:'100px'}" [locale]="locale"></p-calendar>
+                            </span>
+                        </th>
+                        <th>
+                            <span *ngIf="!rowData._backup">
+                                {{rowData.toDate | date: 'dd/MM/yyyy'}}
+                            </span>
+                            <span *ngIf="rowData._backup">
+                                <p-calendar [(ngModel)]="rowData.toDate" dateFormat="dd/mm/yy" [inputStyle]="{width:'100px'}" [locale]="locale"></p-calendar>
+                            </span>
+                        </th>
+                        <th>
+                            <span *ngIf="!rowData._backup">
+                                {{rowData.Description}}
+                            </span>
+                            <span *ngIf="rowData._backup">
+                                <input type="text" [(ngModel)]="rowData.description" />
+                            </span>
+                        </th>
+                        <th>
+                            <div *ngIf="!rowData._backup">
+                                <button class="pull-left btn btn-sm btn-danger" type="button" (click)="removeHoliday(rowData)">
+                                    <span class="fa fa-trash"></span>
+                                </button>
+                                <button class="pull-left btn btn-sm btn-info" type="button" (click)="editHoliday(rowData)">
+                                    <span class="fa fa-pencil"></span>
+                                </button>
+                            </div>
+                            <div *ngIf="rowData._backup">
+                                <button class="pull-left btn btn-sm btn-warning" type="button" (click)="cancelHoliday(rowData)">
+                                    <span class="fa fa-times"></span>
+                                </button>
+                                <button class="pull-left btn btn-sm btn-success" type="button" (click)="saveHoliday(rowData)">
+                                    <span class="fa fa-save"></span>
+                                </button>
+                            </div>
+                        </th>
+                    </tr>
+                </tbody>
+            </table>
+
+
+        </p-tabPanel>
+        <p-tabPanel header="Terms in {{school.sopts.year}}"> 
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>From</th>
+                            <th>To</th>
+                            <th>Term</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let rowData of terms">
+                            <th>{{rowData.id}}</th>
+                            <th>
+                                <span *ngIf="!rowData._backup">
+                                    {{rowData.fromDate | date: 'dd/MM/yyyy'}}
+                                </span>
+                                <span *ngIf="rowData._backup">
+                                    <p-calendar [(ngModel)]="rowData.fromDate" dateFormat="dd/mm/yy" [inputStyle]="{width:'100px'}" [locale]="locale"></p-calendar>
+                                </span>
+                            </th>
+                            <th>
+                                <span *ngIf="!rowData._backup">
+                                    {{rowData.toDate | date: 'dd/MM/yyyy'}}
+                                </span>
+                                <span *ngIf="rowData._backup">
+                                    <p-calendar [(ngModel)]="rowData.toDate" dateFormat="dd/mm/yy" [inputStyle]="{width:'100px'}" [locale]="locale"></p-calendar>
+                                </span>
+                            </th>
+                            <th>
+                                <span *ngIf="!rowData._backup">
+                                    {{termToStr(rowData.term)}}
+                                </span>
+                                <span *ngIf="rowData._backup">
+                                    <p-dropdown [options]="availableTerms" appendTo="body" [(ngModel)]="rowData.term"></p-dropdown>
+                                </span>
+                            </th>
+                            <th>
+                                <div *ngIf="!rowData._backup">
+                                    <button class="pull-left btn btn-sm btn-danger" type="button" (click)="removeTerm(rowData)">
+                                        <span class="fa fa-trash"></span>
+                                    </button>
+                                    <button class="pull-left btn btn-sm btn-info" type="button" (click)="editTerm(rowData)">
+                                        <span class="fa fa-pencil"></span>
+                                    </button>
+                                </div>
+                                <div *ngIf="rowData._backup">
+                                    <button class="pull-left btn btn-sm btn-warning" type="button" (click)="cancelTerm(rowData)">
+                                        <span class="fa fa-times"></span>
+                                    </button>
+                                    <button class="pull-left btn btn-sm btn-success" type="button" (click)="saveTerm(rowData)">
+                                        <span class="fa fa-save"></span>
+                                    </button>
+                                </div>
+                            </th>
+                        </tr>
+                    </tbody>
+                </table>
+            </p-tabPanel>
+    </p-tabView>
+    <div class="ui-grid-row">
+        <div class="ui-grid-col-12">
+            <button class="pull-left btn btn-sm btn-danger" type="button" (click)="visible=false">
+                <span class="fa fa-close">Close</span>
+            </button>
+            <button class="pull-left btn btn-sm btn-success" type="button" (click)="create()">
+                <span class="fa fa-plus">Add</span>
+            </button>
+
+        </div>
+    </div>
+</p-dialog>

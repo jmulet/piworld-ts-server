@@ -1,6 +1,6 @@
 import { Service } from 'typedi';
 import { Repository, getRepository } from 'typeorm';
-import { UploadModel } from '../entities';
+import { UploadModel } from '../../main.app/entities/classroom/UploadModel';
 
 
 @Service()

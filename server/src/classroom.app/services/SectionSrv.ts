@@ -1,7 +1,7 @@
 import { Service } from 'typedi';
 import { Repository, getRepository } from 'typeorm';
 
-import { SectionModel } from '../entities/SectionModel'; 
+import { SectionModel } from '../../main.app/entities/classroom/SectionModel'; 
 
 
 @Service()

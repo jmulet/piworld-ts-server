@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Post, QueryParam, Session, UseBefore } from 'routing-controllers';
+import { Body, Controller, Delete, Get, Post, QueryParam, Session, UseBefore, Param, Put } from 'routing-controllers';
 import { Inject } from 'typedi';
 
 import { SchoolModel } from '../../entities/SchoolModel';
@@ -42,9 +42,16 @@ export class ApiSchoolController {
         return this.schoolSrv.save(entity);
     }
 
-    @Delete("/")
+    @Put("/:id")
+    @UseBefore(AdminsOnly)
+    centerUpdate(@Param("id") id: number, @Body({ validate: true }) entity: SchoolModel) {            
+        entity.id = id;
+        return this.schoolSrv.save(entity);
+    }
+
+    @Delete("/:idSchool")
     @UseBefore(RootOnly)
-    async centerDelete(@QueryParam("idSchool") idSchool: number) {             
+    async centerDelete(@Param("idSchool") idSchool: number) {             
         return this.schoolSrv.deleteById(idSchool);
     }
 

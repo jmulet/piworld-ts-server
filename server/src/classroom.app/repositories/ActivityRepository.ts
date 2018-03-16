@@ -1,7 +1,7 @@
 import { EntityRepository } from 'typeorm';
 import { Repository } from 'typeorm/repository/Repository';
 
-import { ActivityModel } from '../entities/ActivityModel';
+import { ActivityModel } from '../../main.app/entities/classroom/ActivityModel';
 
 
 @EntityRepository(ActivityModel)

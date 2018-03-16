@@ -16,7 +16,21 @@ module.exports = {
       "name": "year",
       "type": "int",
       "nullable": false,
-      "generated": false
+      "generated": false,
+      "validation": [
+        {
+          "type": "min",
+          "constraints": [
+            0
+          ]
+        },
+        {
+          "type": "conditionalValidation",
+          "constraints": [
+            null
+          ]
+        }
+      ]
     },
     {
       "name": "idCourse",
@@ -28,7 +42,15 @@ module.exports = {
       "name": "gopts",
       "type": "json",
       "nullable": false,
-      "generated": false
+      "generated": false,
+      "validation": [
+        {
+          "type": "conditionalValidation",
+          "constraints": [
+            null
+          ]
+        }
+      ]
     },
     {
       "name": "thmcss",

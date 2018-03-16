@@ -1,6 +1,6 @@
 import { Service } from 'typedi';
 import { Repository, getRepository } from 'typeorm';
-import { BadgesModel } from '../entities';
+import { BadgesModel } from '../../main.app/entities/classroom/BadgesModel';
 
 
 @Service()

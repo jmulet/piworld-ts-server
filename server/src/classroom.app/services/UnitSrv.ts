@@ -1,7 +1,7 @@
 import { Service } from 'typedi';
 import { Repository, getCustomRepository } from 'typeorm';
 
-import { UnitModel } from '../entities/UnitModel';
+import { UnitModel } from '../../main.app/entities/classroom/UnitModel';
 import { UnitRepository } from '../repositories/UnitRepository';
 
 

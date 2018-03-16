@@ -1,6 +1,6 @@
 import { Service } from 'typedi';
 import { Repository, getRepository } from 'typeorm';
-import { VisualizationModel } from '../entities';
+import { VisualizationModel } from '../../main.app/entities/classroom/VisualizationModel';
 
 
 @Service()

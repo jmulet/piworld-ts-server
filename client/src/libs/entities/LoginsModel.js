@@ -16,25 +16,78 @@ module.exports = {
       "name": "parents",
       "type": "tinyint",
       "nullable": false,
-      "generated": false
+      "generated": false,
+      "validation": [
+        {
+          "type": "max",
+          "constraints": [
+            1
+          ]
+        },
+        {
+          "type": "min",
+          "constraints": [
+            0
+          ]
+        },
+        {
+          "type": "isInt"
+        }
+      ]
     },
     {
       "name": "ip",
       "type": "varchar",
       "nullable": false,
-      "generated": false
+      "generated": false,
+      "validation": [
+        {
+          "type": "isIp",
+          "constraints": [
+            null
+          ]
+        },
+        {
+          "type": "conditionalValidation",
+          "constraints": [
+            null
+          ]
+        }
+      ]
     },
     {
       "name": "login",
       "type": "datetime",
       "nullable": false,
-      "generated": false
+      "generated": false,
+      "validation": [
+        {
+          "type": "isDate"
+        },
+        {
+          "type": "conditionalValidation",
+          "constraints": [
+            null
+          ]
+        }
+      ]
     },
     {
       "name": "logout",
       "type": "datetime",
       "nullable": false,
-      "generated": false
+      "generated": false,
+      "validation": [
+        {
+          "type": "isDate"
+        },
+        {
+          "type": "conditionalValidation",
+          "constraints": [
+            null
+          ]
+        }
+      ]
     }
   ],
   "defaultObject": {

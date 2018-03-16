@@ -1,16 +1,12 @@
  
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'; 
- 
-interface SelectItemDisable {
-    value: any;
-    label: string;
-    disabled?: boolean;
-}
+import { SelectItemDisable } from '../../SelectItemDisable';
+
 
 @Component({
     selector: 'app-role-picker',
     template: `
-    <p-dropdown [options]="rolesList" [(ngModel)]="selectedRole" optionLabel="label" (onChange)="onChange()">
+    <p-dropdown [options]="rolesList" [(ngModel)]="selectedRole" optionLabel="label" (onChange)="onChange()" appendTo="body" [style]="style">
     <ng-template let-option pTemplate="item">
         <div>
             <div (click)="onClick(option)" [ngClass]="option.disabled?'disabled':''">{{option.label}}</div>
@@ -30,8 +26,9 @@ export class RolePickerComponent implements OnInit {
     rolesList: SelectItemDisable[];
     selectedRole: SelectItemDisable;
     @Input() idRole: number;
+    @Input() style: string;
     @Input() all: boolean;
-    @Output() idRoleChange = new EventEmitter<number>();
+    @Output() idRoleChange = new EventEmitter<number>(); 
 
     constructor() {        
     }

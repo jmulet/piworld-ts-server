@@ -1,0 +1,150 @@
+<p-dialog header="Edit User" [(visible)]="visible" [modal]="true" [responsive]="true" [width]="650" [height]="650" [minWidth]="500">
+
+    <p-tabView *ngIf="formGroup" [style]="{height: '550px'}">
+        <p-tabPanel header="Parameters">
+            <form [formGroup]="formGroup" (ngSubmit)="onSubmitUser(formGroup.value)">
+                <span *ngIf="!formGroup.value.id">Create a new user</span>
+
+                <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            Role:
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <app-role-picker [(idRole)]="formGroup.value.idRole" [style]="{'width':'150px'}"></app-role-picker>
+                        </div> 
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            Username*:
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <input pInputText type="text" formControlName="username" placeholder="Required" />
+                        </div>
+                        <div class="ui-grid-col-4">
+                            <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!formGroup.controls['username'].valid&&formGroup.controls['username'].dirty">
+                                <i class="fa fa-close"></i>
+                                username is required
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            Fullname*:
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <input pInputText type="text" formControlName="fullname" placeholder="Required" />
+                        </div>
+                        <div class="ui-grid-col-4">
+                            <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!formGroup.controls['fullname'].valid&&formGroup.controls['fullname'].dirty">
+                                <i class="fa fa-close"></i>
+                                fullname is required
+                            </div>
+                        </div>
+                    </div>
+       
+                    <div class="ui-grid-row" *ngIf="!formGroup.value.id">
+                        <div class="ui-grid-col-2">
+                            Password*:
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <input pInputText type="password" formControlName="password" placeholder="Required" />
+                        </div>
+                        <div class="ui-grid-col-4">
+                            <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!formGroup.controls['password'].valid&&formGroup.controls['password'].dirty">
+                                <i class="fa fa-close"></i>
+                                password is required
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row" *ngIf="!formGroup.value.id">
+                        <div class="ui-grid-col-2">
+                            Recovery key:
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <input pInputText type="text" formControlName="recovery" />
+                        </div> 
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            Email:
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <input pInputText type="text" formControlName="email" [email]="formGroup.value.email"/>
+                        </div>
+                        <div class="ui-grid-col-4">
+                            <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!formGroup.controls['email'].valid&&formGroup.controls['email'].dirty">
+                                <i class="fa fa-close"></i>
+                                email must be valid
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            Email password:
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <input pInputText type="text" formControlName="emailPassword"/>
+                        </div> 
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            Status:
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <app-status-picker [(status)]="formGroup.value.valid" [style]="{'width':'150px'}"></app-status-picker>
+                        </div> 
+                    </div>
+   
+                    <div class="ui-message ui-messages-error ui-corner-all" role="alert" *ngIf="serverValidationErrors">
+                        {{serverValidationErrors}}
+                    </div>
+
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-12">
+                            <button type="submit" [disabled]="!formGroup.valid" class="btn btn-sm btn-success">
+                                <span class="fa fa-check">OK</span>
+                            </button>
+                            <button class="pull-left btn btn-sm btn-danger" type="button" (click)="close()">
+                                <span class="fa fa-close">Cancel</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </p-tabPanel>
+        <p-tabPanel header="Options">
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    Can post comments:
+                </div>
+                <div class="ui-grid-col-6">
+                    <input pInputText type="checkbox" [(ngModel)]="formGroup.value.uopts.postcomments"/>
+                </div> 
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    Can post in chats:
+                </div>
+                <div class="ui-grid-col-6">
+                    <input pInputText type="checkbox" [(ngModel)]="formGroup.value.uopts.postchats"/>
+                </div> 
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    Avatar:
+                </div>
+                <div class="ui-grid-col-6">
+                    <app-avatar-picker [(avatar)]="formGroup.value.uopts.avatar" [style]="{width: '250px'}"></app-avatar-picker>
+                </div> 
+            </div>
+        </p-tabPanel>
+        <p-tabPanel *ngIf="formGroup.value.idRole===PARENTS_ROLE" header="Offspring ({{selectedOffspring.length}})">
+            <p-multiSelect [options]="allStudents" [(ngModel)]="selectedOffspring" [panelStyle]="{minWidth:'350px'}" optionLabel="fullname">
+                  
+            </p-multiSelect>
+        </p-tabPanel>
+
+    </p-tabView>
+</p-dialog>

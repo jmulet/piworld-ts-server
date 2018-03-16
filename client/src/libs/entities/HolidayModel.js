@@ -10,25 +10,48 @@ module.exports = {
       "name": "idSchool",
       "type": "int",
       "nullable": false,
-      "generated": false
+      "generated": false,
+      "validation": [
+        {
+          "type": "isInt"
+        }
+      ]
     },
     {
       "name": "year",
       "type": "int",
       "nullable": false,
-      "generated": false
+      "generated": false,
+      "validation": [
+        {
+          "type": "isInt"
+        }
+      ]
     },
     {
       "name": "fromDate",
-      "type": "datetime",
+      "type": "date",
       "nullable": false,
-      "generated": false
+      "generated": false,
+      "validation": [
+        {
+          "type": "isDate"
+        }
+      ]
     },
     {
       "name": "toDate",
-      "type": "datetime",
+      "type": "date",
       "nullable": false,
-      "generated": false
+      "generated": false,
+      "validation": [
+        {
+          "type": "HolidayValidator"
+        },
+        {
+          "type": "isDate"
+        }
+      ]
     },
     {
       "name": "description",

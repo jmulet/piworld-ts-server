@@ -1,7 +1,7 @@
 import { EntityRepository } from 'typeorm';
 import { Repository } from 'typeorm/repository/Repository';
 
-import { UnitModel } from '../entities/UnitModel';
+import { UnitModel } from '../../main.app/entities/classroom/UnitModel';
 
 
 @EntityRepository(UnitModel)

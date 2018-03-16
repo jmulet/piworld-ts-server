@@ -5,13 +5,19 @@ import { SchoolModel } from './SchoolModel';
 import { JsonStringValidator } from '../validators/JsonStringValidator';
 import { Validate, IsInt, Min, Max, IsDate, IsEmail, IsNotEmpty, IsOptional, MaxLength, MinLength } from 'class-validator';
 import { RoleValidator } from '../validators/RoleValidator';
-import { GroupsModel } from '../../classroom.app/entities/GroupsModel';
+import { GroupsModel } from './classroom/GroupsModel';
 import { IntRangeValidator } from '../validators/IntRangeValidator';
 import { LoginsModel } from './LoginsModel';
-import { UploadModel, CommentModel, ChallengesQuizzModel, BadgesModel, RatingModel, ChatModel } from '../../classroom.app/entities';
-import { PdaBadgesModel, PdaActivityGrades } from '../../pda.app/entities';
+import { UploadModel } from './classroom/UploadModel';
+import { CommentModel} from './classroom/CommentModel';
+import { ChallengesQuizzModel } from './classroom/ChallengesQuizzModel';
+import { BadgesModel } from './classroom/BadgesModel';
+import { RatingModel } from './classroom/RatingModel';
+import { ChatModel } from './classroom/ChatModel';
+import { PdaBadgesModel } from './pda/PdaBadgesModel';
+import { PdaActivityGrades } from './pda/PdaActivityGrades';
 import { OffspringModel } from './OffspringModel';
-import { PdaMessageModel } from '../../pda.app/entities/PdaMessageModel';
+import { PdaMessageModel } from './pda/PdaMessageModel';
 
 
 export abstract class UserRoles {
@@ -90,54 +96,54 @@ export class UserModel {
     uopts: any;
 
     // Many users have associated a "school" object
-    @ManyToOne((type) => SchoolModel, (school) => school._members)
+    @ManyToOne((type) => SchoolModel, (school) => school._members, {onDelete: "CASCADE"})
     @JoinColumn({name: "idSchool"})
     _school: SchoolModel;
 
     // A user (which is PARENTS role) may contain many "offspring"
-    @OneToMany((type) => OffspringModel, offspring => offspring._parent, {onDelete: "CASCADE", cascade: ["remove"]})
+    @OneToMany((type) => OffspringModel, offspring => offspring._parent)
     _offspring: OffspringModel[]
 
 
     // A user may have created a number of "groups"
-    @OneToMany((type) => GroupsModel, group => group._creator, {onDelete: "CASCADE", cascade: ["remove"]})
+    @OneToMany((type) => GroupsModel, group => group._creator)
     _groupsCreated: GroupsModel[]
 
     // A user may have multiple logins
-    @OneToMany(type => LoginsModel, (login)=> login._user, {onDelete: "CASCADE", cascade: ["remove"]})
+    @OneToMany(type => LoginsModel, (login)=> login._user)
     _logins: LoginsModel[];
 
-    @OneToMany((type) => UploadModel, (upload) => upload._user, {onDelete: "CASCADE", cascade: ["remove"]})    
+    @OneToMany((type) => UploadModel, (upload) => upload._user)    
     _uploads: UploadModel[];
 
-    @OneToMany((type) => CommentModel, (comment) => comment._user, {onDelete: "CASCADE", cascade: ["remove"]})    
+    @OneToMany((type) => CommentModel, (comment) => comment._user)    
     _comments: CommentModel[];
 
-    @OneToMany((type) => ChallengesQuizzModel, (challenge) => challenge._user, {onDelete: "CASCADE", cascade: ["remove"]})    
+    @OneToMany((type) => ChallengesQuizzModel, (challenge) => challenge._user)    
     _challengeUsers: ChallengesQuizzModel[];
 
-    @OneToMany((type) => BadgesModel, (badge) => badge._user, {onDelete: "CASCADE", cascade: ["remove"]})    
+    @OneToMany((type) => BadgesModel, (badge) => badge._user)    
     _badgesOwned: BadgesModel[];
 
-    @OneToMany((type) => BadgesModel, (badge) => badge._creator, {onDelete: "CASCADE", cascade: ["remove"]})    
+    @OneToMany((type) => BadgesModel, (badge) => badge._creator)    
     _badgesCreated: BadgesModel[];
     
-    @OneToMany((type) => RatingModel, (rating) => rating._user, {onDelete: "CASCADE", cascade: ["remove"]})    
+    @OneToMany((type) => RatingModel, (rating) => rating._user)    
     _ratings: RatingModel[];
 
-    @OneToMany((type)=> ChatModel, (chat) => chat._user, {onDelete: "CASCADE", cascade: ["remove"]})
+    @OneToMany((type)=> ChatModel, (chat) => chat._user)
     _chats: ChatModel[];
 
-    @OneToMany((type)=> PdaMessageModel, (message) => message._user, {onDelete: "CASCADE", cascade: ["remove"]})
+    @OneToMany((type)=> PdaMessageModel, (message) => message._user)
     _pdaMessages: PdaMessageModel[];
  
-    @OneToMany((type)=> PdaBadgesModel, (badge) => badge._user, {onDelete: "CASCADE", cascade: ["remove"]})
+    @OneToMany((type)=> PdaBadgesModel, (badge) => badge._user)
     _pdaBadges: PdaBadgesModel[];
 
-    @OneToMany((type)=> PdaActivityGrades, (grade) => grade._user, {onDelete: "CASCADE", cascade: ["remove"]})
+    @OneToMany((type)=> PdaActivityGrades, (grade) => grade._user)
     _pdaGrades: PdaActivityGrades[];
 
-    @OneToMany((type)=> OffspringModel, (offspring) => offspring._child, {onDelete: "CASCADE", cascade: ["remove"]})
+    @OneToMany((type)=> OffspringModel, (offspring) => offspring._child)
     _childParents: OffspringModel[];
  
     @BeforeInsert()

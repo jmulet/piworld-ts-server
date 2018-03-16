@@ -2,7 +2,7 @@ import { Inject, Service } from 'typedi';
 import { getRepository, Repository } from 'typeorm';
 
 import { UserRoles } from '../../main.app/entities/UserModel';
-import { GroupsModel } from '../entities/GroupsModel';
+import { GroupsModel } from '../../main.app/entities/classroom/GroupsModel';
 import { EnrollSrv } from './GroupEnrollSrv';
 
  

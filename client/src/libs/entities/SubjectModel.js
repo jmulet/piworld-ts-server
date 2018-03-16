@@ -10,13 +10,35 @@ module.exports = {
       "name": "name",
       "type": "varchar",
       "nullable": false,
-      "generated": false
+      "generated": false,
+      "validation": [
+        {
+          "type": "maxLength",
+          "constraints": [
+            11
+          ]
+        },
+        {
+          "type": "isNotEmpty"
+        }
+      ]
     },
     {
       "name": "longname",
       "type": "varchar",
       "nullable": false,
-      "generated": false
+      "generated": false,
+      "validation": [
+        {
+          "type": "maxLength",
+          "constraints": [
+            255
+          ]
+        },
+        {
+          "type": "isNotEmpty"
+        }
+      ]
     }
   ],
   "defaultObject": {

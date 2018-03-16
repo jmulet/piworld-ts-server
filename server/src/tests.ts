@@ -10,7 +10,7 @@ import { PwHttpServer } from './server';
 /** Import all apps here */
 import { MainApp } from './main.app/';
 import { AdminApp } from './admin.app/';
-import { ClassroomApp } from './classroom.app/';
+import { ClassroomApp } from './main.app/entities';
 
 const colors = require('colors/safe');
 

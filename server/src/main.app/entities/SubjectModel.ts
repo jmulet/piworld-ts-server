@@ -1,8 +1,8 @@
-import { GroupsModel } from '../../classroom.app/entities/GroupsModel';
+import { GroupsModel } from './classroom/GroupsModel';
 import { Index, Entity, PrimaryColumn, Column, OneToOne, OneToMany, ManyToOne, JoinColumn, PrimaryGeneratedColumn } from "typeorm";
 import { MaxLength, IsNotEmpty } from "class-validator";
-import { ActivityModel } from '../../classroom.app/entities/ActivityModel';
-import { CourseModel } from '../../classroom.app/entities';
+import { ActivityModel } from './classroom/ActivityModel';
+import { CourseModel } from './classroom/CourseModel';
 import { SubjectCategoryModel } from './SubjectCategoryModel';
 
 
@@ -30,13 +30,13 @@ export class SubjectModel {
     longname: string;
  
     // One subject has many activities
-    @OneToMany((type) => ActivityModel, (activity) => activity._subject, {onDelete: "CASCADE", cascade: ["remove"]})  
+    @OneToMany((type) => ActivityModel, (activity) => activity._subject)  
     _activities: ActivityModel[];
 
     // Relation between courses and subjects
-    @OneToMany((type)=>CourseModel, (course)=>course._subject, {onDelete: "CASCADE", cascade: ["remove"]})
+    @OneToMany((type)=>CourseModel, (course)=>course._subject)
     _courses: CourseModel[]
 
-    @OneToMany((type)=>SubjectCategoryModel, (category)=>category._subject, {onDelete: "CASCADE", cascade: ["remove"]})
+    @OneToMany((type)=>SubjectCategoryModel, (category)=>category._subject)
     _categories: CourseModel[]
 }

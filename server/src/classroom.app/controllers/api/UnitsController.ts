@@ -1,11 +1,12 @@
+import { Body, Controller, Delete, Get, Post, QueryParam, UseBefore, Param, Put } from 'routing-controllers';
+import { Inject } from 'typedi';
 
- import { Body, Controller, Delete, Get, Post, QueryParam, Session, UseBefore } from 'routing-controllers';
- import { Inject } from 'typedi';
- import { AuthenticatedMdw } from '../../../main.app/middlewares/AuthenticatedMdw';
- import { AdminsAndTeachersOnly } from '../../../main.app/middlewares/AuthorizedMdw';
- import { UnitSrv } from '../../services/UnitSrv';
- import { SessionModel } from '../../../main.app/model/SessionModel';
-import { UnitModel } from '../../entities';
+import { UnitModel } from '../../../main.app/entities/classroom/UnitModel';
+import { AuthenticatedMdw } from '../../../main.app/middlewares/AuthenticatedMdw';
+import { AdminsAndTeachersOnly } from '../../../main.app/middlewares/AuthorizedMdw';
+import { UnitSrv } from '../../services/UnitSrv';
+
+
    
  @Controller("/api/units")
  @UseBefore(AuthenticatedMdw) 
@@ -33,14 +34,21 @@ import { UnitModel } from '../../entities';
 
      @Post("/")
      @UseBefore(AdminsAndTeachersOnly)
-     assignmentSave(@Body({ validate: true }) entity: UnitModel) {            
+     save(@Body({ validate: true }) entity: UnitModel) {            
+         return this.unitSrv.save(entity);
+     }
+
+     @Put("/:id")
+     @UseBefore(AdminsAndTeachersOnly)
+     update(@Param("id") id: number, @Body({ validate: true }) entity: UnitModel) {            
+         entity.id = id;
          return this.unitSrv.save(entity);
      }
  
-     @Delete("/")
+     @Delete("/:idUnit")
      @UseBefore(AdminsAndTeachersOnly)
-     assignmentDelete(@QueryParam("idAssignment") idAssignment: number) {             
-         return this.unitSrv.deleteById(idAssignment);
+     del(@Param("idUnit") idUnit: number) {             
+         return this.unitSrv.deleteById(idUnit);
      }
  
  }

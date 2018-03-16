@@ -22,13 +22,23 @@ module.exports = {
       "name": "day",
       "type": "datetime",
       "nullable": false,
-      "generated": false
+      "generated": false,
+      "validation": [
+        {
+          "type": "isDate"
+        }
+      ]
     },
     {
       "name": "msg",
       "type": "longtext",
       "nullable": false,
-      "generated": false
+      "generated": false,
+      "validation": [
+        {
+          "type": "isNotEmpty"
+        }
+      ]
     },
     {
       "name": "isFor",

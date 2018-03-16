@@ -28,7 +28,16 @@ module.exports = {
       "name": "isValid",
       "type": "tinyint",
       "nullable": false,
-      "generated": false
+      "generated": false,
+      "validation": [
+        {
+          "type": "IntRangeValidator",
+          "constraints": [
+            0,
+            1
+          ]
+        }
+      ]
     },
     {
       "name": "penalty",

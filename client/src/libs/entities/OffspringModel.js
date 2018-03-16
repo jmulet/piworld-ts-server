@@ -10,13 +10,26 @@ module.exports = {
       "name": "idParent",
       "type": "int",
       "nullable": false,
-      "generated": false
+      "generated": false,
+      "validation": [
+        {
+          "type": "isInt"
+        }
+      ]
     },
     {
       "name": "idChild",
       "type": "int",
       "nullable": false,
-      "generated": false
+      "generated": false,
+      "validation": [
+        {
+          "type": "OffspringValidator"
+        },
+        {
+          "type": "isInt"
+        }
+      ]
     }
   ],
   "defaultObject": {

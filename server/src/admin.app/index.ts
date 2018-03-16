@@ -5,7 +5,7 @@ import * as chai from 'chai';
 import * as chaiHttp from 'chai-http';
 
 import { BaseApp } from '../BaseApp';
-import { ActivityModel } from '../classroom.app/entities';
+import { ActivityModel } from '../main.app/entities/classroom';
 import { PwHttpServer } from '../server';
 import { config } from '../server.config';
 

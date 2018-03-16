@@ -1,7 +1,7 @@
 import { Service } from 'typedi';
 import { getRepository, Repository } from 'typeorm';
 
-import { GroupsEnrollModel } from '../entities/GroupsEnrollModel';
+import { GroupsEnrollModel } from '../../main.app/entities/classroom/GroupsEnrollModel';
 
 
 @Service()

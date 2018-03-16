@@ -4,21 +4,23 @@ import 'reflect-metadata';
 import { useContainer as routingUseContainer } from 'routing-controllers';
 import { Container } from 'typedi';
 import { createConnection, useContainer as ormUseContainer } from 'typeorm';
+import { useContainer as classValidatorUseContainer } from 'class-validator';
 import { config } from './server.config';
 import { PwHttpServer } from './server';
 
 /** Import all apps here */
 import { MainApp } from './main.app/';
 import { AdminApp } from './admin.app/';
-import { ClassroomApp } from './classroom.app/';
+import { ClassroomApp } from './classroom.app';
 import { PdaApp } from './pda.app/';
-import { BooksApp } from './books.app/';
+import { BooksApp } from './books.app';
 
 const colors = require('colors/safe');
   
 // set up container for dependency-injection
 routingUseContainer(Container);
 ormUseContainer(Container);
+// classValidatorUseContainer(Container);
 
 createConnection({
     type: "mysql",
@@ -37,7 +39,7 @@ createConnection({
     synchronize: true,
     logging:  process.env.NODE_ENV !== 'production'
 
-}).then(connection => {
+}).then( (connection) => {
 
     // Get an instance of the main httpServer
     const pwServer = PwHttpServer.getInstance();
@@ -49,7 +51,7 @@ createConnection({
     pwServer.install(PdaApp);
     pwServer.install(BooksApp);
 
-    pwServer.listen({handleErrors: (process.env.NODE_ENV === 'production'), mountStaticPrivate: true});
+    pwServer.listen( {handleErrors: (process.env.NODE_ENV === 'production'), mountStaticPrivate: true} );
 
 }).catch(error => {
     console.log(colors.red("TypeORM connection error: "), error);

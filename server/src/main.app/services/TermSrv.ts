@@ -16,14 +16,15 @@ export class TermsSrv {
      * List all groups which idUser is enrolled to
      * @param idUser 
      */
-    findBySchoolName(name: string) {
+    findBySchoolName(name: string, year: number) {
         return this.repository.createQueryBuilder("t").innerJoin("t._school", "s")
             .where("s.schoolName=:name", {name: name})
+            .andWhere("t.year=:year", {year: year})
             .getMany();
     }
 
-    findBySchoolId(idSchool: number) {
-        return this.repository.find({idSchool: idSchool});
+    findBySchoolId(idSchool: number, year: number) {
+        return this.repository.find({idSchool: idSchool, year: year});
     }
 
     findById(id: number) {

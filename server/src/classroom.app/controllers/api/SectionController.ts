@@ -1,29 +1,36 @@
+import { Body, Controller, Delete, Param, Post, UseBefore, Put } from 'routing-controllers';
+import { Inject } from 'typedi';
 
- import { Body, Controller, Delete, Get, Post, QueryParam, Session, UseBefore } from 'routing-controllers';
- import { Inject } from 'typedi';
- import { AuthenticatedMdw } from '../../../main.app/middlewares/AuthenticatedMdw';
- import { AdminsAndTeachersOnly } from '../../../main.app/middlewares/AuthorizedMdw';
- import { SectionSrv } from '../../services/SectionSrv';
- import { SessionModel } from '../../../main.app/model/SessionModel'; 
-import { SectionModel } from '../../entities/SectionModel';
-   
- @Controller("/api/assignments")
+import { SectionModel } from '../../../main.app/entities/classroom/SectionModel';
+import { AuthenticatedMdw } from '../../../main.app/middlewares/AuthenticatedMdw';
+import { AdminsAndTeachersOnly } from '../../../main.app/middlewares/AuthorizedMdw';
+import { SectionSrv } from '../../services/SectionSrv';
+
+ 
+ @Controller("/api/section")
  @UseBefore(AuthenticatedMdw) 
- export class AssignmentsController {
+ export class SectionController {
    
      @Inject()
      sectionSrv: SectionSrv;
    
      @Post("/")
      @UseBefore(AdminsAndTeachersOnly)
-     assignmentSave(@Body({ validate: true }) entity: SectionModel) {            
+     save(@Body({ validate: true }) entity: SectionModel) {            
+         return this.sectionSrv.save(entity);
+     }
+
+     @Put("/:id")
+     @UseBefore(AdminsAndTeachersOnly)
+     update(@Param("id") id, @Body({ validate: true }) entity: SectionModel) {            
+         entity.id = id;
          return this.sectionSrv.save(entity);
      }
  
-     @Delete("/")
+     @Delete("/:idSection")
      @UseBefore(AdminsAndTeachersOnly)
-     async assignmentDelete(@QueryParam("idAssignment") idAssignment: number) {             
-         await this.sectionSrv.deleteById(idAssignment);
+     async del(@Param("idSection") idSection: number) {             
+         await this.sectionSrv.deleteById(idSection);
          return true;
      }
  

@@ -1,12 +1,6 @@
  
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'; 
- 
-interface SelectItemDisable {
-    value: any;
-    label: string;
-    disabled?: boolean;
-}
-
+import { SelectItemDisable } from '../../SelectItemDisable'; 
 export enum UserStatus {
     disabled = 0,
     enabled = 1,
@@ -16,7 +10,7 @@ export enum UserStatus {
 @Component({
     selector: 'app-status-picker',
     template: `
-    <p-dropdown [options]="list" [(ngModel)]="selected" optionLabel="label" (onChange)="onChange()">
+    <p-dropdown [options]="list" [(ngModel)]="selected" optionLabel="label" (onChange)="onChange()" appendTo="body" [style]="style">
     <ng-template let-option pTemplate="item">
         <div>
             <div [ngClass]="option.disabled?'disabled':''">{{option.label}}</div>
@@ -35,6 +29,7 @@ export class StatusPickerComponent implements OnInit {
     list: SelectItemDisable[];
     selected: SelectItemDisable;
     @Input() status: number;
+    @Input() style: string;
     @Output() statusChange = new EventEmitter<number>();
 
     constructor() {        

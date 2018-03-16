@@ -177,15 +177,15 @@ export class PwHttpServer {
         this.io.use(sharedsession(appSession, {
             autoSave: true 
         }));
-      
         this.app.use(bodyParser.urlencoded({ limit: '100mb', extended: true }));
+       
         //this.app.use(bodyParser.json({ limit: '100mb'}));
         //Use extended json deserializer
         this.app.use(ejsonBodyParser({ limit: '100mb' }));
         //Tell express which serializer must use   
         this.app.set("json serializer", EJSON);
-
         this.app.use(bodyParser.text({ limit: '100mb' }));
+        
         this.app.use(methodOverride());
         this.app.use(compression());
 

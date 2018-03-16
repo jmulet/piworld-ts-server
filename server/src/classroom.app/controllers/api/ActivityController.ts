@@ -1,17 +1,17 @@
 import { Request, Response } from 'express';
-import { Body, Controller, Delete, Get, Post, QueryParam, Req, Res, UseBefore } from 'routing-controllers';
+import { Body, Controller, Delete, Get, Post, QueryParam, Req, Res, UseBefore, Param, Put } from 'routing-controllers';
 import { Inject } from 'typedi';
 
 import { AuthenticatedMdw } from '../../../main.app/middlewares/AuthenticatedMdw';
 import { AdminsAndTeachersOnly } from '../../../main.app/middlewares/AuthorizedMdw';
 import { filterLang } from '../../../main.app/utils/filterLang';
 import { langInspector } from '../../../main.app/utils/LangInspector';
-import { ActivityModel } from '../../entities';
+import { ActivityModel } from '../../../main.app/entities/classroom/ActivityModel';
 import { ActivitySrv } from '../../services/ActivitySrv';
 
    
  @Controller("/api/activity")
- export class AssignmentsController {
+ export class ActivityController {
    
      @Inject()
      activitySrv: ActivitySrv;
@@ -31,11 +31,19 @@ import { ActivitySrv } from '../../services/ActivitySrv';
      save(@Body({ validate: true }) entity: ActivityModel) {            
          return this.activitySrv.save(entity);
      }
- 
-     @Delete("/")
+
+     @Put("/:id")
      @UseBefore(AuthenticatedMdw) 
      @UseBefore(AdminsAndTeachersOnly)
-     del(@QueryParam("idActivity") idActivity: number) {             
+     update(@Param("id") id: number, @Body({ validate: true }) entity: ActivityModel) {     
+         entity.id = id;       
+         return this.activitySrv.save(entity);
+     }
+ 
+     @Delete("/:idActivity")
+     @UseBefore(AuthenticatedMdw) 
+     @UseBefore(AdminsAndTeachersOnly)
+     del(@Param("idActivity") idActivity: number) {             
          return this.activitySrv.deleteById(idActivity);
      }
  

@@ -34,7 +34,15 @@ module.exports = {
       "name": "day",
       "type": "date",
       "nullable": false,
-      "generated": false
+      "generated": false,
+      "validation": [
+        {
+          "type": "isDate"
+        },
+        {
+          "type": "isNotEmpty"
+        }
+      ]
     },
     {
       "name": "rscore",

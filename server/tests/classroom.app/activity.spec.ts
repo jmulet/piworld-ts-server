@@ -3,7 +3,7 @@ import 'reflect-metadata';
 
 import * as chai from 'chai';
 
-import { ActivityModel } from '../../src/classroom.app/entities';
+import { ActivityModel } from '../../src/main.app/entities/classroom';
 import { config } from '../../src/server.config';
 import { TestConfig } from '../TestConfig';
 

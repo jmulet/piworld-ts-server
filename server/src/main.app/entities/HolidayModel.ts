@@ -22,11 +22,11 @@ export class HolidayModel {
     year: number;
 
     @IsDate()
-    @Column("datetime")
+    @Column("date")
     fromDate: Date;
 
     @IsDate()
-    @Column("datetime")
+    @Column("date")
     // Validation toDate must be larger or equal to fromDate
     @Validate(HolidayValidator)
     toDate: Date;
@@ -34,7 +34,7 @@ export class HolidayModel {
     @Column("longtext")
     description: string;
 
-    @ManyToOne((type) => SchoolModel, (school) => school._holidays)
+    @ManyToOne((type) => SchoolModel, (school) => school._holidays, {onDelete: "CASCADE"})
     @JoinColumn({name: "idSchool"})
     _school: SchoolModel;
 

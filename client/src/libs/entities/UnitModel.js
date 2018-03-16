@@ -16,7 +16,12 @@ module.exports = {
       "name": "unit",
       "type": "longtext",
       "nullable": false,
-      "generated": false
+      "generated": false,
+      "validation": [
+        {
+          "type": "isNotEmpty"
+        }
+      ]
     },
     {
       "name": "order",
@@ -28,7 +33,16 @@ module.exports = {
       "name": "visible",
       "type": "tinyint",
       "nullable": false,
-      "generated": false
+      "generated": false,
+      "validation": [
+        {
+          "type": "IntRangeValidator",
+          "constraints": [
+            0,
+            3
+          ]
+        }
+      ]
     }
   ],
   "defaultObject": {

@@ -1,9 +1,9 @@
-import { Body, Controller, Delete, Get, Post, QueryParam, UseBefore } from 'routing-controllers';
+import { Body, Controller, Delete, Get, Post, QueryParam, UseBefore, Param, Put } from 'routing-controllers';
 import { Inject } from 'typedi';
 
 import { AuthenticatedMdw } from '../../../main.app/middlewares/AuthenticatedMdw';
 import { AdminsAndTeachersOnly } from '../../../main.app/middlewares/AuthorizedMdw';
-import { BadgesModel } from '../../entities';
+import { BadgesModel } from '../../../main.app/entities/classroom/BadgesModel';
 import { BadgesSrv } from '../../services/BadgesSrv';
 
 
@@ -27,11 +27,18 @@ import { BadgesSrv } from '../../services/BadgesSrv';
      save(@Body({ validate: true }) entity: BadgesModel) {            
          return this.badgesSrv.save(entity);
      }
- 
-     @Delete("/")
+
+     @Put("/:id")
      @UseBefore(AdminsAndTeachersOnly)
-     del(@QueryParam("idActivity") idActivity: number) {             
-         return this.badgesSrv.deleteById(idActivity);
+     update(@Param("id") id: number, @Body({ validate: true }) entity: BadgesModel) {            
+         entity.id = id;
+         return this.badgesSrv.save(entity);
+     }
+ 
+     @Delete("/:idBadge")
+     @UseBefore(AdminsAndTeachersOnly)
+     del(@Param("idBadge") idBadge: number) {             
+         return this.badgesSrv.deleteById(idBadge);
      }
  
  }

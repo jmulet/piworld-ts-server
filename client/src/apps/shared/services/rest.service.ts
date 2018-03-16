@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core'; 
+import { HolidayModel } from '../../../libs/entities/HolidayModel';
 
 export interface LoginBodyModel {
     username: string; 
@@ -20,6 +21,6 @@ export class RestService {
         return this.http.get("@/api/user/logout");
     }
     getUsers(idSchool?: number){
-        return this.http.get("@/api/user/list"+(idSchool?("&idSchool="+idSchool):""));
-    }
+        return this.http.get("@/api/user/list" + (idSchool?("&idSchool="+idSchool):""));
+    } 
 }

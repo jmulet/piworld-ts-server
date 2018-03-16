@@ -43,6 +43,7 @@ var FIRST_CHAR_REGEXP = /^[\x20\x09\x0a\x0d]*(.)/ // eslint-disable-line no-cont
  */
 
 export function ejsonBodyParser (options) {
+  //console.log("CREATING EJSON BODY PARSER");
   var opts = options || {}
 
   var limit = typeof opts.limit !== 'number'
@@ -64,6 +65,7 @@ export function ejsonBodyParser (options) {
     : type
 
   function parse (body) {
+    //console.log("within parse function ", body);
     if (body.length === 0) {
       // special-case empty json body, as it's a common client-side mistake
       // TODO: maybe make this configurable or part of "strict" option
@@ -81,7 +83,10 @@ export function ejsonBodyParser (options) {
 
     try {
       debug('parse json')
-      return EJSON.parse(body, reviver)
+      //console.log("ACTUALLY CALLING EJSON")
+      const parsed = EJSON.parse(body, reviver)
+      //console.log(body, parsed);
+      return parsed;
     } catch (e) {
       throw normalizeJsonSyntaxError(e, {
         stack: e.stack
@@ -90,6 +95,7 @@ export function ejsonBodyParser (options) {
   }
 
   return function jsonParser (req, res, next) {
+    //console.log("called")
     if (req._body) {
       debug('body already parsed')
       next()
@@ -97,7 +103,7 @@ export function ejsonBodyParser (options) {
     }
 
     req.body = req.body || {}
-
+ 
     // skip requests without bodies
     if (!typeis.hasBody(req)) {
       debug('skip empty body')
@@ -125,6 +131,7 @@ export function ejsonBodyParser (options) {
       return
     }
 
+    //console.log("finally read funcion");
     // read
     read(req, res, next, parse, debug, {
       encoding: charset,

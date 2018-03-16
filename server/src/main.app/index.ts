@@ -2,7 +2,6 @@ import 'es6-shim';
 import 'reflect-metadata';
 
 import { Container } from 'typedi';
-
 import { BaseApp } from '../BaseApp';
 import { BootstrapSrv } from './services/BootstrapSrv';
 import { typeClientGenerator } from './utils/type-client-generator';
@@ -16,7 +15,9 @@ export class MainApp extends BaseApp {
 
     static entities = [
         __dirname + "/entities/*.ts",
-        __dirname + "/entities/*.js"
+        __dirname + "/entities/*.js",
+        __dirname + "/entities/**/*.ts",
+        __dirname + "/entities/**/*.js"
     ]; 
      
     constructor() {

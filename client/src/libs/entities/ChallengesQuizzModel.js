@@ -28,7 +28,12 @@ module.exports = {
       "name": "when",
       "type": "datetime",
       "nullable": false,
-      "generated": false
+      "generated": false,
+      "validation": [
+        {
+          "type": "isDate"
+        }
+      ]
     },
     {
       "name": "answer",
@@ -40,7 +45,16 @@ module.exports = {
       "name": "valid",
       "type": "tinyint",
       "nullable": false,
-      "generated": false
+      "generated": false,
+      "validation": [
+        {
+          "type": "IntRangeValidator",
+          "constraints": [
+            0,
+            1
+          ]
+        }
+      ]
     }
   ],
   "defaultObject": {

@@ -19,11 +19,11 @@ export class OffspringModel {
     @Validate(OffspringValidator)
     idChild: number;
 
-    @ManyToOne((type) => UserModel, (user) => user._offspring)
+    @ManyToOne((type) => UserModel, (user) => user._offspring, {onDelete: "CASCADE"})
     @JoinColumn({name: "idParent"})
     _parent: UserModel;
 
-    @ManyToOne((type) => UserModel, (user) => user._childParents)
+    @ManyToOne((type) => UserModel, (user) => user._childParents, {onDelete: "CASCADE"})
     @JoinColumn({name: "idChild"})
     _child: UserModel;
 

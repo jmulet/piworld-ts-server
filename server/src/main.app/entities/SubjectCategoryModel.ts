@@ -1,8 +1,8 @@
-import { GroupsModel } from '../../classroom.app/entities/GroupsModel';
+import { GroupsModel } from './classroom/GroupsModel';
 import { Index, Entity, PrimaryColumn, Column, OneToOne, OneToMany, ManyToOne, JoinColumn, PrimaryGeneratedColumn } from "typeorm";
 import { MaxLength, IsNotEmpty } from "class-validator";
-import { ActivityModel } from '../../classroom.app/entities/ActivityModel';
-import { CourseModel } from '../../classroom.app/entities/CourseModel';
+import { ActivityModel } from './classroom/ActivityModel';
+import { CourseModel } from './classroom/CourseModel';
 import { SubjectModel } from './SubjectModel';
 
 
@@ -28,7 +28,7 @@ export class SubjectCategoryModel {
     longname: string;
  
     // One subject has many activities
-    @ManyToOne((type) => SubjectModel, (subject) => subject._categories)  
+    @ManyToOne((type) => SubjectModel, (subject) => subject._categories, {onDelete: "CASCADE"})  
     @JoinColumn({name: "idSubject"})
     _subject: SubjectModel;
  

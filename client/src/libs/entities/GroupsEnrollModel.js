@@ -22,7 +22,12 @@ module.exports = {
       "name": "idRole",
       "type": "int",
       "nullable": false,
-      "generated": false
+      "generated": false,
+      "validation": [
+        {
+          "type": "RoleValidator"
+        }
+      ]
     }
   ],
   "defaultObject": {

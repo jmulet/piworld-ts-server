@@ -1,7 +1,7 @@
-import { Controller, Get, Render, Session, UseBefore, Body, Delete, QueryParam, Post } from 'routing-controllers';
+import { Controller, Get, Render, Session, UseBefore, Body, Delete, QueryParam, Post, Param, Put } from 'routing-controllers';
 import { Inject } from 'typedi';
 import { AuthenticatedMdw } from '../../middlewares/AuthenticatedMdw';
-import { GroupsModel } from '../../../classroom.app/entities/GroupsModel';
+import { GroupsModel } from '../../entities/classroom/GroupsModel';
 import { GroupsSrv } from '../../../classroom.app/services/GroupsSrv';
 import { AdminsAndTeachersOnly } from '../../middlewares/AuthorizedMdw';
 
@@ -17,6 +17,13 @@ export class ApiGroupsController {
     save(@Body({validate: true}) entity: GroupsModel) {        
         return this.groupsSrv.save(entity);
     }
+
+    @Put("/:id")
+    @UseBefore(AdminsAndTeachersOnly)
+    update(@Param("id") id: number, @Body({validate: true}) entity: GroupsModel) { 
+        entity.id = id;       
+        return this.groupsSrv.save(entity);
+    }
    
     @Get("/")
     get(@QueryParam("idGroup") idGroup: number) {        
@@ -28,9 +35,9 @@ export class ApiGroupsController {
         return this.groupsSrv.findCreated(idUser);
     }
     
-    @Delete("/")
+    @Delete("/:idGroup")
     @UseBefore(AdminsAndTeachersOnly)
-    async del(@QueryParam("idGroup") idGroup: number) {     
+    async del(@Param("idGroup") idGroup: number) {     
         return this.groupsSrv.deleteById(idGroup);
     }
 }

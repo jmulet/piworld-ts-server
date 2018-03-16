@@ -16,13 +16,23 @@ module.exports = {
       "name": "idSubject",
       "type": "int",
       "nullable": false,
-      "generated": false
+      "generated": false,
+      "validation": [
+        {
+          "type": "isNotEmpty"
+        }
+      ]
     },
     {
       "name": "activity",
       "type": "json",
       "nullable": false,
-      "generated": false
+      "generated": false,
+      "validation": [
+        {
+          "type": "isNotEmpty"
+        }
+      ]
     },
     {
       "name": "activityType",
@@ -40,7 +50,12 @@ module.exports = {
       "name": "createdBy",
       "type": "varchar",
       "nullable": false,
-      "generated": false
+      "generated": false,
+      "validation": [
+        {
+          "type": "isNotEmpty"
+        }
+      ]
     },
     {
       "name": "createdWhen",

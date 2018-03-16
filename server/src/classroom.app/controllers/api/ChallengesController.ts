@@ -1,9 +1,9 @@
-import { Body, Controller, Delete, Get, Post, QueryParam, UseBefore } from 'routing-controllers';
+import { Body, Controller, Delete, Get, Post, QueryParam, UseBefore, Param, Put } from 'routing-controllers';
 import { Inject } from 'typedi';
 
 import { AuthenticatedMdw } from '../../../main.app/middlewares/AuthenticatedMdw';
 import { AdminsAndTeachersOnly } from '../../../main.app/middlewares/AuthorizedMdw';
-import { ChallengesModel } from '../../entities';
+import { ChallengesModel } from '../../../main.app/entities/classroom/ChallengesModel';
 import { ChallengeSrv } from '../../services/ChallengeSrv';
 
 
@@ -27,10 +27,17 @@ import { ChallengeSrv } from '../../services/ChallengeSrv';
      save(@Body({ validate: true }) entity: ChallengesModel) {            
          return this.challengesSrv.save(entity);
      }
- 
-     @Delete("/")
+
+     @Put("/:id")
      @UseBefore(AdminsAndTeachersOnly)
-     del(@QueryParam("idChallenge") idChallenge: number) {             
+     update(@Param("id") id: number, @Body({ validate: true }) entity: ChallengesModel) {            
+        entity.id = id; 
+        return this.challengesSrv.save(entity);
+     }
+ 
+     @Delete("/:idChallenge")
+     @UseBefore(AdminsAndTeachersOnly)
+     del(@Param("idChallenge") idChallenge: number) {             
          return this.challengesSrv.deleteById(idChallenge);
      }
  

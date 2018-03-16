@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Post, QueryParam, Session, UseBefore } from 'routing-controllers';
+import { Body, Controller, Delete, Get, Post, QueryParam, Session, UseBefore, Param, Put, Req } from 'routing-controllers';
 import { Inject } from 'typedi';
 
 import { AuthenticatedMdw } from '../../middlewares/AuthenticatedMdw';
@@ -8,10 +8,11 @@ import { SessionSrv } from '../../services/SessionSrv';
 import { SessionModel } from '../../model/SessionModel';
 import { UserRoles } from '../../entities/UserModel';
 import { HolidayModel } from '../../entities/HolidayModel';
+import { Request } from 'superagent';
 
 
 @Controller("/api/school/holiday")
-@UseBefore(AuthenticatedMdw) 
+//@UseBefore(AuthenticatedMdw) 
 export class ApiSchoolHolidayController {
   
     @Inject()
@@ -38,14 +39,22 @@ export class ApiSchoolHolidayController {
     }
 
     @Post("/")
-    @UseBefore(AdminsOnly)
-    centerSave(@Body({ validate: true }) entity: HolidayModel) {            
+   // @UseBefore(AdminsOnly)
+    //
+    centerSave(@Body({ validate: true }) entity: HolidayModel) {        
         return this.holidaySrv.save(entity);
     }
 
-    @Delete("/")
+    @Put("/:id")
+    @UseBefore(AdminsOnly)
+    centerUpdate(@Param("id") id: number, @Body({ validate: true }) entity: HolidayModel) {            
+        entity.id = id;
+        return this.holidaySrv.save(entity);
+    }
+
+    @Delete("/:idHoliday")
     @UseBefore(RootOnly)
-    async centerDelete(@QueryParam("idHoliday") idHoliday: number) {             
+    async centerDelete(@Param("idHoliday") idHoliday: number) {             
         return this.holidaySrv.deleteById(idHoliday);
     }
 

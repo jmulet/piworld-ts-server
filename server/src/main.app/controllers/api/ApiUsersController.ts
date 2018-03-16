@@ -1,6 +1,6 @@
 import { validate } from 'class-validator';
 import * as express from 'express';
-import { Body, Controller, Delete, Get, Post, QueryParam, Req, Res, Session, UseBefore, Redirect } from 'routing-controllers';
+import { Body, Controller, Delete, Get, Post, QueryParam, Req, Res, Session, UseBefore, Redirect, Param } from 'routing-controllers';
 import { Inject } from 'typedi';
 
  
@@ -93,6 +93,7 @@ export class ApiUsersController {
             return response.status(400).send({ msg: "You can only edit users of your schoolId." });
         }
     }
+ 
 
     @Post("/import")
     @UseBefore(AdminsAndTeachersOnly)
@@ -169,9 +170,9 @@ export class ApiUsersController {
         return logErrors;
     }
 
-    @Delete("/")
+    @Delete("/:idUser")
     @UseBefore(AdminsOnly)
-    async userDelete( @Session() session: SessionModel, @QueryParam("idUser") idUser: number, @Res() response: express.Response) {
+    async userDelete( @Session() session: SessionModel, @Param("idUser") idUser: number, @Res() response: express.Response) {
 
         const sessionUser = session.user;
         const user = await this.userSrv.findById(idUser);

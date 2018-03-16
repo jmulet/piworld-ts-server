@@ -1,7 +1,7 @@
 
 import { Service } from 'typedi';
 import { Repository, getRepository } from 'typeorm';
-import { RatingModel } from '../entities';
+import { RatingModel } from '../../main.app/entities/classroom/RatingModel';
 
 
 @Service()

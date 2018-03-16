@@ -1,0 +1,112 @@
+<p-dialog header="Edit Center" [(visible)]="visible" [modal]="true" [responsive]="true" [width]="650" [minWidth]="500">
+
+    <p-tabView *ngIf="formGroup">
+        <p-tabPanel header="Parameters">
+            <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)">
+                <span *ngIf="!formGroup.value.id">Create new center</span>
+                <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            School Name*:
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <input pInputText type="text" formControlName="schoolName" placeholder="Required" />
+                        </div>
+                        <div class="ui-grid-col-4">
+                            <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!formGroup.controls['schoolName'].valid&&formGroup.controls['schoolName'].dirty">
+                                <i class="fa fa-close"></i>
+                                schoolName is required
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            Professor Name*:
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <input pInputText type="text" formControlName="professorName" placeholder="Required" />
+                        </div>
+                        <div class="ui-grid-col-4">
+                            <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!formGroup.controls['professorName'].valid&&formGroup.controls['professorName'].dirty">
+                                <i class="fa fa-close"></i>
+                                professorName is required
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            Professor Email*:
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <input pInputText type="text" formControlName="professorEmail" placeholder="Required" />
+                        </div>
+                        <div class="ui-grid-col-4">
+                            <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!formGroup.controls['professorEmail'].valid&&formGroup.controls['professorEmail'].dirty">
+                                <i class="fa fa-close"></i>
+                                professorEmail is must be a valid email
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            Default Lang*:
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p-dropdown [options]="availableLangs" formControlName="language" [autoWidth]="false"></p-dropdown>
+                        </div>
+                        <div class="ui-grid-col-4">
+                            <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!formGroup.controls['professorEmail'].valid&&formGroup.controls['professorEmail'].dirty">
+                                <i class="fa fa-close"></i>
+                                Lang is required
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            Enroll password:
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <input pInputText type="text" formControlName="enrollPassword" />
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            Can Enroll:
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <input pInputText type="checkbox" formControlName="canEnroll" />
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            Can Publish:
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <input pInputText type="checkbox" formControlName="canPublish" />
+                        </div>
+                    </div>
+
+                    <div class="ui-message ui-messages-error ui-corner-all" role="alert" *ngIf="serverValidationErrors">
+                        {{serverValidationErrors}}
+                    </div>
+
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-12">
+                            <button type="submit" [disabled]="!formGroup.valid" class="btn btn-sm btn-success">
+                                <span class="fa fa-check">OK</span>
+                            </button>
+                            <button class="pull-left btn btn-sm btn-danger" type="button" (click)="close()">
+                                <span class="fa fa-close">Cancel</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </p-tabPanel>
+        <p-tabPanel header="Options">
+            Academic year start
+            <input pInputText type="number" [(ngModel)]="formGroup.value.sopts.year" />
+        </p-tabPanel>
+    </p-tabView>
+</p-dialog>

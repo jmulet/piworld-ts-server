@@ -1,7 +1,7 @@
 import { Service } from 'typedi';
 import { Repository, getCustomRepository } from 'typeorm';
 
-import { ActivityModel } from '../entities/ActivityModel';
+import { ActivityModel } from '../../main.app/entities/classroom/ActivityModel';
 import { ActivityRepository } from '../repositories/ActivityRepository';
 
 

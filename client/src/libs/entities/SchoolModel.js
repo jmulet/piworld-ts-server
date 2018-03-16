@@ -10,25 +10,54 @@ module.exports = {
       "name": "schoolName",
       "type": "varchar",
       "nullable": false,
-      "generated": false
+      "generated": false,
+      "validation": [
+        {
+          "type": "isNotEmpty"
+        }
+      ]
     },
     {
       "name": "professorName",
       "type": "varchar",
       "nullable": false,
-      "generated": false
+      "generated": false,
+      "validation": [
+        {
+          "type": "isNotEmpty"
+        }
+      ]
     },
     {
       "name": "professorEmail",
       "type": "varchar",
       "nullable": false,
-      "generated": false
+      "generated": false,
+      "validation": [
+        {
+          "type": "isEmail",
+          "constraints": [
+            null
+          ]
+        }
+      ]
     },
     {
       "name": "language",
       "type": "varchar",
       "nullable": false,
-      "generated": false
+      "generated": false,
+      "validation": [
+        {
+          "type": "LangValidator"
+        },
+        {
+          "type": "conditionalValidation",
+          "constraints": [
+            null
+          ]
+        }
+      ]
     },
     {
       "name": "enrollPassword",
@@ -40,13 +69,31 @@ module.exports = {
       "name": "canEnroll",
       "type": "tinyint",
       "nullable": false,
-      "generated": false
+      "generated": false,
+      "validation": [
+        {
+          "type": "IntRangeValidator",
+          "constraints": [
+            0,
+            1
+          ]
+        }
+      ]
     },
     {
       "name": "canPublish",
       "type": "tinyint",
       "nullable": false,
-      "generated": false
+      "generated": false,
+      "validation": [
+        {
+          "type": "IntRangeValidator",
+          "constraints": [
+            0,
+            1
+          ]
+        }
+      ]
     },
     {
       "name": "sopts",

@@ -1,6 +1,18 @@
-<h4>
-    Centers</h4>
-<p-table [columns]="cols" [value]="centers" [paginator]="true" [rows]="10">
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+
+<app-center-edit *ngIf="centerEdtForm" [formGroup]="centerEdtForm" (onSave)="reload($event)"></app-center-edit>
+<app-users-import [center]="importToCenter" (onSave)="loadUsers()"></app-users-import>
+<app-user-edit  *ngIf="userEdtForm" [formGroup]="userEdtForm" (onSave)="loadUsers($event)"></app-user-edit>
+
+<app-center-opts  *ngIf="centerToOpts" [school]="centerToOpts"></app-center-opts>
+
+<h4>Centers
+    <button class="btn btn-sm btn-success" (click)="createCenter()">
+        <span class="fa fa-plus-circle"></span>
+    </button>
+</h4>
+<p-table [columns]="cols" [value]="centers" [paginator]="true" [rows]="10" selectionMode="single" [(selection)]="centerSelected"
+    dataKey="id" (onRowSelect)="onRowSelected($event)">
     <ng-template pTemplate="header" let-columns>
         <tr>
             <th *ngFor="let col of columns">
@@ -12,21 +24,38 @@
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowData let-columns="columns">
-        <tr>
+        <tr [pSelectableRow]="rowData">
             <td *ngFor="let col of columns">
                 {{rowData[col.field]}}
             </td>
             <td>
-                <button (click)="onRowSelected(rowData)">cccc</button>
+                <button class="btn btn-sm btn-danger" (click)="removeCenter(rowData)">
+                    <span class="fa fa-remove"></span>
+                </button>
+                <button class="btn btn-sm btn-success" (click)="editCenter(rowData)">
+                    <span class="fa fa-pencil"></span>
+                </button>
+                <button class="btn btn-sm btn-info" (click)="centerOpts(rowData)">
+                        <span class="fa fa-cogs"></span>
+                </button>
             </td>
         </tr>
     </ng-template>
 </p-table>
 
+
+
+<br/>
 <div *ngIf="centerSelected">
-    <h4>Users in center {{centerSelected.schoolName}}</h4>
+    <h4>Users in center {{centerSelected.schoolName}}
+        <button class="btn btn-sm btn-success" (click)="createUser()">
+            <span class="fa fa-plus-circle"></span>
+        </button>
+        <button class="btn btn-sm btn-default" (click)="importUsers()">Bulk import</button>
+    </h4>
+
     Filter role:
-    <app-role-picker [(idRole)]="idRole" [all]="true"></app-role-picker>
+    <app-role-picker [(idRole)]="idRole" [all]="true" (idRoleChange)="loadUsers()"></app-role-picker>
 
     <p-table [columns]="cols2" [value]="users" [paginator]="true" [rows]="10">
         <ng-template pTemplate="header" let-columns>
@@ -34,12 +63,30 @@
                 <th *ngFor="let col of columns">
                     {{col.header}}
                 </th>
+                <th>
+                    Role
+                </th>
+                <th>
+                    {{Actions}}
+                </th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-rowData let-columns="columns">
             <tr>
                 <td *ngFor="let col of columns">
                     {{rowData[col.field]}}
+                </td>
+                <td>
+                    {{rowData.idRole | roles}}
+                </td>
+                <td>
+                    <button class="btn btn-sm btn-danger" (click)="removeUser(rowData)">
+                        <span class="fa fa-remove"></span>
+                    </button>
+                    <button class="btn btn-sm btn-success" (click)="editUser(rowData)">
+                        <span class="fa fa-pencil"></span>
+                    </button>
+                    
                 </td>
             </tr>
         </ng-template>

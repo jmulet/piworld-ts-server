@@ -1,0 +1,44 @@
+<p-dialog *ngIf="model" header="Bulk users import" [(visible)]="visible" [modal]="true" [responsive]="true" [width]="650" [minWidth]="500">
+    <p-tabView [activeIndex]="selectedTab">
+        <p-tabPanel header="Parameters">
+            <h4>Import users into {{center.schoolName}} using the following CSV format</h4>
+ 
+            <div *ngIf="model.idRole===PARENTS_ROLE">
+                <i><b>username</b></i> : <i><b>fullname</b></i> : <i><b>password</b></i> : <i>email</i> : <i>Recovery key</i> : <i>[child username1, ...]</i>
+            </div>
+            <div *ngIf="model.idRole!==PARENTS_ROLE">
+                <i><b>username</b></i> : <i><b>fullname</b></i> : <i><b>password</b></i> : <i>email</i> : <i>Recovery key</i>
+            </div>
+            <textarea rows="10" style="width:100%" [(ngModel)]="model.csv">
+            </textarea>
+        
+            Import with role: <app-role-picker [(idRole)]="model.idRole" ></app-role-picker>
+            <p>
+                <input type="checkbox" [(ngModel)]="model.updateIfExists"/> Update if user exists
+                <input type="checkbox" [(ngModel)]="model.mustChgPwd"/> Users must change password
+            </p>
+            <div class="ui-message ui-messages-error ui-corner-all" role="alert" *ngIf="serverValidationErrors">
+                {{serverValidationErrors}}
+            </div>
+           
+        </p-tabPanel>
+
+        <p-tabPanel header="Log">
+            <div [innerHtml]="msg" style="height: 350px; overflow-y: auto;"></div>
+        </p-tabPanel>       
+    </p-tabView>
+
+    <p-footer>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-12">
+                <button (click)="onSubmit()" class="btn btn-sm btn-success" [disabled]="isSubmit">
+                    <span class="fa fa-check">Import</span>
+                </button>
+                <button class="pull-left btn btn-sm btn-danger" type="button" (click)="visible=false">
+                    <span class="fa fa-close">Close</span>
+                </button>
+            </div>
+        </div>
+    </p-footer>
+   
+</p-dialog>

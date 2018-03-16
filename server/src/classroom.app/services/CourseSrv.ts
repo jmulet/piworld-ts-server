@@ -1,9 +1,9 @@
 import { Service, Inject } from 'typedi';
 import { Repository, getRepository } from 'typeorm';
 
-import { CourseModel } from '../entities/CourseModel';
-import { GroupsSrv } from './GroupsSrv';
-import { CourseGroupsModel } from '../entities';
+import { CourseModel } from '../../main.app/entities/classroom/CourseModel';
+import { GroupsSrv } from './GroupsSrv'; 
+import { GroupsModel } from '../../main.app/entities/classroom/GroupsModel';
 
 @Service()
 export class CourseSrv {
@@ -18,13 +18,9 @@ export class CourseSrv {
 
     async save(entity: CourseModel) {
         // Before course creation, create a buildin group which holds the creator itself
-        if (!entity.id && !entity.courseGroups) {
-            const group = GroupsSrv.fromData(entity.name + " group", entity.year, entity.idUserCreator);
-            await this.groupsSrv.save(group);
-
-            const cg = new CourseGroupsModel();
-            cg.idGroup = group.id;
-            entity.courseGroups = [cg];
+        if (!entity.id && !entity._courseGroups) {
+            const group = GroupsSrv.fromData(entity.name + " teachers", entity.year, entity.idUserCreator);             
+            entity._courseGroups = [group];
         }
         return this.repository.save(entity);
     }

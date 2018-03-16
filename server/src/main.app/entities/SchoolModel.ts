@@ -78,10 +78,10 @@ export class SchoolModel {
     @OneToMany((type) => UserModel, (user) => user._school)
     _members: UserModel[];
 
-    @OneToMany((type)=>HolidayModel, (holiday)=>holiday._school, {onDelete: "CASCADE", cascade: ["remove"]})
+    @OneToMany((type)=>HolidayModel, (holiday)=>holiday._school)
     _holidays: HolidayModel[];
 
-    @OneToMany((type)=>TermsModel, (term)=>term._school, {onDelete: "CASCADE", cascade: ["remove"]})
+    @OneToMany((type)=>TermsModel, (term)=>term._school)
     _terms: TermsModel[];
 
     @BeforeInsert()
@@ -89,6 +89,7 @@ export class SchoolModel {
         if (this.professorEmail === ""){
             this.professorEmail = null;
         }
+        this.sopts = this.sopts || {year: 2017};
     }
 
     @BeforeUpdate()

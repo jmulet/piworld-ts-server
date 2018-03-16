@@ -1,7 +1,7 @@
 
 import { Service } from 'typedi';
 import { Repository, getRepository } from 'typeorm';
-import { CommentModel } from '../entities';
+import { CommentModel } from '../../main.app/entities/classroom/CommentModel';
 
 
 @Service()

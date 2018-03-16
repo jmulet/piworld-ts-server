@@ -12,13 +12,13 @@ export class TermsModel {
     id:number;
         
     @IsInt()
-    @Column("int",{unique: true})
+    @Column("int")
     idSchool: number;
     
-    @Column("int", {unique: true})
+    @Column("int")
     year: number;
     
-    @Column("tinyint", {unique: true})
+    @Column("tinyint")
     term: 1 | 2 | 3 | 4;
 
     @IsDate()
@@ -31,7 +31,7 @@ export class TermsModel {
     @Validate(HolidayValidator)
     toDate: number;
 
-    @ManyToOne((type) => SchoolModel, (school) => school._terms)
+    @ManyToOne((type) => SchoolModel, (school) => school._terms, {onDelete: "CASCADE"})
     @JoinColumn({name: "idSchool"})
     _school: SchoolModel;
 

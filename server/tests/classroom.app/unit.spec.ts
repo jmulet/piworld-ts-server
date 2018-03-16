@@ -3,10 +3,10 @@ import 'reflect-metadata';
 
 import * as chai from 'chai';
 
-import { UnitModel, UnitVisibility } from '../../src/classroom.app/entities/UnitModel';
+import { UnitModel, UnitVisibility } from '../../src/main.app/entities/classroom/UnitModel';
 import { config } from '../../src/server.config';
 import { TestConfig } from '../TestConfig';
-import { AssignmentModel, AssignmentUsersModel, CourseModel } from '../../src/classroom.app/entities';
+import { AssignmentModel, AssignmentUsersModel, CourseModel } from '../../src/main.app/entities/classroom';
 
 const expect = chai.expect;
 const chaiHttp = require('chai-http');

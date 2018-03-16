@@ -27,10 +27,11 @@ export class MyHttpInterceptor implements HttpInterceptor {
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const responseType = req.responseType;  // Store the original responseType
+        console.log("original response type", responseType);
         // Always return response as text since it will be parsed manually
         req = req.clone({responseType: 'text'})        
         if (req.body && typeof req.body === 'object') {
-            req = req.clone({ body: EJSON.stringify(req.body)});
+            req = req.clone({ body: EJSON.stringify(req.body), setHeaders: {"Content-Type": "application/json;charset=UTF-8"}});
         }
         // Modify the url with the base prefix; and applying encrypted body if necessary
         if (req.url.indexOf("@")===0) {
@@ -43,15 +44,16 @@ export class MyHttpInterceptor implements HttpInterceptor {
             console.log("cookie", cookie);
             req = req.clone({ url: '/demo' + req.url.substring(1), setHeaders: {"Content-Type": "text/plain;charset=UTF-8"},
                 body: CryptoJS.AES.encrypt(req.body, cookie).toString()});
-        }
-      
+        } 
+
         //send the newly created request
         return next.handle(req).map((event: HttpEvent<any>) => {
             if (event instanceof HttpResponse) {
                 let res: HttpResponse<any> = event;
                 // change the response body here
-                if (res.body && typeof res.body === 'string' && responseType === 'json') {                
-                    res = res.clone({ body: EJSON.parse(res.body) });
+                if (res.body && typeof res.body === 'string' && responseType === 'json') {      
+                    const parsed = EJSON.parse(res.body);
+                    res = res.clone({ body: parsed });
                 }
                 return res;
             }

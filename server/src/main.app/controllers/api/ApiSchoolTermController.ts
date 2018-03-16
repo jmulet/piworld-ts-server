@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Post, QueryParam, Session, UseBefore } from 'routing-controllers';
+import { Body, Controller, Delete, Get, Post, QueryParam, Session, UseBefore, Param, Put } from 'routing-controllers';
 import { Inject } from 'typedi';
 
 import { AuthenticatedMdw } from '../../middlewares/AuthenticatedMdw';
@@ -30,11 +30,12 @@ export class ApiSchoolTermController {
 
     @Get("/list")
     @UseBefore(AdminsOnly)
-    async list(@Session() session: SessionModel, @QueryParam("idSchool") id: number, @QueryParam("schoolName") name: string) {      
+    async list(@Session() session: SessionModel, @QueryParam("idSchool") id: number, @QueryParam("schoolName") name: string,
+               @QueryParam("year") year: number) {      
         if (name) {
-            return this.termSrv.findBySchoolName(name);        
+            return this.termSrv.findBySchoolName(name, year);        
         } else {
-            return this.termSrv.findBySchoolId(id);        
+            return this.termSrv.findBySchoolId(id, year);        
         }
     }
 
@@ -44,9 +45,16 @@ export class ApiSchoolTermController {
         return this.termSrv.save(entity);
     }
 
-    @Delete("/")
+    @Put("/:id")
+    @UseBefore(AdminsOnly)
+    centerUpdate(@Param("id") id: number, @Body({ validate: true }) entity: TermsModel) {            
+        entity.id = id;
+        return this.termSrv.save(entity);
+    }
+
+    @Delete("/:idTerm")
     @UseBefore(RootOnly)
-    async centerDelete(@QueryParam("idTerm") idTerm: number) {             
+    async centerDelete(@Param("idTerm") idTerm: number) {             
         return this.termSrv.deleteById(idTerm);
     }
 

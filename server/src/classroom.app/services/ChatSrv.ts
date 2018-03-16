@@ -1,6 +1,6 @@
 import { Service } from 'typedi';
 import { Repository, getRepository } from 'typeorm';
-import { ChatModel } from '../entities';
+import { ChatModel } from '../../main.app/entities/classroom/ChatModel';
 
 
 @Service()

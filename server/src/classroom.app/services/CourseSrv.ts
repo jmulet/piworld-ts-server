@@ -46,10 +46,12 @@ export class CourseSrv {
             return this.repository.createQueryBuilder("c").innerJoinAndSelect("c._subject", "s")
             .where("c.idUserCreator=:idUser", {idUser: idUser}).getMany();
         } else {
+            // List courses in which some group contains the current idUser: Must select distinct
             return this.repository.createQueryBuilder("c")
             .innerJoin("c._courseGroups", "g")
             .innerJoin("g._enrolls", "e")
             .where("e.idUser=:idUser", {idUser: idUser})
+            .groupBy("c.id")
             .getMany();
         }        
     }

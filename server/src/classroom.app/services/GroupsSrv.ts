@@ -30,8 +30,15 @@ export class GroupsSrv {
         return this.repository.findOne({id: idGroup});
     }
 
-    findByIdCourse(idCourse: number){
-        return this.repository.find({idCourse: idCourse});
+    // List all groups associated with a given idCourse
+    // By default include the _enrolls leftJoin
+    findByIdCourse(idCourse: number, noEnrolls?: boolean){
+        if (noEnrolls) {
+            return this.repository.find({idCourse: idCourse})
+        } else {
+            return this.repository.createQueryBuilder("g").leftJoinAndSelect("g._enrolls", "e")
+                .where("g.idCourse=:idCourse", {idCourse: idCourse}).getMany();
+        }
     }
  
     save(entity: GroupsModel) {

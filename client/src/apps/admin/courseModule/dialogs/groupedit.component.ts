@@ -5,6 +5,8 @@ import { AdminRestService } from '../../services/adminrest.service';
 import { pwCore } from '../../pw-core';
 import { UnitModel } from '../../../../libs/entities/UnitModel';
 import { GroupsModel } from '../../../../libs/entities/GroupsModel';
+import { RestService } from '../../../shared/services/rest.service';
+import { GroupsEnrollModel } from '../../../../libs/entities/GroupsEnrollModel';
 
 
 @Component({
@@ -13,6 +15,8 @@ import { GroupsModel } from '../../../../libs/entities/GroupsModel';
     styleUrls: []
 })
 export class GroupEditComponent implements OnChanges {
+    enrolledUsers: any[];
+    allUsers: any[];
     amiRoot: boolean; 
     serverValidationErrors: any;
     @Input() formGroup: FormGroup;
@@ -20,20 +24,35 @@ export class GroupEditComponent implements OnChanges {
 
     visible: boolean;
 
-    constructor(private arest: AdminRestService) {
-        
+    constructor(private rest: RestService, private arest: AdminRestService) {
+        this.allUsers = [];
+        this.enrolledUsers = [];
+        this.rest.getUsers(pwCore.User.idSchool).subscribe( (data: any) => this.allUsers = data);
     }
 
     ngOnChanges(changes: SimpleChanges): void {
         const _formGroup: SimpleChange = changes.formGroup;
-        if (_formGroup.currentValue) {
+        const group = _formGroup.currentValue;
+        if (group) {
             this.visible = true;
+            if (group._enrolls) {
+                this.enrolledUsers = this.allUsers.filter((u) => {                    
+                    return group._enrolls.filter((e)=> e.idUser === u.id).length > 0;
+                });
+            }
         } else {
             this.visible = false;
         }
     }
 
     onSubmit(group: GroupsModel) {
+        group["_enrolls"] = this.enrolledUsers.map((u)=> {
+            const e = new GroupsEnrollModel();
+            e.idUser = u.id;
+            e.idRole = u.idRole;
+            e.idGroup = group.id;
+            return e;
+        });
         this.arest.saveGroup(group).subscribe((data: any) => {
             if (data.id) {
                 this.visible = false;

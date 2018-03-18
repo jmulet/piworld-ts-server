@@ -14,6 +14,7 @@ import { CourseEditComponent } from './dialogs/courseedit.component';
 import { GroupEditComponent } from './dialogs/groupedit.component';
 import { UnitEditComponent } from './dialogs/unitedit.component';
 import { VisibilityPickerComponent } from '../../shared/components/visibilityPicker.component';
+import {PickListModule} from 'primeng/picklist';
 
 const routes: Routes = [
   { path: '', component: CourseComponent},
@@ -24,6 +25,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     AdminSharedModule,   
+    PickListModule,
     RouterModule.forChild(routes)
   ],
   declarations: [ 

@@ -58,7 +58,7 @@ export class GroupsModel {
     _course: CourseModel;
 
     //One group has many enroll entries
-    @OneToMany(type => GroupsEnrollModel, enroll => enroll._group, {cascade: ["insert"]})
+    @OneToMany(type => GroupsEnrollModel, enroll => enroll._group, {cascade: ["insert", "update"]})
     _enrolls: GroupsEnrollModel[];
 
     //One group has many units 

@@ -6,7 +6,11 @@ import { UnitModel } from '../../main.app/entities/classroom/UnitModel';
 
 @EntityRepository(UnitModel)
 export class UnitRepository extends Repository<UnitModel> {
-       
+    
+    saveList(entities: UnitModel[]) {
+        return this.save(entities);
+    }
+
     listByIdCourse(idCourse) {
         return this.find({idCourse: idCourse});
     }

@@ -12,9 +12,13 @@ export class UnitSrv {
     constructor(){
         this.UnitRepository = getCustomRepository(UnitRepository); 
     }
- 
+    
     save(entity: UnitModel) { 
         return this.UnitRepository.save(entity);
+    }
+
+    saveList(entities: UnitModel[]) { 
+        return this.UnitRepository.saveList(entities);
     }
 
     delete(entity: UnitModel) {

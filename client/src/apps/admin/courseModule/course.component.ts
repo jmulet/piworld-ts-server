@@ -1,5 +1,5 @@
- 
-import { Component, OnInit } from '@angular/core'; 
+
+import { Component, OnInit } from '@angular/core';
 import { AdminRestService } from '../services/adminrest.service';
 import { pwCore } from '../pw-core';
 import { CourseModel } from '../../../libs/entities/CourseModel';
@@ -13,6 +13,7 @@ import { GroupsModel } from '../../../libs/entities/GroupsModel';
     styleUrls: []
 })
 export class CourseComponent implements OnInit {
+    savingOrdering: boolean;
     groupEdtForm: FormGroup;
     groupEdt: GroupsModel;
     unitEdtForm: FormGroup;
@@ -21,12 +22,12 @@ export class CourseComponent implements OnInit {
     units: UnitModel[];
     courseEdtForm: FormGroup;
     courseEdt: CourseModel;
-     courses: any[];
+    courses: any[];
     courseSelected: CourseModel;
     constructor(private arest: AdminRestService, private confirmationService: ConfirmationService,
-            private fb: FormBuilder) {        
+        private fb: FormBuilder) {
     }
-    ngOnInit() {      
+    ngOnInit() {
         this.reloadCourses(null);
     }
     reloadCourses(evt: any) {
@@ -34,79 +35,103 @@ export class CourseComponent implements OnInit {
             this.courses = data;
         });
     }
-    removeCourse(course: CourseModel){
+    removeCourse(course: CourseModel) {
         this.confirmationService.confirm({
             message: 'Are you sure that you want to delete course ' + course.name + ' and all associated users and data?',
             accept: () => {
                 // This is a risky operation and should ask password
-                this.arest.removeCourse(course.id).subscribe((data)=> {
+                this.arest.removeCourse(course.id).subscribe((data) =>  {
                     this.courseSelected = null;
                     this.reloadCourses(null);
                 });
             }
         });
     }
-    editCourse(course?: CourseModel){
-        this.courseEdt = new CourseModel().setObj(course); 
+    editCourse(course?: CourseModel) {
+        this.courseEdt = new CourseModel().setObj(course);
         if (!this.courseEdt.id) {
-            this.courseEdt.idUserCreator = pwCore.User.id;            
+            this.courseEdt.idUserCreator = pwCore.User.id;
         }
         this.courseEdtForm = this.courseEdt.toForm(this.fb);
     }
-    createCourse(){
+    createCourse() {
         this.editCourse();
     }
-    reloadGroups(){
-        this.arest.listGroups(this.courseSelected.id).subscribe((data: GroupsModel[]) => this.groups=data);
+    reloadGroups() {
+        this.arest.listGroups(this.courseSelected.id).subscribe((data: GroupsModel[]) => this.groups = data);
     }
-    reloadUnits(){
-        this.arest.listUnits(this.courseSelected.id).subscribe((data: UnitModel[]) => this.units=data);
+    reloadUnits() {
+        this.arest.listUnits(this.courseSelected.id).subscribe((data: UnitModel[]) => this.units = data);
     }
     onRowSelected(ev: any) {
         this.reloadUnits();
         this.reloadGroups();
     }
-    createUnit(){
+    createUnit() {
         this.editUnit();
     }
-    createGroup(){
+    createGroup() {
         this.editGroup();
     }
-    removeUnit(unit: UnitModel){
+    removeUnit(unit: UnitModel) {
         this.confirmationService.confirm({
             message: 'Are you sure that you want to delete unit ' + unit.unit + ' and all associated users and data?',
-            accept: () => { 
-                this.arest.removeUnit(unit.id).subscribe((data)=> { 
+            accept: () => {
+                this.arest.removeUnit(unit.id).subscribe((data) =>  {
                     this.reloadUnits();
                 });
             }
         });
     }
-    removeGroup(group: GroupsModel){
+    removeGroup(group: GroupsModel) {
         this.confirmationService.confirm({
             message: 'Are you sure that you want to delete group ' + group.name + ' and all associated users and data?',
-            accept: () => { 
-                this.arest.removeGroup(group.id).subscribe((data)=> { 
+            accept: () => {
+                this.arest.removeGroup(group.id).subscribe((data) =>  {
                     this.reloadGroups();
                 });
             }
         });
-    } 
-    editUnit(unit?: UnitModel){
-        this.unitEdt = new UnitModel().setObj(unit); 
+    }
+    editUnit(unit?: UnitModel) {
+        this.unitEdt = new UnitModel().setObj(unit);
         if (!this.unitEdt.id) {
             this.unitEdt.idCourse = this.courseSelected.id;
             this.unitEdt.order = this.units.length + 1;
         }
         this.unitEdtForm = this.unitEdt.toForm(this.fb);
     }
-    editGroup(group?: GroupsModel){
-        this.groupEdt = new GroupsModel().setObj(group); 
+    editGroup(group?: GroupsModel) {
+        this.groupEdt = new GroupsModel().setObj(group);
         if (!this.groupEdt.id) {
-            this.groupEdt.idUserCreator = this.courseSelected.idUserCreator;           
+            this.groupEdt.idUserCreator = this.courseSelected.idUserCreator;
             this.groupEdt.idCourse = this.courseSelected.id;
             this.groupEdt.gopts = {};
         }
         this.groupEdtForm = this.groupEdt.toForm(this.fb);
+        this.groupEdtForm.addControl("_enrolls", new FormGroup(this.groupEdt["_enrolls"]));
+    }
+    private move(array: UnitModel[], index: number, offset: number) {
+        const newIndex = index + offset
+        if (newIndex > -1 && newIndex < array.length) {
+            // Remove the element from the array
+            const removedElement = array.splice(index, 1)[0];
+            // At "newIndex", remove 0 elements, insert the removed element
+            array.splice(newIndex, 0, removedElement)
+
+            //Set order property
+            array.forEach((e, i) => e.order = i+1);
+            
+            //Save into database
+            const partials = this.units.map((u)=> { return {id: u.id, order: u.order} });
+            this.savingOrdering = true;
+            this.arest.saveUnits(partials).subscribe( (data)=> this.savingOrdering = false);
+        }
+    }
+    moveUp(index: number) {
+        this.move(this.units, index, -1);
+    }
+    moveDown(index: number) {
+        this.move(this.units, index, 1);
     }
 }

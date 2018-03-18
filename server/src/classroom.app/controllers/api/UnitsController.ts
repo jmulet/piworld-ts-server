@@ -6,8 +6,7 @@ import { AuthenticatedMdw } from '../../../main.app/middlewares/AuthenticatedMdw
 import { AdminsAndTeachersOnly } from '../../../main.app/middlewares/AuthorizedMdw';
 import { UnitSrv } from '../../services/UnitSrv';
 
-
-   
+ 
  @Controller("/api/units")
  @UseBefore(AuthenticatedMdw) 
  export class UnitsController {
@@ -36,6 +35,12 @@ import { UnitSrv } from '../../services/UnitSrv';
      @UseBefore(AdminsAndTeachersOnly)
      save(@Body({ validate: true }) entity: UnitModel) {            
          return this.unitSrv.save(entity);
+     }
+
+     @Put("/")
+     @UseBefore(AdminsAndTeachersOnly)
+     saveOrdering(@Body() entities: UnitModel[]) {            
+         return this.unitSrv.saveList(entities);
      }
 
      @Put("/:id")

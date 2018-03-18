@@ -61,7 +61,7 @@
                         <th>Actions</th>
                     </tr>
                 </ng-template>
-                <ng-template pTemplate="body" let-rowData>
+                <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
                     <tr>
                         <td>{{rowData.id}}</td>
                         <td>{{rowData.unit}}</td>
@@ -72,6 +72,12 @@
                             </button>
                             <button class="btn btn-sm btn-success" (click)="editUnit(rowData)">
                                 <span class="fa fa-pencil"></span>
+                            </button> 
+                            <button *ngIf="rowIndex > 0" class="btn btn-sm btn-primary" (click)="moveUp(rowIndex)" [disabled]="savingOrdering">
+                                <span class="fa fa-arrow-up"></span>
+                            </button> 
+                            <button  *ngIf="rowIndex < units.length-1" class="btn btn-sm btn-primary" (click)="moveDown(rowIndex)" [disabled]="savingOrdering">
+                                <span class="fa fa-arrow-down"></span>
                             </button> 
                         </td>
                     </tr>
@@ -99,7 +105,10 @@
                         </ng-template>
                         <ng-template pTemplate="body" let-rowData>
                             <tr>
-                                <td>{{rowData.id}}</td>
+                                <td>
+                                    {{rowData.id}} 
+                                    <span class="badge badge-dark">{{rowData._enrolls.length}}</span>
+                                </td>
                                 <td>{{rowData.name}}</td>
                                 <td>{{rowData.thmcss}}</td> 
                                 <td>{{rowData.gopts}}</td>

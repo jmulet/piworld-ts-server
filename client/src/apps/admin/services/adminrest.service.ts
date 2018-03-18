@@ -86,6 +86,10 @@ export class AdminRestService {
         return this.http.post('@/api/units/', unit);
     }
 
+    saveUnits(units: any[]) {
+        return this.http.put('@/api/units/', units);
+    }
+
     removeUnit(idUnit: number) {
         return this.http.delete('@/api/units/'+ idUnit);
     }

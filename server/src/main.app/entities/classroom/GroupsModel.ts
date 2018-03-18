@@ -27,13 +27,6 @@ export class GroupsModel {
     })
     name: string;
 
-    @IsOptional()
-    @Min(0)
-    @Column("int", {
-        nullable: true,
-    })
-    year: number;
-
     @Column("int", {
         nullable: false,
         default: "0",
@@ -51,6 +44,9 @@ export class GroupsModel {
     })
     thmcss: string;
 
+    @Column("int")
+    idUserCreator: number;
+
     // Many groups may be created by one user
     @ManyToOne((type) => UserModel, (user) => user._groupsCreated, {onDelete: "CASCADE"})
     @JoinColumn({ name: "idUserCreator" })
@@ -62,7 +58,7 @@ export class GroupsModel {
     _course: CourseModel;
 
     //One group has many enroll entries
-    @OneToMany(type => GroupsEnrollModel, enroll => enroll._group)
+    @OneToMany(type => GroupsEnrollModel, enroll => enroll._group, {cascade: ["insert"]})
     _enrolls: GroupsEnrollModel[];
 
     //One group has many units 

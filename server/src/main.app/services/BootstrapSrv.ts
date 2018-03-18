@@ -6,6 +6,8 @@ import { SchoolModel } from '../entities/SchoolModel';
 import { UserModel, UserRoles } from '../entities/UserModel';
 import { SchoolSrv } from './SchoolSrv';
 import { UserSrv } from './UserSrv';
+import { SubjectSrv } from './SubjectSrv';
+import { SubjectModel } from '../entities/SubjectModel';
 
 @Service()
 export class BootstrapSrv {
@@ -17,6 +19,9 @@ export class BootstrapSrv {
 
     @Inject()
     userSrv: UserSrv;
+
+    @Inject()
+    subjectSrv: SubjectSrv;
 
     async doChecks() {
         let response = { errors: "" };
@@ -54,6 +59,20 @@ export class BootstrapSrv {
             // console.log("> Saving user", user);
             const userSaved = await this.userSrv.save(user);
             // console.log("! Done");
+
+            // Create default Subjects
+            const subjects = await this.subjectSrv.list();
+            if (!subjects.length) {
+                const SUBJECTS = [
+                    {short: "MAT", long:"Mathematics"}, 
+                    {short: "FQ", long:"Physics & Chemistry"}, 
+                    {short: "Biology", long:"Biology"}
+                ];
+                SUBJECTS.forEach((s)=> {
+                    let subject = SubjectSrv.fromData(s.short, s.long);
+                    this.subjectSrv.save(subject);
+                });
+            };
 
         } catch (Ex) {
             response.errors = Ex;

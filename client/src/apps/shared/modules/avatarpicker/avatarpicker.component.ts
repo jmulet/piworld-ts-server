@@ -1,6 +1,7 @@
  
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'; 
 import { SelectItemDisable } from '../../SelectItemDisable';
+import { pwCore } from '../../../admin/pw-core';
  
  
 @Component({
@@ -31,7 +32,7 @@ export class AvatarPickerComponent implements OnInit {
     constructor() {        
     }
     ngOnInit() {       
-        const staticPrefix = window["pwCore"]["Config"]["staticPrefix"];
+        const staticPrefix = pwCore.Config.staticPrefix;
         this.list = [];
         for (var i=0; i<50; i++) {
             this.list.push({value: i, label: staticPrefix + "/assets/img/avatar/" + i + ".png"});

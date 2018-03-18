@@ -4,7 +4,7 @@
 
         export class CourseModel {
 			id:number;
-			year:number;
+			year:number = 2017;
 			name:string;
 			description:string;
 			courseLevel:number = 1;

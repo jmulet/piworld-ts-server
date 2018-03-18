@@ -13,26 +13,6 @@ module.exports = {
       "generated": false
     },
     {
-      "name": "year",
-      "type": "int",
-      "nullable": false,
-      "generated": false,
-      "validation": [
-        {
-          "type": "min",
-          "constraints": [
-            0
-          ]
-        },
-        {
-          "type": "conditionalValidation",
-          "constraints": [
-            null
-          ]
-        }
-      ]
-    },
-    {
       "name": "idCourse",
       "type": "int",
       "nullable": false,
@@ -59,7 +39,7 @@ module.exports = {
       "generated": false
     },
     {
-      "name": "_creator",
+      "name": "idUserCreator",
       "type": "int",
       "nullable": false,
       "generated": false
@@ -68,10 +48,9 @@ module.exports = {
   "defaultObject": {
     "id": null,
     "name": null,
-    "year": null,
     "idCourse": "0",
     "gopts": null,
     "thmcss": null,
-    "_creator": null
+    "idUserCreator": null
   }
 };

@@ -4,9 +4,13 @@ import { SchoolModel } from '../../../libs/entities/SchoolModel';
 import { UserModel } from '../../../libs/entities/UserModel';
 import { HolidayModel } from '../../../libs/entities/HolidayModel';
 import { TermsModel } from '../../../libs/entities/TermsModel';
+import { CourseModel } from '../../../libs/entities/CourseModel';
+import { UnitModel } from '../../../libs/entities/UnitModel';
+import { GroupsModel } from '../../../libs/entities/GroupsModel';
  
 @Injectable()
 export class AdminRestService {
+   
     constructor(private http: HttpClient) {        
     }
      
@@ -60,6 +64,42 @@ export class AdminRestService {
 
     saveTerm(term: TermsModel) {
         return this.http.post('@/api/school/term/', term);
+    }
+    
+    listCourses(idUser: number, created: boolean) {
+        return this.http.get('@/api/course/list/'+ idUser + ( created? "?created=1" : "") );
+    }
+
+    saveCourse(course: CourseModel) {
+        return this.http.post('@/api/course/', course);
+    }
+
+    removeCourse(idCourse: number) {
+        return this.http.delete('@/api/course/'+ idCourse);
+    }
+
+    listUnits(idCourse: number) {
+        return this.http.get('@/api/units/list?idCourse='+ idCourse);
+    }
+    
+    saveUnit(unit: UnitModel) {
+        return this.http.post('@/api/units/', unit);
+    }
+
+    removeUnit(idUnit: number) {
+        return this.http.delete('@/api/units/'+ idUnit);
+    }
+
+    listGroups(idCourse: number) {
+        return this.http.get('@/api/group/list?idCourse='+ idCourse);
+    }
+
+    saveGroup(group: GroupsModel) {
+        return this.http.post('@/api/group/', group);
+    }
+
+    removeGroup(idGroup: number) {
+        return this.http.delete('@/api/group/'+ idGroup);
     }
 }
 

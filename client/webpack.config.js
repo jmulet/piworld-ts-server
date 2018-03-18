@@ -10,6 +10,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const helpers = require('./node.helpers');
 const AngularCompilerPlugin = require('@ngtools/webpack').AngularCompilerPlugin;
+const ngRouterLoader = require('angular-router-loader');
 
 module.exports = {
     entry: {
@@ -39,7 +40,8 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, 'dist', 'public'),
-        filename: '[name].' + version + '.bundle.js'
+        filename: '[name].' + version + '.bundle.js',
+        chunkFilename: '[name].chunk.' + version + '.js'
     },
     plugins: [
         new webpack.ProvidePlugin({
@@ -169,8 +171,9 @@ module.exports = {
             },*/
             {
                 test: /\.tsx?$/,
-                use: [
-                    'ts-loader'
+                use: [                    
+                    'ts-loader',
+                    'angular-router-loader'
                 ]
             },
             {

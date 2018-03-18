@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
+import { pwCore } from '../../admin/pw-core';
 //import * as socketio_ejson_parser from '../../../libs/socketio-ejson-parser';
 
 @Injectable()
@@ -8,7 +9,7 @@ export class SocketService {
     private socket: any;
 
     constructor() {
-        const Config = window["pwCore"]["Config"];
+        const Config = pwCore.Config;
         console.log("Init socket", window["SocketJS"]);
         this.socket = window["SocketJS"].connect({ path: Config.socketPath, forceNew: true, parser: window["socketio_ejson_parser"] });
         console.log("socket init ", this.socket);

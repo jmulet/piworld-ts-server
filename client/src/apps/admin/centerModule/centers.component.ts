@@ -3,20 +3,21 @@ import { Component, OnInit } from '@angular/core';
 import { AdminRestService } from '../services/adminrest.service';
  
 import { SchoolModel } from '../../../libs/entities/SchoolModel';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { UserModel } from '../../../libs/entities/UserModel';
 import { ConfirmationService } from 'primeng/components/common/confirmationservice';
+import { pwCore } from '../pw-core';
 @Component({
     selector: 'app-component',
     template: require('./centers.component.html'),
     styleUrls: []
 })
 export class CentersComponent implements OnInit {
+    amiRoot: any;
     centerToOpts: any;
     importToCenter: any;
     STUDENT_ROLE: any;
-    allStudents: any[];
-    selectedOffspring: any[];
+    allStudents: any[]; 
     PARENTS_ROLE: any;
     userEdtForm: FormGroup;
     userEdt: UserModel;
@@ -34,17 +35,22 @@ export class CentersComponent implements OnInit {
     idRole: number;
 
     constructor(private arest: AdminRestService, private fb: FormBuilder,
-                private confirmationService: ConfirmationService) {        
+                private confirmationService: ConfirmationService) {   
+
+            const adminRole = pwCore.UserRoles.admin;        
+            this.amiRoot = pwCore.User.idRole === adminRole;
     }
-    ngOnInit() {       
+    ngOnInit() {   
+
       this.availableLangs = [];
-      window["pwCore"]["supportedLangs"].forEach(element => {
+      pwCore.SupportedLangs.forEach(element => {
           this.availableLangs.push({label: element, value: element});
       });;
-      this.STUDENT_ROLE = window["pwCore"]["UserRoles"].student;
-      this.idRole = this.STUDENT_ROLE;
-      this.PARENTS_ROLE = window["pwCore"]["UserRoles"].parents;
-      this.idSchool = window["pwCore"]["Config"]["user"]["idSchool"];
+      this.STUDENT_ROLE = pwCore.UserRoles.student;
+      this.idRole = -1;
+      this.PARENTS_ROLE = pwCore.UserRoles.parents;
+      this.idSchool = pwCore.User.idSchool;
+      
       this.reload(null);
 
       this.allStudents = [];
@@ -68,7 +74,7 @@ export class CentersComponent implements OnInit {
             { field: 'id', header: 'Id' },
             { field: 'username', header: 'Username' },
             { field: 'fullname', header: 'Fullname' },
-            { field: 'email', header: 'email' } 
+            { field: 'email', header: 'Email' } 
         ];
     }
     onRowSelected($event){    
@@ -118,6 +124,7 @@ export class CentersComponent implements OnInit {
             this.userEdt.idSchool = this.centerSelected.id;
         }
         this.userEdtForm = this.userEdt.toForm(this.fb);
+        this.userEdtForm.addControl("_offspring", new FormControl(this.userEdt["_offspring"]));
         console.log(this.userEdtForm);
     }
     createUser() {
@@ -140,5 +147,8 @@ export class CentersComponent implements OnInit {
     }
     centerOpts(center) {
         this.centerToOpts = {...center};
+    }
+    canDeleteUser(user) {
+        return pwCore.User.id !== user.id && pwCore.User.idRole < user.idRole;
     }
 }

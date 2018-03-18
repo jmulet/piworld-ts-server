@@ -1,6 +1,7 @@
  
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'; 
 import { SelectItemDisable } from '../../SelectItemDisable';
+import { pwCore } from '../../../admin/pw-core';
 
 
 @Component({
@@ -32,8 +33,9 @@ export class RolePickerComponent implements OnInit {
 
     constructor() {        
     }
-    ngOnInit() {       
-        this.rolesList = window["pwCore"]["UserRolesList"]();
+    ngOnInit() {      
+        //Must disable or remove those entries lower than current user idRole 
+        this.rolesList = pwCore.UserRolesList().filter((e)=> e.value >= pwCore.User.idRole);
         if (this.all) {
             this.rolesList.unshift({label: "*", value: -1, disabled: false});
         }

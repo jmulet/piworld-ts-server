@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { SocketService } from '../services/socket.service';
 import { RestService } from '../services/rest.service';
+import { pwCore, pwCoreI } from '../../admin/pw-core';
 
 @Component({
     selector: 'user-actions',
@@ -10,14 +11,13 @@ import { RestService } from '../services/rest.service';
     styleUrls: []
 })
 export class UserActionsComponent implements OnInit {    
-    avatar: string;
-    Config: any;
+    avatar: string; 
     constructor(private rest: RestService, private growl: MessageService) {        
     }
     ngOnInit() {
-        this.Config = window["pwCore"]["Config"];
-        this.avatar = this.Config.basePrefix + "/assets/img/avatar/" 
-                        + (this.Config.user.uopts.avatar || 0) +".png";
+        
+        this.avatar = pwCore.Config.staticPrefix + "/assets/img/avatar/" 
+                        + (pwCore.User.uopts.avatar || 0) +".png";
     }
     logout() {        
         this.rest.logout().subscribe( (data: any)=> {

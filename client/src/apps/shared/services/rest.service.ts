@@ -23,4 +23,7 @@ export class RestService {
     getUsers(idSchool?: number){
         return this.http.get("@/api/user/list" + (idSchool?("&idSchool="+idSchool):""));
     } 
+    listSubjects() {
+        return this.http.get("@/api/subject/list");
+    }
 }

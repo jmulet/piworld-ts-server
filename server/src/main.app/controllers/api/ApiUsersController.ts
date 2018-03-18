@@ -19,6 +19,7 @@ import { UsersImportModel } from '../../model/UsersImportModel';
 import { UserSrv } from '../../services/UserSrv';
 import { config } from '../../../server.config';
 import { PwHttpServer } from '../../../server';
+import * as bcrypt from 'bcrypt';
 
 const io = PwHttpServer.getInstance().io;
 
@@ -88,6 +89,10 @@ export class ApiUsersController {
         const sessionUser = session.user;
         if (sessionUser.idRole === UserRoles.admin ||
             (sessionUser.idSchool === entity.idSchool)) {
+            // Passwords must be encrypted
+            if (entity.password && entity.idRole < UserRoles.student) {                 
+                entity.password = await bcrypt.hash(entity.password, 10);
+            }
             return this.userSrv.save(entity);
         } else {
             return response.status(400).send({ msg: "You can only edit users of your schoolId." });

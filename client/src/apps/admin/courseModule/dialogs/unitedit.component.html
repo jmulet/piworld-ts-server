@@ -1,0 +1,47 @@
+<p-dialog header="Edit Unit" [(visible)]="visible" [modal]="true" [responsive]="true" [width]="650" [minWidth]="500">
+
+    <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)">
+        <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    Unit*:
+                </div>
+                <div class="ui-grid-col-6">
+                    <input pInputText type="text" formControlName="unit" placeholder="Required" />
+                </div>
+                <div class="ui-grid-col-4">
+                    <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!formGroup.controls['unit'].valid&&formGroup.controls['unit'].dirty">
+                        <i class="fa fa-close"></i>
+                        Unit Name is required
+                    </div>
+                </div>
+            </div> 
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    Visibility*:
+                </div>
+                <div class="ui-grid-col-6">
+                    <app-visibility-picker [(visible)]="formGroup.value.visible" type="unit"></app-visibility-picker>
+                </div>
+            </div> 
+
+            <div class="ui-message ui-messages-error ui-corner-all" role="alert" *ngIf="serverValidationErrors">
+                {{serverValidationErrors}}
+            </div>
+
+
+        </div>
+        <p-footer>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-12">
+                    <button type="submit" [disabled]="!formGroup.valid" class="btn btn-sm btn-success">
+                        <span class="fa fa-check">OK</span>
+                    </button>
+                    <button class="pull-left btn btn-sm btn-danger" type="button" (click)="close()">
+                        <span class="fa fa-close">Cancel</span>
+                    </button>
+                </div>
+            </div>
+        </p-footer>
+    </form>
+</p-dialog>

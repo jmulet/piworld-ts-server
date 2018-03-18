@@ -30,7 +30,7 @@
 					'id': new FormControl(this.id),
 					'schoolName': new FormControl(this.schoolName, Validators.required),
 					'professorName': new FormControl(this.professorName, Validators.required),
-					'professorEmail': new FormControl(this.professorEmail, Validators.email),
+					'professorEmail': new FormControl(this.professorEmail, Validators.pattern("[a-zA-Z0-9._-]+[@]+[a-zA-Z0-9-]+[.]+[a-zA-Z]{2,6}")),
 					'language': new FormControl(this.language),
 					'enrollPassword': new FormControl(this.enrollPassword),
 					'canEnroll': new FormControl(this.canEnroll),

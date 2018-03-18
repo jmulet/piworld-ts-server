@@ -3,7 +3,9 @@
         return input.charAt(0).toUpperCase() + input.substr(1).toLowerCase();
     }
     window.pwCore = window.pwCore || {};
-       
+    <% if (locals.user) { %>
+    window.pwCore["User"] = <%-JSON.stringify(user)%>;
+    <% } %>
     window.pwCore["UserRoles"] = {
           admin: 0,
           teacher_admin: 50,
@@ -13,7 +15,7 @@
           guest: 400,
           parents: 500
          };
-    window.pwCore["supportedLangs"] = ["es", "ca", "es"];
+    window.pwCore["SupportedLangs"] = ["es", "ca", "es"];
     window.pwCore["Config"] = <%-JSON.stringify(config)%>;
 <% if (locals.lang) { %>
     window.pwCore["Lang"] = "<%=lang%>";
@@ -32,7 +34,7 @@
         var UserRoles = [];
         for (var key in window.pwCore["UserRoles"]) {
                  var value = window.pwCore["UserRoles"][key];
-                 var option = { label: capitalize(key), value: value, disabled: value < window.pwCore["Config"].user.idRole };
+                 var option = { label: capitalize(key), value: value, disabled: value < window.pwCore["User"].idRole };
                  UserRoles.push(option);
         }
         return UserRoles;

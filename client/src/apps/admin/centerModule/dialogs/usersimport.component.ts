@@ -1,8 +1,9 @@
 import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
 
-import { SchoolModel } from '../../../libs/entities/SchoolModel';
+import { SchoolModel } from '../../../../libs/entities/SchoolModel';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { AdminRestService } from '../services/adminrest.service';
+import { AdminRestService } from '../../services/adminrest.service';
+import { pwCore } from '../../pw-core';
 
 @Component({
     selector: 'app-users-import',
@@ -24,8 +25,8 @@ export class UsersImportComponent implements OnChanges {
     visible: boolean;
    
     constructor(private arest: AdminRestService){
-        this.STUDENT_ROLE = window["pwCore"]["UserRoles"].student;
-        this.PARENTS_ROLE = window["pwCore"]["UserRoles"].parents;
+        this.STUDENT_ROLE = pwCore.UserRoles.student;
+        this.PARENTS_ROLE = pwCore.UserRoles.parents;
         this.selectedTab = 0;
     }
 

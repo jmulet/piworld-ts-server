@@ -1,10 +1,9 @@
-<p-dialog header="Edit User" [(visible)]="visible" [modal]="true" [responsive]="true" [width]="650" [height]="650" [minWidth]="500">
+<p-dialog header="Edit User" [(visible)]="visible" [modal]="true" [responsive]="true" [width]="650" [height]="550" [minWidth]="500">
 
-    <p-tabView *ngIf="formGroup" [style]="{height: '550px'}">
+    <p-tabView *ngIf="formGroup" [style]="{height: '450px'}">
         <p-tabPanel header="Parameters">
             <form [formGroup]="formGroup" (ngSubmit)="onSubmitUser(formGroup.value)">
-                <span *ngIf="!formGroup.value.id">Create a new user</span>
-
+                
                 <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
                     <div class="ui-grid-row">
                         <div class="ui-grid-col-2">
@@ -12,7 +11,7 @@
                         </div>
                         <div class="ui-grid-col-6">
                             <app-role-picker [(idRole)]="formGroup.value.idRole" [style]="{'width':'150px'}"></app-role-picker>
-                        </div> 
+                        </div>
                     </div>
                     <div class="ui-grid-row">
                         <div class="ui-grid-col-2">
@@ -42,8 +41,17 @@
                             </div>
                         </div>
                     </div>
-       
-                    <div class="ui-grid-row" *ngIf="!formGroup.value.id">
+
+                    <div class="ui-grid-row" *ngIf="formGroup.value.id">
+                        <div class="ui-grid-col-2">
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <button type="button" class="btn btn-sm btn-danger" (click)="togglePwdBtn()">
+                                Change password
+                            </button>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row" *ngIf="!formGroup.value.id || changePwdVisible">
                         <div class="ui-grid-col-2">
                             Password*:
                         </div>
@@ -63,14 +71,14 @@
                         </div>
                         <div class="ui-grid-col-6">
                             <input pInputText type="text" formControlName="recovery" />
-                        </div> 
+                        </div>
                     </div>
                     <div class="ui-grid-row">
                         <div class="ui-grid-col-2">
                             Email:
                         </div>
                         <div class="ui-grid-col-6">
-                            <input pInputText type="text" formControlName="email" [email]="formGroup.value.email"/>
+                            <input pInputText type="text" formControlName="email" [email]="formGroup.value.email" />
                         </div>
                         <div class="ui-grid-col-4">
                             <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!formGroup.controls['email'].valid&&formGroup.controls['email'].dirty">
@@ -84,8 +92,8 @@
                             Email password:
                         </div>
                         <div class="ui-grid-col-6">
-                            <input pInputText type="text" formControlName="emailPassword"/>
-                        </div> 
+                            <input pInputText type="text" formControlName="emailPassword" />
+                        </div>
                     </div>
                     <div class="ui-grid-row">
                         <div class="ui-grid-col-2">
@@ -93,9 +101,17 @@
                         </div>
                         <div class="ui-grid-col-6">
                             <app-status-picker [(status)]="formGroup.value.valid" [style]="{'width':'150px'}"></app-status-picker>
-                        </div> 
+                        </div>
                     </div>
-   
+                    <div class="ui-grid-row">
+                            <div class="ui-grid-col-2">
+                                Must change pwd:
+                            </div>
+                            <div class="ui-grid-col-6">
+                                <input type="checkbox" formControlName="mustChgPwd"/>
+                            </div>
+                    </div>
+
                     <div class="ui-message ui-messages-error ui-corner-all" role="alert" *ngIf="serverValidationErrors">
                         {{serverValidationErrors}}
                     </div>
@@ -120,16 +136,16 @@
                     Can post comments:
                 </div>
                 <div class="ui-grid-col-6">
-                    <input pInputText type="checkbox" [(ngModel)]="formGroup.value.uopts.postcomments"/>
-                </div> 
+                    <input type="checkbox" [(ngModel)]="formGroup.value.uopts.postcomments" />
+                </div>
             </div>
             <div class="ui-grid-row">
                 <div class="ui-grid-col-2">
                     Can post in chats:
                 </div>
                 <div class="ui-grid-col-6">
-                    <input pInputText type="checkbox" [(ngModel)]="formGroup.value.uopts.postchats"/>
-                </div> 
+                    <input type="checkbox" [(ngModel)]="formGroup.value.uopts.postchats" />
+                </div>
             </div>
             <div class="ui-grid-row">
                 <div class="ui-grid-col-2">
@@ -137,12 +153,12 @@
                 </div>
                 <div class="ui-grid-col-6">
                     <app-avatar-picker [(avatar)]="formGroup.value.uopts.avatar" [style]="{width: '250px'}"></app-avatar-picker>
-                </div> 
+                </div>
             </div>
         </p-tabPanel>
-        <p-tabPanel *ngIf="formGroup.value.idRole===PARENTS_ROLE" header="Offspring ({{selectedOffspring.length}})">
-            <p-multiSelect [options]="allStudents" [(ngModel)]="selectedOffspring" [panelStyle]="{minWidth:'350px'}" optionLabel="fullname">
-                  
+        <p-tabPanel *ngIf="selectedOffspring && formGroup.value.idRole===PARENTS_ROLE" header="Offspring ({{selectedOffspring.length}})">
+            <p-multiSelect [options]="allStudents" [(ngModel)]="selectedOffspring" [panelStyle]="{minWidth:'350px'}" optionLabel="fullname"
+                appendTo="body">
             </p-multiSelect>
         </p-tabPanel>
 

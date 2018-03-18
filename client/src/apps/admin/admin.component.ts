@@ -2,6 +2,7 @@ import { Location, LocationStrategy, HashLocationStrategy } from '@angular/commo
 import { Component, OnInit } from '@angular/core';
 import { RestService } from '../shared/services/rest.service';
 import { Router } from '@angular/router';
+
 @Component({
     selector: 'app-component',
     template: require('./admin.component.html'),
@@ -20,7 +21,7 @@ export class AdminComponent implements OnInit {
            if(val.url==="centers") {
                 this.router.navigate(['centers']);
            } else {
-                this.router.navigate(['other']);
+                this.router.navigate(['courses']);
            }
        });
     }

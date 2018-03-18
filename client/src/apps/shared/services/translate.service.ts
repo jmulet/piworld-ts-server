@@ -1,11 +1,12 @@
 import { Injectable } from "@angular/core";
+import { pwCore } from "../../admin/pw-core";
 
 @Injectable()
 export class TranslateService {
 
     lang: any;
     constructor(){
-        this.lang = window["pwCore"]["Lang"]
+        this.lang = pwCore.Lang;
     }
 
     getCalendarLocale(){

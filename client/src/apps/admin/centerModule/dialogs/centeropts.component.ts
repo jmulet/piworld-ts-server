@@ -1,11 +1,12 @@
 import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
-import { SchoolModel } from '../../../libs/entities/SchoolModel';
+import { SchoolModel } from '../../../../libs/entities/SchoolModel';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { AdminRestService } from '../services/adminrest.service';
-import { HolidayModel } from '../../../libs/entities/HolidayModel';
-import { TermsModel } from '../../../libs/entities/TermsModel';
+import { AdminRestService } from '../../services/adminrest.service';
+import { HolidayModel } from '../../../../libs/entities/HolidayModel';
+import { TermsModel } from '../../../../libs/entities/TermsModel';
 import { ConfirmationService, SelectItem } from 'primeng/api';
-import { TranslateService } from '../../shared/services/translate.service';
+import { TranslateService } from '../../../shared/services/translate.service';
+import { MessageService } from 'primeng/components/common/messageservice';
 
 
 @Component({
@@ -23,7 +24,7 @@ export class CenterOptsComponent implements OnChanges {
     tabIndex: number = 0;
 
     constructor(private arest: AdminRestService, private confirm: ConfirmationService,
-                private translate: TranslateService) {
+                private translate: TranslateService, private growl: MessageService) {
                     
         this.locale = this.translate.getCalendarLocale();
         this.availableTerms = [
@@ -88,6 +89,16 @@ export class CenterOptsComponent implements OnChanges {
     }
 
     saveHoliday(holiday: HolidayModel) {
+        let msg;
+        if (holiday.fromDate==null || holiday.toDate==null) {
+            msg = "fromDate and toDate are both required";
+        } else if (holiday.fromDate > holiday.toDate) {
+            msg = "fromDate must be before toDate";
+        }
+        if (msg) {
+            this.growl.add({severity: "warning", detail: "msg", summary: "Check errors"});
+            return;
+        }
         delete holiday["_backup"];
         this.arest.saveHoliday(holiday).subscribe((data) => this.reloadHolidays());
     }
@@ -120,6 +131,19 @@ export class CenterOptsComponent implements OnChanges {
     }
 
     saveTerm(term: TermsModel) {
+        let msg;
+        const count = this.terms.filter((e)=>e.term===term.term).length;
+        if (term.fromDate==null || term.toDate==null) {
+            msg = "fromDate and toDate are both required";
+        } else if (term.fromDate > term.toDate) {
+            msg = "fromDate must be before toDate";
+        } else if(count > 1) {
+            msg = "The term "+ this.termToStr(term.term) + " is already defined";
+        }
+        if (msg) {
+            this.growl.add({severity: "warning", detail: "msg", summary: "Check errors"});
+            return;
+        }
         delete term["_backup"];
         this.arest.saveTerm(term).subscribe((data) => this.reloadTerms());
     }

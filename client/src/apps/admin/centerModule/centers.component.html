@@ -2,17 +2,19 @@
 
 <app-center-edit *ngIf="centerEdtForm" [formGroup]="centerEdtForm" (onSave)="reload($event)"></app-center-edit>
 <app-users-import [center]="importToCenter" (onSave)="loadUsers()"></app-users-import>
-<app-user-edit  *ngIf="userEdtForm" [formGroup]="userEdtForm" (onSave)="loadUsers($event)"></app-user-edit>
+<app-user-edit *ngIf="userEdtForm" [formGroup]="userEdtForm" (onSave)="loadUsers($event)"></app-user-edit>
 
-<app-center-opts  *ngIf="centerToOpts" [school]="centerToOpts"></app-center-opts>
+<app-center-opts *ngIf="centerToOpts" [school]="centerToOpts"></app-center-opts>
 
-<h4>Centers
-    <button class="btn btn-sm btn-success" (click)="createCenter()">
-        <span class="fa fa-plus-circle"></span>
-    </button>
-</h4>
+
 <p-table [columns]="cols" [value]="centers" [paginator]="true" [rows]="10" selectionMode="single" [(selection)]="centerSelected"
     dataKey="id" (onRowSelect)="onRowSelected($event)">
+    <ng-template pTemplate="caption">
+        Centers
+            <button class="btn btn-sm btn-success" (click)="createCenter()">
+                <span class="fa fa-plus-circle"></span>
+            </button>
+    </ng-template>
     <ng-template pTemplate="header" let-columns>
         <tr>
             <th *ngFor="let col of columns">
@@ -29,14 +31,14 @@
                 {{rowData[col.field]}}
             </td>
             <td>
-                <button class="btn btn-sm btn-danger" (click)="removeCenter(rowData)">
+                <button *ngIf="amiRoot" class="btn btn-sm btn-danger" (click)="removeCenter(rowData)">
                     <span class="fa fa-remove"></span>
                 </button>
                 <button class="btn btn-sm btn-success" (click)="editCenter(rowData)">
                     <span class="fa fa-pencil"></span>
                 </button>
                 <button class="btn btn-sm btn-info" (click)="centerOpts(rowData)">
-                        <span class="fa fa-cogs"></span>
+                    <span class="fa fa-cogs"></span>
                 </button>
             </td>
         </tr>
@@ -47,17 +49,15 @@
 
 <br/>
 <div *ngIf="centerSelected">
-    <h4>Users in center {{centerSelected.schoolName}}
-        <button class="btn btn-sm btn-success" (click)="createUser()">
-            <span class="fa fa-plus-circle"></span>
-        </button>
-        <button class="btn btn-sm btn-default" (click)="importUsers()">Bulk import</button>
-    </h4>
-
-    Filter role:
-    <app-role-picker [(idRole)]="idRole" [all]="true" (idRoleChange)="loadUsers()"></app-role-picker>
-
-    <p-table [columns]="cols2" [value]="users" [paginator]="true" [rows]="10">
+    <p-table #dt [columns]="cols2" [value]="users" [paginator]="true" [rows]="10">
+        <ng-template pTemplate="caption">
+            Users in center {{centerSelected.schoolName}}
+                <button class="btn btn-sm btn-success" (click)="createUser()">
+                    <span class="fa fa-plus-circle"></span>
+                </button>
+                <button class="btn btn-sm btn-default" (click)="importUsers()">Bulk import</button>
+           
+        </ng-template>
         <ng-template pTemplate="header" let-columns>
             <tr>
                 <th *ngFor="let col of columns">
@@ -70,6 +70,16 @@
                     {{Actions}}
                 </th>
             </tr>
+            <tr>
+                <th *ngFor="let col of columns" [ngSwitch]="col.field">
+                    <input *ngSwitchCase="'fullname'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">
+                    <input *ngSwitchCase="'username'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">
+                    <input *ngSwitchCase="'email'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">
+                </th>
+                <th>
+                    <app-role-picker [(idRole)]="idRole" [all]="true" (idRoleChange)="loadUsers()" [style]="{'width':'100%'}"></app-role-picker>
+                </th>
+            </tr>
         </ng-template>
         <ng-template pTemplate="body" let-rowData let-columns="columns">
             <tr>
@@ -78,15 +88,18 @@
                 </td>
                 <td>
                     {{rowData.idRole | roles}}
+                    <span *ngIf="rowData.idRole===PARENTS_ROLE && rowData._offspring">
+                        <span class="badge badge-info">{{rowData._offspring.length}}</span>
+                    </span>
                 </td>
                 <td>
-                    <button class="btn btn-sm btn-danger" (click)="removeUser(rowData)">
+                    <button *ngIf="canDeleteUser(rowData)" class="btn btn-sm btn-danger" (click)="removeUser(rowData)">
                         <span class="fa fa-remove"></span>
                     </button>
-                    <button class="btn btn-sm btn-success" (click)="editUser(rowData)">
+                    <button *ngIf="canDeleteUser(rowData)" class="btn btn-sm btn-success" (click)="editUser(rowData)">
                         <span class="fa fa-pencil"></span>
                     </button>
-                    
+
                 </td>
             </tr>
         </ng-template>

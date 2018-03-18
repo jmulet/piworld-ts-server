@@ -1,27 +1,26 @@
 import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
-import { SchoolModel } from '../../../libs/entities/SchoolModel';
+import { SchoolModel } from '../../../../libs/entities/SchoolModel';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { AdminRestService } from '../services/adminrest.service';
+import { AdminRestService } from '../../services/adminrest.service';
+import { pwCore } from '../../pw-core';
+import { UnitModel } from '../../../../libs/entities/UnitModel';
 
 
 @Component({
-    selector: 'app-center-edit',
-    template: require('./centeredit.component.html'),
+    selector: 'app-unit-edit',
+    template: require('./unitedit.component.html'),
     styleUrls: []
 })
-export class CenterEditComponent implements OnChanges {
-    availableLangs: any[];
+export class UnitEditComponent implements OnChanges {
+    amiRoot: boolean; 
     serverValidationErrors: any;
     @Input() formGroup: FormGroup;
-    @Output() onSave = new EventEmitter<SchoolModel>();
+    @Output() onSave = new EventEmitter<UnitModel>();
 
     visible: boolean;
 
     constructor(private arest: AdminRestService) {
-        this.availableLangs = [];
-        window["pwCore"]["supportedLangs"].forEach(element => {
-            this.availableLangs.push({ label: element, value: element });
-        });;
+        
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -33,8 +32,8 @@ export class CenterEditComponent implements OnChanges {
         }
     }
 
-    onSubmit(center) {
-        this.arest.saveSchool(center).subscribe((data: any) => {
+    onSubmit(unit: UnitModel) {
+        this.arest.saveUnit(unit).subscribe((data: any) => {
             if (data.id) {
                 this.visible = false;
                 this.onSave.emit(this.formGroup.value);
@@ -43,12 +42,10 @@ export class CenterEditComponent implements OnChanges {
             (err) => {
                 this.serverValidationErrors = err.message;
                 console.log(err);
-
             })
     }
 
     close(){
-        this.visible = false;
-        this.formGroup = null;
+        this.visible = false; 
     }
 }

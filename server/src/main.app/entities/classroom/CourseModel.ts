@@ -16,7 +16,9 @@ export class CourseModel {
     @PrimaryGeneratedColumn("increment", { type: "int" })
     id: number;
 
-    @Column("int")
+    @Column("int", {
+        default: 2017
+    })
     year: number;      
 
     @IsNotEmpty()

@@ -5,11 +5,10 @@
         export class GroupsModel {
 			id:number;
 			name:string;
-			year:number;
 			idCourse:number = 0;
 			gopts:any;
 			thmcss:string;
-			_creator:number;
+			idUserCreator:number;
   
             constructor() {             
             }
@@ -27,11 +26,10 @@
                 return fb.group({
 					'id': new FormControl(this.id),
 					'name': new FormControl(this.name),
-					'year': new FormControl(this.year),
 					'idCourse': new FormControl(this.idCourse),
 					'gopts': new FormControl(this.gopts),
 					'thmcss': new FormControl(this.thmcss),
-					'_creator': new FormControl(this._creator),
+					'idUserCreator': new FormControl(this.idUserCreator),
 });
             }
         }

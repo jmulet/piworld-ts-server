@@ -1,0 +1,93 @@
+<p-dialog header="Edit Course" [(visible)]="visible" [modal]="true" [responsive]="true" [width]="650" [minWidth]="500">
+
+    <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)">
+        <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    Name*:
+                </div>
+                <div class="ui-grid-col-6">
+                    <input pInputText type="text" formControlName="name" placeholder="Required" />
+                </div>
+                <div class="ui-grid-col-4">
+                    <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!formGroup.controls['name'].valid&&formGroup.controls['name'].dirty">
+                        <i class="fa fa-close"></i>
+                        Name is required
+                    </div>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    Description:
+                </div>
+                <div class="ui-grid-col-6">
+                    <input pInputText type="text" formControlName="description" />
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    year*:
+                </div>
+                <div class="ui-grid-col-6">
+                    <input pInputText type="number" formControlName="year" placeholder="Required" />
+                </div>
+                <div class="ui-grid-col-4">
+                    <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!formGroup.controls['year'].valid&&formGroup.controls['year'].dirty">
+                        <i class="fa fa-close"></i>
+                        year must be a valid start year, e.g. 2017
+                    </div>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    Course Level*:
+                </div>
+                <div class="ui-grid-col-6">
+                    <app-courselevels-picker [(level)]="formGroup.value.courseLevel"></app-courselevels-picker>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    Course Studies*:
+                </div>
+                <div class="ui-grid-col-6">
+                    <app-coursestudies-picker [(studies)]="formGroup.value.courseStudies"></app-coursestudies-picker>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    Subject*:
+                </div>
+                <div class="ui-grid-col-6">
+                    <app-subject-picker [(idSubject)]="formGroup.value.idSubject"></app-subject-picker>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    Enroll password:
+                </div>
+                <div class="ui-grid-col-6">
+                    <input pInputText type="text" formControlName="enrollPassword" />
+                </div>
+            </div>
+
+            <div class="ui-message ui-messages-error ui-corner-all" role="alert" *ngIf="serverValidationErrors">
+                {{serverValidationErrors}}
+            </div>
+
+
+        </div>
+        <p-footer>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-12">
+                    <button type="submit" [disabled]="!formGroup.valid" class="btn btn-sm btn-success">
+                        <span class="fa fa-check">OK</span>
+                    </button>
+                    <button class="pull-left btn btn-sm btn-danger" type="button" (click)="close()">
+                        <span class="fa fa-close">Cancel</span>
+                    </button>
+                </div>
+            </div>
+        </p-footer>
+    </form>
+</p-dialog>

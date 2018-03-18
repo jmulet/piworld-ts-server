@@ -38,7 +38,7 @@
 					'fullname': new FormControl(this.fullname, Validators.required),
 					'password': new FormControl(this.password),
 					'mustChgPwd': new FormControl(this.mustChgPwd),
-					'email': new FormControl(this.email, Validators.email),
+					'email': new FormControl(this.email, Validators.pattern("[a-zA-Z0-9._-]+[@]+[a-zA-Z0-9-]+[.]+[a-zA-Z]{2,6}")),
 					'emailPassword': new FormControl(this.emailPassword),
 					'recovery': new FormControl(this.recovery),
 					'created': new FormControl(this.created),

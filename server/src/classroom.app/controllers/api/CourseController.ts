@@ -14,23 +14,36 @@
      @Inject()
      courseSrv: CourseSrv;
      
+     @Get("/:id")
+     get(@Param("id") idCourse: number) {            
+         return this.courseSrv.findById(idCourse);
+     }
+
+     /** If created queryParam is set, then lists courses created by idUser
+      * otherwise, lists the courses in which idUser is enrolled.
+     */
+     @Get("/list/:idUser")
+     list(@Param("idUser") idUser: number, @QueryParam("created") created: boolean) {            
+         return this.courseSrv.list(idUser, created);
+     }
+
      @Post("/")
      @UseBefore(AdminsAndTeachersOnly)
      save(@Body({ validate: true }) entity: CourseModel) {            
          return this.courseSrv.save(entity);
      }
 
-     @Put("/")
+     @Put("/:id")
      @UseBefore(AdminsAndTeachersOnly)
      update(@Param("id") id: number, @Body({ validate: true }) entity: CourseModel) {            
          entity.id = id;
          return this.courseSrv.save(entity);
      }
  
-     @Delete("/:idCourse")
+     @Delete("/:id")
      @UseBefore(AdminsAndTeachersOnly)
-     del(@Param("idCourse") idAssignment: number) {             
-         return this.courseSrv.deleteById(idAssignment);
+     del(@Param("id") idCourse: number) {             
+         return this.courseSrv.deleteById(idCourse);
      }
  
  }

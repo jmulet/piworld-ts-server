@@ -158,8 +158,8 @@ export function typeClientGenerator() {
                         validatorsBuild.push("Validators.min(" + v.constraints[0] + ")");
                     } else if (v.type==="Max" && v.constraints[0]) {                        
                         validatorsBuild.push("Validators.max(" + v.constraints[0] + ")");
-                    } else if (v.type==="isEmail") {                        
-                        validatorsBuild.push("Validators.email");
+                    } else if (v.type==="isEmail") {   
+                        validatorsBuild.push("Validators.pattern(\"[a-zA-Z0-9._-]+[@]+[a-zA-Z0-9-]+[.]+[a-zA-Z]{2,6}\")");
                     } else if (v.type==="customValidation" ) {
                         // do something
                     }

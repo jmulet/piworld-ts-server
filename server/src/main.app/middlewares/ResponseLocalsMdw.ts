@@ -24,13 +24,12 @@ export function ResponseLocalsMdw(request: express.Request, response: express.Re
     response.locals.config = {
         basePrefix: config.basePrefix,
         staticPrefix: config.staticPrefix,
-        defaultLang: I18n.DEFAULT_LANG,
-        user: user,
+        defaultLang: I18n.DEFAULT_LANG,       
         version: packageJson.version,
         author: packageJson.author,
         socketPath: 'ddp'
     };
-
+    response.locals.user = user;
     // Pass the lang
     response.locals.lang = langInspector(request, response);
 

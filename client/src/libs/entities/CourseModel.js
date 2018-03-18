@@ -82,7 +82,7 @@ module.exports = {
   ],
   "defaultObject": {
     "id": null,
-    "year": null,
+    "year": 2017,
     "name": null,
     "description": null,
     "courseLevel": 1,

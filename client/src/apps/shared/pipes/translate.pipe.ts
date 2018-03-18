@@ -1,5 +1,6 @@
 
 import { Pipe, PipeTransform } from '@angular/core'; 
+import { pwCore } from '../../admin/pw-core';
 
 @Pipe({
     name: 'translate',
@@ -9,6 +10,6 @@ export class TranslatePipe implements PipeTransform {
  
     transform(value: string, args: any[]): any {
         if (!value) return;
-        return window["pwCore"]["__"](value);
+        return pwCore.__(value);
     }
 }

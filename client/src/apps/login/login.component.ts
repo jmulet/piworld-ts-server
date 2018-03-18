@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 import { RestService, LoginBodyModel } from '../shared/services/rest.service';
+import { pwCore } from '../admin/pw-core';
 
 
 @Component({
@@ -33,7 +34,7 @@ export class LoginComponent {
     doLogin () {
         this.opts.processing = true;
         this.opts.showAlert = false;
-        const __ = window["pwCore"]["__"];
+        const __ = pwCore.__;
   
         this.rest.login(this.model).subscribe((data: any)=> { 
             this.opts.processing = false;

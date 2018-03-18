@@ -26,7 +26,7 @@ import { UnitSrv } from '../../services/UnitSrv';
          return this.unitSrv.listCreated(idGroup);
      }
 
-     @Get("/listUnits")
+     @Get("/list")
      @UseBefore(AdminsAndTeachersOnly)
      listUnitsOnly(@QueryParam("idCourse") idGroup: number) {             
          return this.unitSrv.listUnitsOnly(idGroup);

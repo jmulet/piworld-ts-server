@@ -1,15 +1,14 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
+
 import { RolePickerComponent } from './rolepicker.component';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
-  imports: [
-    BrowserModule,
+  imports: [ 
+    CommonModule,
     FormsModule,
-    BrowserAnimationsModule,
     DropdownModule
   ],
   declarations: [

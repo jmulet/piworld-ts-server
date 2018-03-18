@@ -19,11 +19,10 @@ export class GroupsSrv {
         this.repository = getRepository(GroupsModel); 
     }
    
-   static fromData(name?: string, year?: number, idCourse?: number) {
+   static fromData(name?: string, year?: number, idUserCreator?: number) {
         const entity = new GroupsModel();
-        entity.name = name;
-        entity.year = year;
-        entity.idCourse = idCourse;
+        entity.name = name; 
+        entity.idUserCreator = idUserCreator;
         return entity;
     }
 
@@ -31,7 +30,7 @@ export class GroupsSrv {
         return this.repository.findOne({id: idGroup});
     }
 
-    findCreated(idCourse: number){
+    findByIdCourse(idCourse: number){
         return this.repository.find({idCourse: idCourse});
     }
  

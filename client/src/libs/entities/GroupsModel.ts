@@ -9,6 +9,8 @@
 			gopts:any;
 			thmcss:string;
 			idUserCreator:number;
+			sdr:number;
+			sdd:Date;
   
             constructor() {             
             }
@@ -30,6 +32,8 @@
 					'gopts': new FormControl(this.gopts),
 					'thmcss': new FormControl(this.thmcss),
 					'idUserCreator': new FormControl(this.idUserCreator),
+					'sdr': new FormControl(this.sdr),
+					'sdd': new FormControl(this.sdd),
 });
             }
         }

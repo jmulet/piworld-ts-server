@@ -102,6 +102,12 @@ export class ActivityModel {
     })
     counter: number;
 
+    @Column("tinyint", {nullable: true, select: false})
+    sdr: number
+
+    @Column("datetime", {nullable: true, select: false})
+    sdd: Date
+
     // Many activities belong to one subject
     @ManyToOne( (type) => SubjectModel, (subject) => subject._activities, {onDelete: "CASCADE"})
     @JoinColumn({name: "idSubject"})

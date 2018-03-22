@@ -67,6 +67,12 @@ export class CourseModel {
     })
     enrollPassword: string;
 
+    @Column("tinyint", {nullable: true, select: false})
+    sdr: number
+
+    @Column("datetime", {nullable: true, select: false})
+    sdd: Date
+
     @ManyToOne((type)=> SubjectModel, (subject) => subject._courses, {onDelete: "CASCADE"})
     @JoinColumn({name: "idSubject"})
     _subject: SubjectModel;

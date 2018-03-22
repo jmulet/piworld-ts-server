@@ -43,6 +43,18 @@ module.exports = {
       "type": "int",
       "nullable": false,
       "generated": false
+    },
+    {
+      "name": "sdr",
+      "type": "tinyint",
+      "nullable": false,
+      "generated": false
+    },
+    {
+      "name": "sdd",
+      "type": "datetime",
+      "nullable": false,
+      "generated": false
     }
   ],
   "defaultObject": {
@@ -51,6 +63,8 @@ module.exports = {
     "idCourse": "0",
     "gopts": null,
     "thmcss": null,
-    "idUserCreator": null
+    "idUserCreator": null,
+    "sdr": null,
+    "sdd": null
   }
 };

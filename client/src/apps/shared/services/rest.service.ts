@@ -21,7 +21,7 @@ export class RestService {
         return this.http.get("@/api/user/logout");
     }
     getUsers(idSchool?: number){
-        return this.http.get("@/api/user/list" + (idSchool?("&idSchool="+idSchool):""));
+        return this.http.get("@/api/user/list" + (idSchool?("?idSchool="+idSchool):""));
     } 
     listSubjects() {
         return this.http.get("@/api/subject/list");

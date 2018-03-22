@@ -16,6 +16,8 @@
 			created:Date;
 			valid:number = 1;
 			uopts:any;
+			sdr:number;
+			sdd:Date;
   
             constructor() {             
             }
@@ -44,6 +46,8 @@
 					'created': new FormControl(this.created),
 					'valid': new FormControl(this.valid),
 					'uopts': new FormControl(this.uopts),
+					'sdr': new FormControl(this.sdr),
+					'sdd': new FormControl(this.sdd),
 });
             }
         }

@@ -95,6 +95,12 @@ export class UserModel {
     @Column("json", {nullable: true})
     uopts: any;
 
+    @Column("tinyint", {nullable: true, select: false})
+    sdr: number
+
+    @Column("datetime", {nullable: true, select: false})
+    sdd: Date
+
     // Many users have associated a "school" object
     @ManyToOne((type) => SchoolModel, (school) => school._members, {onDelete: "CASCADE"})
     @JoinColumn({name: "idSchool"})

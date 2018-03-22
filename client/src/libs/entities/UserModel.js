@@ -173,6 +173,18 @@ module.exports = {
           ]
         }
       ]
+    },
+    {
+      "name": "sdr",
+      "type": "tinyint",
+      "nullable": false,
+      "generated": false
+    },
+    {
+      "name": "sdd",
+      "type": "datetime",
+      "nullable": false,
+      "generated": false
     }
   ],
   "defaultObject": {
@@ -187,6 +199,8 @@ module.exports = {
     "emailPassword": null,
     "recovery": null,
     "valid": 1,
-    "uopts": null
+    "uopts": null,
+    "sdr": null,
+    "sdd": null
   }
 };

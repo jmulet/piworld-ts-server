@@ -77,6 +77,18 @@ module.exports = {
       "type": "tinyint",
       "nullable": false,
       "generated": false
+    },
+    {
+      "name": "sdr",
+      "type": "tinyint",
+      "nullable": false,
+      "generated": false
+    },
+    {
+      "name": "sdd",
+      "type": "datetime",
+      "nullable": false,
+      "generated": false
     }
   ],
   "defaultObject": {
@@ -92,6 +104,8 @@ module.exports = {
     "instructions": null,
     "applyToAll": 0,
     "params": null,
-    "visible": 1
+    "visible": 1,
+    "sdr": null,
+    "sdd": null
   }
 };

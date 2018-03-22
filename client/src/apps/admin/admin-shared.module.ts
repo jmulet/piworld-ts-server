@@ -22,7 +22,8 @@ import { TranslateService } from '../shared/services/translate.service';
 import { AdminRestService } from './services/adminrest.service';
 import { CommonModule } from '@angular/common';
 
- 
+import {DragDropModule} from 'primeng/dragdrop';
+import { UnitVisibilityPipe } from '../shared/pipes/unit-visibility.pipe';
 
 @NgModule({
   imports: [
@@ -40,9 +41,11 @@ import { CommonModule } from '@angular/common';
     RolePickerModule,
     StatusPickerModule,
     AvatarPickerModule,
+    DragDropModule
   ],
   declarations: [
-    RolesPipe
+    RolesPipe,
+    UnitVisibilityPipe    
   ],
   providers: [  
     TranslateService,
@@ -69,7 +72,8 @@ import { CommonModule } from '@angular/common';
     RolePickerModule,
     StatusPickerModule,
     AvatarPickerModule,
-    RolesPipe
+    RolesPipe,
+    UnitVisibilityPipe
   ]
 })
 export class AdminSharedModule {}

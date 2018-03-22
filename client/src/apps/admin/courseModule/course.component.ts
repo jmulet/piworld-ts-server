@@ -4,9 +4,10 @@ import { AdminRestService } from '../services/adminrest.service';
 import { pwCore } from '../pw-core';
 import { CourseModel } from '../../../libs/entities/CourseModel';
 import { ConfirmationService } from 'primeng/api';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { UnitModel } from '../../../libs/entities/UnitModel';
 import { GroupsModel } from '../../../libs/entities/GroupsModel';
+
 @Component({
     selector: 'app-course-component',
     template: require("./course.component.html"),
@@ -106,10 +107,13 @@ export class CourseComponent implements OnInit {
         if (!this.groupEdt.id) {
             this.groupEdt.idUserCreator = this.courseSelected.idUserCreator;
             this.groupEdt.idCourse = this.courseSelected.id;
-            this.groupEdt.gopts = {};
+            this.groupEdt.gopts = {
+                useInPda: false
+            };
         }
-        this.groupEdtForm = this.groupEdt.toForm(this.fb);
-        this.groupEdtForm.addControl("_enrolls", new FormGroup(this.groupEdt["_enrolls"]));
+        const groupEdtForm = this.groupEdt.toForm(this.fb);
+        groupEdtForm["_enrolls"] = this.groupEdt["_enrolls"];
+        this.groupEdtForm = groupEdtForm;
     }
     private move(array: UnitModel[], index: number, offset: number) {
         const newIndex = index + offset
@@ -133,5 +137,13 @@ export class CourseComponent implements OnInit {
     }
     moveDown(index: number) {
         this.move(this.units, index, 1);
+    }
+    onRowReorder(ev) {
+        //ev.dragIndex ev.dropIndex
+        //Save into database
+        this.units.forEach((e, i) => e.order = i+1);
+        const partials = this.units.map((u)=> { return {id: u.id, order: u.order} });
+        this.savingOrdering = true;
+        this.arest.saveUnits(partials).subscribe( (data)=> this.savingOrdering = false);
     }
 }

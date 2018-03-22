@@ -16,6 +16,8 @@
 			applyToAll:number = 0;
 			params:any;
 			visible:number = 1;
+			sdr:number;
+			sdd:Date;
   
             constructor() {             
             }
@@ -44,6 +46,8 @@
 					'applyToAll': new FormControl(this.applyToAll),
 					'params': new FormControl(this.params),
 					'visible': new FormControl(this.visible),
+					'sdr': new FormControl(this.sdr),
+					'sdd': new FormControl(this.sdd),
 });
             }
         }

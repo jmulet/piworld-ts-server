@@ -74,6 +74,12 @@ export class SchoolModel {
     @Column("json")
     sopts: SchoolOptions;
 
+    @Column("tinyint", {nullable: true, select: false})
+    sdr: number
+
+    @Column("datetime", {nullable: true, select: false})
+    sdd: Date
+    
     // One School may have many members
     @OneToMany((type) => UserModel, (user) => user._school)
     _members: UserModel[];

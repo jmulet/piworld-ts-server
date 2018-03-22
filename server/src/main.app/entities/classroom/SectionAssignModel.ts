@@ -17,7 +17,7 @@ export class SectionAssignModel {
 
     @Column("int")
     idGroup: number;
- 
+     
     // Reference to the parent section
     @ManyToOne( (type)=> SectionModel, (section) => section._sectionAssignments, {onDelete: "CASCADE"})
     @JoinColumn({name: "idSection"})

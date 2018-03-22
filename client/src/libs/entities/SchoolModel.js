@@ -100,6 +100,18 @@ module.exports = {
       "type": "json",
       "nullable": false,
       "generated": false
+    },
+    {
+      "name": "sdr",
+      "type": "tinyint",
+      "nullable": false,
+      "generated": false
+    },
+    {
+      "name": "sdd",
+      "type": "datetime",
+      "nullable": false,
+      "generated": false
     }
   ],
   "defaultObject": {
@@ -111,6 +123,8 @@ module.exports = {
     "enrollPassword": null,
     "canEnroll": 0,
     "canPublish": 1,
-    "sopts": null
+    "sopts": null,
+    "sdr": null,
+    "sdd": null
   }
 };

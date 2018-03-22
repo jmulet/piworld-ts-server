@@ -92,6 +92,18 @@ module.exports = {
       "type": "int",
       "nullable": false,
       "generated": false
+    },
+    {
+      "name": "sdr",
+      "type": "tinyint",
+      "nullable": false,
+      "generated": false
+    },
+    {
+      "name": "sdd",
+      "type": "datetime",
+      "nullable": false,
+      "generated": false
     }
   ],
   "defaultObject": {
@@ -107,6 +119,8 @@ module.exports = {
     "difficulty": null,
     "icon": null,
     "params": null,
-    "counter": 0
+    "counter": 0,
+    "sdr": null,
+    "sdd": null
   }
 };

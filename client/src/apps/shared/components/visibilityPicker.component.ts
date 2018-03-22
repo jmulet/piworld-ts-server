@@ -1,7 +1,14 @@
  
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'; 
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core'; 
 import { SelectItemDisable } from '../SelectItemDisable';
- 
+
+export const UnitVisibility = {
+    Hidden: 0,
+    Collapsed: 1,
+    Auto: 2,
+    Expanded: 3
+}
+
 @Component({
     selector: 'app-visibility-picker',
     template: `
@@ -20,7 +27,8 @@ import { SelectItemDisable } from '../SelectItemDisable';
         }
     `]
 })
-export class VisibilityPickerComponent implements OnInit {
+export class VisibilityPickerComponent implements OnInit, OnChanges {
+   
     list: SelectItemDisable[];
     selected: SelectItemDisable;
     @Input() visible: number;
@@ -28,23 +36,28 @@ export class VisibilityPickerComponent implements OnInit {
     @Input() style: string;
     @Output() visibleChange = new EventEmitter<number>();
 
-    constructor() {        
+    constructor() {                
     }
     ngOnInit() {       
-        if (this.type === "unit") {
-            this.list = [
-                {label: "Hidden", value: 0},
-                {label: "Collapsed", value: 1},
-                {label: "Auto", value: 2},
-                {label: "Expanded", value: 3}
-            ];
-        } else {
-            this.list = [
-                {label: "Hidden", value: 0},
-                {label: "Visible", value: 1}
-            ];
-        }
+       
         this.selected= this.list.filter((r)=>r.value===this.visible)[0] || this.list[0];    
+    }
+    ngOnChanges(changes: SimpleChanges): void {
+        this.list = [
+            {label: "Hidden", value: 0},
+            {label: "Visible", value: 1}
+        ];
+        if (changes.type) {
+            if (this.type === "unit") {
+                this.list = [];
+                for (let key in UnitVisibility) {
+                    this.list.push({label: key, value: UnitVisibility[key]});
+                }
+            } 
+        }
+        if (changes.visible) {
+            this.selected= this.list.filter((r)=>r.value===this.visible)[0] || this.list[0];    
+        }
     } 
     onChange() {
         this.visibleChange.emit(this.selected.value);    

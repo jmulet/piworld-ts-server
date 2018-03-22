@@ -109,9 +109,7 @@ export class ApiUsersController {
         }
 
         const { parsed, logErrors } = usersImportModel.parse();
-        let promises = [];
-        console.log("parsed", parsed);
-
+        let promises = []; 
         // First step is to validate UserModels
         parsed.forEach(async (user) => {
             promises.push(validate(user));

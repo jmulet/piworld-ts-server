@@ -47,6 +47,12 @@ export class GroupsModel {
     @Column("int")
     idUserCreator: number;
 
+    @Column("tinyint", {nullable: true, select: false})
+    sdr: number
+
+    @Column("datetime", {nullable: true, select: false})
+    sdd: Date
+
     // Many groups may be created by one user
     @ManyToOne((type) => UserModel, (user) => user._groupsCreated, {onDelete: "CASCADE"})
     @JoinColumn({ name: "idUserCreator" })

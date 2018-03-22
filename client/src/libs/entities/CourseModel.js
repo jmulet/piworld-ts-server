@@ -78,6 +78,18 @@ module.exports = {
       "type": "varchar",
       "nullable": false,
       "generated": false
+    },
+    {
+      "name": "sdr",
+      "type": "tinyint",
+      "nullable": false,
+      "generated": false
+    },
+    {
+      "name": "sdd",
+      "type": "datetime",
+      "nullable": false,
+      "generated": false
     }
   ],
   "defaultObject": {
@@ -90,6 +102,8 @@ module.exports = {
     "idSubject": "1",
     "idUserCreator": "0",
     "currentUnit": "0",
-    "enrollPassword": null
+    "enrollPassword": null,
+    "sdr": null,
+    "sdd": null
   }
 };

@@ -12,6 +12,8 @@
 			canEnroll:number = 0;
 			canPublish:number = 1;
 			sopts:any;
+			sdr:number;
+			sdd:Date;
   
             constructor() {             
             }
@@ -36,6 +38,8 @@
 					'canEnroll': new FormControl(this.canEnroll),
 					'canPublish': new FormControl(this.canPublish),
 					'sopts': new FormControl(this.sopts),
+					'sdr': new FormControl(this.sdr),
+					'sdd': new FormControl(this.sdd),
 });
             }
         }

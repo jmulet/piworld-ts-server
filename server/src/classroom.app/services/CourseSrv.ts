@@ -32,32 +32,72 @@ export class CourseSrv {
         return this.repository.save(entity);
     }
 
-    del(entity: CourseModel) {
+    delete(entity: CourseModel) {
+        entity.sdd = new Date();
+        entity.sdr = entity.sdr || UserRoles.admin;
+        return this.repository.save(entity);
+    }
+
+    hardDelete(entity: CourseModel) {
         return this.repository.remove(entity);
     }
 
     async deleteById(idUnit: number) {
         const entity = await this.repository.findOne({ id: idUnit });
+        if (entity) {
+            return this.delete(entity);
+        }
+        return false;
+    }
+
+    async hardDeleteById(idUnit: number) {
+        const entity = await this.repository.findOne({ id: idUnit });
         return this.repository.remove(entity);
     }
     
-    list(idUser: number, created?: boolean) {
+    list(idUser: number, created?: boolean, showSoftDeleted?: number) {
+        let builder = this.repository.createQueryBuilder("c");
         if (created) {
-            return this.repository.createQueryBuilder("c").innerJoinAndSelect("c._subject", "s")
-            .where("c.idUserCreator=:idUser", {idUser: idUser}).getMany();
+            builder = builder.innerJoinAndSelect("c._subject", "s")
+            .where("c.idUserCreator=:idUser", {idUser: idUser});
         } else {
             // List courses in which some group contains the current idUser: Must select distinct
-            return this.repository.createQueryBuilder("c")
-            .innerJoin("c._courseGroups", "g")
+            builder = builder.innerJoin("c._courseGroups", "g")
             .innerJoin("g._enrolls", "e")
             .where("e.idUser=:idUser", {idUser: idUser})
             .groupBy("c.id")
-            .getMany();
         }        
+
+        if (showSoftDeleted >= 0) {
+            builder = builder.andWhere("c.sdr >= :role", {role: showSoftDeleted});   
+        }
+        else {
+            builder = builder.andWhere("c.sdr IS NULL");
+        }
+        return builder.getMany();
     }
 
-    findById(idCourse: number) {
-        return this.repository.findOne({id: idCourse});
+    findById(idCourse: number, showSoftDeleted?: number) {
+        let builder = this.repository.createQueryBuilder("c").where({id: idCourse});
+        if (showSoftDeleted >= 0) {
+            builder = builder.andWhere("c.sdr >= :role", {role: showSoftDeleted});   
+        }
+        else {
+            builder = builder.andWhere("c.sdr IS NULL");
+        }
+        return builder.getOne();
     }
     
+    releaseSoftDeletes(days: number) {
+        return this.repository.createQueryBuilder("e").delete()
+        .where("DATEDIFF(NOW(), e.sdd) > :days", { days: days })
+        .execute();
+    }
+
+    restoreSoftDelete(id?: number) {
+        return this.repository.createQueryBuilder("e").update()
+            .set({ sdd: null, sdr: null })
+            .where("e.sdd IS NOT NULL").andWhere(id ? "e.id=:id" : "1=1", { id: id })
+            .execute();
+    }
 }

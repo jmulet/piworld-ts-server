@@ -16,6 +16,8 @@
 			icon:string;
 			params:any;
 			counter:number = 0;
+			sdr:number;
+			sdd:Date;
   
             constructor() {             
             }
@@ -44,6 +46,8 @@
 					'icon': new FormControl(this.icon),
 					'params': new FormControl(this.params),
 					'counter': new FormControl(this.counter),
+					'sdr': new FormControl(this.sdr),
+					'sdd': new FormControl(this.sdd),
 });
             }
         }

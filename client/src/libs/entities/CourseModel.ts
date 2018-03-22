@@ -13,6 +13,8 @@
 			idUserCreator:number = 0;
 			currentUnit:number = 0;
 			enrollPassword:string;
+			sdr:number;
+			sdd:Date;
   
             constructor() {             
             }
@@ -38,6 +40,8 @@
 					'idUserCreator': new FormControl(this.idUserCreator),
 					'currentUnit': new FormControl(this.currentUnit),
 					'enrollPassword': new FormControl(this.enrollPassword),
+					'sdr': new FormControl(this.sdr),
+					'sdd': new FormControl(this.sdd),
 });
             }
         }

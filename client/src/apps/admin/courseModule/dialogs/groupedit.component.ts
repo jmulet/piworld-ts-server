@@ -27,19 +27,26 @@ export class GroupEditComponent implements OnChanges {
     constructor(private rest: RestService, private arest: AdminRestService) {
         this.allUsers = [];
         this.enrolledUsers = [];
-        this.rest.getUsers(pwCore.User.idSchool).subscribe( (data: any) => this.allUsers = data);
     }
 
     ngOnChanges(changes: SimpleChanges): void {
         const _formGroup: SimpleChange = changes.formGroup;
         const group = _formGroup.currentValue;
+     
         if (group) {
             this.visible = true;
-            if (group._enrolls) {
-                this.enrolledUsers = this.allUsers.filter((u) => {                    
-                    return group._enrolls.filter((e)=> e.idUser === u.id).length > 0;
-                });
-            }
+            const _enrolls = group["_enrolls"];
+            this.rest.getUsers(pwCore.User.idSchool).subscribe( (data: any) => {
+                this.allUsers = data;
+                if (_enrolls) {
+                    this.enrolledUsers = this.allUsers.filter((u) => {                    
+                        return _enrolls.filter((e)=> e.idUser === u.id).length > 0;
+                    });
+    
+                    console.log(this.enrolledUsers);
+                }
+            });
+            
         } else {
             this.visible = false;
         }

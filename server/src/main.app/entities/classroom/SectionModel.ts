@@ -60,6 +60,12 @@ export class SectionModel {
     })
     visible: number;
 
+    @Column("tinyint", {nullable: true, select: false})
+    sdr: number
+
+    @Column("datetime", {nullable: true, select: false})
+    sdd: Date
+
     // Reference to the parent unit of this assignment
     @ManyToOne( (type)=> UnitModel, (unit) => unit._sections, {onDelete: "CASCADE"})
     @JoinColumn({name: "idUnit"})

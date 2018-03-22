@@ -11,7 +11,7 @@ export class ActivityRepository extends Repository<ActivityModel> {
         return this.find();
     }
 
-    search(text: string, limit?: number, offset?: number) {
+    search(text: string, limit?: number, offset?: number, showSoftDeleted?: number) {
         let builder = this.createQueryBuilder("activity")
         .where("activity LIKE :text")
         .orWhere("createdBy LIKE :text")
@@ -24,11 +24,16 @@ export class ActivityRepository extends Repository<ActivityModel> {
         if (offset) {
             builder = builder.offset(offset);
         }
+        if (showSoftDeleted >=0) {
+            builder = builder.andWhere("activity.sdr > :role", {role: showSoftDeleted});
+         } else {
+            builder = builder.andWhere("activity.sdr IS NULL")
+         }
 
         builder = builder.orderBy("activity.id", "DESC");
         
         return builder.getMany();
     }
  
-
+   
 }

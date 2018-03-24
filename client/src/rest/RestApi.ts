@@ -1,20 +1,19 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { SchoolModel } from "../entities/SchoolModel" 
-import { HolidayModel } from "../entities/HolidayModel" 
-import { TermsModel } from "../entities/TermsModel" 
-import { UserModel } from "../entities/UserModel" 
-import { ActivityModel } from "../entities/ActivityModel" 
-import { BadgesModel } from "../entities/BadgesModel" 
-import { ChallengesModel } from "../entities/ChallengesModel" 
-import { CourseModel } from "../entities/CourseModel" 
-import { GroupsModel } from "../entities/GroupsModel" 
-import { SectionModel } from "../entities/SectionModel" 
-import { UnitModel } from "../entities/UnitModel" 
-
+import { HttpClient, HttpParams } from '@angular/common/http'
+import { Injectable } from '@angular/core'
+import { SchoolModel } from '../entities/SchoolModel'
+import { HolidayModel } from '../entities/HolidayModel'
+import { TermsModel } from '../entities/TermsModel'
+import { UserModel } from '../entities/UserModel'
+import { ActivityModel } from '../entities/ActivityModel'
+import { BadgesModel } from '../entities/BadgesModel'
+import { ChallengesModel } from '../entities/ChallengesModel'
+import { CourseModel } from '../entities/CourseModel'
+import { GroupsModel } from '../entities/GroupsModel'
+import { SectionModel } from '../entities/SectionModel'
+import { UnitModel } from '../entities/UnitModel'
 
 @Injectable()
-export class RestApi {
+export class RestApi { 
 Desktop: DesktopRest;
 Home: HomeRest;
 Login: LoginRest;
@@ -55,8 +54,9 @@ constructor(private http: HttpClient) {
 }
 }
 
- class DesktopRest {
-constructor(private http: HttpClient) {}
+class DesktopRest { 
+constructor(private http: HttpClient) {
+}
 /**
  * @api {get} @/desktop.htm
  * @apiName desktopPage
@@ -66,11 +66,12 @@ desktopPage() {
    const url = `@/desktop.htm`
    return this.http.get(url);
 }
+
 }
 
-
- class HomeRest {
-constructor(private http: HttpClient) {}
+class HomeRest { 
+constructor(private http: HttpClient) {
+}
 /**
  * @api {get} @/home.htm
  * @apiName homePage
@@ -80,6 +81,7 @@ homePage() {
    const url = `@/home.htm`
    return this.http.get(url);
 }
+
 /**
  * @api {get} @/admin.htm
  * @apiName adminPage
@@ -90,11 +92,12 @@ adminPage() {
    const url = `@/admin.htm`
    return this.http.get(url);
 }
+
 }
 
-
- class LoginRest {
-constructor(private http: HttpClient) {}
+class LoginRest { 
+constructor(private http: HttpClient) {
+}
 /**
  * @api {get} @/
  * @apiName indexPage
@@ -104,20 +107,22 @@ indexPage() {
    const url = `@/`
    return this.http.get(url);
 }
+
 /**
  * @api {get} @/login.htm
  * @apiName loginPage
  * @apiGroup LoginController
 */
 loginPage(logout?: Object) {
-const queryParams = new HttpParams({
+   const queryParams = new HttpParams({
    fromObject: {
       logout: logout + "",
-  }
-});
+     }
+   });
    const url = `@/login.htm`
    return this.http.get(url, {params: queryParams});
 }
+
 /**
  * @api {post} #/login.htm
  * @apiName login
@@ -127,6 +132,7 @@ login(entity: any) {
    const url = `#/login.htm`
    return this.http.post(url, entity);
 }
+
 /**
  * @api {post} @/logout
  * @apiName logout
@@ -136,20 +142,22 @@ logout() {
    const url = `@/logout`
    return this.http.post(url, {});
 }
+
 /**
  * @api {get} @/changepwd.htm
  * @apiName changePwdPage
  * @apiGroup LoginController
 */
 changePwdPage(error?: number) {
-const queryParams = new HttpParams({
+   const queryParams = new HttpParams({
    fromObject: {
       error: error + "",
-  }
-});
+     }
+   });
    const url = `@/changepwd.htm`
    return this.http.get(url, {params: queryParams});
 }
+
 /**
  * @api {post} @/changepwd.htm
  * @apiName changePwd
@@ -159,26 +167,28 @@ changePwd(entity: any) {
    const url = `@/changepwd.htm`
    return this.http.post(url, entity);
 }
+
 /**
  * @api {get} @/translate
  * @apiName getTranslations
  * @apiGroup LoginController
 */
 getTranslations(file: string, lang?: string) {
-const queryParams = new HttpParams({
+   const queryParams = new HttpParams({
    fromObject: {
       file: file + "",
       lang: lang + "",
-  }
-});
+     }
+   });
    const url = `@/translate`
    return this.http.get(url, {params: queryParams});
 }
+
 }
 
-
- class ApiSchoolRest {
-constructor(private http: HttpClient) {}
+class ApiSchoolRest { 
+constructor(private http: HttpClient) {
+}
 /**
  * @api {get} @/api/school/list
  * @apiName list
@@ -186,14 +196,15 @@ constructor(private http: HttpClient) {}
  * @apiPermission Accepted roles 0, 50
 */
 list(idSchool?: number) {
-const queryParams = new HttpParams({
+   const queryParams = new HttpParams({
    fromObject: {
       idSchool: idSchool + "",
-  }
-});
+     }
+   });
    const url = `@/api/school/list`
    return this.http.get(url, {params: queryParams});
 }
+
 /**
  * @api {post} @/api/school/
  * @apiName save
@@ -204,6 +215,7 @@ save(entity: SchoolModel) {
    const url = `@/api/school/`
    return this.http.post(url, entity);
 }
+
 /**
  * @api {put} @/api/school/:id
  * @apiName update
@@ -211,12 +223,13 @@ save(entity: SchoolModel) {
  * @apiPermission Accepted roles 0, 50
 */
 update(id: number, entity: SchoolModel) {
-const pathParams = {
+   const pathParams = {
       id: id,
-};
+   };
    const url = `@/api/school/${pathParams.id}`
    return this.http.put(url, entity);
 }
+
 /**
  * @api {delete} @/api/school/:idSchool
  * @apiName delete
@@ -224,17 +237,18 @@ const pathParams = {
  * @apiPermission Accepted roles 0
 */
 delete(idSchool: number) {
-const pathParams = {
+   const pathParams = {
       idSchool: idSchool,
-};
+   };
    const url = `@/api/school/${pathParams.idSchool}`
    return this.http.delete(url);
 }
+
 }
 
-
- class ApiSchoolHolidayRest {
-constructor(private http: HttpClient) {}
+class ApiSchoolHolidayRest { 
+constructor(private http: HttpClient) {
+}
 /**
  * @api {get} @/api/school/holiday/:idHoliday
  * @apiName get
@@ -242,12 +256,13 @@ constructor(private http: HttpClient) {}
  * @apiPermission Accepted roles 0
 */
 get(idHoliday: number) {
-const pathParams = {
+   const pathParams = {
       idHoliday: idHoliday,
-};
+   };
    const url = `@/api/school/holiday/${pathParams.idHoliday}`
    return this.http.get(url);
 }
+
 /**
  * @api {get} @/api/school/holiday/list
  * @apiName list
@@ -255,16 +270,17 @@ const pathParams = {
  * @apiPermission Accepted roles 0, 50
 */
 list(year: number, idSchool?: number, schoolName?: string) {
-const queryParams = new HttpParams({
+   const queryParams = new HttpParams({
    fromObject: {
       year: year + "",
       idSchool: idSchool + "",
       schoolName: schoolName + "",
-  }
-});
+     }
+   });
    const url = `@/api/school/holiday/list`
    return this.http.get(url, {params: queryParams});
 }
+
 /**
  * @api {post} @/api/school/holiday/
  * @apiName save
@@ -274,6 +290,7 @@ save(entity: HolidayModel) {
    const url = `@/api/school/holiday/`
    return this.http.post(url, entity);
 }
+
 /**
  * @api {put} @/api/school/holiday/:id
  * @apiName update
@@ -281,12 +298,13 @@ save(entity: HolidayModel) {
  * @apiPermission Accepted roles 0, 50
 */
 update(id: number, entity: HolidayModel) {
-const pathParams = {
+   const pathParams = {
       id: id,
-};
+   };
    const url = `@/api/school/holiday/${pathParams.id}`
    return this.http.put(url, entity);
 }
+
 /**
  * @api {delete} @/api/school/holiday/:idHoliday
  * @apiName delete
@@ -294,17 +312,18 @@ const pathParams = {
  * @apiPermission Accepted roles 0
 */
 delete(idHoliday: number) {
-const pathParams = {
+   const pathParams = {
       idHoliday: idHoliday,
-};
+   };
    const url = `@/api/school/holiday/${pathParams.idHoliday}`
    return this.http.delete(url);
 }
+
 }
 
-
- class ApiSchoolTermRest {
-constructor(private http: HttpClient) {}
+class ApiSchoolTermRest { 
+constructor(private http: HttpClient) {
+}
 /**
  * @api {get} @/api/school/term/
  * @apiName get
@@ -312,14 +331,15 @@ constructor(private http: HttpClient) {}
  * @apiPermission Accepted roles 0
 */
 get(idTerm?: number) {
-const queryParams = new HttpParams({
+   const queryParams = new HttpParams({
    fromObject: {
       idTerm: idTerm + "",
-  }
-});
+     }
+   });
    const url = `@/api/school/term/`
    return this.http.get(url, {params: queryParams});
 }
+
 /**
  * @api {get} @/api/school/term/list
  * @apiName list
@@ -327,16 +347,17 @@ const queryParams = new HttpParams({
  * @apiPermission Accepted roles 0, 50
 */
 list(year: number, idSchool?: number, schoolName?: string) {
-const queryParams = new HttpParams({
+   const queryParams = new HttpParams({
    fromObject: {
       year: year + "",
       idSchool: idSchool + "",
       schoolName: schoolName + "",
-  }
-});
+     }
+   });
    const url = `@/api/school/term/list`
    return this.http.get(url, {params: queryParams});
 }
+
 /**
  * @api {post} @/api/school/term/
  * @apiName save
@@ -347,6 +368,7 @@ save(entity: TermsModel) {
    const url = `@/api/school/term/`
    return this.http.post(url, entity);
 }
+
 /**
  * @api {put} @/api/school/term/:id
  * @apiName update
@@ -354,12 +376,13 @@ save(entity: TermsModel) {
  * @apiPermission Accepted roles 0, 50
 */
 update(id: number, entity: TermsModel) {
-const pathParams = {
+   const pathParams = {
       id: id,
-};
+   };
    const url = `@/api/school/term/${pathParams.id}`
    return this.http.put(url, entity);
 }
+
 /**
  * @api {delete} @/api/school/term/:idTerm
  * @apiName delete
@@ -367,17 +390,18 @@ const pathParams = {
  * @apiPermission Accepted roles 0
 */
 delete(idTerm: number) {
-const pathParams = {
+   const pathParams = {
       idTerm: idTerm,
-};
+   };
    const url = `@/api/school/term/${pathParams.idTerm}`
    return this.http.delete(url);
 }
+
 }
 
-
- class ApiSubjectRest {
-constructor(private http: HttpClient) {}
+class ApiSubjectRest { 
+constructor(private http: HttpClient) {
+}
 /**
  * @api {get} @/api/subject/list
  * @apiName list
@@ -387,11 +411,12 @@ list() {
    const url = `@/api/subject/list`
    return this.http.get(url);
 }
+
 }
 
-
- class ApiUsersRest {
-constructor(private http: HttpClient) {}
+class ApiUsersRest { 
+constructor(private http: HttpClient) {
+}
 /**
  * @api {post} #/api/user/auth
  * @apiName usersAuth
@@ -401,6 +426,7 @@ usersAuth(entity: string) {
    const url = `#/api/user/auth`
    return this.http.post(url, entity);
 }
+
 /**
  * @api {get} @/api/user/logout
  * @apiName logout
@@ -410,6 +436,7 @@ logout() {
    const url = `@/api/user/logout`
    return this.http.get(url);
 }
+
 /**
  * @api {get} @/api/user/list
  * @apiName list
@@ -417,16 +444,17 @@ logout() {
  * @apiPermission Accepted roles 0, 100, 50, 150
 */
 list(idSchool?: number, filter?: string, offspring?: number) {
-const queryParams = new HttpParams({
+   const queryParams = new HttpParams({
    fromObject: {
       idSchool: idSchool + "",
       filter: filter + "",
       offspring: offspring + "",
-  }
-});
+     }
+   });
    const url = `@/api/user/list`
    return this.http.get(url, {params: queryParams});
 }
+
 /**
  * @api {post} @/api/user/
  * @apiName save
@@ -437,6 +465,7 @@ save(entity: UserModel) {
    const url = `@/api/user/`
    return this.http.post(url, entity);
 }
+
 /**
  * @api {post} @/api/user/import
  * @apiName importUsers
@@ -447,6 +476,7 @@ importUsers(entity: any) {
    const url = `@/api/user/import`
    return this.http.post(url, entity);
 }
+
 /**
  * @api {delete} @/api/user/:idUser
  * @apiName delete
@@ -454,17 +484,18 @@ importUsers(entity: any) {
  * @apiPermission Accepted roles 0, 50
 */
 delete(idUser: number) {
-const pathParams = {
+   const pathParams = {
       idUser: idUser,
-};
+   };
    const url = `@/api/user/${pathParams.idUser}`
    return this.http.delete(url);
 }
+
 }
 
-
- class AdminRest {
-constructor(private http: HttpClient) {}
+class AdminRest { 
+constructor(private http: HttpClient) {
+}
 /**
  * @api {get} @/admin/
  * @apiName adminHomePage
@@ -474,11 +505,12 @@ adminHomePage() {
    const url = `@/admin/`
    return this.http.get(url);
 }
+
 }
 
-
- class AdminTasksRest {
-constructor(private http: HttpClient) {}
+class AdminTasksRest { 
+constructor(private http: HttpClient) {
+}
 /**
  * @api {get} @/classroom/admin/groups
  * @apiName adminGroups
@@ -488,11 +520,12 @@ adminGroups() {
    const url = `@/classroom/admin/groups`
    return this.http.get(url);
 }
+
 }
 
-
- class ClassroomRest {
-constructor(private http: HttpClient) {}
+class ClassroomRest { 
+constructor(private http: HttpClient) {
+}
 /**
  * @api {get} @/classroom/
  * @apiName desktopPage
@@ -502,27 +535,29 @@ desktopPage() {
    const url = `@/classroom/`
    return this.http.get(url);
 }
+
 }
 
-
- class ApiActivityRest {
-constructor(private http: HttpClient) {}
+class ApiActivityRest { 
+constructor(private http: HttpClient) {
+}
 /**
  * @api {get} @/api/activity/search
  * @apiName search
  * @apiGroup ApiActivityController
 */
 search(text?: string, limit?: number, offset?: number) {
-const queryParams = new HttpParams({
+   const queryParams = new HttpParams({
    fromObject: {
       text: text + "",
       limit: limit + "",
       offset: offset + "",
-  }
-});
+     }
+   });
    const url = `@/api/activity/search`
    return this.http.get(url, {params: queryParams});
 }
+
 /**
  * @api {post} @/api/activity/
  * @apiName save
@@ -533,6 +568,7 @@ save(entity: ActivityModel) {
    const url = `@/api/activity/`
    return this.http.post(url, entity);
 }
+
 /**
  * @api {put} @/api/activity/:id
  * @apiName update
@@ -540,12 +576,13 @@ save(entity: ActivityModel) {
  * @apiPermission Accepted roles 0, 100, 50, 150
 */
 update(id: number, entity: ActivityModel) {
-const pathParams = {
+   const pathParams = {
       id: id,
-};
+   };
    const url = `@/api/activity/${pathParams.id}`
    return this.http.put(url, entity);
 }
+
 /**
  * @api {delete} @/api/activity/:idActivity
  * @apiName delete
@@ -553,24 +590,25 @@ const pathParams = {
  * @apiPermission Accepted roles 0, 100, 50, 150
 */
 delete(idActivity: number) {
-const pathParams = {
+   const pathParams = {
       idActivity: idActivity,
-};
+   };
    const url = `@/api/activity/${pathParams.idActivity}`
    return this.http.delete(url);
 }
+
 }
 
-
- class ApiBadgesRest {
-constructor(private http: HttpClient) {}
+class ApiBadgesRest { 
+constructor(private http: HttpClient) {
+}
 /**
  * @api {get} @/api/badges/list
  * @apiName list
  * @apiGroup ApiBadgesController
 */
 list(idGroup?: number, idUser?: number, fromType?: number, toType?: number, fromDate?: Object, toDate?: Object) {
-const queryParams = new HttpParams({
+   const queryParams = new HttpParams({
    fromObject: {
       idGroup: idGroup + "",
       idUser: idUser + "",
@@ -578,11 +616,12 @@ const queryParams = new HttpParams({
       toType: toType + "",
       fromDate: fromDate + "",
       toDate: toDate + "",
-  }
-});
+     }
+   });
    const url = `@/api/badges/list`
    return this.http.get(url, {params: queryParams});
 }
+
 /**
  * @api {post} @/api/badges/
  * @apiName save
@@ -593,6 +632,7 @@ save(entity: BadgesModel) {
    const url = `@/api/badges/`
    return this.http.post(url, entity);
 }
+
 /**
  * @api {put} @/api/badges/:id
  * @apiName update
@@ -600,12 +640,13 @@ save(entity: BadgesModel) {
  * @apiPermission Accepted roles 0, 100, 50, 150
 */
 update(id: number, entity: BadgesModel) {
-const pathParams = {
+   const pathParams = {
       id: id,
-};
+   };
    const url = `@/api/badges/${pathParams.id}`
    return this.http.put(url, entity);
 }
+
 /**
  * @api {delete} @/api/badges/:idBadge
  * @apiName delete
@@ -613,33 +654,35 @@ const pathParams = {
  * @apiPermission Accepted roles 0, 100, 50, 150
 */
 delete(idBadge: number) {
-const pathParams = {
+   const pathParams = {
       idBadge: idBadge,
-};
+   };
    const url = `@/api/badges/${pathParams.idBadge}`
    return this.http.delete(url);
 }
+
 }
 
-
- class ApiChallengesRest {
-constructor(private http: HttpClient) {}
+class ApiChallengesRest { 
+constructor(private http: HttpClient) {
+}
 /**
  * @api {get} @/api/challenges/list
  * @apiName list
  * @apiGroup ApiChallengesController
 */
 list(level?: string, day?: Object, idUser?: number) {
-const queryParams = new HttpParams({
+   const queryParams = new HttpParams({
    fromObject: {
       level: level + "",
       day: day + "",
       idUser: idUser + "",
-  }
-});
+     }
+   });
    const url = `@/api/challenges/list`
    return this.http.get(url, {params: queryParams});
 }
+
 /**
  * @api {post} @/api/challenges/
  * @apiName save
@@ -650,6 +693,7 @@ save(entity: ChallengesModel) {
    const url = `@/api/challenges/`
    return this.http.post(url, entity);
 }
+
 /**
  * @api {put} @/api/challenges/:id
  * @apiName update
@@ -657,12 +701,13 @@ save(entity: ChallengesModel) {
  * @apiPermission Accepted roles 0, 100, 50, 150
 */
 update(id: number, entity: ChallengesModel) {
-const pathParams = {
+   const pathParams = {
       id: id,
-};
+   };
    const url = `@/api/challenges/${pathParams.id}`
    return this.http.put(url, entity);
 }
+
 /**
  * @api {delete} @/api/challenges/:idChallenge
  * @apiName delete
@@ -670,46 +715,49 @@ const pathParams = {
  * @apiPermission Accepted roles 0, 100, 50, 150
 */
 delete(idChallenge: number) {
-const pathParams = {
+   const pathParams = {
       idChallenge: idChallenge,
-};
+   };
    const url = `@/api/challenges/${pathParams.idChallenge}`
    return this.http.delete(url);
 }
+
 }
 
-
- class ApiCourseRest {
-constructor(private http: HttpClient) {}
+class ApiCourseRest { 
+constructor(private http: HttpClient) {
+}
 /**
  * @api {get} @/api/course/:id
  * @apiName get
  * @apiGroup ApiCourseController
 */
 get(id: number) {
-const pathParams = {
+   const pathParams = {
       id: id,
-};
+   };
    const url = `@/api/course/${pathParams.id}`
    return this.http.get(url);
 }
+
 /**
  * @api {get} @/api/course/list/:idUser
  * @apiName list
  * @apiGroup ApiCourseController
 */
 list(idUser: number, created?: boolean) {
-const queryParams = new HttpParams({
+   const queryParams = new HttpParams({
    fromObject: {
       created: created + "",
-  }
-});
-const pathParams = {
+     }
+   });
+   const pathParams = {
       idUser: idUser,
-};
+   };
    const url = `@/api/course/list/${pathParams.idUser}`
    return this.http.get(url, {params: queryParams});
 }
+
 /**
  * @api {post} @/api/course/
  * @apiName save
@@ -720,6 +768,7 @@ save(entity: CourseModel) {
    const url = `@/api/course/`
    return this.http.post(url, entity);
 }
+
 /**
  * @api {put} @/api/course/:id
  * @apiName update
@@ -727,12 +776,13 @@ save(entity: CourseModel) {
  * @apiPermission Accepted roles 0, 100, 50, 150
 */
 update(id: number, entity: CourseModel) {
-const pathParams = {
+   const pathParams = {
       id: id,
-};
+   };
    const url = `@/api/course/${pathParams.id}`
    return this.http.put(url, entity);
 }
+
 /**
  * @api {delete} @/api/course/:id
  * @apiName delete
@@ -740,44 +790,47 @@ const pathParams = {
  * @apiPermission Accepted roles 0, 100, 50, 150
 */
 delete(id: number) {
-const pathParams = {
+   const pathParams = {
       id: id,
-};
+   };
    const url = `@/api/course/${pathParams.id}`
    return this.http.delete(url);
 }
+
 }
 
-
- class ApiGroupsRest {
-constructor(private http: HttpClient) {}
+class ApiGroupsRest { 
+constructor(private http: HttpClient) {
+}
 /**
  * @api {get} @/api/group/list
  * @apiName list
  * @apiGroup ApiGroupsController
 */
 list(idCourse: number, idCreator?: number) {
-const queryParams = new HttpParams({
+   const queryParams = new HttpParams({
    fromObject: {
       idCourse: idCourse + "",
       idCreator: idCreator + "",
-  }
-});
+     }
+   });
    const url = `@/api/group/list`
    return this.http.get(url, {params: queryParams});
 }
+
 /**
  * @api {get} @/api/group/:idGroup
  * @apiName get
  * @apiGroup ApiGroupsController
 */
 get(idGroup: number) {
-const pathParams = {
+   const pathParams = {
       idGroup: idGroup,
-};
+   };
    const url = `@/api/group/${pathParams.idGroup}`
    return this.http.get(url);
 }
+
 /**
  * @api {post} @/api/group/
  * @apiName save
@@ -788,6 +841,7 @@ save(entity: GroupsModel) {
    const url = `@/api/group/`
    return this.http.post(url, entity);
 }
+
 /**
  * @api {put} @/api/group/:id
  * @apiName update
@@ -795,12 +849,13 @@ save(entity: GroupsModel) {
  * @apiPermission Accepted roles 0, 100, 50, 150
 */
 update(id: number, entity: GroupsModel) {
-const pathParams = {
+   const pathParams = {
       id: id,
-};
+   };
    const url = `@/api/group/${pathParams.id}`
    return this.http.put(url, entity);
 }
+
 /**
  * @api {delete} @/api/group/:idGroup
  * @apiName delete
@@ -808,17 +863,18 @@ const pathParams = {
  * @apiPermission Accepted roles 0, 100, 50, 150
 */
 delete(idGroup: number) {
-const pathParams = {
+   const pathParams = {
       idGroup: idGroup,
-};
+   };
    const url = `@/api/group/${pathParams.idGroup}`
    return this.http.delete(url);
 }
+
 }
 
-
- class ApiSectionRest {
-constructor(private http: HttpClient) {}
+class ApiSectionRest { 
+constructor(private http: HttpClient) {
+}
 /**
  * @api {post} @/api/section/
  * @apiName save
@@ -829,6 +885,7 @@ save(entity: SectionModel) {
    const url = `@/api/section/`
    return this.http.post(url, entity);
 }
+
 /**
  * @api {put} @/api/section/:id
  * @apiName update
@@ -836,12 +893,13 @@ save(entity: SectionModel) {
  * @apiPermission Accepted roles 0, 100, 50, 150
 */
 update(id: Object, entity: SectionModel) {
-const pathParams = {
+   const pathParams = {
       id: id,
-};
+   };
    const url = `@/api/section/${pathParams.id}`
    return this.http.put(url, entity);
 }
+
 /**
  * @api {delete} @/api/section/:idSection
  * @apiName delete
@@ -849,34 +907,36 @@ const pathParams = {
  * @apiPermission Accepted roles 0, 100, 50, 150
 */
 delete(idSection: number) {
-const pathParams = {
+   const pathParams = {
       idSection: idSection,
-};
+   };
    const url = `@/api/section/${pathParams.idSection}`
    return this.http.delete(url);
 }
+
 }
 
-
- class ApiUnitsRest {
-constructor(private http: HttpClient) {}
+class ApiUnitsRest { 
+constructor(private http: HttpClient) {
+}
 /**
  * @api {get} @/api/units/assigned/:idCourse
  * @apiName listAssigned
  * @apiGroup ApiUnitsController
 */
 listAssigned(idCourse: number, idUser?: number) {
-const queryParams = new HttpParams({
+   const queryParams = new HttpParams({
    fromObject: {
       idUser: idUser + "",
-  }
-});
-const pathParams = {
+     }
+   });
+   const pathParams = {
       idCourse: idCourse,
-};
+   };
    const url = `@/api/units/assigned/${pathParams.idCourse}`
    return this.http.get(url, {params: queryParams});
 }
+
 /**
  * @api {get} @/api/units/created/:idCourse
  * @apiName listCreated
@@ -884,12 +944,13 @@ const pathParams = {
  * @apiPermission Accepted roles 0, 100, 50, 150
 */
 listCreated(idCourse: number) {
-const pathParams = {
+   const pathParams = {
       idCourse: idCourse,
-};
+   };
    const url = `@/api/units/created/${pathParams.idCourse}`
    return this.http.get(url);
 }
+
 /**
  * @api {get} @/api/units/list/:idCourse
  * @apiName listUnitsOnly
@@ -897,12 +958,13 @@ const pathParams = {
  * @apiPermission Accepted roles 0, 100, 50, 150
 */
 listUnitsOnly(idCourse: number) {
-const pathParams = {
+   const pathParams = {
       idCourse: idCourse,
-};
+   };
    const url = `@/api/units/list/${pathParams.idCourse}`
    return this.http.get(url);
 }
+
 /**
  * @api {post} @/api/units/
  * @apiName save
@@ -913,6 +975,7 @@ save(entity: UnitModel) {
    const url = `@/api/units/`
    return this.http.post(url, entity);
 }
+
 /**
  * @api {put} @/api/units/
  * @apiName saveOrdering
@@ -923,6 +986,7 @@ saveOrdering(entity: any) {
    const url = `@/api/units/`
    return this.http.put(url, entity);
 }
+
 /**
  * @api {put} @/api/units/:id
  * @apiName update
@@ -930,12 +994,13 @@ saveOrdering(entity: any) {
  * @apiPermission Accepted roles 0, 100, 50, 150
 */
 update(id: number, entity: UnitModel) {
-const pathParams = {
+   const pathParams = {
       id: id,
-};
+   };
    const url = `@/api/units/${pathParams.id}`
    return this.http.put(url, entity);
 }
+
 /**
  * @api {delete} @/api/units/:idUnit
  * @apiName delete
@@ -943,10 +1008,11 @@ const pathParams = {
  * @apiPermission Accepted roles 0, 100, 50, 150
 */
 delete(idUnit: number) {
-const pathParams = {
+   const pathParams = {
       idUnit: idUnit,
-};
+   };
    const url = `@/api/units/${pathParams.idUnit}`
    return this.http.delete(url);
 }
+
 }

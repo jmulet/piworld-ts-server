@@ -2,6 +2,7 @@ import { getMetadataArgsStorage } from "routing-controllers";
 import * as fs from "fs";
 import * as path from "path";
 import { clientModelsGenerator } from "./client-models-generator";
+import { TsGenSource, TsGenImport, TsGenClass, TsGenDeclaration, TsGenConstructor, TsGenParam, TsGenMethod } from "./ts-code-generator";
 
 function getParamTypes(target: any, key: string) {
     const types = Reflect.getMetadata("design:paramtypes", target, key);
@@ -21,52 +22,52 @@ export function clientRestGenerator() {
     const metadataArgsStorage = getMetadataArgsStorage();
     const controllers = metadataArgsStorage.controllers;
 
-    const codeAll = [];
-    codeAll.push("import { HttpClient, HttpParams } from '@angular/common/http';");
-    codeAll.push("import { Injectable } from '@angular/core';");
-    codeAll.push("");
-
-    // Insert here the entity imports
-    const codeAllEntityImportsIndex = codeAll.length - 1;
-    const codeAllEntityImports = [];
-
-    codeAll.push("");
-    codeAll.push("@Injectable()");
-    codeAll.push("export class RestApi {");
+    const directoryRestApi = path.join(global.__publicDir, "../../src/rest/RestApi.ts");
+    const monoGen = new TsGenSource(directoryRestApi);
+    monoGen.addImport(new TsGenImport("HttpClient, HttpParams", "@angular/common/http"));
+    monoGen.addImport(new TsGenImport("Injectable", "@angular/core"));
+     
+    const RestApiClass = new TsGenClass("RestApi", {exportable: true});
+    monoGen.addClass(RestApiClass);
+    RestApiClass.addDecorator("@Injectable()"); 
 
     // For the monolithic rest; create the access to the different classes
     controllers.forEach((controller) => {
         const restName = controller.target.name.replace("Controller", "Rest");
         const namespace = controller.target.name.replace("Controller", "");
-        codeAll.push(namespace + ": " + restName + ";");
+        RestApiClass.addDeclaration(new TsGenDeclaration(namespace, restName)); 
     });
 
-    codeAll.push("constructor(private http: HttpClient) {");
+    const RestApiConstructor = new TsGenConstructor();
+    RestApiConstructor.addParameter(new TsGenParam("http", "HttpClient", false, "private"));
+    RestApiClass.setConstructor(RestApiConstructor);
+     
     controllers.forEach((controller) => {
         const restName = controller.target.name.replace("Controller", "Rest");
         const namespace = controller.target.name.replace("Controller", "");
-        codeAll.push("  this." + namespace + " = new " + restName + "(http);");
-    });
-    codeAll.push("}");
-    codeAll.push("}");
+        RestApiConstructor.addToBody("  this." + namespace + " = new " + restName + "(http);");
+    }); 
 
     controllers.forEach((controller) => {
         const restName = controller.target.name.replace("Controller", "Rest");
         const namespace = controller.target.name.replace("Controller", "");
 
-        const code = ["import { HttpClient, HttpParams } from '@angular/common/http';"];
-        code.push("import { Injectable } from '@angular/core';");
-        code.push("");
+        const directoryCC = path.join(global.__publicDir, "../../src/rest/" + restName + ".ts");
+        const controllerGen = new TsGenSource(directoryCC);
+        controllerGen.addImport(new TsGenImport("HttpClient, HttpParams", "@angular/common/http"));
+        controllerGen.addImport(new TsGenImport("Injectable", "@angular/core"));
 
-        // Insert here the entity imports
-        const codeEntityImportsIndex = code.length - 1;
-        const codeEntityImports = [];
+        const ControllerConstructor = new TsGenConstructor();
+        ControllerConstructor.addParameter(new TsGenParam("http", "HttpClient", false, "private"));
 
-        const codeClazz = [];
-        codeClazz.push("");
-        codeClazz.push("/* inject-export */ class " + restName + " {");
-        codeClazz.push("constructor(private http: HttpClient) {}");
-
+        const ControllerClass = new TsGenClass(restName, {exportable: true});
+        ControllerClass.addDecorator("@Injectable()");
+        ControllerClass.setConstructor(ControllerConstructor);
+        controllerGen.addClass(ControllerClass);
+        const ControllerClassMono = new TsGenClass(restName);
+        ControllerClassMono.setConstructor(ControllerConstructor);
+        monoGen.addClass(ControllerClassMono);
+ 
         console.log("\n=======================================================");
         console.log("* RestController: ", restName);
         const baseUrl = controller.route || "/";
@@ -97,14 +98,18 @@ export function clientRestGenerator() {
             // sort params by index
             params = params.sort((x, y) => x.index - y.index);
 
-            action["params"] = params;
-            const parameters = [];
+            action["params"] = params; 
             const queryParameters = [];
             const pathParameters = [];
             let bodyPart = "";
             let queryPart = "";
             // Assume action route to be string. TODO: Support for regExp routes
             let actionRoute = action.route + "";
+
+              
+            const codeAction = new TsGenMethod(action.method);
+            ControllerClass.addMethod(codeAction);
+            ControllerClassMono.addMethod(codeAction);
 
             params.forEach((param) => {
                 const types = getParamTypes(param.object, param.method);
@@ -120,12 +125,9 @@ export function clientRestGenerator() {
 
                 if (param.type === "body") {
                     if (knownModelTypes.indexOf(tsType) >= 0) {
-                        if (codeEntityImports.indexOf(tsType) < 0) {
-                            codeEntityImports.push(tsType);
-                        }
-                        if (codeAllEntityImports.indexOf(tsType) < 0) {
-                            codeAllEntityImports.push(tsType);
-                        }
+                        const tsGenImport = new TsGenImport(tsType, "../entities/"+tsType);
+                        monoGen.addImport(tsGenImport);
+                        controllerGen.addImport(tsGenImport);  
                     } else if ( ["number", "string", "boolean", "Date"].indexOf(tsType) < 0) {
                         tsType = "any";
                         param["tsType"] = tsType;
@@ -140,40 +142,37 @@ export function clientRestGenerator() {
                     actionRoute = actionRoute.replace(":" + param.name, "${pathParams." + param.name + "}");
                 }
 
-                console.log("\t\t " + param.index + ". " + param.type + " " + param.name + ": " + param["tsType"]);
-                const optional = param.required? "" : "?";                
-                parameters.push(param.name + optional + ": " + param["tsType"]);
+                console.log("\t\t " + param.index + ". " + param.type + " " + param.name + ": " + param["tsType"]);                
+                codeAction.addParameter(new TsGenParam(param.name, param["tsType"], !param.required));
             });
-            
-            const codeAction = [];
+          
 
             // Add documentation to the action 
-            codeAction.push("/**");
+            codeAction.addToDecorator("/**");
             const uri = (hash + baseUrl + action.route).replace("//", "/");
-            codeAction.push(" * @api {" + action.type.toLowerCase() + "} " + uri);
-            codeAction.push(" * @apiName " + action.method);
-            codeAction.push(" * @apiGroup " + controller.target.name);
+            codeAction.addToDecorator(" * @api {" + action.type.toLowerCase() + "} " + uri);
+            codeAction.addToDecorator(" * @apiName " + action.method);
+            codeAction.addToDecorator(" * @apiGroup " + controller.target.name);
             if (apiPermissions.length > 0) {
-                codeAction.push(" * @apiPermission Accepted roles " + (apiPermissions[0].roles || []).join(", "));
+                codeAction.addToDecorator(" * @apiPermission Accepted roles " + (apiPermissions[0].roles || []).join(", "));
             }
-            codeAction.push("*/");
-            codeAction.push(action.method + "(" + parameters.join(", ") + ") {");
+            codeAction.addToDecorator("*/"); 
             if (queryParameters.length) {
                 queryPart = ", {params: queryParams}";
-                codeAction.push("const queryParams = new HttpParams({");
-                codeAction.push("   fromObject: {");
+                codeAction.addToBody("   const queryParams = new HttpParams({");
+                codeAction.addToBody("   fromObject: {");
                 queryParameters.forEach((qp) => {
-                    codeAction.push("      " + qp.name + ": " + qp.name + " + \"\",");
+                    codeAction.addToBody("      " + qp.name + ": " + qp.name + " + \"\",");
                 });
-                codeAction.push("  }");
-                codeAction.push("});");
+                codeAction.addToBody("     }");
+                codeAction.addToBody("   });");
             }
             if (pathParameters.length) {
-                codeAction.push("const pathParams = {");
+                codeAction.addToBody("   const pathParams = {");
                 pathParameters.forEach((qp) => {
-                    codeAction.push("      " + qp.name + ": " + qp.name + ",");
+                    codeAction.addToBody("      " + qp.name + ": " + qp.name + ",");
                 });
-                codeAction.push("};");
+                codeAction.addToBody("   };");
             }
 
             if ((action.type === "put" || action.type === "post") && !bodyPart) {
@@ -181,38 +180,17 @@ export function clientRestGenerator() {
             }
 
             const url = (hash + baseUrl + actionRoute).replace("//", "/");
-            codeAction.push("   const url = `" + url + "`" );
-            codeAction.push("   return this.http." + action.type + "(url" + bodyPart + queryPart + ");");
-            codeAction.push("}");
-
-            // Here action finishes: Add to the current Controller and to the monolithic struture
-            codeClazz.push(codeAction.join("\n"));
+            codeAction.addToBody("   const url = `" + url + "`" );
+            codeAction.addToBody("   return this.http." + action.type + "(url" + bodyPart + queryPart + ");");
+              
         });
         controller["actions"] = actions;
-        codeClazz.push("}");
-        codeClazz.push("");
-
-        code.push(codeClazz.join("\n").replace("/* inject-export */", "@Injectable()\nexport "));
-        codeAll.push(codeClazz.join("\n").replace("/* inject-export */", ""));
-
-        // Insert entity imports
-        code.splice(codeEntityImportsIndex, 0,
-            codeEntityImports.map((importName) => "import { " + importName + " } from \"../entities/" + importName + "\" ").join("\n")
-        );
-
-        // write to file per controller
-        const directory = path.join(global.__publicDir, "../../src/rest/" + restName + ".ts");
-        fs.writeFileSync(directory, code.join("\n"));
+        
+        // write to the controller to file
+        controllerGen.save();
     });
-
-    // Insert entity imports
-    codeAll.splice(codeAllEntityImportsIndex, 0,
-        codeAllEntityImports.map((importName) => "import { " + importName + " } from \"../entities/" + importName + "\" ").join("\n")
-    );
-
-    // write the monolithic restApi with all controllers
-    const directory = path.join(global.__publicDir, "../../src/rest/RestApi.ts");
-    fs.writeFileSync(directory, codeAll.join("\n"));
-
  
+    // write the monolithic restApi with all controllers
+    monoGen.save();
+
 } 

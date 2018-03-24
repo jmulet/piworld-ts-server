@@ -17,6 +17,7 @@ import { BooksApp } from './books.app';
 import { ClassroomController } from './classroom.app/controllers/ClassroomController';
 import { LoginController } from './main.app/controllers/LoginController';
 import { clientRestGenerator } from './main.app/utils/client-rest-generator';
+import { timeout } from 'async';
 
 const colors = require('colors/safe');
   
@@ -57,7 +58,7 @@ createConnection({
     pwServer.listen( {handleErrors: (process.env.NODE_ENV === 'production'), mountStaticPrivate: true} );
 
      // Generate client entities, services and documentation from annotated classes.
-     clientRestGenerator(); 
+     setTimeout(clientRestGenerator, 4000); 
 
 }).catch(error => {
     console.log(colors.red("TypeORM connection error: "), error);

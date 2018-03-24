@@ -3,9 +3,7 @@ import 'reflect-metadata';
 
 import { Container } from 'typedi';
 
-import { BaseApp } from '../BaseApp'; 
-import { typeClientGenerator } from '../main.app/utils/type-client-generator';
-
+import { BaseApp } from '../BaseApp';  
 /*
  * Pda.app
  * Josep Mulet (pep.mulet@gmail.com)
@@ -22,9 +20,7 @@ export class PdaApp extends BaseApp {
         super();
         this.config.path = "pda.htm";
         this.create("PDA", __dirname);
-      
-        //Generate client entities and services from annotated classes.
-        typeClientGenerator();
+       
     }
     
 }

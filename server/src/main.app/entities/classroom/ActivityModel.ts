@@ -85,7 +85,9 @@ export class ActivityModel {
     @Column("json")
     description: JSONi18n;
 
-    @Column("int")
+    @Column("int", {
+        default: 0
+    })
     difficulty: number;
 
     @Column("varchar", {
@@ -93,7 +95,9 @@ export class ActivityModel {
     })
     icon: string;
 
-    @Column("json")
+    @Column("json", {
+        nullable: true
+    })
     params: ActivityParams;
 
     @Column("int", {

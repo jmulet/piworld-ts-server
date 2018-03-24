@@ -1,12 +1,12 @@
 import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
-import { SchoolModel } from '../../../../libs/entities/SchoolModel';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { AdminRestService } from '../../services/adminrest.service';
-import { HolidayModel } from '../../../../libs/entities/HolidayModel';
-import { TermsModel } from '../../../../libs/entities/TermsModel';
 import { ConfirmationService, SelectItem } from 'primeng/api';
 import { TranslateService } from '../../../shared/services/translate.service';
 import { MessageService } from 'primeng/components/common/messageservice';
+import { SchoolModel } from '../../../../entities/SchoolModel';
+import { RestApi } from '../../../../rest/RestApi';
+import { HolidayModel } from '../../../../entities/HolidayModel';
+import { TermsModel } from '../../../../entities/TermsModel';
 
 
 @Component({
@@ -23,7 +23,7 @@ export class CenterOptsComponent implements OnChanges {
     visible: boolean;
     tabIndex: number = 0;
 
-    constructor(private arest: AdminRestService, private confirm: ConfirmationService,
+    constructor(private rest: RestApi, private confirm: ConfirmationService,
                 private translate: TranslateService, private growl: MessageService) {
                     
         this.locale = this.translate.getCalendarLocale();
@@ -58,7 +58,7 @@ export class CenterOptsComponent implements OnChanges {
             this.holidays = [];
             return;
         }
-        this.arest.listHolidays(this.school.id, this.school.sopts.year).subscribe((data: any[])=> this.holidays = data);
+        this.rest.ApiSchoolHoliday.list(this.school.id, this.school.sopts.year).subscribe((data: any[])=> this.holidays = data);
     }
 
     removeHoliday(holiday: HolidayModel) {
@@ -70,7 +70,7 @@ export class CenterOptsComponent implements OnChanges {
         this.confirm.confirm({
             message: 'Are you sure that you want to delete this holiday entry?',
             accept: () => {
-                this.arest.removeHoliday(holiday.id).subscribe((data)=> this.reloadHolidays());
+                this.rest.ApiSchoolHoliday.delete(holiday.id).subscribe((data)=> this.reloadHolidays());
             }
         });
        
@@ -100,7 +100,7 @@ export class CenterOptsComponent implements OnChanges {
             return;
         }
         delete holiday["_backup"];
-        this.arest.saveHoliday(holiday).subscribe((data) => this.reloadHolidays());
+        this.rest.ApiSchoolHoliday.save(holiday).subscribe((data) => this.reloadHolidays());
     }
 
     
@@ -111,11 +111,11 @@ export class CenterOptsComponent implements OnChanges {
             this.terms = [];
             return;
         }
-        this.arest.listTerms(this.school.id, this.school.sopts.year).subscribe((data: any[])=> this.terms = data);
+        this.rest.ApiSchoolTerm.list(this.school.id, this.school.sopts.year).subscribe((data: any[])=> this.terms = data);
     }
 
     removeTerm(term: TermsModel) {
-        this.arest.removeTerm(term.id).subscribe((data)=> this.reloadTerms());
+        this.rest.ApiSchoolTerm.delete(term.id).subscribe((data)=> this.reloadTerms());
     }
 
     editTerm(term: TermsModel) {
@@ -145,7 +145,7 @@ export class CenterOptsComponent implements OnChanges {
             return;
         }
         delete term["_backup"];
-        this.arest.saveTerm(term).subscribe((data) => this.reloadTerms());
+        this.rest.ApiSchoolTerm.save(term).subscribe((data) => this.reloadTerms());
     }
 
     tabChanged(ev){

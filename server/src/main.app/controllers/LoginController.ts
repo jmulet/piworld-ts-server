@@ -1,6 +1,6 @@
 import * as express from 'express';
 import { request } from 'http';
-import { Controller, Get, Post, QueryParam, Redirect, Render, Req, Res, Session, UseBefore } from 'routing-controllers';
+import { Controller, Get, Post, QueryParam, Redirect, Render, Req, Res, Session, UseBefore, Body } from 'routing-controllers';
 import { Inject } from 'typedi';
 
 import { LoginsModel } from '../entities/LoginsModel';
@@ -61,12 +61,10 @@ export class LoginController {
     @Post("/login.htm")
     @UseBefore(DecryptBodyMdw)
     @UseBefore(TranslationMdw)
-    async postLogin(@Req() request: express.Request, @Res() response: express.Response, @Session() session) {
+    async login(@Body({required: true}) credentials: any, @Req() request: express.Request, @Res() response: express.Response, @Session() session) {
         
         const ipAddr = request.headers['x-forwarded-for'] || request.headers['x-real-ip'] || request.connection.remoteAddress;
-
-        const credentials = request.body;
-
+ 
         if(credentials.rememberme){
             request.session.cookie.maxAge = null;
             request.session.cookie.expires = false;
@@ -188,7 +186,7 @@ export class LoginController {
     @UseBefore(AuthenticatedMdw)
     @UseBefore(TranslationMdw)
     @Render("changepwd")
-    changePwd( @QueryParam("error") error: number) {
+    changePwdPage( @QueryParam("error") error: number) {
         let errCode = "";
         if (error === 1) {
             errCode = "PASSWORD_MISMATCH";
@@ -206,29 +204,30 @@ export class LoginController {
     @Redirect(config.basePrefix+"/desktop.htm")
     @UseBefore(AuthenticatedMdw)
     @UseBefore(TranslationMdw)
-    async changePwdPost( @Req() request: express.Request, @Session() session: SessionModel) {
-        const pwd0 = request.body.password0;
-        const pwd = request.body.password;
-        const pwd2 = request.body.password2;
-        
-        if (pwd0 !== session.user.password) {
+    async changePwd(@Body({required: true}) passwords: any,
+      @Req() request: express.Request, @Session() session: SessionModel) {
+        const password0 =passwords.password0;
+        const password =passwords.password;
+        const password2 =passwords.password2;
+
+        if (password0 !== session.user.password) {
             return config.basePrefix + "/changepwd.htm?error=3";
         }      
-        else if (pwd !== pwd2) {
+        else if (password !== password2) {
             return config.basePrefix + "/changepwd.htm?error=1";
         }
-        else if (pwd.length < 4) {
+        else if (password.length < 4) {
             return config.basePrefix + "/changepwd.htm?error=2";
         }
-        else if (pwd0 === pwd) {
+        else if (password0 === password) {
             return config.basePrefix + "/changepwd.htm?error=4";
         }
 
-        await this.sessionSrv.changePassword(session, pwd);
+        await this.sessionSrv.changePassword(session, password);
     }
 
     @Get("/translate")
-    translateGet(@QueryParam("file") file: string, @QueryParam("lang") lang: string, 
+    getTranslations(@QueryParam("file", {required: true}) file: string, @QueryParam("lang") lang: string, 
         @Req() request: express.Request, @Res() response: express.Response) {
        
         if (!lang) {
@@ -242,7 +241,7 @@ export class LoginController {
             if (!lang) {
                 // Finally, look for request header
                 lang = (request.acceptsLanguages(I18n.SUPPORTED_LANGS) || I18n.DEFAULT_LANG).toLowerCase();                                     
-            }
+            } 
         }
         if (I18n.SUPPORTED_LANGS.indexOf(lang) < 0) {
             lang = I18n.DEFAULT_LANG;

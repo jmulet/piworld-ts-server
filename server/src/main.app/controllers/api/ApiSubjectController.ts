@@ -5,7 +5,7 @@ import { SubjectSrv } from '../../services/SubjectSrv';
 
  
 @Controller("/api/subject")
-export class ApiGroupsController {
+export class ApiSubjectController {
  
     @Inject()
     subjectSrv: SubjectSrv;

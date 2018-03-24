@@ -1,85 +1,26 @@
 <!DOCTYPE html>
 <html lang="<%=lang%>">
-<head>
-    <%- include ../../views/partials/head %>
-</head>
-<body class="hold-transition skin-blue sidebar-mini fixed" ng-controller="navigation">
-    <div growl></div>
-
-    <div class="wrapper">
-        <header class="main-header">
-                <%- include ../../views/partials/main-header %>        
-        </header>
-                
-        <aside class="main-sidebar">            
-            <section class="sidebar">
-                    <%- include ../../views/partials/sidebar %>
-            </section>
-        </aside>
-
-        <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
-            <section class="content-header">
-                <h1>
-                    Classroom
-                    <small class="hidden-xs">Flipped classroom</small>
-                </h1>
-                <ol class="breadcrumb">
-                    <li><a href="desktop">Desktop</a></li>
-                    <li class="active">Classroom</li>
-                </ol>
-            </section>
-
-            <!-- Main content: bootstrap angular here -->
-            <section id="app-content" class="content">
-                <!-- Applications box -->
-                <div class="box">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Applications</h3>
-
-                        <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                <i class="fa fa-minus"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="box-body">
-
-                        <ul class="list list-unstyled">
-                            <% applications.forEach( (app) => { %>
-                                <li>
-                                    <a href="<%=prefixUrl(app.path)%>">
-                                        <i class="fa fa-circle"></i>
-                                        <%= app.name %>
-                                    </a>
-                                </li>
-                                <% }) %>                                
-                        </ul>
-
-                    </div>
-                </div>
-
-                <!-- Applications /.box -->
-
-            </section>
-            <!-- /.content -->
-        </div>
-        <!-- /.content-wrapper -->
-        <%- include ../../views/partials/footer %>
-    </div>
-    <!-- ./wrapper -->
-    
-    <script src="<%-prefixUrl('/common.'+config.version+'.js')%>"></script>
-    <%- include ../../views/partials/clientPwApp %>
-    <script src="<%-prefixUrl('/vendor.'+config.version+'.bundle.js')%>"></script>
-    <script src="<%-prefixUrl('/classroom/classroom.'+config.version+'.bundle.js')%>"></script>
-    <script>
-        $(document).ready(function() {
-            angular.element(function() {
-              angular.bootstrap(document, ['ngApp']);
-            });
-        })
-    </script>
+  <head>
+      <%- include ../../views/partials/head %>
+  </head>
+ 
+    <body class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">    
+      <%- include ../../views/partials/main-header %>
+      <div class="app-body">
+        <%- include ../../views/partials/sidebar %>
+        <main class="main">
+          <div class="container-fluid">
+            <app-component></app-component>
+          </div>
+        </main>
+      </div>
+      <footer class="app-footer">
+       <%- include ../../views/partials/footer %>
+      </footer>
+      <%- include ../../views/partials/clientPwApp %>
+      <script src="<%-prefixUrl('/common.'+config.version+'.js')%>"></script>    
+      <script src="<%-prefixUrl('/polyfills.'+config.version+'.bundle.js')%>"></script>
+      <script src="<%-prefixUrl('/vendor.'+config.version+'.bundle.js')%>"></script>
+      <script src="<%-prefixUrl('/classroom/classroom.'+config.version+'.bundle.js')%>"></script> 
 </body>
-
 </html>

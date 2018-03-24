@@ -1,6 +1,7 @@
 
 /server/src/server.config.ts
 /client/node_modules
+/client/trash
 /client/dist
 /server/node_modules
 /server/dist

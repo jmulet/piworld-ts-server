@@ -7,7 +7,7 @@ import { MessageService } from 'primeng/components/common/messageservice';
 import { MyHttpInterceptor } from '../../interceptors/MyHttpInterceptor';
 import { LoginComponent } from './login.component';
 import { TranslateDirective } from '../shared/directives/translate.directive';
-import { RestService } from '../shared/services/rest.service';
+import { RestApi } from '../../rest/RestApi';
 import { TranslatePipe } from '../shared/pipes/translate.pipe';
 
 //import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -23,7 +23,7 @@ import { TranslatePipe } from '../shared/pipes/translate.pipe';
     TranslatePipe
   ],
   providers: [
-     RestService,
+     RestApi,
      MessageService,
     {
       provide: HTTP_INTERCEPTORS, 

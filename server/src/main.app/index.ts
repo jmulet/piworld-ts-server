@@ -4,7 +4,7 @@ import 'reflect-metadata';
 import { Container } from 'typedi';
 import { BaseApp } from '../BaseApp';
 import { BootstrapSrv } from './services/BootstrapSrv';
-import { typeClientGenerator } from './utils/type-client-generator';
+import { clientModelsGenerator } from './utils/client-models-generator'; 
 
 /*
  * Main.app
@@ -33,9 +33,6 @@ export class MainApp extends BaseApp {
                 process.exit(1);
             }
         });
-
-        //Generate client entities and services from annotated classes.
-        typeClientGenerator();
     }
     
 }

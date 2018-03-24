@@ -30,8 +30,8 @@ export class ApiSchoolTermController {
 
     @Get("/list")
     @UseBefore(AdminsOnly)
-    async list(@Session() session: SessionModel, @QueryParam("idSchool") id: number, @QueryParam("schoolName") name: string,
-               @QueryParam("year") year: number) {      
+    async list(@Session() session: SessionModel, @QueryParam("year", {required: true}) year: number,
+        @QueryParam("idSchool") id: number, @QueryParam("schoolName") name: string) {      
         if (name) {
             return this.termSrv.findBySchoolName(name, year);        
         } else {
@@ -41,20 +41,20 @@ export class ApiSchoolTermController {
 
     @Post("/")
     @UseBefore(AdminsOnly)
-    centerSave(@Body({ validate: true }) entity: TermsModel) {            
+    save(@Body({ validate: true, required: true }) entity: TermsModel) {            
         return this.termSrv.save(entity);
     }
 
     @Put("/:id")
     @UseBefore(AdminsOnly)
-    centerUpdate(@Param("id") id: number, @Body({ validate: true }) entity: TermsModel) {            
+    update(@Param("id") id: number, @Body({ validate: true, required: true }) entity: TermsModel) {            
         entity.id = id;
         return this.termSrv.save(entity);
     }
 
     @Delete("/:idTerm")
     @UseBefore(RootOnly)
-    async centerDelete(@Param("idTerm") idTerm: number) {             
+    async delete(@Param("idTerm") idTerm: number) {             
         return this.termSrv.deleteById(idTerm);
     }
 

@@ -8,6 +8,7 @@ import { SchoolSrv } from './SchoolSrv';
 import { UserSrv } from './UserSrv';
 import { SubjectSrv } from './SubjectSrv';
 import { SubjectModel } from '../entities/SubjectModel';
+import { ActivitySrv } from '../../classroom.app/services/ActivitySrv';
 
 @Service()
 export class BootstrapSrv {
@@ -22,6 +23,9 @@ export class BootstrapSrv {
 
     @Inject()
     subjectSrv: SubjectSrv;
+
+    @Inject()
+    activitySrv: ActivitySrv;
 
     async doChecks() {
         let response = { errors: "" };
@@ -73,6 +77,28 @@ export class BootstrapSrv {
                     this.subjectSrv.save(subject);
                 });
             };
+
+
+            // Create default Activities 
+            /// id=1 --> basic html section
+            let entity = await this.activitySrv.activityRepository.findOne({id: 1});
+            if (!entity) {
+                entity = ActivitySrv.fromData("*", 1, "buildin_section_html", "BI_HTML", 0, config.admin.username);
+                entity.id = 1;
+                await this.activitySrv.save(entity);
+            }
+            entity = await this.activitySrv.activityRepository.findOne({id: 2});
+            if (!entity) {
+                entity = ActivitySrv.fromData("*", 1, "buildin_section_video", "BI_VIDEO", 0, config.admin.username);
+                entity.id = 2;
+                await this.activitySrv.save(entity);
+            }
+            entity = await this.activitySrv.activityRepository.findOne({id: 3});
+            if (!entity) {
+                entity = ActivitySrv.fromData("*", 1, "buildin_section_upload", "BI_UPLOAD", 0, config.admin.username);
+                entity.id = 3;
+                await this.activitySrv.save(entity);
+            }
 
         } catch (Ex) {
             response.errors = Ex;

@@ -1,12 +1,12 @@
 import 'es6-shim';
 import 'reflect-metadata';
 
-import { useContainer as routingUseContainer } from 'routing-controllers';
+import { useContainer as routingUseContainer, getMetadataArgsStorage } from 'routing-controllers';
 import { Container } from 'typedi';
 import { createConnection, useContainer as ormUseContainer } from 'typeorm';
 import { useContainer as classValidatorUseContainer } from 'class-validator';
 import { config } from './server.config';
-import { PwHttpServer } from './server';
+import { PwHttpServer } from './server'; 
 
 /** Import all apps here */
 import { MainApp } from './main.app/';
@@ -14,6 +14,9 @@ import { AdminApp } from './admin.app/';
 import { ClassroomApp } from './classroom.app';
 import { PdaApp } from './pda.app/';
 import { BooksApp } from './books.app';
+import { ClassroomController } from './classroom.app/controllers/ClassroomController';
+import { LoginController } from './main.app/controllers/LoginController';
+import { clientRestGenerator } from './main.app/utils/client-rest-generator';
 
 const colors = require('colors/safe');
   
@@ -21,7 +24,7 @@ const colors = require('colors/safe');
 routingUseContainer(Container);
 ormUseContainer(Container);
 // classValidatorUseContainer(Container);
-
+ 
 createConnection({
     type: "mysql",
     host: config.mysql.host,
@@ -52,6 +55,9 @@ createConnection({
     pwServer.install(BooksApp);
 
     pwServer.listen( {handleErrors: (process.env.NODE_ENV === 'production'), mountStaticPrivate: true} );
+
+     // Generate client entities, services and documentation from annotated classes.
+     clientRestGenerator(); 
 
 }).catch(error => {
     console.log(colors.red("TypeORM connection error: "), error);

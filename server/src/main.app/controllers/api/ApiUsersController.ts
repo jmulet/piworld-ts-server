@@ -35,8 +35,8 @@ export class ApiUsersController {
 
     @Post("/auth")
     @UseBefore(DecryptBodyMdw)
-    usersAuth( @Session() session: SessionModel, @Req() request: express.Request) {
-        return this.sessionSrv.checkPassword(session, request.body.password);
+    usersAuth( @Body({required: true}) password: string, @Session() session: SessionModel) {
+        return this.sessionSrv.checkPassword(session, password);
     }
 
     @Get("/logout")
@@ -72,7 +72,7 @@ export class ApiUsersController {
     
     @Get("/list")
     @UseBefore(AdminsAndTeachersOnly)
-    usersList( @Session() session: SessionModel, @QueryParam("filter") filter: string, @QueryParam("idSchool") schoolId: number,
+    list( @Session() session: SessionModel, @QueryParam("idSchool") schoolId: number, @QueryParam("filter") filter: string, 
     @QueryParam("offspring") offspring: number) {
         if (!this.sessionSrv.isRoot(session)) {
             // Teachers can only access their schoolId
@@ -85,7 +85,7 @@ export class ApiUsersController {
 
     @Post("/")
     @UseBefore(AdminsAndTeachersOnly)
-    async userSave( @Session() session: SessionModel, @Body({ validate: true }) entity: UserModel, @Res() response: express.Response) {
+    async save( @Session() session: SessionModel, @Body({ validate: true, required: true }) entity: UserModel, @Res() response: express.Response) {
         const sessionUser = session.user;
         if (sessionUser.idRole === UserRoles.admin ||
             (sessionUser.idSchool === entity.idSchool)) {
@@ -102,7 +102,7 @@ export class ApiUsersController {
 
     @Post("/import")
     @UseBefore(AdminsAndTeachersOnly)
-    async usersImport( @Session() session: SessionModel, @Body() usersImportModel: UsersImportModel, @Res() response: express.Response) {
+    async importUsers( @Session() session: SessionModel, @Body({required: true}) usersImportModel: UsersImportModel, @Res() response: express.Response) {
         const sessionUser = session.user;
         if (!usersImportModel.idSchool) {
             usersImportModel.idSchool = sessionUser.idSchool;
@@ -175,7 +175,7 @@ export class ApiUsersController {
 
     @Delete("/:idUser")
     @UseBefore(AdminsOnly)
-    async userDelete( @Session() session: SessionModel, @Param("idUser") idUser: number, @Res() response: express.Response) {
+    async delete( @Session() session: SessionModel, @Param("idUser") idUser: number, @Res() response: express.Response) {
 
         const sessionUser = session.user;
         const user = await this.userSrv.findById(idUser);

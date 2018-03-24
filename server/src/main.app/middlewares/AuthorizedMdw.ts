@@ -9,7 +9,7 @@ export function AuthorizedMdw(roles: number[]) {
 
     const i18n: I18n = Container.get(I18n);
     
-    return function (request: express.Request, response: express.Response, next?: (err?: any) => any, ): any {
+    const AuthorizationMdw = function AuthorizationMdw(request: express.Request, response: express.Response, next?: (err?: any) => any): any {
 
         const user: UserModel = request.session.user;
         if (user) {
@@ -29,7 +29,8 @@ export function AuthorizedMdw(roles: number[]) {
         }
         next();
     }
-
+    AuthorizationMdw["roles"] = roles;
+    return AuthorizationMdw;
 }
 
 export const RootOnly = AuthorizedMdw([UserRoles.admin]);

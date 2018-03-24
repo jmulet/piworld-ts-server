@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { RestService, LoginBodyModel } from '../shared/services/rest.service';
+import { RestApi } from '../../rest/RestApi';
 import { pwCore } from '../admin/pw-core';
 
 
@@ -13,9 +13,9 @@ export class LoginComponent {
     alert: any;
     msg: any;
     opts: { processing: boolean; showAlert: boolean; };
-    model: LoginBodyModel;
+    model: any;
     users: any[];
-    constructor(private rest: RestService) {
+    constructor(private rest: RestApi) {
         this.model = {
             username: "", password: "",
             rememberme: false,
@@ -36,7 +36,7 @@ export class LoginComponent {
         this.opts.showAlert = false;
         const __ = pwCore.__;
   
-        this.rest.login(this.model).subscribe((data: any)=> { 
+        this.rest.Login.login(this.model).subscribe((data: any)=> { 
             this.opts.processing = false;
             if (data.errCode) {
                 // Invalid login

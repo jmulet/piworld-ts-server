@@ -3,8 +3,7 @@ import 'reflect-metadata';
 
 import { Container } from 'typedi';
 
-import { BaseApp } from '../BaseApp'; 
-import { typeClientGenerator } from '../main.app/utils/type-client-generator';
+import { BaseApp } from '../BaseApp';  
 
 /*
  * Books.app
@@ -23,8 +22,7 @@ export class BooksApp extends BaseApp {
         this.config.path = "books.htm";
         this.create("Books", __dirname);
       
-        //Generate client entities and services from annotated classes.
-        typeClientGenerator();
+       
     }
     
 }

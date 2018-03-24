@@ -1,8 +1,9 @@
 import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
-import { SchoolModel } from '../../../../libs/entities/SchoolModel';
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { AdminRestService } from '../../services/adminrest.service';
+ 
+import { FormGroup, FormBuilder } from '@angular/forms'; 
 import { pwCore } from '../../pw-core';
+import { SchoolModel } from '../../../../entities/SchoolModel';
+import { RestApi } from '../../../../rest/RestApi';
 
 
 @Component({
@@ -19,7 +20,7 @@ export class CenterEditComponent implements OnChanges {
 
     visible: boolean;
 
-    constructor(private arest: AdminRestService) {
+    constructor(private rest: RestApi) {
         this.availableLangs = [];
         pwCore.SupportedLangs.forEach(element => {
             this.availableLangs.push({ label: element, value: element });
@@ -36,7 +37,7 @@ export class CenterEditComponent implements OnChanges {
     }
 
     onSubmit(center) {
-        this.arest.saveSchool(center).subscribe((data: any) => {
+        this.rest.ApiSchool.save(center).subscribe((data: any) => {
             if (data.id) {
                 this.visible = false;
                 this.onSave.emit(this.formGroup.value);

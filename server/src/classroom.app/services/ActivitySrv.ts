@@ -1,13 +1,25 @@
 import { Service } from 'typedi';
 import { Repository, getCustomRepository } from 'typeorm';
 
-import { ActivityModel } from '../../main.app/entities/classroom/ActivityModel';
+import { ActivityModel, JSONi18n } from '../../main.app/entities/classroom/ActivityModel';
 import { ActivityRepository } from '../repositories/ActivityRepository';
 import { UserRoles } from '../../main.app/entities/UserModel';
 
 
 @Service()
 export class ActivitySrv {
+    
+    static fromData(levels: string, idSubject: number, activity: string, activityType: string, share: number, createdBy: string): ActivityModel {
+        const entity = new ActivityModel();
+        entity.levels = (levels || "").split(",");
+        entity.idSubject = idSubject;
+        entity.activity = {ca: activity, es: activity, en: activity};
+        entity.description = entity.activity;
+        entity.activityType = activityType;
+        entity.share = share;
+        entity.createdBy = createdBy;
+        return entity;
+    }
     activityRepository: ActivityRepository;
 
     constructor() {

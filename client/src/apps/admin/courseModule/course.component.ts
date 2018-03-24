@@ -1,12 +1,12 @@
 
-import { Component, OnInit } from '@angular/core';
-import { AdminRestService } from '../services/adminrest.service';
-import { pwCore } from '../pw-core';
-import { CourseModel } from '../../../libs/entities/CourseModel';
+import { Component, OnInit } from '@angular/core'; 
+import { pwCore } from '../pw-core'; 
 import { ConfirmationService } from 'primeng/api';
-import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
-import { UnitModel } from '../../../libs/entities/UnitModel';
-import { GroupsModel } from '../../../libs/entities/GroupsModel';
+import { FormBuilder, FormGroup, FormArray } from '@angular/forms'; 
+import { GroupsModel } from '../../../entities/GroupsModel';
+import { UnitModel } from '../../../entities/UnitModel';
+import { CourseModel } from '../../../entities/CourseModel';
+import { RestApi } from '../../../rest/RestApi';
 
 @Component({
     selector: 'app-course-component',
@@ -25,14 +25,14 @@ export class CourseComponent implements OnInit {
     courseEdt: CourseModel;
     courses: any[];
     courseSelected: CourseModel;
-    constructor(private arest: AdminRestService, private confirmationService: ConfirmationService,
+    constructor(private rest: RestApi, private confirmationService: ConfirmationService,
         private fb: FormBuilder) {
     }
     ngOnInit() {
         this.reloadCourses(null);
     }
     reloadCourses(evt: any) {
-        this.arest.listCourses(pwCore.User.id, true).subscribe((data: any[]) => {
+        this.rest.ApiCourse.list(pwCore.User.id, true).subscribe((data: any[]) => {
             this.courses = data;
         });
     }
@@ -41,7 +41,7 @@ export class CourseComponent implements OnInit {
             message: 'Are you sure that you want to delete course ' + course.name + ' and all associated users and data?',
             accept: () => {
                 // This is a risky operation and should ask password
-                this.arest.removeCourse(course.id).subscribe((data) =>  {
+                this.rest.ApiCourse.delete(course.id).subscribe((data) =>  {
                     this.courseSelected = null;
                     this.reloadCourses(null);
                 });
@@ -59,10 +59,10 @@ export class CourseComponent implements OnInit {
         this.editCourse();
     }
     reloadGroups() {
-        this.arest.listGroups(this.courseSelected.id).subscribe((data: GroupsModel[]) => this.groups = data);
+        this.rest.ApiGroups.list(this.courseSelected.id).subscribe((data: GroupsModel[]) => this.groups = data);
     }
     reloadUnits() {
-        this.arest.listUnits(this.courseSelected.id).subscribe((data: UnitModel[]) => this.units = data);
+        this.rest.ApiUnits.listUnitsOnly(this.courseSelected.id).subscribe((data: UnitModel[]) => this.units = data);
     }
     onRowSelected(ev: any) {
         this.reloadUnits();
@@ -78,7 +78,7 @@ export class CourseComponent implements OnInit {
         this.confirmationService.confirm({
             message: 'Are you sure that you want to delete unit ' + unit.unit + ' and all associated users and data?',
             accept: () => {
-                this.arest.removeUnit(unit.id).subscribe((data) =>  {
+                this.rest.ApiUnits.delete(unit.id).subscribe((data) =>  {
                     this.reloadUnits();
                 });
             }
@@ -88,7 +88,7 @@ export class CourseComponent implements OnInit {
         this.confirmationService.confirm({
             message: 'Are you sure that you want to delete group ' + group.name + ' and all associated users and data?',
             accept: () => {
-                this.arest.removeGroup(group.id).subscribe((data) =>  {
+                this.rest.ApiGroups.delete(group.id).subscribe((data) =>  {
                     this.reloadGroups();
                 });
             }
@@ -129,7 +129,7 @@ export class CourseComponent implements OnInit {
             //Save into database
             const partials = this.units.map((u)=> { return {id: u.id, order: u.order} });
             this.savingOrdering = true;
-            this.arest.saveUnits(partials).subscribe( (data)=> this.savingOrdering = false);
+            this.rest.ApiUnits.saveOrdering(partials).subscribe( (data)=> this.savingOrdering = false);
         }
     }
     moveUp(index: number) {
@@ -144,6 +144,6 @@ export class CourseComponent implements OnInit {
         this.units.forEach((e, i) => e.order = i+1);
         const partials = this.units.map((u)=> { return {id: u.id, order: u.order} });
         this.savingOrdering = true;
-        this.arest.saveUnits(partials).subscribe( (data)=> this.savingOrdering = false);
+        this.rest.ApiUnits.saveOrdering(partials).subscribe( (data)=> this.savingOrdering = false);
     }
 }

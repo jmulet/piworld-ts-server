@@ -41,9 +41,7 @@ export class GroupEditComponent implements OnChanges {
                 if (_enrolls) {
                     this.enrolledUsers = this.allUsers.filter((u) => {                    
                         return _enrolls.filter((e)=> e.idUser === u.id).length > 0;
-                    });
-    
-                    console.log(this.enrolledUsers);
+                    });  
                 }
             });
             

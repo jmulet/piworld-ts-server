@@ -4,8 +4,8 @@
 
 ### About:
 
-This is the starting seed for a web application based on nodejs express and typescript.
-Those of you that love spring framework will find a very similar workflow. We start defining the model entities with typescript decorators, build entity repositories and services and, finally, routes are defined through controller classes.
+This is the starting seed for a web application based on nodejs express and typescript. Both, server and client, are fully written in typescript.
+We start defining the model entities with typescript decorators, build entity repositories and services and, finally, routes are defined through controller classes.
 
 The project includes the following features:
 
@@ -13,9 +13,11 @@ The project includes the following features:
 - Dependency injection typedi
 - Routing controllers 
 - Ejs template engine
-- Client side css based on bootstrap
-- Client side angularjs
-- Desktop layout based on AdminLTE2
+
+- Client side angular5
+- PrimeNG components
+- Client side css based on bootstrap4
+- Desktop layout based on coreUI
 - etc...
 
 ### Installation:
@@ -37,11 +39,11 @@ The project includes the following features:
 ### Running on dev mode:
 
 - You can use ts-node to run the server before building. Simply call
-  ts-node ./src/index.ts
+  npm run serve
 
 ### Build: 
 
-  npm build
+  npm run build
 
 ### Screenshots:
 

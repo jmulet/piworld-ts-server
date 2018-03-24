@@ -3,7 +3,7 @@ import { AuthenticatedMdw } from "../../main.app/middlewares/AuthenticatedMdw";
 
 @Controller("/classroom/admin")
 @UseBefore(AuthenticatedMdw)
-export class AdminTasks {
+export class AdminTasksController {
 
     @Get("/groups")
     @Render("admin/groups")

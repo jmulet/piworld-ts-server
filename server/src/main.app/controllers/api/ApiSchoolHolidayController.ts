@@ -21,16 +21,16 @@ export class ApiSchoolHolidayController {
     @Inject()
     sessionSrv: SessionSrv;
  
-    @Get("/")
+    @Get("/:idHoliday")
     @UseBefore(RootOnly)
-    get(@QueryParam("idHoliday") idHoliday: number) {             
+    get(@Param("idHoliday") idHoliday: number) {             
         return this.holidaySrv.findById(idHoliday);
     }
 
     @Get("/list")
     @UseBefore(AdminsOnly)
-    async list(@Session() session: SessionModel, @QueryParam("idSchool") id: number,
-               @QueryParam("schoolName") name: string, @QueryParam("year") year: number) {      
+    async list(@Session() session: SessionModel, @QueryParam("year", {required: true}) year: number, @QueryParam("idSchool") id: number,
+               @QueryParam("schoolName") name: string) {      
         if (name) {
             return this.holidaySrv.findBySchoolName(name, year);        
         } else {
@@ -41,20 +41,20 @@ export class ApiSchoolHolidayController {
     @Post("/")
    // @UseBefore(AdminsOnly)
     //
-    centerSave(@Body({ validate: true }) entity: HolidayModel) {        
+    save(@Body({ validate: true, required: true }) entity: HolidayModel) {        
         return this.holidaySrv.save(entity);
     }
 
     @Put("/:id")
     @UseBefore(AdminsOnly)
-    centerUpdate(@Param("id") id: number, @Body({ validate: true }) entity: HolidayModel) {            
+    update(@Param("id") id: number, @Body({ validate: true, required: true }) entity: HolidayModel) {            
         entity.id = id;
         return this.holidaySrv.save(entity);
     }
 
     @Delete("/:idHoliday")
     @UseBefore(RootOnly)
-    async centerDelete(@Param("idHoliday") idHoliday: number) {             
+    async delete(@Param("idHoliday") idHoliday: number) {             
         return this.holidaySrv.deleteById(idHoliday);
     }
 

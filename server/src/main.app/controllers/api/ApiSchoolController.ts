@@ -23,7 +23,7 @@ export class ApiSchoolController {
 
     @Get("/list")
     @UseBefore(AdminsOnly)
-    async centerList(@Session() session: SessionModel, @QueryParam("idSchool") id: number) {      
+    async list(@Session() session: SessionModel, @QueryParam("idSchool") id: number) {      
         if (id) {
             return this.schoolSrv.findById(id);
         } else {
@@ -38,20 +38,20 @@ export class ApiSchoolController {
 
     @Post("/")
     @UseBefore(AdminsOnly)
-    centerSave(@Body({ validate: true }) entity: SchoolModel) {            
+    save(@Body({ validate: true, required: true }) entity: SchoolModel) {            
         return this.schoolSrv.save(entity);
     }
 
     @Put("/:id")
     @UseBefore(AdminsOnly)
-    centerUpdate(@Param("id") id: number, @Body({ validate: true }) entity: SchoolModel) {            
+    update(@Param("id") id: number, @Body({ validate: true, required: true }) entity: SchoolModel) {            
         entity.id = id;
         return this.schoolSrv.save(entity);
     }
 
     @Delete("/:idSchool")
     @UseBefore(RootOnly)
-    async centerDelete(@Param("idSchool") idSchool: number) {             
+    async delete(@Param("idSchool") idSchool: number) {             
         return this.schoolSrv.deleteById(idSchool);
     }
 

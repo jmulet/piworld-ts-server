@@ -19,7 +19,7 @@ module.exports = {
         'login': ["./src/apps/login/login.ts", "./src/apps/login/login.css"],
         'admin/admin': ["./src/apps/admin/admin.ts", "./src/apps/admin/admin.css"],         
         'desktop/desktop': ["./src/apps/desktop/desktop.ts", "./src/apps/desktop/desktop.css"],
-        //'classroom/classroom': "./src/apps/classroom/classroom.js"
+        'classroom/classroom': ["./src/apps/classroom/classroom.ts", "./src/apps/classroom/classroom.css"],
 
         'styles': [
             "./node_modules/bootstrap/dist/css/bootstrap.min.css",
@@ -57,7 +57,7 @@ module.exports = {
          // Move everything that is shared in entries login, vendor ---> to bundle vendor       
          new webpack.optimize.CommonsChunkPlugin({
             name: 'vendor',
-            chunks: ['desktop/desktop', 'admin/admin', 'login'],
+            chunks: ['classroom/classroom', 'desktop/desktop', 'admin/admin', 'login'],
             //filename: '[name].' + version + '.js',
             minChunks: 2
         }),

@@ -1,0 +1,25 @@
+<p-panel [collapsed]="collapsed" [toggleable]="true" [style]="{padding: '1px'}">
+        <p-header>
+                <div class="ui-helper-clearfix">
+                    <span class="ui-panel-title" style="font-size:16px;display:inline-block;margin-top:2px">{{unit.unit}}</span>        
+                </div>
+        </p-header>
+
+    <div *ngFor="let section of unit._sections">
+        <div [ngSwitch]="section.idActivity">
+            <div *ngSwitchCase="1">
+                <app-section-html [section]="section"></app-section-html>
+            </div>
+            <div *ngSwitchCase="2">
+                <span>Embedded video</span>
+            </div>
+            <div *ngSwitchCase="3">
+                <span>Embedded upload</span>
+            </div>
+            <div *ngSwitchDefault>
+                <app-section-activity [section]="section"></app-section-activity>
+            </div>
+        </div>
+    </div>
+
+</p-panel>

@@ -18,8 +18,8 @@ export class UnitRepository extends Repository<UnitModel> {
     // Load units with associated assignments visible to a given user
     listAssigned(idCourse: number, idUser: number) {
         return  this.createQueryBuilder("unit")
-        .leftJoinAndSelect("unit._assignments", "assignment")
-        .leftJoinAndSelect("assignment._assignmentUsers", "assignmentUsers")
+        .leftJoinAndSelect("unit._sections", "assignment")
+        .leftJoinAndSelect("assignment._sectionAssignments", "assignmentUsers")
         .where("unit.idCourse=:idCourse", {idCourse: idCourse})
         .andWhere("unit.visible>0")
         .andWhere("assignment.visible IS NULL").orWhere("assignment.visible>0") 
@@ -27,11 +27,11 @@ export class UnitRepository extends Repository<UnitModel> {
         .getMany();
     } 
 
-    // Load units with associated assignments created by the teacher
+    // Load units with associated section assignments created by the teacher
     listCreated(idCourse: number) {
         return  this.createQueryBuilder("unit")
-        .leftJoinAndSelect("unit._assignments", "assignment")
-        .leftJoinAndSelect("assignment._assignmentUsers", "assignmentUsers")
+        .leftJoinAndSelect("unit._sections", "sections")
+        .leftJoinAndSelect("sections._sectionAssignments", "assignmentUsers")
         .where("unit.idCourse=:idCourse", {idCourse: idCourse})
         .orderBy("unit.order", "ASC")
         .getMany();

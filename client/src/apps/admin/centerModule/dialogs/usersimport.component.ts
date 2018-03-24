@@ -1,9 +1,10 @@
 import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
 
-import { SchoolModel } from '../../../../libs/entities/SchoolModel';
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { AdminRestService } from '../../services/adminrest.service';
+ 
+import { FormGroup, FormBuilder } from '@angular/forms'; 
 import { pwCore } from '../../pw-core';
+import { SchoolModel } from '../../../../entities/SchoolModel';
+import { RestApi } from '../../../../rest/RestApi';
 
 @Component({
     selector: 'app-users-import',
@@ -24,7 +25,7 @@ export class UsersImportComponent implements OnChanges {
     
     visible: boolean;
    
-    constructor(private arest: AdminRestService){
+    constructor(private rest: RestApi){
         this.STUDENT_ROLE = pwCore.UserRoles.student;
         this.PARENTS_ROLE = pwCore.UserRoles.parents;
         this.selectedTab = 0;
@@ -45,7 +46,7 @@ export class UsersImportComponent implements OnChanges {
     
     onSubmit() {
         this.isSubmit = true;
-        this.arest.importUsers(this.model).subscribe((data: any[])=>{
+        this.rest.ApiUsers.importUsers(this.model).subscribe((data: any[])=>{
             this.msg = data.join("<br/>");
             this.selectedTab = 1;
             this.isSubmit  = true;

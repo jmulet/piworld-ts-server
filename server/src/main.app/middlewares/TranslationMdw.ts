@@ -5,6 +5,7 @@ import { I18n } from '../services/I18n';
 import { cookieParser } from '../utils/CookieParser';
 import { langInspector } from '../utils/LangInspector';
 import { config } from '../../server.config';
+
 export class TranslationMdw implements ExpressMiddlewareInterface {
 
     @Inject()

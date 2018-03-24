@@ -16,10 +16,9 @@ import { AvatarPickerModule } from '../shared/modules/avatarpicker/avatarpicker.
 import { RolePickerModule } from '../shared/modules/rolepicker/rolepicker.module';
 import { StatusPickerModule } from '../shared/modules/statuspicker/statuspicker.module';
 import { RolesPipe } from '../shared/pipes/roles.pipe';
-import { RestService } from '../shared/services/rest.service';
+import { RestApi } from '../../rest/RestApi';
 import { SocketService } from '../shared/services/socket.service';
-import { TranslateService } from '../shared/services/translate.service';
-import { AdminRestService } from './services/adminrest.service';
+import { TranslateService } from '../shared/services/translate.service'; 
 import { CommonModule } from '@angular/common';
 
 import {DragDropModule} from 'primeng/dragdrop';
@@ -51,8 +50,7 @@ import { UnitVisibilityPipe } from '../shared/pipes/unit-visibility.pipe';
     TranslateService,
     MessageService,
     SocketService,
-    RestService,
-    AdminRestService,
+    RestApi, 
     MessageService,
     ConfirmationService,
     FormBuilder

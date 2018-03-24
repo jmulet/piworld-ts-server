@@ -1,12 +1,11 @@
  
-import { Component, OnInit } from '@angular/core'; 
-import { AdminRestService } from '../services/adminrest.service';
- 
-import { SchoolModel } from '../../../libs/entities/SchoolModel';
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import { UserModel } from '../../../libs/entities/UserModel';
+import { Component, OnInit } from '@angular/core';  
+import { FormBuilder, FormGroup, FormControl } from '@angular/forms'; 
 import { ConfirmationService } from 'primeng/components/common/confirmationservice';
 import { pwCore } from '../pw-core';
+import { UserModel } from '../../../entities/UserModel';
+import { SchoolModel } from '../../../entities/SchoolModel';
+import { RestApi } from '../../../rest/RestApi';
 @Component({
     selector: 'app-component',
     template: require('./centers.component.html'),
@@ -34,7 +33,7 @@ export class CentersComponent implements OnInit {
     status: number;
     idRole: number;
 
-    constructor(private arest: AdminRestService, private fb: FormBuilder,
+    constructor(private rest: RestApi, private fb: FormBuilder,
                 private confirmationService: ConfirmationService) {   
 
             const adminRole = pwCore.UserRoles.admin;        
@@ -56,7 +55,7 @@ export class CentersComponent implements OnInit {
       this.allStudents = [];
     }
     reload($event){
-        this.arest.getSchools().subscribe((data: any[])=> {
+        this.rest.ApiSchool.listSchools().subscribe((data: any[])=> {
             this.centers = data.filter( (e) => e.schoolName !== "buildin_admin_school" );
         });
         this.cols = [
@@ -84,10 +83,10 @@ export class CentersComponent implements OnInit {
         if (!this.centerSelected) {
             return;
         }
-        this.arest.getUsersInSchool(this.centerSelected.id, this.idRole>=0? ''+this.idRole : '*').subscribe((data: any[])=> {
+        this.rest.ApiUsers.listUsers(this.centerSelected.id, this.idRole>=0? ''+this.idRole : '*').subscribe((data: any[])=> {
             this.users = data;
         });
-        this.arest.getUsersInSchool(this.centerSelected.id, this.STUDENT_ROLE).subscribe((data: any[])=> {
+        this.rest.ApiUsers.listUsers(this.centerSelected.id, this.STUDENT_ROLE).subscribe((data: any[])=> {
             this.allStudents = data;
         });
     }
@@ -101,7 +100,7 @@ export class CentersComponent implements OnInit {
             message: 'Are you sure that you want to delete center ' + center.schoolName + ' and all associated users and data?',
             accept: () => {
                 // This is a risky operation and should ask password
-                this.arest.removeCenter(center.id).subscribe((data)=> {
+                this.rest.ApiSchool.deleteSchool(center.id).subscribe((data)=> {
                     this.centerSelected = null;
                     this.reload(null);
                 });
@@ -136,7 +135,7 @@ export class CentersComponent implements OnInit {
             message: 'Are you sure that you want to delete user ' + user.fullname + ' and all associated data?',
             accept: () => {
                 // This is a risky operation and should ask password
-                this.arest.removeUser(user.id).subscribe((data)=> {
+                this.rest.ApiUsers.deleteUser(user.id).subscribe((data)=> {
                     this.loadUsers(null);                    
                 });
             }

@@ -10,8 +10,7 @@ import { GrowlModule } from 'primeng/components/growl/growl';
 import { UsersOnlineComponent } from '../shared/components/usersOnline.component';
 import { SocketService } from '../shared/services/socket.service';
 import { MessageService } from 'primeng/components/common/messageservice';
-import { TableModule } from 'primeng/components/table/table';
-import { RestService } from '../shared/services/rest.service';
+import { TableModule } from 'primeng/components/table/table'; 
 import { UserActionsComponent } from '../shared/components/userActions.component';
 
 @NgModule({
@@ -28,8 +27,7 @@ import { UserActionsComponent } from '../shared/components/userActions.component
     UserActionsComponent
   ],
   providers: [
-    SocketService,
-    RestService,
+    SocketService, 
     MessageService,
     {
       provide: HTTP_INTERCEPTORS, 

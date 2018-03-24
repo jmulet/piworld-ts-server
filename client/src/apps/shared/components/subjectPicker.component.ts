@@ -1,8 +1,8 @@
  
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'; 
 import { SelectItemDisable } from '../SelectItemDisable';
-import { RestService } from '../services/rest.service';
-import { SubjectModel } from '../../../libs/entities/SubjectModel';
+import { RestApi } from '../../../rest/RestApi'; 
+import { SubjectModel } from '../../../entities/SubjectModel';
  
 @Component({
     selector: 'app-subject-picker',
@@ -29,10 +29,10 @@ export class SubjectPickerComponent implements OnInit {
     @Input() style: string;
     @Output() idSubjectChange = new EventEmitter<number>();
 
-    constructor(private rest: RestService) {        
+    constructor(private rest: RestApi) {        
     }
     ngOnInit() {       
-        this.rest.listSubjects().subscribe( (data: SubjectModel[]) => {
+        this.rest.ApiSubject.list().subscribe( (data: SubjectModel[]) => {
 
             this.list = data.map( (e: SubjectModel) => { 
                 return {label: e.longname, value: e.id, disabled: false}; 

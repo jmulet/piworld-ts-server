@@ -1,8 +1,8 @@
-import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
-import { SchoolModel } from '../../../../libs/entities/SchoolModel';
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { AdminRestService } from '../../services/adminrest.service';
+import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges, SimpleChange } from '@angular/core'; 
+import { FormGroup, FormBuilder } from '@angular/forms'; 
 import { pwCore } from '../../pw-core';
+import { SchoolModel } from '../../../../entities/SchoolModel';
+import { RestApi } from '../../../../rest/RestApi';
 
 
 @Component({
@@ -19,7 +19,7 @@ export class CourseEditComponent implements OnChanges {
 
     visible: boolean;
 
-    constructor(private arest: AdminRestService) {
+    constructor(private rest: RestApi) {
         
     }
 
@@ -33,7 +33,7 @@ export class CourseEditComponent implements OnChanges {
     }
 
     onSubmit(course) {
-        this.arest.saveCourse(course).subscribe((data: any) => {
+        this.rest.ApiCourse.save(course).subscribe((data: any) => {
             if (data.id) {
                 this.visible = false;
                 this.onSave.emit(this.formGroup.value);

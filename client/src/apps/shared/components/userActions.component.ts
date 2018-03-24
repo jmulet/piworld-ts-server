@@ -1,9 +1,9 @@
 
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/components/common/messageservice';
-import { SocketService } from '../services/socket.service';
-import { RestService } from '../services/rest.service';
+import { SocketService } from '../services/socket.service'; 
 import { pwCore, pwCoreI } from '../../admin/pw-core';
+import { RestApi } from '../../../rest/RestApi';
 
 @Component({
     selector: 'user-actions',
@@ -12,7 +12,7 @@ import { pwCore, pwCoreI } from '../../admin/pw-core';
 })
 export class UserActionsComponent implements OnInit {    
     avatar: string; 
-    constructor(private rest: RestService, private growl: MessageService) {        
+    constructor(private rest: RestApi, private growl: MessageService) {        
     }
     ngOnInit() {
         
@@ -20,7 +20,7 @@ export class UserActionsComponent implements OnInit {
                         + (pwCore.User.uopts.avatar || 0) +".png";
     }
     logout() {        
-        this.rest.logout().subscribe( (data: any)=> {
+        this.rest.ApiUsers.logout().subscribe( (data: any)=> {
             window.location.href = data.url; 
         });
     }

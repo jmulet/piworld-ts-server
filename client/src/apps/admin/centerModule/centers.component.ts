@@ -55,7 +55,7 @@ export class CentersComponent implements OnInit {
       this.allStudents = [];
     }
     reload($event){
-        this.rest.ApiSchool.listSchools().subscribe((data: any[])=> {
+        this.rest.ApiSchool.list().subscribe((data: any[])=> {
             this.centers = data.filter( (e) => e.schoolName !== "buildin_admin_school" );
         });
         this.cols = [
@@ -83,10 +83,10 @@ export class CentersComponent implements OnInit {
         if (!this.centerSelected) {
             return;
         }
-        this.rest.ApiUsers.listUsers(this.centerSelected.id, this.idRole>=0? ''+this.idRole : '*').subscribe((data: any[])=> {
+        this.rest.ApiUsers.list(this.centerSelected.id, this.idRole>=0? ''+this.idRole : '*').subscribe((data: any[])=> {
             this.users = data;
         });
-        this.rest.ApiUsers.listUsers(this.centerSelected.id, this.STUDENT_ROLE).subscribe((data: any[])=> {
+        this.rest.ApiUsers.list(this.centerSelected.id, this.STUDENT_ROLE).subscribe((data: any[])=> {
             this.allStudents = data;
         });
     }
@@ -100,7 +100,7 @@ export class CentersComponent implements OnInit {
             message: 'Are you sure that you want to delete center ' + center.schoolName + ' and all associated users and data?',
             accept: () => {
                 // This is a risky operation and should ask password
-                this.rest.ApiSchool.deleteSchool(center.id).subscribe((data)=> {
+                this.rest.ApiSchool.delete(center.id).subscribe((data)=> {
                     this.centerSelected = null;
                     this.reload(null);
                 });
@@ -135,7 +135,7 @@ export class CentersComponent implements OnInit {
             message: 'Are you sure that you want to delete user ' + user.fullname + ' and all associated data?',
             accept: () => {
                 // This is a risky operation and should ask password
-                this.rest.ApiUsers.deleteUser(user.id).subscribe((data)=> {
+                this.rest.ApiUsers.delete(user.id).subscribe((data)=> {
                     this.loadUsers(null);                    
                 });
             }

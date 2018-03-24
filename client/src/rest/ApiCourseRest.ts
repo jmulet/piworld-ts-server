@@ -15,7 +15,8 @@ get(id: number) {
 const pathParams = {
       id: id,
 };
-   return this.http.get("@/api/course/${pathParams.id}");
+   const url = `@/api/course/${pathParams.id}`
+   return this.http.get(url);
 }
 /**
  * @api {get} @/api/course/list/:idUser
@@ -31,7 +32,8 @@ const queryParams = new HttpParams({
 const pathParams = {
       idUser: idUser,
 };
-   return this.http.get("@/api/course/list/${pathParams.idUser}", {params: queryParams});
+   const url = `@/api/course/list/${pathParams.idUser}`
+   return this.http.get(url, {params: queryParams});
 }
 /**
  * @api {post} @/api/course/
@@ -40,7 +42,8 @@ const pathParams = {
  * @apiPermission Accepted roles 0, 100, 50, 150
 */
 save(entity: CourseModel) {
-   return this.http.post("@/api/course/", entity);
+   const url = `@/api/course/`
+   return this.http.post(url, entity);
 }
 /**
  * @api {put} @/api/course/:id
@@ -52,7 +55,8 @@ update(id: number, entity: CourseModel) {
 const pathParams = {
       id: id,
 };
-   return this.http.put("@/api/course/${pathParams.id}", entity);
+   const url = `@/api/course/${pathParams.id}`
+   return this.http.put(url, entity);
 }
 /**
  * @api {delete} @/api/course/:id
@@ -64,6 +68,7 @@ delete(id: number) {
 const pathParams = {
       id: id,
 };
-   return this.http.delete("@/api/course/${pathParams.id}");
+   const url = `@/api/course/${pathParams.id}`
+   return this.http.delete(url);
 }
 }

@@ -12,7 +12,8 @@ constructor(private http: HttpClient) {}
  * @apiGroup ApiUsersController
 */
 usersAuth(entity: string) {
-   return this.http.post("#/api/user/auth", entity);
+   const url = `#/api/user/auth`
+   return this.http.post(url, entity);
 }
 /**
  * @api {get} @/api/user/logout
@@ -20,7 +21,8 @@ usersAuth(entity: string) {
  * @apiGroup ApiUsersController
 */
 logout() {
-   return this.http.get("@/api/user/logout");
+   const url = `@/api/user/logout`
+   return this.http.get(url);
 }
 /**
  * @api {get} @/api/user/list
@@ -36,7 +38,8 @@ const queryParams = new HttpParams({
       offspring: offspring + "",
   }
 });
-   return this.http.get("@/api/user/list", {params: queryParams});
+   const url = `@/api/user/list`
+   return this.http.get(url, {params: queryParams});
 }
 /**
  * @api {post} @/api/user/
@@ -45,7 +48,8 @@ const queryParams = new HttpParams({
  * @apiPermission Accepted roles 0, 100, 50, 150
 */
 save(entity: UserModel) {
-   return this.http.post("@/api/user/", entity);
+   const url = `@/api/user/`
+   return this.http.post(url, entity);
 }
 /**
  * @api {post} @/api/user/import
@@ -54,7 +58,8 @@ save(entity: UserModel) {
  * @apiPermission Accepted roles 0, 100, 50, 150
 */
 importUsers(entity: any) {
-   return this.http.post("@/api/user/import", entity);
+   const url = `@/api/user/import`
+   return this.http.post(url, entity);
 }
 /**
  * @api {delete} @/api/user/:idUser
@@ -66,6 +71,7 @@ delete(idUser: number) {
 const pathParams = {
       idUser: idUser,
 };
-   return this.http.delete("@/api/user/${pathParams.idUser}");
+   const url = `@/api/user/${pathParams.idUser}`
+   return this.http.delete(url);
 }
 }

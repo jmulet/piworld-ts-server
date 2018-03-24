@@ -12,6 +12,7 @@ constructor(private http: HttpClient) {}
  * @apiGroup DesktopController
 */
 desktopPage() {
-   return this.http.get("@/desktop.htm");
+   const url = `@/desktop.htm`
+   return this.http.get(url);
 }
 }

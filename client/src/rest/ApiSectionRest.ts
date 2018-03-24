@@ -13,7 +13,8 @@ constructor(private http: HttpClient) {}
  * @apiPermission Accepted roles 0, 100, 50, 150
 */
 save(entity: SectionModel) {
-   return this.http.post("@/api/section/", entity);
+   const url = `@/api/section/`
+   return this.http.post(url, entity);
 }
 /**
  * @api {put} @/api/section/:id
@@ -25,7 +26,8 @@ update(id: Object, entity: SectionModel) {
 const pathParams = {
       id: id,
 };
-   return this.http.put("@/api/section/${pathParams.id}", entity);
+   const url = `@/api/section/${pathParams.id}`
+   return this.http.put(url, entity);
 }
 /**
  * @api {delete} @/api/section/:idSection
@@ -37,6 +39,7 @@ delete(idSection: number) {
 const pathParams = {
       idSection: idSection,
 };
-   return this.http.delete("@/api/section/${pathParams.idSection}");
+   const url = `@/api/section/${pathParams.idSection}`
+   return this.http.delete(url);
 }
 }

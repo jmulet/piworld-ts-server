@@ -18,7 +18,8 @@ const queryParams = new HttpParams({
       idTerm: idTerm + "",
   }
 });
-   return this.http.get("@/api/school/term/", {params: queryParams});
+   const url = `@/api/school/term/`
+   return this.http.get(url, {params: queryParams});
 }
 /**
  * @api {get} @/api/school/term/list
@@ -34,7 +35,8 @@ const queryParams = new HttpParams({
       schoolName: schoolName + "",
   }
 });
-   return this.http.get("@/api/school/term/list", {params: queryParams});
+   const url = `@/api/school/term/list`
+   return this.http.get(url, {params: queryParams});
 }
 /**
  * @api {post} @/api/school/term/
@@ -43,7 +45,8 @@ const queryParams = new HttpParams({
  * @apiPermission Accepted roles 0, 50
 */
 save(entity: TermsModel) {
-   return this.http.post("@/api/school/term/", entity);
+   const url = `@/api/school/term/`
+   return this.http.post(url, entity);
 }
 /**
  * @api {put} @/api/school/term/:id
@@ -55,7 +58,8 @@ update(id: number, entity: TermsModel) {
 const pathParams = {
       id: id,
 };
-   return this.http.put("@/api/school/term/${pathParams.id}", entity);
+   const url = `@/api/school/term/${pathParams.id}`
+   return this.http.put(url, entity);
 }
 /**
  * @api {delete} @/api/school/term/:idTerm
@@ -67,6 +71,7 @@ delete(idTerm: number) {
 const pathParams = {
       idTerm: idTerm,
 };
-   return this.http.delete("@/api/school/term/${pathParams.idTerm}");
+   const url = `@/api/school/term/${pathParams.idTerm}`
+   return this.http.delete(url);
 }
 }

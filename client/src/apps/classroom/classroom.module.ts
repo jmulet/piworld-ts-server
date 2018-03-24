@@ -18,6 +18,7 @@ import { UnitComponent } from './components/unit.component';
 import { FormsModule } from '@angular/forms';
 import { SectionHtmlComponent } from './components/sectionhtml.component';
 import { SectionActivityComponent } from './components/section-activity.component';
+import { RestApi } from '../../rest/RestApi';
 
 @NgModule({
   imports: [
@@ -39,6 +40,7 @@ import { SectionActivityComponent } from './components/section-activity.componen
     SectionActivityComponent
   ],
   providers: [
+    RestApi,
     SocketService,  
     MessageService,
     {

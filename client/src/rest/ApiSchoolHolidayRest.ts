@@ -16,7 +16,8 @@ get(idHoliday: number) {
 const pathParams = {
       idHoliday: idHoliday,
 };
-   return this.http.get("@/api/school/holiday/${pathParams.idHoliday}");
+   const url = `@/api/school/holiday/${pathParams.idHoliday}`
+   return this.http.get(url);
 }
 /**
  * @api {get} @/api/school/holiday/list
@@ -32,7 +33,8 @@ const queryParams = new HttpParams({
       schoolName: schoolName + "",
   }
 });
-   return this.http.get("@/api/school/holiday/list", {params: queryParams});
+   const url = `@/api/school/holiday/list`
+   return this.http.get(url, {params: queryParams});
 }
 /**
  * @api {post} @/api/school/holiday/
@@ -40,7 +42,8 @@ const queryParams = new HttpParams({
  * @apiGroup ApiSchoolHolidayController
 */
 save(entity: HolidayModel) {
-   return this.http.post("@/api/school/holiday/", entity);
+   const url = `@/api/school/holiday/`
+   return this.http.post(url, entity);
 }
 /**
  * @api {put} @/api/school/holiday/:id
@@ -52,7 +55,8 @@ update(id: number, entity: HolidayModel) {
 const pathParams = {
       id: id,
 };
-   return this.http.put("@/api/school/holiday/${pathParams.id}", entity);
+   const url = `@/api/school/holiday/${pathParams.id}`
+   return this.http.put(url, entity);
 }
 /**
  * @api {delete} @/api/school/holiday/:idHoliday
@@ -64,6 +68,7 @@ delete(idHoliday: number) {
 const pathParams = {
       idHoliday: idHoliday,
 };
-   return this.http.delete("@/api/school/holiday/${pathParams.idHoliday}");
+   const url = `@/api/school/holiday/${pathParams.idHoliday}`
+   return this.http.delete(url);
 }
 }

@@ -22,7 +22,8 @@ const queryParams = new HttpParams({
       toDate: toDate + "",
   }
 });
-   return this.http.get("@/api/badges/list", {params: queryParams});
+   const url = `@/api/badges/list`
+   return this.http.get(url, {params: queryParams});
 }
 /**
  * @api {post} @/api/badges/
@@ -31,7 +32,8 @@ const queryParams = new HttpParams({
  * @apiPermission Accepted roles 0, 100, 50, 150
 */
 save(entity: BadgesModel) {
-   return this.http.post("@/api/badges/", entity);
+   const url = `@/api/badges/`
+   return this.http.post(url, entity);
 }
 /**
  * @api {put} @/api/badges/:id
@@ -43,7 +45,8 @@ update(id: number, entity: BadgesModel) {
 const pathParams = {
       id: id,
 };
-   return this.http.put("@/api/badges/${pathParams.id}", entity);
+   const url = `@/api/badges/${pathParams.id}`
+   return this.http.put(url, entity);
 }
 /**
  * @api {delete} @/api/badges/:idBadge
@@ -55,6 +58,7 @@ delete(idBadge: number) {
 const pathParams = {
       idBadge: idBadge,
 };
-   return this.http.delete("@/api/badges/${pathParams.idBadge}");
+   const url = `@/api/badges/${pathParams.idBadge}`
+   return this.http.delete(url);
 }
 }

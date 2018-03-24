@@ -12,7 +12,8 @@ constructor(private http: HttpClient) {}
  * @apiGroup HomeController
 */
 homePage() {
-   return this.http.get("@/home.htm");
+   const url = `@/home.htm`
+   return this.http.get(url);
 }
 /**
  * @api {get} @/admin.htm
@@ -21,6 +22,7 @@ homePage() {
  * @apiPermission Accepted roles 50, 0
 */
 adminPage() {
-   return this.http.get("@/admin.htm");
+   const url = `@/admin.htm`
+   return this.http.get(url);
 }
 }

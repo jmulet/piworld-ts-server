@@ -20,7 +20,8 @@ const queryParams = new HttpParams({
 const pathParams = {
       idCourse: idCourse,
 };
-   return this.http.get("@/api/units/assigned/${pathParams.idCourse}", {params: queryParams});
+   const url = `@/api/units/assigned/${pathParams.idCourse}`
+   return this.http.get(url, {params: queryParams});
 }
 /**
  * @api {get} @/api/units/created/:idCourse
@@ -32,7 +33,8 @@ listCreated(idCourse: number) {
 const pathParams = {
       idCourse: idCourse,
 };
-   return this.http.get("@/api/units/created/${pathParams.idCourse}");
+   const url = `@/api/units/created/${pathParams.idCourse}`
+   return this.http.get(url);
 }
 /**
  * @api {get} @/api/units/list/:idCourse
@@ -44,7 +46,8 @@ listUnitsOnly(idCourse: number) {
 const pathParams = {
       idCourse: idCourse,
 };
-   return this.http.get("@/api/units/list/${pathParams.idCourse}");
+   const url = `@/api/units/list/${pathParams.idCourse}`
+   return this.http.get(url);
 }
 /**
  * @api {post} @/api/units/
@@ -53,7 +56,8 @@ const pathParams = {
  * @apiPermission Accepted roles 0, 100, 50, 150
 */
 save(entity: UnitModel) {
-   return this.http.post("@/api/units/", entity);
+   const url = `@/api/units/`
+   return this.http.post(url, entity);
 }
 /**
  * @api {put} @/api/units/
@@ -62,7 +66,8 @@ save(entity: UnitModel) {
  * @apiPermission Accepted roles 0, 100, 50, 150
 */
 saveOrdering(entity: any) {
-   return this.http.put("@/api/units/", entity);
+   const url = `@/api/units/`
+   return this.http.put(url, entity);
 }
 /**
  * @api {put} @/api/units/:id
@@ -74,7 +79,8 @@ update(id: number, entity: UnitModel) {
 const pathParams = {
       id: id,
 };
-   return this.http.put("@/api/units/${pathParams.id}", entity);
+   const url = `@/api/units/${pathParams.id}`
+   return this.http.put(url, entity);
 }
 /**
  * @api {delete} @/api/units/:idUnit
@@ -86,6 +92,7 @@ delete(idUnit: number) {
 const pathParams = {
       idUnit: idUnit,
 };
-   return this.http.delete("@/api/units/${pathParams.idUnit}");
+   const url = `@/api/units/${pathParams.idUnit}`
+   return this.http.delete(url);
 }
 }

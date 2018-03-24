@@ -12,6 +12,7 @@ constructor(private http: HttpClient) {}
  * @apiGroup ClassroomController
 */
 desktopPage() {
-   return this.http.get("@/classroom/");
+   const url = `@/classroom/`
+   return this.http.get(url);
 }
 }

@@ -12,6 +12,7 @@ constructor(private http: HttpClient) {}
  * @apiGroup ApiSubjectController
 */
 list() {
-   return this.http.get("@/api/subject/list");
+   const url = `@/api/subject/list`
+   return this.http.get(url);
 }
 }

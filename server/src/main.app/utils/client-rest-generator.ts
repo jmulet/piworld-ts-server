@@ -181,7 +181,8 @@ export function clientRestGenerator() {
             }
 
             const url = (hash + baseUrl + actionRoute).replace("//", "/");
-            codeAction.push("   return this.http." + action.type + "(\"" + url + "\"" + bodyPart + queryPart + ");");
+            codeAction.push("   const url = `" + url + "`" );
+            codeAction.push("   return this.http." + action.type + "(url" + bodyPart + queryPart + ");");
             codeAction.push("}");
 
             // Here action finishes: Add to the current Controller and to the monolithic struture

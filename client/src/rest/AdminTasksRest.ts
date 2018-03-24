@@ -12,6 +12,7 @@ constructor(private http: HttpClient) {}
  * @apiGroup AdminTasksController
 */
 adminGroups() {
-   return this.http.get("@/classroom/admin/groups");
+   const url = `@/classroom/admin/groups`
+   return this.http.get(url);
 }
 }

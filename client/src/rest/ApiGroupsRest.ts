@@ -18,7 +18,8 @@ const queryParams = new HttpParams({
       idCreator: idCreator + "",
   }
 });
-   return this.http.get("@/api/group/list", {params: queryParams});
+   const url = `@/api/group/list`
+   return this.http.get(url, {params: queryParams});
 }
 /**
  * @api {get} @/api/group/:idGroup
@@ -29,7 +30,8 @@ get(idGroup: number) {
 const pathParams = {
       idGroup: idGroup,
 };
-   return this.http.get("@/api/group/${pathParams.idGroup}");
+   const url = `@/api/group/${pathParams.idGroup}`
+   return this.http.get(url);
 }
 /**
  * @api {post} @/api/group/
@@ -38,7 +40,8 @@ const pathParams = {
  * @apiPermission Accepted roles 0, 100, 50, 150
 */
 save(entity: GroupsModel) {
-   return this.http.post("@/api/group/", entity);
+   const url = `@/api/group/`
+   return this.http.post(url, entity);
 }
 /**
  * @api {put} @/api/group/:id
@@ -50,7 +53,8 @@ update(id: number, entity: GroupsModel) {
 const pathParams = {
       id: id,
 };
-   return this.http.put("@/api/group/${pathParams.id}", entity);
+   const url = `@/api/group/${pathParams.id}`
+   return this.http.put(url, entity);
 }
 /**
  * @api {delete} @/api/group/:idGroup
@@ -62,6 +66,7 @@ delete(idGroup: number) {
 const pathParams = {
       idGroup: idGroup,
 };
-   return this.http.delete("@/api/group/${pathParams.idGroup}");
+   const url = `@/api/group/${pathParams.idGroup}`
+   return this.http.delete(url);
 }
 }

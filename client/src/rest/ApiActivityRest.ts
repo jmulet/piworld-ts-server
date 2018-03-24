@@ -19,7 +19,8 @@ const queryParams = new HttpParams({
       offset: offset + "",
   }
 });
-   return this.http.get("@/api/activity/search", {params: queryParams});
+   const url = `@/api/activity/search`
+   return this.http.get(url, {params: queryParams});
 }
 /**
  * @api {post} @/api/activity/
@@ -28,7 +29,8 @@ const queryParams = new HttpParams({
  * @apiPermission Accepted roles 0, 100, 50, 150
 */
 save(entity: ActivityModel) {
-   return this.http.post("@/api/activity/", entity);
+   const url = `@/api/activity/`
+   return this.http.post(url, entity);
 }
 /**
  * @api {put} @/api/activity/:id
@@ -40,7 +42,8 @@ update(id: number, entity: ActivityModel) {
 const pathParams = {
       id: id,
 };
-   return this.http.put("@/api/activity/${pathParams.id}", entity);
+   const url = `@/api/activity/${pathParams.id}`
+   return this.http.put(url, entity);
 }
 /**
  * @api {delete} @/api/activity/:idActivity
@@ -52,6 +55,7 @@ delete(idActivity: number) {
 const pathParams = {
       idActivity: idActivity,
 };
-   return this.http.delete("@/api/activity/${pathParams.idActivity}");
+   const url = `@/api/activity/${pathParams.idActivity}`
+   return this.http.delete(url);
 }
 }

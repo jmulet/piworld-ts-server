@@ -12,7 +12,8 @@ constructor(private http: HttpClient) {}
  * @apiGroup LoginController
 */
 indexPage() {
-   return this.http.get("@/");
+   const url = `@/`
+   return this.http.get(url);
 }
 /**
  * @api {get} @/login.htm
@@ -25,7 +26,8 @@ const queryParams = new HttpParams({
       logout: logout + "",
   }
 });
-   return this.http.get("@/login.htm", {params: queryParams});
+   const url = `@/login.htm`
+   return this.http.get(url, {params: queryParams});
 }
 /**
  * @api {post} #/login.htm
@@ -33,7 +35,8 @@ const queryParams = new HttpParams({
  * @apiGroup LoginController
 */
 login(entity: any) {
-   return this.http.post("#/login.htm", entity);
+   const url = `#/login.htm`
+   return this.http.post(url, entity);
 }
 /**
  * @api {post} @/logout
@@ -41,7 +44,8 @@ login(entity: any) {
  * @apiGroup LoginController
 */
 logout() {
-   return this.http.post("@/logout", {});
+   const url = `@/logout`
+   return this.http.post(url, {});
 }
 /**
  * @api {get} @/changepwd.htm
@@ -54,7 +58,8 @@ const queryParams = new HttpParams({
       error: error + "",
   }
 });
-   return this.http.get("@/changepwd.htm", {params: queryParams});
+   const url = `@/changepwd.htm`
+   return this.http.get(url, {params: queryParams});
 }
 /**
  * @api {post} @/changepwd.htm
@@ -62,7 +67,8 @@ const queryParams = new HttpParams({
  * @apiGroup LoginController
 */
 changePwd(entity: any) {
-   return this.http.post("@/changepwd.htm", entity);
+   const url = `@/changepwd.htm`
+   return this.http.post(url, entity);
 }
 /**
  * @api {get} @/translate
@@ -76,6 +82,7 @@ const queryParams = new HttpParams({
       lang: lang + "",
   }
 });
-   return this.http.get("@/translate", {params: queryParams});
+   const url = `@/translate`
+   return this.http.get(url, {params: queryParams});
 }
 }

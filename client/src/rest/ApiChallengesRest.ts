@@ -19,7 +19,8 @@ const queryParams = new HttpParams({
       idUser: idUser + "",
   }
 });
-   return this.http.get("@/api/challenges/list", {params: queryParams});
+   const url = `@/api/challenges/list`
+   return this.http.get(url, {params: queryParams});
 }
 /**
  * @api {post} @/api/challenges/
@@ -28,7 +29,8 @@ const queryParams = new HttpParams({
  * @apiPermission Accepted roles 0, 100, 50, 150
 */
 save(entity: ChallengesModel) {
-   return this.http.post("@/api/challenges/", entity);
+   const url = `@/api/challenges/`
+   return this.http.post(url, entity);
 }
 /**
  * @api {put} @/api/challenges/:id
@@ -40,7 +42,8 @@ update(id: number, entity: ChallengesModel) {
 const pathParams = {
       id: id,
 };
-   return this.http.put("@/api/challenges/${pathParams.id}", entity);
+   const url = `@/api/challenges/${pathParams.id}`
+   return this.http.put(url, entity);
 }
 /**
  * @api {delete} @/api/challenges/:idChallenge
@@ -52,6 +55,7 @@ delete(idChallenge: number) {
 const pathParams = {
       idChallenge: idChallenge,
 };
-   return this.http.delete("@/api/challenges/${pathParams.idChallenge}");
+   const url = `@/api/challenges/${pathParams.idChallenge}`
+   return this.http.delete(url);
 }
 }

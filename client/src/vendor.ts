@@ -13,7 +13,7 @@ import 'bootstrap';
 import 'coreui.io/Static_Starter_GULP/js/app';
 
 window["EJSON"] = require('ejson');
-window["socketio_ejson_parser"] = require('./libs/socketio-ejson-parser');
+window["socketio_ejson_parser"] = require('./assets/js/socketio-ejson-parser');
 window["SocketJS"] = require('socket.io-client');
 //window["CryptoJS"] = require('crypto-js');
 import "socket.io-client";

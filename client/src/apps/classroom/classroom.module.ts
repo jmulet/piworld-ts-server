@@ -1,43 +1,39 @@
-import { enableProdMode, NgModule } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { APP_BASE_HREF } from '@angular/common';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'; 
+import { RouterModule, Routes } from '@angular/router';
+import { MessageService } from 'primeng/components/common/messageservice';
+
 import { MyHttpInterceptor } from '../../interceptors/MyHttpInterceptor';
-import { GrowlModule } from 'primeng/components/growl/growl'; 
+import { RestApi } from '../../rest/RestApi';
+import { UserActionsComponent } from '../shared/components/userActions.component';
 import { UsersOnlineComponent } from '../shared/components/usersOnline.component';
 import { SocketService } from '../shared/services/socket.service';
-import { MessageService } from 'primeng/components/common/messageservice';
-import { TableModule } from 'primeng/components/table/table'; 
-import { UserActionsComponent } from '../shared/components/userActions.component';
-import { ClassroomComponent } from './classroom.component'; 
-import { DropdownModule } from 'primeng/components/dropdown/dropdown';
-import { PanelModule } from 'primeng/components/panel/panel';
-import { UnitComponent } from './components/unit.component';
-import { FormsModule } from '@angular/forms';
-import { SectionHtmlComponent } from './components/sectionhtml.component';
-import { SectionActivityComponent } from './components/section-activity.component';
-import { RestApi } from '../../rest/RestApi';
+import { ClassroomSharedModule } from './classroom-shared.module';
+import { ClassroomComponent } from './classroom.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+const routes: Routes = [
+  { path: 'units', loadChildren: './unitsModule/classroom-units.module#ClassroomUnitsModule'},
+  { path: 'search', loadChildren: './searchModule/classroom-search.module#ClassroomSearchModule'},
+  { path: 'activity', loadChildren: './activityModule/classroom-activity.module#ClassroomActivityModule'},
+  { path: 'assign', loadChildren: './assignModule/classroom-assign.module#ClassroomAssignModule'},
+  { path: '',  redirectTo: 'units', pathMatch: 'full' },
+  { path: '**',  redirectTo: 'units', pathMatch: 'full' }
+];
 
 @NgModule({
   imports: [
     BrowserModule,
-    HttpClientModule, 
-    FormsModule,
     BrowserAnimationsModule,
-    GrowlModule,
-    TableModule,
-    DropdownModule,
-    PanelModule
+    HttpClientModule,
+    ClassroomSharedModule,
+    RouterModule.forRoot(routes)
   ],
   declarations: [
     ClassroomComponent,
     UsersOnlineComponent,
-    UserActionsComponent,
-    UnitComponent,
-    SectionHtmlComponent,
-    SectionActivityComponent
+    UserActionsComponent, 
   ],
   providers: [
     RestApi,

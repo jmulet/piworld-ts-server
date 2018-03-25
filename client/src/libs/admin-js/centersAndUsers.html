@@ -1,9 +1,0 @@
- <div class="container-fluid">
-    <div class="row">
-        <centers-component on-selection="vm.centerChanged($event)"></centers-component>
-    </div>
-
-    <div class="row" ng-if="vm.selection && vm.selection.id">        
-        <users-component school="vm.selection"></users-component>
-    </div>
-</div>

@@ -2,7 +2,7 @@ import { getMetadataArgsStorage } from "routing-controllers";
 import * as fs from "fs";
 import * as path from "path";
 import { clientModelsGenerator } from "./client-models-generator";
-import { TsGenSource, TsGenImport, TsGenClass, TsGenDeclaration, TsGenConstructor, TsGenParam, TsGenMethod } from "./ts-code-generator";
+import { TsGenSource, TsGenImport, TsGenClass, TsGenDeclaration, TsGenConstructor, TsGenParam, TsGenMethod } from "tsgen2";
 
 function getParamTypes(target: any, key: string) {
     const types = Reflect.getMetadata("design:paramtypes", target, key);
@@ -14,7 +14,6 @@ function getParamTypes(target: any, key: string) {
 }
 
 export function clientRestGenerator() {
-
 
     // Generate client entities, services and documentation from annotated classes.
     const knownModelTypes = clientModelsGenerator();
@@ -192,5 +191,4 @@ export function clientRestGenerator() {
  
     // write the monolithic restApi with all controllers
     monoGen.save();
-
 } 

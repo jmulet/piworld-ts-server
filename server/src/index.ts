@@ -58,8 +58,10 @@ createConnection({
     pwServer.listen( {handleErrors: (process.env.NODE_ENV === 'production'), mountStaticPrivate: true} );
 
      // Generate client entities, services and documentation from annotated classes.
-     setTimeout(clientRestGenerator, 4000); 
-
+     if (process.env.NODE_ENV !== 'production') {
+        setTimeout(clientRestGenerator, 4000); 
+     }
+     
 }).catch(error => {
     console.log(colors.red("TypeORM connection error: "), error);
     process.exit(1);

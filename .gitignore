@@ -6,6 +6,7 @@
 /server/node_modules
 /server/dist
 /client/dist
+/client/compiled
 /build/
 /node_modules/
 /server/utilities/

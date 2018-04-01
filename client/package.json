@@ -40,6 +40,7 @@
         "angular-ui-bootstrap": "^2.5.6",
         "bootstrap": "^4.0.0",
         "classlist.js": "^1.1.20150312",
+        "component-emitter": "^1.2.1",
         "core-js": "^2.5.3",
         "coreui.io": "^1.0.0-alpha.6",
         "crypto-js": "^3.1.9-1",

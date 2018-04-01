@@ -21,7 +21,25 @@
             </a>
         </li>
         <li class="nav-item d-md-down-none">
-            Online users
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-users"></i>
+                <span id="online-number" class="badge badge-pill badge-info">1</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right">
+            
+                <div class="dropdown-header">
+                    <strong>Online</strong>
+                </div>
+             
+                <ul id="online-menu" class="menu" style="max-height:400px; overflow-y: auto;">
+                                         
+                    <!-- end message -->
+                    <a class="dropdown-item" href="#">
+                        See all participants 
+                    </a>
+                </ul>
+            
+            </div>
         </li>
      
         <li class="nav-item dropdown">

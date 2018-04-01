@@ -10,6 +10,7 @@ import "socket.io-client";
 import { pwCore } from '../shared/pw-core';
 import { $rest } from '../shared/services/AjaxService';
 import { prefixUrl } from '../shared/services/AjaxClient';
+import { onlineUsers } from './onlineUsers';
 
 declare interface HashInterface {
     hash: string;
@@ -42,6 +43,8 @@ $(function () {
     const applications = $("#applications");
     const iframeContainer = $("#iframe-container");
     let currentIframe: HTMLIFrameElement;
+
+    onlineUsers();
 
     const $logout = $("#logout");
     $logout.on("click", function (evt) {

@@ -6,7 +6,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 
 import { MyHttpInterceptor } from '../../interceptors/MyHttpInterceptor';
-import { UsersOnlineComponent } from '../shared/components/usersOnline.component';
 import { AdminSharedModule } from './admin-shared.module';
 import { AdminComponent } from './admin.component';
 
@@ -24,11 +23,10 @@ const appRoutes: Routes = [
     HttpClientModule, 
     BrowserAnimationsModule,
     CommonModule, 
-    AdminSharedModule,
-    RouterModule.forRoot(appRoutes, {useHash: true})
+    AdminSharedModule, 
+    RouterModule.forRoot(appRoutes, {useHash: true}),    
   ],
-  declarations: [
-    UsersOnlineComponent,
+  declarations: [ 
     AdminComponent 
   ],
   providers: [
@@ -39,8 +37,7 @@ const appRoutes: Routes = [
     }
   ],
   bootstrap: [
-    AdminComponent,
-    UsersOnlineComponent
+    AdminComponent 
   ],
   exports: [
     RouterModule,

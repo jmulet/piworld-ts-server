@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'; 
 import { Location, LocationStrategy, HashLocationStrategy } from '@angular/common';
-import { pwCore } from '../admin/pw-core'; 
+import { pwCore } from '../shared/pw-core'; 
 import { SelectItem } from 'primeng/api';
 import { UnitModel } from '../../entities/UnitModel';
 import { CourseModel } from '../../entities/CourseModel';
@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-component',
-    template: require('./classroom.component.html'),
+    templateUrl: './classroom.component.html',
     styleUrls: [],
     providers: [Location, {provide: LocationStrategy, useClass: HashLocationStrategy}]
 })
@@ -21,6 +21,7 @@ export class ClassroomComponent implements OnInit {
     }
     ngOnInit() {       
        this.location.subscribe(val => {
+           console.log("location === ", val);
            if( ["units", "search", "activity", "assign"].indexOf(val.url) >=0 ) {
                 this.router.navigate([val.url]);
            } else {

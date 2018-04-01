@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
-import { pwCore } from '../../admin/pw-core';
+import { pwCore } from '../pw-core';
 //import * as socketio_ejson_parser from '../../../libs/socketio-ejson-parser';
 
 @Injectable()

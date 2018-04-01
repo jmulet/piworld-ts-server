@@ -3,11 +3,11 @@ import { SelectItem } from 'primeng/api';
 import { UnitModel } from '../../../entities/UnitModel';
 import { CourseModel } from '../../../entities/CourseModel';
 import { RestApi } from '../../../rest/RestApi';
-import { pwCore } from '../../admin/pw-core';
+import { pwCore } from '../../shared/pw-core';
 
 @Component({
     selector: 'app-classroom-units',
-    template: require('./classroom-units.component.html'),
+    templateUrl: './classroom-units.component.html',
     styleUrls: []
 })
 export class ClassroomUnitsComponent implements OnInit {

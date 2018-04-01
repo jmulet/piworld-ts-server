@@ -44,14 +44,42 @@
           <h3 class="form-signin-heading">
             <img src="<%-prefixUrl('/assets/img/logo.png')%>" style="width:64px">piWorld Login</h3>
           <br/>
-          <app-component></app-component>
+          <div>
+              <label for="username" class="sr-only">
+                  <span><%=__('USERNAME')%></span>
+              </label>
+              <input type="text" id="username" class="form-control" placeholder="<%=__('USERNAME')%>" required autofocus
+                  autocomplete="off" autocapitalize="none" autocorrect="off">
+              <label for="password" class="sr-only">
+                      <span><%=__('PASSWORD')%></span>
+              </label>
+              <input type="password" id="password" class="form-control" placeholder="<%=__('PASSWORD')%>" required autocomplete="off"
+                  autocapitalize="none" autocorrect="off">
+              <div class="checkbox">
+                  <label>
+                      <input type="checkbox" id="rememberme"/> <span><%=__('REMEMBER_ME')%></span>
+                  </label>
+              </div>
+              <button id="loginBtn" class="btn btn-lg btn-primary btn-block">
+                  <span><%=__('LOGIN')%></span>
+              </button>
+          
+              <button id="asRootBtn" class="btn btn-lg btn-danger btn-block">
+                      <span><%=__('LOGIN as ROOT')%></span>
+              </button>
+          
+              <br/>
+              <div id="errAlert" class="alert alert-danger" style="display: none">                 
+              </div>
+          
+              <div id="msgAlert" class="alert alert-info"  style="display: none">                  
+              </div>
+          </div>
     </div>
   </div>
 
-  <%- include ../../views/partials/clientPwApp %>
   <script src="<%-prefixUrl('/common.'+config.version+'.js')%>"></script>
-  <script src="<%-prefixUrl('/polyfills.'+config.version+'.bundle.js')%>"></script>
-  <script src="<%-prefixUrl('/vendor.'+config.version+'.bundle.js')%>"></script>
+  <%- include ../../views/partials/clientPwApp %> 
   <script src="<%-prefixUrl('/login.'+config.version+'.bundle.js')%>"></script>
 
 </body>

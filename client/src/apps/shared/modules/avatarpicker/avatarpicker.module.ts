@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { DropdownModule } from 'primeng/dropdown';
+import { DropdownModule } from 'primeng/components/dropdown/dropdown';
 
 import { AvatarPickerComponent } from './avatarpicker.component';
 import { CommonModule } from '@angular/common';

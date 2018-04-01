@@ -5,7 +5,7 @@
                 </div>
         </p-header>
 
-    <div *ngFor="let section of unit._sections">
+    <div *ngFor="let section of unit['_sections']">
         <div [ngSwitch]="section.idActivity">
             <div *ngSwitchCase="1">
                 <app-section-html [section]="section"></app-section-html>

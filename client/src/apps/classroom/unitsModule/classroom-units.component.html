@@ -1,7 +1,7 @@
 <div>
     Classroom
 
-    <p-dropdown [options]="courses" [(ngModel)]="selectedCourse" (onChange)="onCourseChanged($event)" [style]="{width: '200px'}"></p-dropdown>
+    <p-dropdown [options]="courses" [(ngModel)]="courseSelected" (onChange)="onCourseChanged($event)" [style]="{width: '200px'}"></p-dropdown>
              
     <div ng-if="units" *ngFor="let u of units">
         <app-unit-component [unit]="u"></app-unit-component>

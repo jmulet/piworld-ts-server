@@ -1,7 +1,7 @@
  
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'; 
 import { SelectItemDisable } from '../../SelectItemDisable';
-import { pwCore } from '../../../admin/pw-core';
+import { pwCore } from '../../pw-core';
  
  
 @Component({

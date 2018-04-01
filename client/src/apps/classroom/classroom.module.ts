@@ -1,17 +1,14 @@
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 import { MessageService } from 'primeng/components/common/messageservice';
 
 import { MyHttpInterceptor } from '../../interceptors/MyHttpInterceptor';
 import { RestApi } from '../../rest/RestApi';
-import { UserActionsComponent } from '../shared/components/userActions.component';
-import { UsersOnlineComponent } from '../shared/components/usersOnline.component';
-import { SocketService } from '../shared/services/socket.service';
 import { ClassroomSharedModule } from './classroom-shared.module';
 import { ClassroomComponent } from './classroom.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const routes: Routes = [
   { path: 'units', loadChildren: './unitsModule/classroom-units.module#ClassroomUnitsModule'},
@@ -28,16 +25,13 @@ const routes: Routes = [
     BrowserAnimationsModule,
     HttpClientModule,
     ClassroomSharedModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes, {useHash: true})
   ],
   declarations: [
-    ClassroomComponent,
-    UsersOnlineComponent,
-    UserActionsComponent, 
+    ClassroomComponent
   ],
   providers: [
-    RestApi,
-    SocketService,  
+    RestApi, 
     MessageService,
     {
       provide: HTTP_INTERCEPTORS, 
@@ -46,9 +40,7 @@ const routes: Routes = [
     }
   ],
   bootstrap: [
-    ClassroomComponent,
-    UsersOnlineComponent,
-    UserActionsComponent
+    ClassroomComponent 
   ]
 })
 export class ClassroomModule {}

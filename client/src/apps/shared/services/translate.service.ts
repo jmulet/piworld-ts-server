@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { pwCore } from "../../admin/pw-core";
+import { pwCore } from "../pw-core";
 
 @Injectable()
 export class TranslateService {

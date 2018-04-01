@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-component',
-    template: require('./admin.component.html'),
+    templateUrl: './admin.component.html',
     styleUrls: [],
     providers: [Location, {provide: LocationStrategy, useClass: HashLocationStrategy}]
 })

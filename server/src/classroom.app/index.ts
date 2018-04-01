@@ -23,6 +23,10 @@ export class ClassroomApp extends BaseApp {
     constructor() {
         super();
         this.config.path += "/classroom";
+        this.config.hashes = [
+            {hash: "#units", name: "Units"},
+            {hash: "#search", name: "Activities"}            
+        ];
 
         // Tell admin.app which administrative tasks must load
         this.adminTasks = {

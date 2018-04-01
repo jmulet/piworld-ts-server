@@ -4,7 +4,7 @@ import { RestApi } from '../../../rest/RestApi';
 
 @Component({
     selector: 'app-classroom-search',
-    template: require('./classroom-search.component.html'),
+    templateUrl: './classroom-search.component.html',
     styleUrls: []
 })
 export class ClassroomSearchComponent implements OnInit {

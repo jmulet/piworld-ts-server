@@ -8,7 +8,7 @@
 
 
 <p-table [columns]="cols" [value]="centers" [paginator]="true" [rows]="10" selectionMode="single" [(selection)]="centerSelected"
-    dataKey="id" (onRowSelect)="onRowSelected($event)">
+    dataKey="id" (onRowSelect)="onRowSelected($event)" [responsive]="true">
     <ng-template pTemplate="caption">
         Centers
             <button class="btn btn-sm btn-success" (click)="createCenter()">
@@ -49,7 +49,7 @@
 
 <br/>
 <div *ngIf="centerSelected">
-    <p-table #dt [columns]="cols2" [value]="users" [paginator]="true" [rows]="10">
+    <p-table #dt [columns]="cols2" [value]="users" [paginator]="true" [rows]="10" [responsive]="true">
         <ng-template pTemplate="caption">
             Users in center {{centerSelected.schoolName}}
                 <button class="btn btn-sm btn-success" (click)="createUser()">

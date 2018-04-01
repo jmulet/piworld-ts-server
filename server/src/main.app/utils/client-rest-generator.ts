@@ -38,7 +38,7 @@ export function clientRestGenerator() {
     });
 
     const RestApiConstructor = new TsGenConstructor();
-    RestApiConstructor.addParameter(new TsGenParam("http", "HttpClient", false, "private"));
+    RestApiConstructor.addParameter(new TsGenParam("http", "HttpClient", {optional:false, visibility: "private"}));
     RestApiClass.setConstructor(RestApiConstructor);
      
     controllers.forEach((controller) => {
@@ -57,7 +57,7 @@ export function clientRestGenerator() {
         controllerGen.addImport(new TsGenImport("Injectable", "@angular/core"));
 
         const ControllerConstructor = new TsGenConstructor();
-        ControllerConstructor.addParameter(new TsGenParam("http", "HttpClient", false, "private"));
+        ControllerConstructor.addParameter(new TsGenParam("http", "HttpClient", {optional: false, visibility: "private"}));
 
         const ControllerClass = new TsGenClass(restName, {exportable: true});
         ControllerClass.addDecorator("@Injectable()");
@@ -142,20 +142,20 @@ export function clientRestGenerator() {
                 }
 
                 console.log("\t\t " + param.index + ". " + param.type + " " + param.name + ": " + param["tsType"]);                
-                codeAction.addParameter(new TsGenParam(param.name, param["tsType"], !param.required));
+                codeAction.addParameter(new TsGenParam(param.name, param["tsType"], {optional: !param.required}));
             });
           
 
             // Add documentation to the action 
-            codeAction.addToDecorator("/**");
+            codeAction.addDecorator("/**");
             const uri = (hash + baseUrl + action.route).replace("//", "/");
-            codeAction.addToDecorator(" * @api {" + action.type.toLowerCase() + "} " + uri);
-            codeAction.addToDecorator(" * @apiName " + action.method);
-            codeAction.addToDecorator(" * @apiGroup " + controller.target.name);
+            codeAction.addDecorator(" * @api {" + action.type.toLowerCase() + "} " + uri);
+            codeAction.addDecorator(" * @apiName " + action.method);
+            codeAction.addDecorator(" * @apiGroup " + controller.target.name);
             if (apiPermissions.length > 0) {
-                codeAction.addToDecorator(" * @apiPermission Accepted roles " + (apiPermissions[0].roles || []).join(", "));
+                codeAction.addDecorator(" * @apiPermission Accepted roles " + (apiPermissions[0].roles || []).join(", "));
             }
-            codeAction.addToDecorator("*/"); 
+            codeAction.addDecorator("*/"); 
             if (queryParameters.length) {
                 queryPart = ", {params: queryParams}";
                 codeAction.addToBody("   const queryParams = new HttpParams({");

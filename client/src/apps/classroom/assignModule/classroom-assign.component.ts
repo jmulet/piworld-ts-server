@@ -4,7 +4,7 @@ import { RestApi } from '../../../rest/RestApi';
 
 @Component({
     selector: 'app-classroom-assign',
-    template: require('./classroom-assign.component.html'),
+    templateUrl: './classroom-assign.component.html',
     styleUrls: []
 })
 export class ClassroomAssignComponent implements OnInit {

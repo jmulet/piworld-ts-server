@@ -1,0 +1,39 @@
+{
+    "compilerOptions": {
+        "allowJs": true,
+        "outDir": "./compiled",
+        "module": "commonjs",
+        "target": "es5",
+        "moduleResolution": "node",
+        "noImplicitAny": false,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "sourceMap": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+         "typeRoots": [
+          "node_modules/@types",
+          "./typings"
+        ],
+        "lib": [
+          "es2015",
+          "dom"
+        ]
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+            "node_modules",
+            "./trash/**/*"
+    ],
+    "paths": {
+        "": ["./compiled/node_modules/"],
+        "rxjs/": ["./compiled/node_modules/rxjs/"]
+    },
+    "angularCompilerOptions": {
+        "genDir": "./compiled",
+        "skipMetadataEmit": true
+    }
+}
+ 

@@ -2,13 +2,13 @@
 import { Component, OnInit } from '@angular/core';  
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms'; 
 import { ConfirmationService } from 'primeng/components/common/confirmationservice';
-import { pwCore } from '../pw-core';
+import { pwCore } from '../../shared/pw-core';
 import { UserModel } from '../../../entities/UserModel';
 import { SchoolModel } from '../../../entities/SchoolModel';
 import { RestApi } from '../../../rest/RestApi';
 @Component({
     selector: 'app-component',
-    template: require('./centers.component.html'),
+    templateUrl: './centers.component.html',
     styleUrls: []
 })
 export class CentersComponent implements OnInit {
@@ -54,7 +54,7 @@ export class CentersComponent implements OnInit {
 
       this.allStudents = [];
     }
-    reload($event){
+    reload($event?: any){
         this.rest.ApiSchool.list().subscribe((data: any[])=> {
             this.centers = data.filter( (e) => e.schoolName !== "buildin_admin_school" );
         });
@@ -79,7 +79,7 @@ export class CentersComponent implements OnInit {
     onRowSelected($event){    
         this.loadUsers(null);
     }
-    loadUsers($event) {
+    loadUsers($event?: any) {
         if (!this.centerSelected) {
             return;
         }
@@ -90,12 +90,12 @@ export class CentersComponent implements OnInit {
             this.allStudents = data;
         });
     }
-    editCenter(center?: any) {
+    editCenter(center?: SchoolModel) {
         this.centerEdt = new SchoolModel().setObj(center);
         this.centerEdt.sopts = this.centerEdt.sopts || {year: 2017};
         this.centerEdtForm = this.centerEdt.toForm(this.fb);
     }
-    removeCenter(center){
+    removeCenter(center: SchoolModel){
         this.confirmationService.confirm({
             message: 'Are you sure that you want to delete center ' + center.schoolName + ' and all associated users and data?',
             accept: () => {

@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="<%=lang%>">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="piWorld site">
+  <meta name="author" content="Josep Mulet">
+  <link rel="icon" href="<%-prefixUrl('/favicon.ico')%>" type="image/x-icon">
+  <title>piWorld Login</title>
+  <link href="<%-prefixUrl('/styles.'+config.version+'.bundle.css')%>" rel="stylesheet">
+  <link href="<%-prefixUrl('/login.'+config.version+'.bundle.css')%>" rel="stylesheet">
+</head>
+
+<body>
+  <div class="main-header">
+    <div class="dropdown pull-right">
+      <span>
+        <%=__('LANGUAGE')%>
+      </span>
+      <button class="btn btn-sm btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
+        aria-expanded="true">
+        <img src="<%-prefixUrl('/assets')%>/img/<%=lang%>.png"></img>
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+        <li>
+          <a href="<%-prefixUrl('/login.htm?clang=es')%>">
+            <img src="<%-prefixUrl('/assets/img/es.png')%>"> Español </a>
+        </li>
+        <li>
+          <a href="<%-prefixUrl('/login.htm?clang=ca')%>">
+            <img src="<%-prefixUrl('/assets/img/ca.png')%>"> Català</a>
+        </li>
+        <li>
+          <a href="<%-prefixUrl('/login.htm?clang=en')%>">
+            <img src="<%-prefixUrl('/assets/img/en.png')%>"> English</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="container" ng-controller="loginCtrl">
+      <div class="form-signin">
+          <h3 class="form-signin-heading">
+            <img src="<%-prefixUrl('/assets/img/logo.png')%>" style="width:64px">piWorld Login</h3>
+          <br/>
+          <app-component>
+            <div class="pw-loader">
+              <div class="pw-loader-bounce">
+                  <div class="bounce1"></div>
+                  <div class="bounce2"></div>
+                  <div class="bounce3"></div>
+              </div>
+          </div>
+          </app-component>
+    </div>
+  </div>
+
+  <%- include ../../views/partials/clientPwApp %>
+  <script src="<%-prefixUrl('/common.'+config.version+'.js')%>"></script>
+  <script src="<%-prefixUrl('/polyfills.'+config.version+'.bundle.js')%>"></script>
+  <script src="<%-prefixUrl('/vendor.'+config.version+'.bundle.js')%>"></script>
+  <script async src="<%-prefixUrl('/login.'+config.version+'.bundle.js')%>"></script>
+
+</body>
+
+</html>

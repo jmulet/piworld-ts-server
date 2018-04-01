@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges, SimpleChange } from '@angular/core'; 
 import { FormGroup, FormBuilder } from '@angular/forms'; 
-import { pwCore } from '../../pw-core'; 
+import { pwCore } from '../../../shared/pw-core'; 
 import { GroupsModel } from '../../../../entities/GroupsModel';
 import { RestApi } from '../../../../rest/RestApi';
 import { GroupsEnrollModel } from '../../../../entities/GroupsEnrollModel';
@@ -8,7 +8,7 @@ import { GroupsEnrollModel } from '../../../../entities/GroupsEnrollModel';
 
 @Component({
     selector: 'app-group-edit',
-    template: require('./groupedit.component.html'),
+    templateUrl: './groupedit.component.html',
     styleUrls: []
 })
 export class GroupEditComponent implements OnChanges {

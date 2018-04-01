@@ -1,26 +1,38 @@
 <!DOCTYPE html>
 <html lang="<%=lang%>">
-  <head>
-      <%- include ../../views/partials/head %>
-  </head>
- 
-    <body class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">    
-      <%- include ../../views/partials/main-header %>
-      <div class="app-body">
-        <%- include ../../views/partials/sidebar %>
+
+<head>
+  <%- include ../../views/partials/head %>
+</head>
+
+<body class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">
+  <%- include ./main-header %>
+    <div class="app-body">
+      <%- include ./sidebar %>
         <main class="main">
-          <div class="container-fluid">
-            <app-component></app-component>
+          <div class="container" style="height:100%;width:100%;position:relative;overflow:hidden"> 
+            <div id="desktopcontent" style="overflow:auto">
+              <h4>Welcome to
+                <b>piWorld</b>,
+                <%=user.fullname%>
+              </h4>
+            </div>
+            <div id="iframe-container" style="height:100%;width:100%;position:relative;overflow:hidden">
+            </div>
           </div>
         </main>
-      </div>
-      <footer class="app-footer">
-       <%- include ../../views/partials/footer %>
-      </footer>
-      <%- include ../../views/partials/clientPwApp %>
-      <script src="<%-prefixUrl('/common.'+config.version+'.js')%>"></script>    
-      <script src="<%-prefixUrl('/polyfills.'+config.version+'.bundle.js')%>"></script>
-      <script src="<%-prefixUrl('/vendor.'+config.version+'.bundle.js')%>"></script>
-      <script src="<%-prefixUrl('/desktop/desktop.'+config.version+'.bundle.js')%>"></script> 
+    </div>
+    <footer class="app-footer">
+      <%- include ../../views/partials/footer %>
+    </footer>
+    <%- include ../../views/partials/clientPwApp %>
+          
+    <script>
+        var apps = <%-JSON.stringify(applications)%>;
+    </script>
+    <script src="<%-prefixUrl('common.'+config.version+'.js')%>"></script>
+    <script src="<%-prefixUrl('desktop.'+config.version+'.bundle.js')%>"></script>
+
 </body>
+
 </html>

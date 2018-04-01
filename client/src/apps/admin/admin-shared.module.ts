@@ -5,11 +5,11 @@ import { CalendarModule } from 'primeng/calendar';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
-import { DropdownModule } from 'primeng/dropdown';
+import { DropdownModule } from 'primeng/components/dropdown/dropdown';
 import { GrowlModule } from 'primeng/growl';
 import { InputTextModule } from 'primeng/inputtext';
 import { MultiSelectModule } from 'primeng/multiselect';
-import { TableModule } from 'primeng/table';
+import { TableModule } from 'primeng/components/table/table';
 import { TabViewModule } from 'primeng/tabview';
 
 import { AvatarPickerModule } from '../shared/modules/avatarpicker/avatarpicker.module';
@@ -48,8 +48,7 @@ import { UnitVisibilityPipe } from '../shared/pipes/unit-visibility.pipe';
   ],
   providers: [  
     TranslateService,
-    MessageService,
-    SocketService,
+    MessageService, 
     RestApi, 
     MessageService,
     ConfirmationService,

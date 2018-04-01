@@ -1,0 +1,27 @@
+<div class="sidebar">
+    <nav class="sidebar-nav">
+        <ul class="nav">
+            <li id="hashes" class="nav-item nav-dropdown open" style="display: none; background-color: dodgerblue;">
+                        <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-star"></i> <span></span></a>
+                        <ul class="nav-dropdown-items" style="background-color: darkblue;">
+                             <li id="apphashes" class="nav-item">
+                             </li>                                                           
+                        </ul>
+            </li>          
+            <li id="applications" class="nav-item nav-dropdown open" style="background: rgba(100,100,100);">
+                    <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-star"></i> Applications</a>
+                    <ul class="nav-dropdown-items" style="background-color: rgba(0,0,0,.6);">
+                            <% applications.forEach( (app, i) => { %>
+                                <li id="appslinks" class="nav-item">
+                                        <a class="nav-link" href="#" data-index="<%=i%>" data-uri="<%=prefixUrl(app.path)%>"><i class="fa fa-circle"></i> <%= app.name %></a>
+                                </li>                                    
+                            <% }) %>                        
+                    </ul>
+            </li>
+        </ul>
+    </nav>
+    <button class="sidebar-minimizer brand-minimizer" type="button"></button>
+</div>
+
+
+ 

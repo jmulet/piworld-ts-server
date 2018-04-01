@@ -1,14 +1,14 @@
 import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
  
 import { FormGroup, FormBuilder } from '@angular/forms'; 
-import { pwCore } from '../../pw-core';
+import { pwCore } from '../../../shared/pw-core';
 import { SchoolModel } from '../../../../entities/SchoolModel';
 import { RestApi } from '../../../../rest/RestApi';
 
 
 @Component({
     selector: 'app-center-edit',
-    template: require('./centeredit.component.html'),
+    templateUrl: './centeredit.component.html',
     styleUrls: []
 })
 export class CenterEditComponent implements OnChanges {

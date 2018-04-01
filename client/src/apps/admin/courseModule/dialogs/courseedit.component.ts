@@ -1,13 +1,13 @@
 import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges, SimpleChange } from '@angular/core'; 
 import { FormGroup, FormBuilder } from '@angular/forms'; 
-import { pwCore } from '../../pw-core';
+import { pwCore } from '../../../shared/pw-core';
 import { SchoolModel } from '../../../../entities/SchoolModel';
 import { RestApi } from '../../../../rest/RestApi';
 
 
 @Component({
     selector: 'app-course-edit',
-    template: require('./courseedit.component.html'),
+    templateUrl: './courseedit.component.html',
     styleUrls: []
 })
 export class CourseEditComponent implements OnChanges {

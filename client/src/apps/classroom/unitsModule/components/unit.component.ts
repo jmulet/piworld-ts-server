@@ -5,7 +5,7 @@ import { RestApi } from '../../../../rest/RestApi';
 
 @Component({
     selector: 'app-unit-component',
-    template: require('./unit.component.html'),
+    templateUrl: './unit.component.html',
     styles: [ ]
 })
 export class UnitComponent implements OnInit, OnChanges {

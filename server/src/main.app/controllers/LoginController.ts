@@ -142,13 +142,13 @@ export class LoginController {
             redirect = request.body.path;
         } else {
             if (this.sessionSrv.isRoot(session)){
-                redirect = prefixUrl("/admin");
+                redirect = "?app=admin";
             } else {
-                redirect = prefixUrl("/desktop.htm");
+                redirect = "";
             }
         }
   
-        return {redirect: redirect};
+        return {redirect: prefixUrl("/desktop.htm") + redirect};
     }
 
     @Post("/logout")

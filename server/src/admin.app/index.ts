@@ -22,6 +22,7 @@ export class AdminApp extends BaseApp {
         super();
         this.config.path = "/admin";
         this.config.isAdmin = true;
+        this.config.hashes = [{hash: "#centers", name: "Schools"}, {hash: "#courses", name: "Courses"}];
         this.create("Admin", __dirname);
     }
 }

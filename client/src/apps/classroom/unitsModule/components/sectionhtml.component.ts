@@ -5,7 +5,7 @@ import { RestApi } from '../../../../rest/RestApi';
 
 @Component({
     selector: 'app-section-html',
-    template: require('./sectionhtml.component.html'),
+    templateUrl: './sectionhtml.component.html',
     styles: [`
         .section-html {
             border-radius: 5px;

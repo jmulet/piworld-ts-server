@@ -5,9 +5,7 @@
         "type": "git",
         "url": "git+https://github.com/jmulet/piworld-ts-server.git"
     },
-    "scripts": {
-       
-    },
+    "scripts": {},
     "keywords": [
         "client",
         "angularjs",
@@ -20,5 +18,6 @@
     "bugs": {
         "url": "https://github.com/jmulet/piworld-ts-server/issues"
     },
-    "homepage": "https://github.com/jmulet/piworld-ts-server#readme"
+    "homepage": "https://github.com/jmulet/piworld-ts-server#readme",
+    "dependencies": {}
 }

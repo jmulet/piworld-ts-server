@@ -1,11 +1,14 @@
 import { Injectable, Injector } from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { MessageService } from 'primeng/components/common/messageservice';
-import { Observable } from 'rxjs/Rx'; 
 import 'rxjs/add/observable/throw'
 import 'rxjs/add/operator/catch';
-import * as CryptoJS from 'crypto-js';
- 
+import 'rxjs/add/operator/map';
+import { AES } from 'crypto-js/aes';
+import { Observable } from 'rxjs/Observable';
+import { pwCore } from '../apps/shared/pw-core';
+declare const EJSON: any;
+
 function getCookie(name) {
     console.log(name);
     const splitCookie = document.cookie.split(';');
@@ -19,7 +22,7 @@ function getCookie(name) {
     return '';
 }
 
-const Config = window["pwCore"]["Config"];
+const Config = pwCore.Config;
 
 @Injectable()
 export class MyHttpInterceptor implements HttpInterceptor {
@@ -43,7 +46,7 @@ export class MyHttpInterceptor implements HttpInterceptor {
             const cookie = getCookie(Config.basePrefix + "pwsid");
             console.log("cookie", cookie);
             req = req.clone({ url: '/demo' + req.url.substring(1), setHeaders: {"Content-Type": "text/plain;charset=UTF-8"},
-                body: CryptoJS.AES.encrypt(req.body, cookie).toString()});
+                body: AES.encrypt(req.body, cookie).toString()});
         } 
 
         //send the newly created request

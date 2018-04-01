@@ -1,0 +1,37 @@
+<div class="sidebar">
+    <nav class="sidebar-nav">
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link" href="index.html">
+                    <i class="icon-speedometer"></i> Dashboard
+                    <span class="badge badge-primary">NEW</span>
+                </a>
+            </li>
+            <li class="nav-item nav-dropdown open">
+                    <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-star"></i> Classroom</a>
+                    <ul class="nav-dropdown-items">
+                         <li class="nav-item">
+                             <a class="nav-link" href="#" onclick="javascript:location.hash = '#units';"><i class="fa fa-circle"></i> Temes</a>
+                          </li>      
+                          <li class="nav-item">
+                                <a class="nav-link" href="#" onclick="javascript:location.hash = '#search';"><i class="fa fa-circle"></i> Cercar activitats</a>
+                          </li>                                                           
+                    </ul>
+            </li>
+            <li class="nav-item nav-dropdown open">
+                    <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-star"></i> Applications</a>
+                    <ul class="nav-dropdown-items">
+                            <% applications.forEach( (app) => { %>
+                                <li class="nav-item">
+                                        <a class="nav-link" href="<%=prefixUrl(app.path)%>"><i class="fa fa-circle"></i> <%= app.name %></a>
+                                    </li>                                    
+                                <% }) %>                        
+                    </ul>
+            </li>
+        </ul>
+    </nav>
+    <button class="sidebar-minimizer brand-minimizer" type="button"></button>
+</div>
+
+
+ 

@@ -5,7 +5,7 @@
 <app-unit-edit *ngIf="unitEdtForm" [formGroup]="unitEdtForm" (onSave)="reloadUnits($event)"></app-unit-edit>
 <app-group-edit *ngIf="groupEdtForm" [formGroup]="groupEdtForm" (onSave)="reloadGroups($event)"></app-group-edit>
 
-<p-table [columns]="cols" [value]="courses" [paginator]="true" [rows]="10" selectionMode="single" [(selection)]="courseSelected"
+<p-table  [value]="courses" [paginator]="true" [rows]="10" selectionMode="single" [(selection)]="courseSelected"
     dataKey="id" (onRowSelect)="onRowSelected($event)">
     <ng-template pTemplate="caption">
       Courses
@@ -45,7 +45,7 @@
 
 <p-tabView *ngIf="courseSelected">
         <p-tabPanel header="Units" *ngIf="units">
-                <p-table [columns]="cols" [value]="units" [paginator]="true" [rows]="10" (onRowReorder)="onRowReorder($event)">
+                <p-table [value]="units" [paginator]="true" [rows]="10" (onRowReorder)="onRowReorder($event)">
                 <ng-template pTemplate="caption">
                   Units in course {{courseSelected.name}}
                         <button class="btn btn-sm btn-success" (click)="createUnit()">
@@ -89,7 +89,7 @@
         </p-tabPanel>
         <p-tabPanel header="Groups" *ngIf="groups">
                  
-                        <p-table [columns]="cols" [value]="groups" [paginator]="true" [rows]="10">
+                        <p-table  [value]="groups" [paginator]="true" [rows]="10">
                         <ng-template pTemplate="caption">
                           Groups in course {{courseSelected.name}}
                                 <button class="btn btn-sm btn-success" (click)="createGroup()">

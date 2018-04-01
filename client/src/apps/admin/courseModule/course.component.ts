@@ -1,6 +1,6 @@
 
 import { Component, OnInit } from '@angular/core'; 
-import { pwCore } from '../pw-core'; 
+import { pwCore } from '../../shared/pw-core'; 
 import { ConfirmationService } from 'primeng/api';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms'; 
 import { GroupsModel } from '../../../entities/GroupsModel';
@@ -10,7 +10,7 @@ import { RestApi } from '../../../rest/RestApi';
 
 @Component({
     selector: 'app-course-component',
-    template: require("./course.component.html"),
+    templateUrl: './course.component.html',
     styleUrls: []
 })
 export class CourseComponent implements OnInit {

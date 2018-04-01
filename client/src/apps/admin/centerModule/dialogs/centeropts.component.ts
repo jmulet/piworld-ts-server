@@ -11,7 +11,7 @@ import { TermsModel } from '../../../../entities/TermsModel';
 
 @Component({
     selector: 'app-center-opts',
-    template: require('./centeropts.component.html'),
+    templateUrl: './centeropts.component.html',
     styleUrls: []
 })
 export class CenterOptsComponent implements OnChanges {

@@ -1,14 +1,14 @@
 import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
  
 import { FormGroup, FormBuilder } from '@angular/forms'; 
-import { pwCore } from '../../pw-core'; 
+import { pwCore } from '../../../shared/pw-core'; 
 import { UnitModel } from '../../../../entities/UnitModel';
 import { RestApi } from '../../../../rest/RestApi';
 
 
 @Component({
     selector: 'app-unit-edit',
-    template: require('./unitedit.component.html'),
+    templateUrl: './unitedit.component.html',
     styleUrls: []
 })
 export class UnitEditComponent implements OnChanges {

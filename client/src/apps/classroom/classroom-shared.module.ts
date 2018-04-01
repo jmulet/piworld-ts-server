@@ -21,8 +21,7 @@ import { SocketService } from '../shared/services/socket.service';
   declarations: [     
   ],
   providers: [
-    RestApi,
-    SocketService,  
+    RestApi, 
     MessageService
   ],
   exports: [ 

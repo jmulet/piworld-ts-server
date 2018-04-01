@@ -1,5 +1,5 @@
 import { Directive, Input, ElementRef } from '@angular/core';
-import { pwCore } from '../../admin/pw-core';
+import { pwCore } from '../pw-core';
 
 @Directive({
   selector: '[translate]'

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="<%=lang%>">
+  <head>
+    <%- include ../../views/partials/head %>
+    <base href="<%-prefixUrl('/admin')%>">
+    <style>
+      .sidebar {
+        background: darkred !important;
+      }
+    </style>
+  </head>
+  <body class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">    
+      <%- include ../../views/partials/main-header %>
+      <div class="app-body">
+        <%- include ./sidebar-admin %>
+        <main class="main">
+          <div class="container-fluid">
+            <app-component>
+              <div class="pw-loader">
+                <div class="pw-loader-bounce">
+                    <div class="bounce1"></div>
+                    <div class="bounce2"></div>
+                    <div class="bounce3"></div>
+                </div>
+            </div>
+            </app-component>
+          </div>
+        </main>
+      </div>
+      <footer class="app-footer">
+       <%- include ../../views/partials/footer %>
+      </footer>
+      <%- include ../../views/partials/clientPwApp %>
+      <script src="<%-prefixUrl('/common.'+config.version+'.js')%>"></script>    
+      <script src="<%-prefixUrl('/polyfills.'+config.version+'.bundle.js')%>"></script>
+      <script src="<%-prefixUrl('/vendor.'+config.version+'.bundle.js')%>"></script>
+      <script async src="<%-prefixUrl('/admin/admin.'+config.version+'.bundle.js')%>"></script> 
+</body>
+</html>

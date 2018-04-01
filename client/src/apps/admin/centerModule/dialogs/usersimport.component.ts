@@ -2,13 +2,13 @@ import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChange
 
  
 import { FormGroup, FormBuilder } from '@angular/forms'; 
-import { pwCore } from '../../pw-core';
+import { pwCore } from '../../../shared/pw-core';
 import { SchoolModel } from '../../../../entities/SchoolModel';
 import { RestApi } from '../../../../rest/RestApi';
 
 @Component({
     selector: 'app-users-import',
-    template: require('./usersimport.component.html'),
+    templateUrl: './usersimport.component.html',
     styleUrls: []
 })
 export class UsersImportComponent implements OnChanges {

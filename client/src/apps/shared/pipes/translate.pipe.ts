@@ -1,6 +1,6 @@
 
 import { Pipe, PipeTransform } from '@angular/core'; 
-import { pwCore } from '../../admin/pw-core';
+import { pwCore } from '../pw-core';
 
 @Pipe({
     name: 'translate',

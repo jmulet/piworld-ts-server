@@ -9,6 +9,7 @@ export interface AppConfigOptions {
     isAdmin: boolean,
     mountPoint: string,
     path: string,
+    hashes: any[],
     name: string,
     icon: string
 }
@@ -22,7 +23,8 @@ export abstract class BaseApp {
         mountPoint: "/",
         path: "",
         name: "App",
-        icon: ""
+        icon: "",
+        hashes: []
     };
 
     

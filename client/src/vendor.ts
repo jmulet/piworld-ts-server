@@ -3,13 +3,12 @@
 //const jQuery = require('jquery');
 //window["jQuery"] = jQuery;
 //window["$"] = jQuery;
-import "jquery";
+//import jqslim from 'jquery-slimscroll';
+//import 'admin-lte/dist/js/adminlte';
 
-// import jqslim from 'jquery-slimscroll';
+require("../node_modules/jquery/dist/jquery.slim");
 import 'popper.js';
 import 'bootstrap';
-
-//import 'admin-lte/dist/js/adminlte';
 
 window["EJSON"] = require('ejson');
 window["socketio_ejson_parser"] = require('./assets/js/socketio-ejson-parser');
@@ -20,6 +19,8 @@ import "socket.io-client";
 // Do not import the whole crypto-js
 //import "crypto-js";
 //import 'crypto-js/aes';
+
+import 'zone.js/dist/zone'; 
 
 // Angular
 import '@angular/core';

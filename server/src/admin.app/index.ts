@@ -24,7 +24,10 @@ export class AdminApp extends BaseApp {
         this.config.icon = "fa fa-cogs";
         this.config.isAdmin = true;
         this.config.hashes = [{hash: "#centers", name: "Schools", icon: "fa fa-building"}, 
-                              {hash: "#courses", name: "Courses", icon: "fa fa-cubes"}];
+                              {hash: "#courses", name: "Courses", icon: "fa fa-cubes"},
+                              {hash: "#news", name: "News", icon: "fa fa-comments"},
+                              {hash: "#famous", name: "Famous quotes", icon: "ion-android-sunny"},
+                              {hash: "#challenges", name: "Challenges", icon: "fa fa-rocket"}];
         this.create("Admin", __dirname);
     }
 }

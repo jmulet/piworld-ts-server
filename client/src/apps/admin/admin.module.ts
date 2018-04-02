@@ -13,6 +13,9 @@ import { AdminComponent } from './admin.component';
 const appRoutes: Routes = [
   { path: 'centers', loadChildren: './centerModule/center.module#CenterModule'},
   { path: 'courses', loadChildren: './courseModule/course.module#CourseModule'},
+  { path: 'news', loadChildren: './newsModule/news.module#NewsModule'},
+  { path: 'famous', loadChildren: './famousModule/famous.module#FamousModule'},
+  { path: 'challenges', loadChildren: './challengesModule/challenges.module#ChallengesModule'},
   { path: '',  redirectTo: 'centers', pathMatch: 'full' },
   { path: '**',  redirectTo: 'centers', pathMatch: 'full' }
 ];

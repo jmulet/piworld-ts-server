@@ -21,7 +21,25 @@ module.exports = {
             "./node_modules/primeng/resources/themes/omega/theme.css",
             "./node_modules/font-awesome/css/font-awesome.min.css",
             "./node_modules/ionicons/css/ionicons.min.css",
-            "./src/mystyles.css"]           
+            "./src/mystyles.css"],
+        'login': ["./src/apps/login/login.ts", 
+            "./src/apps/login/login.css",
+            "./node_modules/bootstrap/dist/css/bootstrap.min.css",    
+            "./node_modules/font-awesome/css/font-awesome.min.css",             
+          ],
+        'desktop': ["./src/apps/desktop/desktop.ts", 
+              "./src/apps/desktop/desktop.css",                   
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "./src/assets/libs/admin-lte3/dist/css/adminlte.min.css",
+              "./node_modules/font-awesome/css/font-awesome.min.css",
+              "./node_modules/ionicons/css/ionicons.min.css",
+              /*
+              "./src/assets/libs/admin-lte3/dist/css/skins/skin-blue.min.css",
+              "./src/assets/libs/admin-lte3/dist/css/skins/skin-red.min.css",
+              "./src/assets/libs/admin-lte3/dist/css/skins/skin-yellow.min.css",                    
+              */
+              "./src/mystyles.css"
+          ]           
     },
     output: {
         path: path.resolve(__dirname, '../dist', 'public'),
@@ -39,10 +57,10 @@ module.exports = {
         new CleanWebpackPlugin(['../dist/public'], {
             exclude: ['*.html']
         }),
-         // Move everything that is shared in entries login, vendor ---> to bundle vendor       
+         // Move everything that is shared in entries chunks ---> to bundle vendor       
          new webpack.optimize.CommonsChunkPlugin({
             name: 'vendor',
-            chunks: ['classroom/classroom', 'desktop/desktop', 'admin/admin', 'login'],
+            chunks: ['classroom/classroom', 'admin/admin'],
             //filename: '[name].' + version + '.js',
             minChunks: 2
         }),
@@ -51,8 +69,9 @@ module.exports = {
         new webpack.optimize.CommonsChunkPlugin({
          name: "common",
          filename: '[name].' + version + '.js',
+         chunks: ['vendor'],
          minChunks: Infinity        
-        }),
+        }), 
     
         new webpack.ContextReplacementPlugin(
             // The (\\|\/) piece accounts for path separators in *nix and Windows
@@ -81,11 +100,11 @@ module.exports = {
         extensions: ['.ts', '.tsx', '.js'],
         alias: {
             // This alias selects jquery.slim (No ajax, No effects) instead of full jquery.
-            'jquery': 'jquery/dist/jquery.slim.js',
+            'jquery': 'jquery/dist/jquery.js',
         }
     },
     module: {
-        rules: [
+        rules: [ 
              {
                 test: /\.css$/,
                 use: ExtractTextPlugin.extract({

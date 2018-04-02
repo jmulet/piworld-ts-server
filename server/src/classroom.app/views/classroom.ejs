@@ -3,9 +3,16 @@
   <head>
       <%- include ../../views/partials/head %>
       <base href="<%-prefixUrl('/classroom')%>">
+      <style>
+         body {
+        height: 90%;
+        width: 100%;
+        position: relative;  
+        background: #f4f6f9;
+      }
+      </style>
   </head>
- 
-    <body>    
+  <body>    
             <app-component>
               <div class="pw-loader">
                 <div class="pw-loader-bounce">

@@ -23,6 +23,7 @@ export class MainApp extends BaseApp {
     constructor() {
         super();
         this.config.path = "desktop.htm";
+        this.config.icon = "fa fa-desktop";
         this.create("Desktop", __dirname);
     
         const bootstrapSrv = Container.get(BootstrapSrv);

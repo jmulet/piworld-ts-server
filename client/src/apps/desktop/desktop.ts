@@ -1,26 +1,35 @@
-import * as $ from 'jquery';
-import 'popper.js';
-import 'bootstrap';
-//import 'admin-lte/dist/js/adminlte';
-import 'coreui.io/Static_Starter_GULP/js/app';
+import * as $ from 'jquery'; 
 window["EJSON"] = require('ejson');
+window["jQuery"] = $;
+window["$"] = $;
 window["socketio_ejson_parser"] = require('../../assets/js/socketio-ejson-parser');
 window["SocketJS"] = require('socket.io-client');
 import "socket.io-client";
+
+
+import "popper.js/dist/popper.min.js";      
+import "bootstrap/dist/js/bootstrap.min.js";         
+import "../../assets/libs/admin-lte3/plugins/fastclick/fastclick.js";                                                                
+import "../../assets/libs/admin-lte3/dist/js/adminlte.min.js";
+
 import { pwCore } from '../shared/pw-core';
 import { $rest } from '../shared/services/AjaxService';
 import { prefixUrl } from '../shared/services/AjaxClient';
 import { onlineUsers } from './onlineUsers';
 
+const totalMargins = 116;
+
 declare interface HashInterface {
     hash: string;
     name: string;
+    icon: string;
 }
 declare interface ApplicationInterface {
     name: string;
     hashes: HashInterface[];
     isAdmin: boolean;
     path: string;
+    icon: string;
     iframe: HTMLIFrameElement
 }
 declare const apps: ApplicationInterface[];
@@ -29,20 +38,44 @@ function urlParam(name: string): string {
     var results = new RegExp('[\?&]' + name + '=([^&#]*)')
         .exec(window.location.href ||  "");
 
-    if (results.length) {
+    if ((results|| []).length) {
         return results[1] || "";
     }
     return "";
 }
 
+      
+function resize(){
+    $('#iframe-container iframe').height(window.innerHeight - totalMargins);
+}   
 
 $(function () { 
     const desktopcontent = $("#desktopcontent");
     const hashes = $("#hashes");
+    const hashesHeader = $("#hashesHeader");
     const apphashes = $("#apphashes");
     const applications = $("#applications");
     const iframeContainer = $("#iframe-container");
     let currentIframe: HTMLIFrameElement;
+
+    // This selector allows to open a given app name: data-goapp="desktop"
+    $("[data-goapp]").on("click", function(evt){
+        const appName = ($(evt.currentTarget).data("goapp") || "").toLowerCase();
+        const found = apps.filter( e => e.name.toLowerCase() === appName)[0];
+        if (found) {
+            goApp(found);
+        }
+    });
+
+    // This selector chooses lang
+    $("[data-lang]").on("click", function(evt){
+        const lang = ($(evt.currentTarget).data("lang") || "").toLowerCase(); 
+        window.location.href = prefixUrl("desktop.htm?clang="+lang);
+    });
+
+    // This allows to resize iframes
+    $(window).on('resize', resize);
+    resize();
 
     onlineUsers();
 
@@ -63,10 +96,10 @@ $(function () {
         if (!iframe && src.indexOf("desktop.htm") < 0) {
             iframe = document.createElement("iframe");
             iframe.style.width = "100%";
-            iframe.style.height = "90%"; 
             iframe.allowFullscreen = true;
             iframe.frameBorder = "0";
             iframe.src = src;
+            iframe.style.height = (window.innerHeight - totalMargins) + "px";
             app.iframe = iframe;
             iframeContainer.append(iframe);
         }
@@ -78,16 +111,19 @@ $(function () {
             extpage.show();
         } else {
             desktopcontent.show();
-            applications.addClass("open");
+            applications.addClass("open"); 
         }
          
+        
         if (src.indexOf("/admin") >= 0) {
-            hashes.css("background-color", "crimson");
-            hashes.find(".nav-dropdown-items").css("background-color", "darkred");
+            hashesHeader.css("background-color", "darkred");
         } else {
-            hashes.css("background-color", "dodgerblue");
-            hashes.find(".nav-dropdown-items").css("background-color", "darkblue");
+            hashesHeader.css("background-color", "darkblue");
         }
+        const $icon = hashesHeader.find("i").first();
+        $icon.removeClass();
+        $icon.addClass("nav-icon "  + app.icon);
+         
 
         console.log("app is ", app);
         if (app.hashes && app.hashes.length) {
@@ -96,7 +132,14 @@ $(function () {
             hashes.css("display", "");
             let html = "";
             app.hashes.forEach((e) =>
-                html += '<a class="nav-link" href="#" data-hash="' + e.hash + '"><i class="fa fa-circle"></i>' + e.name + '</a>'
+                html += `
+                <li class="nav-item">
+                <a href="#" class="nav-link" data-hash="${e.hash}">
+                  <i class="${e.icon || 'fa fa-circle-o'} nav-icon"></i>
+                  <p>${e.name}</p>
+                </a>
+              </li> 
+                `
             );
             apphashes.empty();
             apphashes.append(html);

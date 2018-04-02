@@ -57,7 +57,8 @@ export class AdminController {
             isAdmin: true,
             news: [],
             adminTasks: filteredAdminTasks,
-            applications: apps
+            applications: apps,
+            rmWhitespace: true
         }
     }
 }

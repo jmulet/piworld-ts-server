@@ -1,27 +1,64 @@
-<div class="sidebar">
-    <nav class="sidebar-nav">
-        <ul class="nav">
-            <li id="hashes" class="nav-item nav-dropdown open" style="display: none; background-color: dodgerblue;">
-                        <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-star"></i> <span></span></a>
-                        <ul class="nav-dropdown-items" style="background-color: darkblue;">
-                             <li id="apphashes" class="nav-item">
-                             </li>                                                           
-                        </ul>
-            </li>          
-            <li id="applications" class="nav-item nav-dropdown open" style="background: rgba(100,100,100);">
-                    <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-star"></i> Applications</a>
-                    <ul class="nav-dropdown-items" style="background-color: rgba(0,0,0,.6);">
-                            <% applications.forEach( (app, i) => { %>
-                                <li id="appslinks" class="nav-item">
-                                        <a class="nav-link" href="#" data-index="<%=i%>" data-uri="<%=prefixUrl(app.path)%>"><i class="fa fa-circle"></i> <%= app.name %></a>
-                                </li>                                    
-                            <% }) %>                        
+<!-- Brand Logo -->
+<a href="#" class="brand-link">
+        <img src="assets/img/logo.png" alt="Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+        <span class="brand-text font-weight-light">piWorld</span>
+      </a>
+
+      <!-- Sidebar -->
+      <div class="sidebar font-weight-light">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+          <div class="image">
+            <img src="assets/img/avatar/<%=user.uopts.avatar||0%>.png" class="img-circle elevation-2" alt="User Image">
+          </div>
+          <div class="info">
+            <a href="#" class="d-block"><%=user.username%></a>
+          </div>
+        </div>
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            
+            <!-- hashes menu -->
+            <li id="hashes" class="nav-item has-treeview menu-open" style="display:none">
+                    <a href="#" class="nav-link" id="hashesHeader">
+                      <i class="nav-icon"></i>
+                      <p>
+                        <span></span>
+                        <i class="right fa fa-angle-left"></i>
+                      </p>
+                    </a>
+                    <ul id="apphashes" class="nav nav-treeview">                      
                     </ul>
             </li>
-        </ul>
-    </nav>
-    <button class="sidebar-minimizer brand-minimizer" type="button"></button>
-</div>
 
+            <!-- aplications menu -->
+            <li id="applications" class="nav-item has-treeview menu-open">
+              <a href="#" class="nav-link">
+                <i class="nav-icon fa fa-dashboard"></i>
+                <p>
+                  Applications
+                  <i class="right fa fa-angle-left"></i>
+                </p>
+              </a>
+              <ul id="appslinks" class="nav nav-treeview">
+                <% applications.forEach( (app, i) => { %>
+                <li class="nav-item">
+                  <a href="#" class="nav-link" data-index="<%=i%>" data-uri="<%=prefixUrl(app.path)%>">
+                    <i class="<%=app.icon || 'fa fa-circle-o'%> nav-icon"></i>
+                    <p> <%= app.name %></p>
+                  </a>
+                </li> 
+                <% }) %>     
+              </ul>
+            </li>
+
+             
+          </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+      </div>
+      <!-- /.sidebar -->
 
  

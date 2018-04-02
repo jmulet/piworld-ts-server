@@ -10,9 +10,27 @@ const helpers = require('./node.helpers');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
-    entry: {
-        'login': ["./src/apps/login/login.ts", "./src/apps/login/login.css"],
-        'desktop': ["./src/apps/desktop/desktop.ts", "./src/apps/desktop/desktop.css"],
+    entry: {      
+        'login': ["./src/apps/login/login.ts", 
+        "./src/apps/login/login.css",
+        "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+        "./node_modules/coreui.io/Static_Starter_GULP/css/font-awesome.min.css"                  
+      ],
+      'desktop': ["./src/apps/desktop/desktop.ts", 
+          "./src/apps/desktop/desktop.css",
+          "./src/assets/libs/admin-lte3/dist/js/adminlte.min.js",
+          "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+          "./src/assets/libs/admin-lte3/plugins/fastclick/fastclick.js",
+          "./src/assets/libs/admin-lte3/dist/css/adminlte.min.css",
+          "./node_modules/font-awesome/css/font-awesome.min.css",
+          "./node_modules/ionicons/css/ionicons.min.css",
+          /*
+          "./src/assets/libs/admin-lte3/dist/css/skins/skin-blue.min.css",
+          "./src/assets/libs/admin-lte3/dist/css/skins/skin-red.min.css",
+          "./src/assets/libs/admin-lte3/dist/css/skins/skin-yellow.min.css",                    
+          */
+          "./src/mystyles.css"
+      ]
     },
     output: {
         path: path.resolve(__dirname, '../dist', 'public'),

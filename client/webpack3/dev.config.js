@@ -5,9 +5,7 @@ const webpack = require('webpack');
 
 module.exports = merge(commonConfig, {
     entry: {
-        //'login': ["./src/apps/login/login.ts", "./src/apps/login/login.css"],
         'admin/admin': ["./src/apps/admin/admin.ts", "./src/apps/admin/admin.css"],         
-        //'desktop': ["./src/apps/desktop/desktop.ts", "./src/apps/desktop/desktop.css"],
         'classroom/classroom': ["./src/apps/classroom/classroom.ts", "./src/apps/classroom/classroom.css"],
     },
     module: {

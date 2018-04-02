@@ -14,24 +14,14 @@ const ngRouterLoader = require('angular-router-loader');
 module.exports = {
     entry: {
         'vendor': "./src/vendor.ts",
-        'polyfills': "./src/polyfills.ts",
-      
+        'polyfills': "./src/polyfills.ts",      
         'styles': [
             "./node_modules/bootstrap/dist/css/bootstrap.min.css",
-            "./node_modules/coreui.io/Static_Starter_GULP/css/font-awesome.min.css",
-            "./node_modules/coreui.io/Static_Starter_GULP/css/simple-line-icons.css",
-            "./node_modules/coreui.io/Static_Starter_GULP/css/style.css",
-            // "./node_modules/bootstrap/dist/css/bootstrap-theme.min.css",
             "./node_modules/primeng/resources/primeng.min.css",
             "./node_modules/primeng/resources/themes/omega/theme.css",
-            //"./src/assets/css/AdminLTE.css",    //It has been modified to change some rules
-            //"./node_modules/admin-lte/dist/css/skins/skin-blue.min.css",
-            //"./node_modules/admin-lte/dist/css/skins/skin-red.min.css",
-            //"./node_modules/admin-lte/dist/css/skins/skin-yellow.min.css",
-            //"./src/libs/angular/growl/angular-growl.min.css",
-            "./src/mystyles.css"]
-            //'vendor': "./src/vendorjs.js",
-            //'pwc': "./src/pwc.js",
+            "./node_modules/font-awesome/css/font-awesome.min.css",
+            "./node_modules/ionicons/css/ionicons.min.css",
+            "./src/mystyles.css"]           
     },
     output: {
         path: path.resolve(__dirname, '../dist', 'public'),

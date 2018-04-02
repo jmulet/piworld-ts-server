@@ -15,24 +15,33 @@ let online = [];
 let count = { totalConnected: 0 };
 
 function displayUsers() {
-    const $container = $("#online-menu");
-    const $number = $("#online-number");
+    const $container = $("#onlineList");
+    const $number = $("#onlineCount");
+    const $allBtn = $("#onlineSeeAll")
+    const $onlineTitle = $("#onlineTitle")
     $container.find(".online").remove();
-    $number.val(count.totalConnected);
+    $number.text(count.totalConnected);
 
     online.forEach(e => { 
         const el = `
-        <a class="dropdown-item online" href="#">
-    <span class="pull-left">
-        <img src="${e.icon}" class="img-circle" alt="User Image">
-    </span>
-     <span>${e.username}</span>
-     <small>
-            <i class="fa fa-clock-o"></i>${e.login}
-    </small>                
-    </a>
+        <a href="#" class="dropdown-item online">
+        <div class="media">
+          <img src="${e.icon}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+          <div class="media-body">
+            <h3 class="dropdown-item-title">
+                ${e.username}
+              <span class="float-right text-sm text-danger">
+                <i class="fa fa-star"></i>
+              </span>
+            </h3> 
+            <p class="text-sm text-muted">
+              <i class="fa fa-clock-o mr-1"></i> ${e.login}</p>
+          </div>
+        </div>
+      </a>
+      <div class="dropdown-divider online"></div>
     `
-        $container.append(el);
+        $(el).insertAfter($onlineTitle);
     })
 }
 

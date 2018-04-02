@@ -26,16 +26,20 @@
                 <%-error%>
             </div>
         </div>
-     
-  <footer class="main-footer">
-        <center>
-          <a class="btn btn-lg btn-primary" href="/">
-            <i class="glyphicon glyphicon-home"></i>
-            <%=translations["HOME"]%>             
-          </a>
-        </center>
-      </footer>
 
+        <footer class="main-footer">
+            <center>
+                <a class="btn btn-lg btn-primary" href="/">
+                    <i class="glyphicon glyphicon-home"></i>
+                    <%=translations["HOME"]%>
+                </a>
+            </center>
+        </footer>
+        <script>
+            if (typeof (parent) !== 'undefined') {
+                document.getElementsByClassName("main-footer")[0].style.display = "none";
+            }
+        </script>
 </body>
 
 </html>

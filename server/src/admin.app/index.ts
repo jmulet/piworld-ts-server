@@ -21,8 +21,10 @@ export class AdminApp extends BaseApp {
     constructor() {
         super();
         this.config.path = "/admin";
+        this.config.icon = "fa fa-cogs";
         this.config.isAdmin = true;
-        this.config.hashes = [{hash: "#centers", name: "Schools"}, {hash: "#courses", name: "Courses"}];
+        this.config.hashes = [{hash: "#centers", name: "Schools", icon: "fa fa-building"}, 
+                              {hash: "#courses", name: "Courses", icon: "fa fa-cubes"}];
         this.create("Admin", __dirname);
     }
 }

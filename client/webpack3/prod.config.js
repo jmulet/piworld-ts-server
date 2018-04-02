@@ -8,9 +8,7 @@ const AngularCompilerPlugin = require('@ngtools/webpack').AngularCompilerPlugin;
 
 module.exports = merge(commonConfig, {
     entry: {
-       // 'login': ["./compiled/src/apps/login/login-aot.js", "./src/apps/login/login.css"],
         'admin/admin': ["./compiled/src/apps/admin/admin-aot.js", "./src/apps/admin/admin.css"],         
-        //'desktop': ["./compiled/src/apps/desktop/desktop.js", "./src/apps/desktop/desktop.css"],
         'classroom/classroom': ["./compiled/src/apps/classroom/classroom-aot.js", "./src/apps/classroom/classroom.css"],
     },
     module: {

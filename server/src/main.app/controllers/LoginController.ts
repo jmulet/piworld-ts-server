@@ -54,7 +54,8 @@ export class LoginController {
     loginPage(@QueryParam("logout") msg: any, @Res() response: any) {
         return {
             errCode: "",
-            msg: msg != null ? response.locals.translations["THANK_YOU"] : ""
+            msg: msg != null ? response.locals.translations["THANK_YOU"] : "",
+            rmWhitespace: true
         }
     }
 
@@ -197,7 +198,8 @@ export class LoginController {
         } else if (error === 4) {
             errCode = "PASSWORD_DIFFERENT";
         }
-        return { errCode: errCode };
+        return { errCode: errCode,
+            rmWhitespace: true };
     }
 
     @Post("/changepwd.htm")

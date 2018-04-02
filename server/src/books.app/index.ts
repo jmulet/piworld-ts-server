@@ -20,6 +20,7 @@ export class BooksApp extends BaseApp {
     constructor() {
         super();
         this.config.path = "books.htm";
+        this.config.icon = "fa fa-book";
         this.create("Books", __dirname);
       
        

@@ -23,7 +23,10 @@ export class DesktopController {
         
         const applications = PwHttpServer.getInstance().getInstalledApps();
         const apps = applications.map( (e)=> e.config);
-        
+
+        const newsCarousel = await this.newsSrv.list();
+
+        console.log(newsCarousel);
 
         const news = await this.newsSrv.list();
         return  {
@@ -31,7 +34,9 @@ export class DesktopController {
             uopts: session.uopts || {},
             isAdmin: this.sessionSrv.isAdmin(session),
             news: news,
-            applications: apps
+            applications: apps,
+            rmWhitespace: true,
+            newsCarousel: newsCarousel
         }
                     
     }

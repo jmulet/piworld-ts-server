@@ -15,7 +15,6 @@ import { UnitModel } from '../entities/UnitModel';
 @Injectable()
 export class RestApi { 
    Desktop: DesktopRest;
-   Home: HomeRest;
    Login: LoginRest;
    ApiSchool: ApiSchoolRest;
    ApiSchoolHoliday: ApiSchoolHolidayRest;
@@ -34,7 +33,6 @@ export class RestApi {
    ApiUnits: ApiUnitsRest;
    constructor(private http: HttpClient) {
         this.Desktop = new DesktopRest(http);
-        this.Home = new HomeRest(http);
         this.Login = new LoginRest(http);
         this.ApiSchool = new ApiSchoolRest(http);
         this.ApiSchoolHoliday = new ApiSchoolHolidayRest(http);
@@ -63,29 +61,6 @@ class DesktopRest {
    */
    desktopPage() {
          const url = `@/desktop.htm`
-         return this.http.get(url);
-   }
-}
-class HomeRest { 
-   constructor(private http: HttpClient) {
-   }
-   /**
-    * @api {get} @/home.htm
-    * @apiName homePage
-    * @apiGroup HomeController
-   */
-   homePage() {
-         const url = `@/home.htm`
-         return this.http.get(url);
-   }
-   /**
-    * @api {get} @/admin.htm
-    * @apiName adminPage
-    * @apiGroup HomeController
-    * @apiPermission Accepted roles 50, 0
-   */
-   adminPage() {
-         const url = `@/admin.htm`
          return this.http.get(url);
    }
 }

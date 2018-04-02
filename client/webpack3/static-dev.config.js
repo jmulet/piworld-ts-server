@@ -11,8 +11,24 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
     entry: {
-        'login': ["./src/apps/login/login.ts", "./src/apps/login/login.css"],
-        'desktop': ["./src/apps/desktop/desktop.ts", "./src/apps/desktop/desktop.css"],
+        'login': ["./src/apps/login/login.ts", 
+                  "./src/apps/login/login.css",
+                  "./node_modules/bootstrap/dist/css/bootstrap.min.css",    
+                  "./node_modules/font-awesome/css/font-awesome.min.css",             
+                ],
+        'desktop': ["./src/apps/desktop/desktop.ts", 
+                    "./src/apps/desktop/desktop.css",                   
+                    "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+                    "./src/assets/libs/admin-lte3/dist/css/adminlte.min.css",
+                    "./node_modules/font-awesome/css/font-awesome.min.css",
+                    "./node_modules/ionicons/css/ionicons.min.css",
+                    /*
+                    "./src/assets/libs/admin-lte3/dist/css/skins/skin-blue.min.css",
+                    "./src/assets/libs/admin-lte3/dist/css/skins/skin-red.min.css",
+                    "./src/assets/libs/admin-lte3/dist/css/skins/skin-yellow.min.css",                    
+                    */
+                    "./src/mystyles.css"
+                ]
     },
     output: {
         path: path.resolve(__dirname, '../dist', 'public'),

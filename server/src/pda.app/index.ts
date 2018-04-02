@@ -19,6 +19,8 @@ export class PdaApp extends BaseApp {
     constructor() {
         super();
         this.config.path = "pda.htm";
+        this.config.icon = "fa fa-mobile";
+        this.config.hashes = [];
         this.create("PDA", __dirname);
        
     }

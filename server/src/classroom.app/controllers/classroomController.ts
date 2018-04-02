@@ -23,7 +23,8 @@ export class ClassroomController {
             user: session.user,
             uopts: session.uopts || {},
             isAdmin: this.sessionSrv.isAdmin(session),             
-            applications: apps
+            applications: apps,
+            rmWhitespace: true
         }               
     }
 

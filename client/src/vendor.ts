@@ -10,7 +10,6 @@ import 'popper.js';
 import 'bootstrap';
 
 //import 'admin-lte/dist/js/adminlte';
-import 'coreui.io/Static_Starter_GULP/js/app';
 
 window["EJSON"] = require('ejson');
 window["socketio_ejson_parser"] = require('./assets/js/socketio-ejson-parser');

@@ -13,9 +13,10 @@ export class ApiSchoolHolidayRest {
     * @apiPermission Accepted roles 0
    */
    get(idHoliday: number) {
-         const pathParams = {
-            idHoliday: idHoliday,
-         };
+         const pathParams: any = {};
+          if (idHoliday!=null) {
+               pathParams.idHoliday = idHoliday + "";
+          }
          const url = `@/api/school/holiday/${pathParams.idHoliday}`
          return this.http.get(url);
    }
@@ -26,12 +27,18 @@ export class ApiSchoolHolidayRest {
     * @apiPermission Accepted roles 0, 50
    */
    list(year: number, idSchool?: number, schoolName?: string) {
+         const queryParamsObj: any = {};
+          if (year!=null) {
+               queryParamsObj.year = year + "";
+          }
+          if (idSchool!=null) {
+               queryParamsObj.idSchool = idSchool + "";
+          }
+          if (schoolName!=null) {
+               queryParamsObj.schoolName = schoolName + "";
+          }
          const queryParams = new HttpParams({
-         fromObject: {
-            year: year + "",
-            idSchool: idSchool + "",
-            schoolName: schoolName + "",
-           }
+         fromObject: queryParamsObj
          });
          const url = `@/api/school/holiday/list`
          return this.http.get(url, {params: queryParams});
@@ -52,9 +59,10 @@ export class ApiSchoolHolidayRest {
     * @apiPermission Accepted roles 0, 50
    */
    update(id: number, entity: HolidayModel) {
-         const pathParams = {
-            id: id,
-         };
+         const pathParams: any = {};
+          if (id!=null) {
+               pathParams.id = id + "";
+          }
          const url = `@/api/school/holiday/${pathParams.id}`
          return this.http.put(url, entity);
    }
@@ -65,9 +73,10 @@ export class ApiSchoolHolidayRest {
     * @apiPermission Accepted roles 0
    */
    delete(idHoliday: number) {
-         const pathParams = {
-            idHoliday: idHoliday,
-         };
+         const pathParams: any = {};
+          if (idHoliday!=null) {
+               pathParams.idHoliday = idHoliday + "";
+          }
          const url = `@/api/school/holiday/${pathParams.idHoliday}`
          return this.http.delete(url);
    }

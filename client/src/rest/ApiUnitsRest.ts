@@ -12,14 +12,17 @@ export class ApiUnitsRest {
     * @apiGroup ApiUnitsController
    */
    listAssigned(idCourse: number, idUser?: number) {
+         const queryParamsObj: any = {};
+          if (idUser!=null) {
+               queryParamsObj.idUser = idUser + "";
+          }
          const queryParams = new HttpParams({
-         fromObject: {
-            idUser: idUser + "",
-           }
+         fromObject: queryParamsObj
          });
-         const pathParams = {
-            idCourse: idCourse,
-         };
+         const pathParams: any = {};
+          if (idCourse!=null) {
+               pathParams.idCourse = idCourse + "";
+          }
          const url = `@/api/units/assigned/${pathParams.idCourse}`
          return this.http.get(url, {params: queryParams});
    }
@@ -30,9 +33,10 @@ export class ApiUnitsRest {
     * @apiPermission Accepted roles 0, 100, 50, 150
    */
    listCreated(idCourse: number) {
-         const pathParams = {
-            idCourse: idCourse,
-         };
+         const pathParams: any = {};
+          if (idCourse!=null) {
+               pathParams.idCourse = idCourse + "";
+          }
          const url = `@/api/units/created/${pathParams.idCourse}`
          return this.http.get(url);
    }
@@ -43,9 +47,10 @@ export class ApiUnitsRest {
     * @apiPermission Accepted roles 0, 100, 50, 150
    */
    listUnitsOnly(idCourse: number) {
-         const pathParams = {
-            idCourse: idCourse,
-         };
+         const pathParams: any = {};
+          if (idCourse!=null) {
+               pathParams.idCourse = idCourse + "";
+          }
          const url = `@/api/units/list/${pathParams.idCourse}`
          return this.http.get(url);
    }
@@ -76,9 +81,10 @@ export class ApiUnitsRest {
     * @apiPermission Accepted roles 0, 100, 50, 150
    */
    update(id: number, entity: UnitModel) {
-         const pathParams = {
-            id: id,
-         };
+         const pathParams: any = {};
+          if (id!=null) {
+               pathParams.id = id + "";
+          }
          const url = `@/api/units/${pathParams.id}`
          return this.http.put(url, entity);
    }
@@ -89,9 +95,10 @@ export class ApiUnitsRest {
     * @apiPermission Accepted roles 0, 100, 50, 150
    */
    delete(idUnit: number) {
-         const pathParams = {
-            idUnit: idUnit,
-         };
+         const pathParams: any = {};
+          if (idUnit!=null) {
+               pathParams.idUnit = idUnit + "";
+          }
          const url = `@/api/units/${pathParams.idUnit}`
          return this.http.delete(url);
    }

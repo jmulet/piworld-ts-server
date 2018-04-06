@@ -12,11 +12,15 @@ export class ApiGroupsRest {
     * @apiGroup ApiGroupsController
    */
    list(idCourse: number, idCreator?: number) {
+         const queryParamsObj: any = {};
+          if (idCourse!=null) {
+               queryParamsObj.idCourse = idCourse + "";
+          }
+          if (idCreator!=null) {
+               queryParamsObj.idCreator = idCreator + "";
+          }
          const queryParams = new HttpParams({
-         fromObject: {
-            idCourse: idCourse + "",
-            idCreator: idCreator + "",
-           }
+         fromObject: queryParamsObj
          });
          const url = `@/api/group/list`
          return this.http.get(url, {params: queryParams});
@@ -27,9 +31,10 @@ export class ApiGroupsRest {
     * @apiGroup ApiGroupsController
    */
    get(idGroup: number) {
-         const pathParams = {
-            idGroup: idGroup,
-         };
+         const pathParams: any = {};
+          if (idGroup!=null) {
+               pathParams.idGroup = idGroup + "";
+          }
          const url = `@/api/group/${pathParams.idGroup}`
          return this.http.get(url);
    }
@@ -50,9 +55,10 @@ export class ApiGroupsRest {
     * @apiPermission Accepted roles 0, 100, 50, 150
    */
    update(id: number, entity: GroupsModel) {
-         const pathParams = {
-            id: id,
-         };
+         const pathParams: any = {};
+          if (id!=null) {
+               pathParams.id = id + "";
+          }
          const url = `@/api/group/${pathParams.id}`
          return this.http.put(url, entity);
    }
@@ -63,9 +69,10 @@ export class ApiGroupsRest {
     * @apiPermission Accepted roles 0, 100, 50, 150
    */
    delete(idGroup: number) {
-         const pathParams = {
-            idGroup: idGroup,
-         };
+         const pathParams: any = {};
+          if (idGroup!=null) {
+               pathParams.idGroup = idGroup + "";
+          }
          const url = `@/api/group/${pathParams.idGroup}`
          return this.http.delete(url);
    }

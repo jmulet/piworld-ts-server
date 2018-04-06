@@ -1,149 +1,98 @@
-
-import { Component, OnInit } from '@angular/core'; 
-import { pwCore } from '../../shared/pw-core'; 
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { ConfirmationService } from 'primeng/api';
-import { FormBuilder, FormGroup, FormArray } from '@angular/forms'; 
-import { GroupsModel } from '../../../entities/GroupsModel';
-import { UnitModel } from '../../../entities/UnitModel';
-import { CourseModel } from '../../../entities/CourseModel';
+ 
 import { RestApi } from '../../../rest/RestApi';
+import { pwCore } from '../../shared/pw-core';
+import { OverlayPanel } from 'primeng/components/overlaypanel/overlaypanel';
+import { FamousEqnModel } from '../../../entities/FamousEqnModel';
+import { FamousQuoteModel } from '../../../entities/FamousQuoteModel';
+
 
 @Component({
     selector: 'app-famous-component',
     templateUrl: './famous.component.html',
     styleUrls: []
 })
-export class FamousComponent implements OnInit {
-    savingOrdering: boolean;
-    groupEdtForm: FormGroup;
-    groupEdt: GroupsModel;
-    unitEdtForm: FormGroup;
-    unitEdt: UnitModel;
-    groups: GroupsModel[];
-    units: UnitModel[];
-    courseEdtForm: FormGroup;
-    courseEdt: CourseModel;
-    courses: any[];
-    courseSelected: CourseModel;
+export class FamousComponent implements OnInit { 
+    opQuoteData: FamousQuoteModel;
+    opEqnData: FamousEqnModel;
+    inputDlgText: string;
+    inputDlgType: string;
+    inputDlgContent: string;
+    inputDlgHeader: string;
+    inputDlgShow: boolean;
+    famous: any = {}; // holds equation and quote
+    equationForm: FormGroup;
+    quoteForm: FormGroup;
+    equationEdt: FamousEqnModel;
+    quoteEdt: FamousQuoteModel;
+
     constructor(private rest: RestApi, private confirmationService: ConfirmationService,
         private fb: FormBuilder) {
     }
     ngOnInit() {
-        this.reloadCourses(null);
+        this.reload("equation");
+        this.reload("quote");
     }
-    reloadCourses(evt: any) {
-        this.rest.ApiCourse.list(pwCore.User.id, true).subscribe((data: any[]) => {
-            this.courses = data;
+    reload(type: string) {
+        this.rest.ApiFamous.list(type).subscribe((data: any[]) => {
+            this.famous[type] = data;
         });
+    } 
+    reloadEquations(evt) {
+        this.reload('equation');
     }
-    removeCourse(course: CourseModel) {
+    reloadQuotes(evt) {
+        this.reload('quote');   
+    }
+    remove(type: string, famous: FamousEqnModel | FamousQuoteModel) {
         this.confirmationService.confirm({
-            message: 'Are you sure that you want to delete course ' + course.name + ' and all associated users and data?',
-            accept: () => {
-                // This is a risky operation and should ask password
-                this.rest.ApiCourse.delete(course.id).subscribe((data) =>  {
-                    this.courseSelected = null;
-                    this.reloadCourses(null);
+            message: 'Are you sure that you want to this '+ type + '?',
+            accept: () => { 
+                this.rest.ApiFamous.delete(type, famous.id).subscribe((data) =>  {                    
+                    this.reload(type);
                 });
             }
         });
     }
-    editCourse(course?: CourseModel) {
-        this.courseEdt = new CourseModel().setObj(course);
-        if (!this.courseEdt.id) {
-            this.courseEdt.idUserCreator = pwCore.User.id;
+    editEquation(famous?: FamousEqnModel) {
+        this.equationEdt = new FamousEqnModel().setObj(famous);
+        if (!this.equationEdt.id) {          
+            this.equationEdt.idUserCreator = pwCore.User.id;
         }
-        this.courseEdtForm = this.courseEdt.toForm(this.fb);
+        this.equationForm = this.equationEdt.toForm(this.fb);
     }
-    createCourse() {
-        this.editCourse();
-    }
-    reloadGroups() {
-        this.rest.ApiGroups.list(this.courseSelected.id).subscribe((data: GroupsModel[]) => this.groups = data);
-    }
-    reloadUnits() {
-        this.rest.ApiUnits.listUnitsOnly(this.courseSelected.id).subscribe((data: UnitModel[]) => this.units = data);
-    }
-    onRowSelected(ev: any) {
-        this.reloadUnits();
-        this.reloadGroups();
-    }
-    createUnit() {
-        this.editUnit();
-    }
-    createGroup() {
-        this.editGroup();
-    }
-    removeUnit(unit: UnitModel) {
-        this.confirmationService.confirm({
-            message: 'Are you sure that you want to delete unit ' + unit.unit + ' and all associated users and data?',
-            accept: () => {
-                this.rest.ApiUnits.delete(unit.id).subscribe((data) =>  {
-                    this.reloadUnits();
-                });
-            }
-        });
-    }
-    removeGroup(group: GroupsModel) {
-        this.confirmationService.confirm({
-            message: 'Are you sure that you want to delete group ' + group.name + ' and all associated users and data?',
-            accept: () => {
-                this.rest.ApiGroups.delete(group.id).subscribe((data) =>  {
-                    this.reloadGroups();
-                });
-            }
-        });
-    }
-    editUnit(unit?: UnitModel) {
-        this.unitEdt = new UnitModel().setObj(unit);
-        if (!this.unitEdt.id) {
-            this.unitEdt.idCourse = this.courseSelected.id;
-            this.unitEdt.order = this.units.length + 1;
+    editQuote(famous?: FamousQuoteModel) {
+        this.quoteEdt = new FamousQuoteModel().setObj(famous);
+        if (!this.quoteEdt.id) {          
+            this.quoteEdt.idUserCreator = pwCore.User.id;
         }
-        this.unitEdtForm = this.unitEdt.toForm(this.fb);
+        this.quoteForm = this.quoteEdt.toForm(this.fb);
     }
-    editGroup(group?: GroupsModel) {
-        this.groupEdt = new GroupsModel().setObj(group);
-        if (!this.groupEdt.id) {
-            this.groupEdt.idUserCreator = this.courseSelected.idUserCreator;
-            this.groupEdt.idCourse = this.courseSelected.id;
-            this.groupEdt.gopts = {
-                useInPda: false
-            };
+    createEquation() {
+        this.editEquation();
+    }   
+    createQuote() {
+        this.editQuote();
+    }    
+    massiveImport(type: string) {       
+        this.inputDlgHeader = "Massive import " + type;
+        if (type === "equation") {
+            this.inputDlgContent = "Use this format:<br/> [eqn] E=mc^2 <br/>[title] Einstein equation <br/>[url] https://www.google.es<br/>[eqn] ...";
+        } else {
+            this.inputDlgContent = "Use this format:<br/> [quote] To be or not to be. That's the question <br/>[author] William Shakespeare <br/>[url] https://www.google.es<br/>[quote] ...";;
         }
-        const groupEdtForm = this.groupEdt.toForm(this.fb);
-        groupEdtForm["_enrolls"] = this.groupEdt["_enrolls"];
-        this.groupEdtForm = groupEdtForm;
+        this.inputDlgText = "";
+        this.inputDlgType = type
+        this.inputDlgShow = true; 
     }
-    private move(array: UnitModel[], index: number, offset: number) {
-        const newIndex = index + offset
-        if (newIndex > -1 && newIndex < array.length) {
-            // Remove the element from the array
-            const removedElement = array.splice(index, 1)[0];
-            // At "newIndex", remove 0 elements, insert the removed element
-            array.splice(newIndex, 0, removedElement)
-
-            //Set order property
-            array.forEach((e, i) => e.order = i+1);
-            
-            //Save into database
-            const partials = this.units.map((u)=> { return {id: u.id, order: u.order} });
-            this.savingOrdering = true;
-            this.rest.ApiUnits.saveOrdering(partials).subscribe( (data)=> this.savingOrdering = false);
+    inputDlgClosed = function(evt) {
+        console.log(evt, this.inputDlgText);
+        if (evt.accept) {
+            this.rest.ApiFamous.massiveImport(this.inputDlgType, {text: evt.input}).subscribe((data) => {
+                this.reload(this.inputDlgType);
+            });
         }
-    }
-    moveUp(index: number) {
-        this.move(this.units, index, -1);
-    }
-    moveDown(index: number) {
-        this.move(this.units, index, 1);
-    }
-    onRowReorder(ev) {
-        //ev.dragIndex ev.dropIndex
-        //Save into database
-        this.units.forEach((e, i) => e.order = i+1);
-        const partials = this.units.map((u)=> { return {id: u.id, order: u.order} });
-        this.savingOrdering = true;
-        this.rest.ApiUnits.saveOrdering(partials).subscribe( (data)=> this.savingOrdering = false);
     }
 }

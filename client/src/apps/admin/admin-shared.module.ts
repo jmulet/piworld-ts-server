@@ -23,6 +23,7 @@ import { CommonModule } from '@angular/common';
 
 import {DragDropModule} from 'primeng/dragdrop';
 import { UnitVisibilityPipe } from '../shared/pipes/unit-visibility.pipe';
+import { KatexDirective } from '../shared/directives/katex.directive';
 
 @NgModule({
   imports: [
@@ -44,7 +45,8 @@ import { UnitVisibilityPipe } from '../shared/pipes/unit-visibility.pipe';
   ],
   declarations: [
     RolesPipe,
-    UnitVisibilityPipe    
+    UnitVisibilityPipe,
+    KatexDirective    
   ],
   providers: [  
     TranslateService,
@@ -70,7 +72,8 @@ import { UnitVisibilityPipe } from '../shared/pipes/unit-visibility.pipe';
     StatusPickerModule,
     AvatarPickerModule,
     RolesPipe,
-    UnitVisibilityPipe
+    UnitVisibilityPipe,
+    KatexDirective
   ]
 })
 export class AdminSharedModule {}

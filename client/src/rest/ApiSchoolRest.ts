@@ -13,10 +13,12 @@ export class ApiSchoolRest {
     * @apiPermission Accepted roles 0, 50
    */
    list(idSchool?: number) {
+         const queryParamsObj: any = {};
+          if (idSchool!=null) {
+               queryParamsObj.idSchool = idSchool + "";
+          }
          const queryParams = new HttpParams({
-         fromObject: {
-            idSchool: idSchool + "",
-           }
+         fromObject: queryParamsObj
          });
          const url = `@/api/school/list`
          return this.http.get(url, {params: queryParams});
@@ -38,9 +40,10 @@ export class ApiSchoolRest {
     * @apiPermission Accepted roles 0, 50
    */
    update(id: number, entity: SchoolModel) {
-         const pathParams = {
-            id: id,
-         };
+         const pathParams: any = {};
+          if (id!=null) {
+               pathParams.id = id + "";
+          }
          const url = `@/api/school/${pathParams.id}`
          return this.http.put(url, entity);
    }
@@ -51,9 +54,10 @@ export class ApiSchoolRest {
     * @apiPermission Accepted roles 0
    */
    delete(idSchool: number) {
-         const pathParams = {
-            idSchool: idSchool,
-         };
+         const pathParams: any = {};
+          if (idSchool!=null) {
+               pathParams.idSchool = idSchool + "";
+          }
          const url = `@/api/school/${pathParams.idSchool}`
          return this.http.delete(url);
    }

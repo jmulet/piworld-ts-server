@@ -1,3 +1,10 @@
- 
-<h1>Admin</h1>
+
+<p-toolbar>
+    <div class="ui-toolbar-group-left">
+            <h5>
+                    <span class="fa fa-cogs"></span>
+                    <b><a [routerLink]="['/']" href="">Admin</a>  {{currentModule}}</b>                    
+            </h5> 
+    </div>
+</p-toolbar>
 <router-outlet></router-outlet>

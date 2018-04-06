@@ -7,6 +7,7 @@ module.exports = merge(commonConfig, {
     entry: {
         'admin/admin': ["./src/apps/admin/admin.ts", "./src/apps/admin/admin.css"],         
         'classroom/classroom': ["./src/apps/classroom/classroom.ts", "./src/apps/classroom/classroom.css"],
+        'filemanager/filemanager': ["./src/apps/filemanager/filemanager.ts", "./src/apps/filemanager/filemanager.css"],
     },
     module: {
         rules: [

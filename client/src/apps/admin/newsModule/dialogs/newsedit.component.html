@@ -1,0 +1,56 @@
+<p-dialog header="Edit News" [(visible)]="visible" [modal]="true" [responsive]="true" [width]="650" [minWidth]="500">
+
+    <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)">
+        <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    Title*:
+                </div>
+                <div class="ui-grid-col-6">
+                    <input pInputText type="text" formControlName="title" placeholder="Required" />
+                </div>
+                <div class="ui-grid-col-4">
+                    <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!formGroup.controls['title'].valid&&formGroup.controls['title'].dirty">
+                        <i class="fa fa-close"></i>
+                        Title is required
+                    </div>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    Html:
+                </div>
+                <div class="ui-grid-col-10">
+                    <textarea style="width:100%" rows=8 [(ngModel)]="formGroup.value.html" [ngModelOptions]="{standalone: true}">
+                    </textarea>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    Expires:
+                </div>
+                <div class="ui-grid-col-6">
+                    <p-calendar appendTo="body" formControlName="expires" dateFormat="dd/mm/yy" [locale]="locale"></p-calendar>         
+                </div>
+                <div class="ui-grid-col-4">                    
+                </div>
+            </div>
+            <div class="ui-message ui-messages-error ui-corner-all" role="alert" *ngIf="serverValidationErrors">
+                {{serverValidationErrors}}
+            </div>
+
+        </div>
+        <p-footer>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-12">
+                    <button type="submit" [disabled]="!formGroup.valid" class="btn btn-sm btn-success">
+                        <span class="fa fa-check">OK</span>
+                    </button>
+                    <button class="pull-left btn btn-sm btn-danger" type="button" (click)="close()">
+                        <span class="fa fa-close">Cancel</span>
+                    </button>
+                </div>
+            </div>
+        </p-footer>
+    </form>
+</p-dialog>

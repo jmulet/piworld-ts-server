@@ -1,5 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { FamousEqnModel } from '../entities/FamousEqnModel';
+import { FamousQuoteModel } from '../entities/FamousQuoteModel';
+import { NewsModel } from '../entities/NewsModel';
 import { SchoolModel } from '../entities/SchoolModel';
 import { HolidayModel } from '../entities/HolidayModel';
 import { TermsModel } from '../entities/TermsModel';
@@ -7,6 +10,7 @@ import { UserModel } from '../entities/UserModel';
 import { ActivityModel } from '../entities/ActivityModel';
 import { BadgesModel } from '../entities/BadgesModel';
 import { ChallengesModel } from '../entities/ChallengesModel';
+import { ChallengesQuizzModel } from '../entities/ChallengesQuizzModel';
 import { CourseModel } from '../entities/CourseModel';
 import { GroupsModel } from '../entities/GroupsModel';
 import { SectionModel } from '../entities/SectionModel';
@@ -16,6 +20,8 @@ import { UnitModel } from '../entities/UnitModel';
 export class RestApi { 
    Desktop: DesktopRest;
    Login: LoginRest;
+   ApiFamous: ApiFamousRest;
+   ApiNews: ApiNewsRest;
    ApiSchool: ApiSchoolRest;
    ApiSchoolHoliday: ApiSchoolHolidayRest;
    ApiSchoolTerm: ApiSchoolTermRest;
@@ -31,9 +37,13 @@ export class RestApi {
    ApiGroups: ApiGroupsRest;
    ApiSection: ApiSectionRest;
    ApiUnits: ApiUnitsRest;
+   Filemanager: FilemanagerRest;
+   ApiFilemanager: ApiFilemanagerRest;
    constructor(private http: HttpClient) {
         this.Desktop = new DesktopRest(http);
         this.Login = new LoginRest(http);
+        this.ApiFamous = new ApiFamousRest(http);
+        this.ApiNews = new ApiNewsRest(http);
         this.ApiSchool = new ApiSchoolRest(http);
         this.ApiSchoolHoliday = new ApiSchoolHolidayRest(http);
         this.ApiSchoolTerm = new ApiSchoolTermRest(http);
@@ -49,6 +59,8 @@ export class RestApi {
         this.ApiGroups = new ApiGroupsRest(http);
         this.ApiSection = new ApiSectionRest(http);
         this.ApiUnits = new ApiUnitsRest(http);
+        this.Filemanager = new FilemanagerRest(http);
+        this.ApiFilemanager = new ApiFilemanagerRest(http);
    }
 }
 class DesktopRest { 
@@ -82,10 +94,12 @@ class LoginRest {
     * @apiGroup LoginController
    */
    loginPage(logout?: Object) {
+         const queryParamsObj: any = {};
+          if (logout!=null) {
+               queryParamsObj.logout = logout + "";
+          }
          const queryParams = new HttpParams({
-         fromObject: {
-            logout: logout + "",
-           }
+         fromObject: queryParamsObj
          });
          const url = `@/login.htm`
          return this.http.get(url, {params: queryParams});
@@ -114,10 +128,12 @@ class LoginRest {
     * @apiGroup LoginController
    */
    changePwdPage(error?: number) {
+         const queryParamsObj: any = {};
+          if (error!=null) {
+               queryParamsObj.error = error + "";
+          }
          const queryParams = new HttpParams({
-         fromObject: {
-            error: error + "",
-           }
+         fromObject: queryParamsObj
          });
          const url = `@/changepwd.htm`
          return this.http.get(url, {params: queryParams});
@@ -137,14 +153,175 @@ class LoginRest {
     * @apiGroup LoginController
    */
    getTranslations(file: string, lang?: string) {
+         const queryParamsObj: any = {};
+          if (file!=null) {
+               queryParamsObj.file = file + "";
+          }
+          if (lang!=null) {
+               queryParamsObj.lang = lang + "";
+          }
          const queryParams = new HttpParams({
-         fromObject: {
-            file: file + "",
-            lang: lang + "",
-           }
+         fromObject: queryParamsObj
          });
          const url = `@/translate`
          return this.http.get(url, {params: queryParams});
+   }
+}
+class ApiFamousRest { 
+   constructor(private http: HttpClient) {
+   }
+   /**
+    * @api {get} @/api/famous/:type/list
+    * @apiName list
+    * @apiGroup ApiFamousController
+   */
+   list(type: string) {
+         const pathParams: any = {};
+          if (type!=null) {
+               pathParams.type = type + "";
+          }
+         const url = `@/api/famous/${pathParams.type}/list`
+         return this.http.get(url);
+   }
+   /**
+    * @api {get} @/api/famous/:type/get/:id
+    * @apiName get
+    * @apiGroup ApiFamousController
+   */
+   get(type: string, id: number) {
+         const pathParams: any = {};
+          if (type!=null) {
+               pathParams.type = type + "";
+          }
+          if (id!=null) {
+               pathParams.id = id + "";
+          }
+         const url = `@/api/famous/${pathParams.type}/get/${pathParams.id}`
+         return this.http.get(url);
+   }
+   /**
+    * @api {post} @/api/famous/equation
+    * @apiName saveEquation
+    * @apiGroup ApiFamousController
+   */
+   saveEquation(entity: FamousEqnModel) {
+         const url = `@/api/famous/equation`
+         return this.http.post(url, entity);
+   }
+   /**
+    * @api {post} @/api/famous/quote
+    * @apiName saveQuote
+    * @apiGroup ApiFamousController
+   */
+   saveQuote(entity: FamousQuoteModel) {
+         const url = `@/api/famous/quote`
+         return this.http.post(url, entity);
+   }
+   /**
+    * @api {post} @/api/famous/:type/import
+    * @apiName massiveImport
+    * @apiGroup ApiFamousController
+   */
+   massiveImport(type: string, entity: any) {
+         const pathParams: any = {};
+          if (type!=null) {
+               pathParams.type = type + "";
+          }
+         const url = `@/api/famous/${pathParams.type}/import`
+         return this.http.post(url, entity);
+   }
+   /**
+    * @api {delete} @/api/famous/:type/:id
+    * @apiName delete
+    * @apiGroup ApiFamousController
+   */
+   delete(type: string, id: number) {
+         const pathParams: any = {};
+          if (type!=null) {
+               pathParams.type = type + "";
+          }
+          if (id!=null) {
+               pathParams.id = id + "";
+          }
+         const url = `@/api/famous/${pathParams.type}/${pathParams.id}`
+         return this.http.delete(url);
+   }
+}
+class ApiNewsRest { 
+   constructor(private http: HttpClient) {
+   }
+   /**
+    * @api {get} @/api/news/list
+    * @apiName list
+    * @apiGroup ApiNewsController
+   */
+   list(limit?: number) {
+         const queryParamsObj: any = {};
+          if (limit!=null) {
+               queryParamsObj.limit = limit + "";
+          }
+         const queryParams = new HttpParams({
+         fromObject: queryParamsObj
+         });
+         const url = `@/api/news/list`
+         return this.http.get(url, {params: queryParams});
+   }
+   /**
+    * @api {get} @/api/news/:idNews
+    * @apiName get
+    * @apiGroup ApiNewsController
+   */
+   get(idNews: number) {
+         const pathParams: any = {};
+          if (idNews!=null) {
+               pathParams.idNews = idNews + "";
+          }
+         const url = `@/api/news/${pathParams.idNews}`
+         return this.http.get(url);
+   }
+   /**
+    * @api {post} @/api/news/
+    * @apiName save
+    * @apiGroup ApiNewsController
+   */
+   save(entity?: NewsModel) {
+         const url = `@/api/news/`
+         return this.http.post(url, entity);
+   }
+   /**
+    * @api {put} @/api/news/:idNews
+    * @apiName update
+    * @apiGroup ApiNewsController
+   */
+   update(idNews: number, entity?: NewsModel) {
+         const pathParams: any = {};
+          if (idNews!=null) {
+               pathParams.idNews = idNews + "";
+          }
+         const url = `@/api/news/${pathParams.idNews}`
+         return this.http.put(url, entity);
+   }
+   /**
+    * @api {delete} @/api/news/:idNews
+    * @apiName delete
+    * @apiGroup ApiNewsController
+   */
+   delete(idNews: number) {
+         const pathParams: any = {};
+          if (idNews!=null) {
+               pathParams.idNews = idNews + "";
+          }
+         const url = `@/api/news/${pathParams.idNews}`
+         return this.http.delete(url);
+   }
+   /**
+    * @api {post} @/api/news/ordering
+    * @apiName saveOrdering
+    * @apiGroup ApiNewsController
+   */
+   saveOrdering(entity?: any) {
+         const url = `@/api/news/ordering`
+         return this.http.post(url, entity);
    }
 }
 class ApiSchoolRest { 
@@ -157,10 +334,12 @@ class ApiSchoolRest {
     * @apiPermission Accepted roles 0, 50
    */
    list(idSchool?: number) {
+         const queryParamsObj: any = {};
+          if (idSchool!=null) {
+               queryParamsObj.idSchool = idSchool + "";
+          }
          const queryParams = new HttpParams({
-         fromObject: {
-            idSchool: idSchool + "",
-           }
+         fromObject: queryParamsObj
          });
          const url = `@/api/school/list`
          return this.http.get(url, {params: queryParams});
@@ -182,9 +361,10 @@ class ApiSchoolRest {
     * @apiPermission Accepted roles 0, 50
    */
    update(id: number, entity: SchoolModel) {
-         const pathParams = {
-            id: id,
-         };
+         const pathParams: any = {};
+          if (id!=null) {
+               pathParams.id = id + "";
+          }
          const url = `@/api/school/${pathParams.id}`
          return this.http.put(url, entity);
    }
@@ -195,9 +375,10 @@ class ApiSchoolRest {
     * @apiPermission Accepted roles 0
    */
    delete(idSchool: number) {
-         const pathParams = {
-            idSchool: idSchool,
-         };
+         const pathParams: any = {};
+          if (idSchool!=null) {
+               pathParams.idSchool = idSchool + "";
+          }
          const url = `@/api/school/${pathParams.idSchool}`
          return this.http.delete(url);
    }
@@ -212,9 +393,10 @@ class ApiSchoolHolidayRest {
     * @apiPermission Accepted roles 0
    */
    get(idHoliday: number) {
-         const pathParams = {
-            idHoliday: idHoliday,
-         };
+         const pathParams: any = {};
+          if (idHoliday!=null) {
+               pathParams.idHoliday = idHoliday + "";
+          }
          const url = `@/api/school/holiday/${pathParams.idHoliday}`
          return this.http.get(url);
    }
@@ -225,12 +407,18 @@ class ApiSchoolHolidayRest {
     * @apiPermission Accepted roles 0, 50
    */
    list(year: number, idSchool?: number, schoolName?: string) {
+         const queryParamsObj: any = {};
+          if (year!=null) {
+               queryParamsObj.year = year + "";
+          }
+          if (idSchool!=null) {
+               queryParamsObj.idSchool = idSchool + "";
+          }
+          if (schoolName!=null) {
+               queryParamsObj.schoolName = schoolName + "";
+          }
          const queryParams = new HttpParams({
-         fromObject: {
-            year: year + "",
-            idSchool: idSchool + "",
-            schoolName: schoolName + "",
-           }
+         fromObject: queryParamsObj
          });
          const url = `@/api/school/holiday/list`
          return this.http.get(url, {params: queryParams});
@@ -251,9 +439,10 @@ class ApiSchoolHolidayRest {
     * @apiPermission Accepted roles 0, 50
    */
    update(id: number, entity: HolidayModel) {
-         const pathParams = {
-            id: id,
-         };
+         const pathParams: any = {};
+          if (id!=null) {
+               pathParams.id = id + "";
+          }
          const url = `@/api/school/holiday/${pathParams.id}`
          return this.http.put(url, entity);
    }
@@ -264,9 +453,10 @@ class ApiSchoolHolidayRest {
     * @apiPermission Accepted roles 0
    */
    delete(idHoliday: number) {
-         const pathParams = {
-            idHoliday: idHoliday,
-         };
+         const pathParams: any = {};
+          if (idHoliday!=null) {
+               pathParams.idHoliday = idHoliday + "";
+          }
          const url = `@/api/school/holiday/${pathParams.idHoliday}`
          return this.http.delete(url);
    }
@@ -281,10 +471,12 @@ class ApiSchoolTermRest {
     * @apiPermission Accepted roles 0
    */
    get(idTerm?: number) {
+         const queryParamsObj: any = {};
+          if (idTerm!=null) {
+               queryParamsObj.idTerm = idTerm + "";
+          }
          const queryParams = new HttpParams({
-         fromObject: {
-            idTerm: idTerm + "",
-           }
+         fromObject: queryParamsObj
          });
          const url = `@/api/school/term/`
          return this.http.get(url, {params: queryParams});
@@ -296,12 +488,18 @@ class ApiSchoolTermRest {
     * @apiPermission Accepted roles 0, 50
    */
    list(year: number, idSchool?: number, schoolName?: string) {
+         const queryParamsObj: any = {};
+          if (year!=null) {
+               queryParamsObj.year = year + "";
+          }
+          if (idSchool!=null) {
+               queryParamsObj.idSchool = idSchool + "";
+          }
+          if (schoolName!=null) {
+               queryParamsObj.schoolName = schoolName + "";
+          }
          const queryParams = new HttpParams({
-         fromObject: {
-            year: year + "",
-            idSchool: idSchool + "",
-            schoolName: schoolName + "",
-           }
+         fromObject: queryParamsObj
          });
          const url = `@/api/school/term/list`
          return this.http.get(url, {params: queryParams});
@@ -323,9 +521,10 @@ class ApiSchoolTermRest {
     * @apiPermission Accepted roles 0, 50
    */
    update(id: number, entity: TermsModel) {
-         const pathParams = {
-            id: id,
-         };
+         const pathParams: any = {};
+          if (id!=null) {
+               pathParams.id = id + "";
+          }
          const url = `@/api/school/term/${pathParams.id}`
          return this.http.put(url, entity);
    }
@@ -336,9 +535,10 @@ class ApiSchoolTermRest {
     * @apiPermission Accepted roles 0
    */
    delete(idTerm: number) {
-         const pathParams = {
-            idTerm: idTerm,
-         };
+         const pathParams: any = {};
+          if (idTerm!=null) {
+               pathParams.idTerm = idTerm + "";
+          }
          const url = `@/api/school/term/${pathParams.idTerm}`
          return this.http.delete(url);
    }
@@ -384,12 +584,18 @@ class ApiUsersRest {
     * @apiPermission Accepted roles 0, 100, 50, 150
    */
    list(idSchool?: number, filter?: string, offspring?: number) {
+         const queryParamsObj: any = {};
+          if (idSchool!=null) {
+               queryParamsObj.idSchool = idSchool + "";
+          }
+          if (filter!=null) {
+               queryParamsObj.filter = filter + "";
+          }
+          if (offspring!=null) {
+               queryParamsObj.offspring = offspring + "";
+          }
          const queryParams = new HttpParams({
-         fromObject: {
-            idSchool: idSchool + "",
-            filter: filter + "",
-            offspring: offspring + "",
-           }
+         fromObject: queryParamsObj
          });
          const url = `@/api/user/list`
          return this.http.get(url, {params: queryParams});
@@ -421,9 +627,10 @@ class ApiUsersRest {
     * @apiPermission Accepted roles 0, 50
    */
    delete(idUser: number) {
-         const pathParams = {
-            idUser: idUser,
-         };
+         const pathParams: any = {};
+          if (idUser!=null) {
+               pathParams.idUser = idUser + "";
+          }
          const url = `@/api/user/${pathParams.idUser}`
          return this.http.delete(url);
    }
@@ -476,12 +683,18 @@ class ApiActivityRest {
     * @apiGroup ApiActivityController
    */
    search(text?: string, limit?: number, offset?: number) {
+         const queryParamsObj: any = {};
+          if (text!=null) {
+               queryParamsObj.text = text + "";
+          }
+          if (limit!=null) {
+               queryParamsObj.limit = limit + "";
+          }
+          if (offset!=null) {
+               queryParamsObj.offset = offset + "";
+          }
          const queryParams = new HttpParams({
-         fromObject: {
-            text: text + "",
-            limit: limit + "",
-            offset: offset + "",
-           }
+         fromObject: queryParamsObj
          });
          const url = `@/api/activity/search`
          return this.http.get(url, {params: queryParams});
@@ -503,9 +716,10 @@ class ApiActivityRest {
     * @apiPermission Accepted roles 0, 100, 50, 150
    */
    update(id: number, entity: ActivityModel) {
-         const pathParams = {
-            id: id,
-         };
+         const pathParams: any = {};
+          if (id!=null) {
+               pathParams.id = id + "";
+          }
          const url = `@/api/activity/${pathParams.id}`
          return this.http.put(url, entity);
    }
@@ -516,9 +730,10 @@ class ApiActivityRest {
     * @apiPermission Accepted roles 0, 100, 50, 150
    */
    delete(idActivity: number) {
-         const pathParams = {
-            idActivity: idActivity,
-         };
+         const pathParams: any = {};
+          if (idActivity!=null) {
+               pathParams.idActivity = idActivity + "";
+          }
          const url = `@/api/activity/${pathParams.idActivity}`
          return this.http.delete(url);
    }
@@ -532,15 +747,27 @@ class ApiBadgesRest {
     * @apiGroup ApiBadgesController
    */
    list(idGroup?: number, idUser?: number, fromType?: number, toType?: number, fromDate?: Object, toDate?: Object) {
+         const queryParamsObj: any = {};
+          if (idGroup!=null) {
+               queryParamsObj.idGroup = idGroup + "";
+          }
+          if (idUser!=null) {
+               queryParamsObj.idUser = idUser + "";
+          }
+          if (fromType!=null) {
+               queryParamsObj.fromType = fromType + "";
+          }
+          if (toType!=null) {
+               queryParamsObj.toType = toType + "";
+          }
+          if (fromDate!=null) {
+               queryParamsObj.fromDate = fromDate + "";
+          }
+          if (toDate!=null) {
+               queryParamsObj.toDate = toDate + "";
+          }
          const queryParams = new HttpParams({
-         fromObject: {
-            idGroup: idGroup + "",
-            idUser: idUser + "",
-            fromType: fromType + "",
-            toType: toType + "",
-            fromDate: fromDate + "",
-            toDate: toDate + "",
-           }
+         fromObject: queryParamsObj
          });
          const url = `@/api/badges/list`
          return this.http.get(url, {params: queryParams});
@@ -562,9 +789,10 @@ class ApiBadgesRest {
     * @apiPermission Accepted roles 0, 100, 50, 150
    */
    update(id: number, entity: BadgesModel) {
-         const pathParams = {
-            id: id,
-         };
+         const pathParams: any = {};
+          if (id!=null) {
+               pathParams.id = id + "";
+          }
          const url = `@/api/badges/${pathParams.id}`
          return this.http.put(url, entity);
    }
@@ -575,9 +803,10 @@ class ApiBadgesRest {
     * @apiPermission Accepted roles 0, 100, 50, 150
    */
    delete(idBadge: number) {
-         const pathParams = {
-            idBadge: idBadge,
-         };
+         const pathParams: any = {};
+          if (idBadge!=null) {
+               pathParams.idBadge = idBadge + "";
+          }
          const url = `@/api/badges/${pathParams.idBadge}`
          return this.http.delete(url);
    }
@@ -591,12 +820,18 @@ class ApiChallengesRest {
     * @apiGroup ApiChallengesController
    */
    list(level?: string, day?: Object, idUser?: number) {
+         const queryParamsObj: any = {};
+          if (level!=null) {
+               queryParamsObj.level = level + "";
+          }
+          if (day!=null) {
+               queryParamsObj.day = day + "";
+          }
+          if (idUser!=null) {
+               queryParamsObj.idUser = idUser + "";
+          }
          const queryParams = new HttpParams({
-         fromObject: {
-            level: level + "",
-            day: day + "",
-            idUser: idUser + "",
-           }
+         fromObject: queryParamsObj
          });
          const url = `@/api/challenges/list`
          return this.http.get(url, {params: queryParams});
@@ -612,15 +847,26 @@ class ApiChallengesRest {
          return this.http.post(url, entity);
    }
    /**
+    * @api {post} @/api/challenges/quizz
+    * @apiName saveQuizz
+    * @apiGroup ApiChallengesController
+    * @apiPermission Accepted roles 0, 100, 50, 150
+   */
+   saveQuizz(entity: ChallengesQuizzModel) {
+         const url = `@/api/challenges/quizz`
+         return this.http.post(url, entity);
+   }
+   /**
     * @api {put} @/api/challenges/:id
     * @apiName update
     * @apiGroup ApiChallengesController
     * @apiPermission Accepted roles 0, 100, 50, 150
    */
    update(id: number, entity: ChallengesModel) {
-         const pathParams = {
-            id: id,
-         };
+         const pathParams: any = {};
+          if (id!=null) {
+               pathParams.id = id + "";
+          }
          const url = `@/api/challenges/${pathParams.id}`
          return this.http.put(url, entity);
    }
@@ -631,9 +877,10 @@ class ApiChallengesRest {
     * @apiPermission Accepted roles 0, 100, 50, 150
    */
    delete(idChallenge: number) {
-         const pathParams = {
-            idChallenge: idChallenge,
-         };
+         const pathParams: any = {};
+          if (idChallenge!=null) {
+               pathParams.idChallenge = idChallenge + "";
+          }
          const url = `@/api/challenges/${pathParams.idChallenge}`
          return this.http.delete(url);
    }
@@ -647,9 +894,10 @@ class ApiCourseRest {
     * @apiGroup ApiCourseController
    */
    get(id: number) {
-         const pathParams = {
-            id: id,
-         };
+         const pathParams: any = {};
+          if (id!=null) {
+               pathParams.id = id + "";
+          }
          const url = `@/api/course/${pathParams.id}`
          return this.http.get(url);
    }
@@ -659,14 +907,17 @@ class ApiCourseRest {
     * @apiGroup ApiCourseController
    */
    list(idUser: number, created?: boolean) {
+         const queryParamsObj: any = {};
+          if (created!=null) {
+               queryParamsObj.created = created + "";
+          }
          const queryParams = new HttpParams({
-         fromObject: {
-            created: created + "",
-           }
+         fromObject: queryParamsObj
          });
-         const pathParams = {
-            idUser: idUser,
-         };
+         const pathParams: any = {};
+          if (idUser!=null) {
+               pathParams.idUser = idUser + "";
+          }
          const url = `@/api/course/list/${pathParams.idUser}`
          return this.http.get(url, {params: queryParams});
    }
@@ -687,9 +938,10 @@ class ApiCourseRest {
     * @apiPermission Accepted roles 0, 100, 50, 150
    */
    update(id: number, entity: CourseModel) {
-         const pathParams = {
-            id: id,
-         };
+         const pathParams: any = {};
+          if (id!=null) {
+               pathParams.id = id + "";
+          }
          const url = `@/api/course/${pathParams.id}`
          return this.http.put(url, entity);
    }
@@ -700,9 +952,10 @@ class ApiCourseRest {
     * @apiPermission Accepted roles 0, 100, 50, 150
    */
    delete(id: number) {
-         const pathParams = {
-            id: id,
-         };
+         const pathParams: any = {};
+          if (id!=null) {
+               pathParams.id = id + "";
+          }
          const url = `@/api/course/${pathParams.id}`
          return this.http.delete(url);
    }
@@ -716,11 +969,15 @@ class ApiGroupsRest {
     * @apiGroup ApiGroupsController
    */
    list(idCourse: number, idCreator?: number) {
+         const queryParamsObj: any = {};
+          if (idCourse!=null) {
+               queryParamsObj.idCourse = idCourse + "";
+          }
+          if (idCreator!=null) {
+               queryParamsObj.idCreator = idCreator + "";
+          }
          const queryParams = new HttpParams({
-         fromObject: {
-            idCourse: idCourse + "",
-            idCreator: idCreator + "",
-           }
+         fromObject: queryParamsObj
          });
          const url = `@/api/group/list`
          return this.http.get(url, {params: queryParams});
@@ -731,9 +988,10 @@ class ApiGroupsRest {
     * @apiGroup ApiGroupsController
    */
    get(idGroup: number) {
-         const pathParams = {
-            idGroup: idGroup,
-         };
+         const pathParams: any = {};
+          if (idGroup!=null) {
+               pathParams.idGroup = idGroup + "";
+          }
          const url = `@/api/group/${pathParams.idGroup}`
          return this.http.get(url);
    }
@@ -754,9 +1012,10 @@ class ApiGroupsRest {
     * @apiPermission Accepted roles 0, 100, 50, 150
    */
    update(id: number, entity: GroupsModel) {
-         const pathParams = {
-            id: id,
-         };
+         const pathParams: any = {};
+          if (id!=null) {
+               pathParams.id = id + "";
+          }
          const url = `@/api/group/${pathParams.id}`
          return this.http.put(url, entity);
    }
@@ -767,9 +1026,10 @@ class ApiGroupsRest {
     * @apiPermission Accepted roles 0, 100, 50, 150
    */
    delete(idGroup: number) {
-         const pathParams = {
-            idGroup: idGroup,
-         };
+         const pathParams: any = {};
+          if (idGroup!=null) {
+               pathParams.idGroup = idGroup + "";
+          }
          const url = `@/api/group/${pathParams.idGroup}`
          return this.http.delete(url);
    }
@@ -794,9 +1054,10 @@ class ApiSectionRest {
     * @apiPermission Accepted roles 0, 100, 50, 150
    */
    update(id: Object, entity: SectionModel) {
-         const pathParams = {
-            id: id,
-         };
+         const pathParams: any = {};
+          if (id!=null) {
+               pathParams.id = id + "";
+          }
          const url = `@/api/section/${pathParams.id}`
          return this.http.put(url, entity);
    }
@@ -807,9 +1068,10 @@ class ApiSectionRest {
     * @apiPermission Accepted roles 0, 100, 50, 150
    */
    delete(idSection: number) {
-         const pathParams = {
-            idSection: idSection,
-         };
+         const pathParams: any = {};
+          if (idSection!=null) {
+               pathParams.idSection = idSection + "";
+          }
          const url = `@/api/section/${pathParams.idSection}`
          return this.http.delete(url);
    }
@@ -823,14 +1085,17 @@ class ApiUnitsRest {
     * @apiGroup ApiUnitsController
    */
    listAssigned(idCourse: number, idUser?: number) {
+         const queryParamsObj: any = {};
+          if (idUser!=null) {
+               queryParamsObj.idUser = idUser + "";
+          }
          const queryParams = new HttpParams({
-         fromObject: {
-            idUser: idUser + "",
-           }
+         fromObject: queryParamsObj
          });
-         const pathParams = {
-            idCourse: idCourse,
-         };
+         const pathParams: any = {};
+          if (idCourse!=null) {
+               pathParams.idCourse = idCourse + "";
+          }
          const url = `@/api/units/assigned/${pathParams.idCourse}`
          return this.http.get(url, {params: queryParams});
    }
@@ -841,9 +1106,10 @@ class ApiUnitsRest {
     * @apiPermission Accepted roles 0, 100, 50, 150
    */
    listCreated(idCourse: number) {
-         const pathParams = {
-            idCourse: idCourse,
-         };
+         const pathParams: any = {};
+          if (idCourse!=null) {
+               pathParams.idCourse = idCourse + "";
+          }
          const url = `@/api/units/created/${pathParams.idCourse}`
          return this.http.get(url);
    }
@@ -854,9 +1120,10 @@ class ApiUnitsRest {
     * @apiPermission Accepted roles 0, 100, 50, 150
    */
    listUnitsOnly(idCourse: number) {
-         const pathParams = {
-            idCourse: idCourse,
-         };
+         const pathParams: any = {};
+          if (idCourse!=null) {
+               pathParams.idCourse = idCourse + "";
+          }
          const url = `@/api/units/list/${pathParams.idCourse}`
          return this.http.get(url);
    }
@@ -887,9 +1154,10 @@ class ApiUnitsRest {
     * @apiPermission Accepted roles 0, 100, 50, 150
    */
    update(id: number, entity: UnitModel) {
-         const pathParams = {
-            id: id,
-         };
+         const pathParams: any = {};
+          if (id!=null) {
+               pathParams.id = id + "";
+          }
          const url = `@/api/units/${pathParams.id}`
          return this.http.put(url, entity);
    }
@@ -900,10 +1168,202 @@ class ApiUnitsRest {
     * @apiPermission Accepted roles 0, 100, 50, 150
    */
    delete(idUnit: number) {
-         const pathParams = {
-            idUnit: idUnit,
-         };
+         const pathParams: any = {};
+          if (idUnit!=null) {
+               pathParams.idUnit = idUnit + "";
+          }
          const url = `@/api/units/${pathParams.idUnit}`
          return this.http.delete(url);
+   }
+}
+class FilemanagerRest { 
+   constructor(private http: HttpClient) {
+   }
+   /**
+    * @api {get} @/filemanager.htm
+    * @apiName filemanagerPage
+    * @apiGroup FilemanagerController
+   */
+   filemanagerPage() {
+         const url = `@/filemanager.htm`
+         return this.http.get(url);
+   }
+}
+class ApiFilemanagerRest { 
+   constructor(private http: HttpClient) {
+   }
+   /**
+    * @api {get} @/api/filemgr/list
+    * @apiName listPath
+    * @apiGroup ApiFilemanagerController
+   */
+   listPath(path: string, recursive?: boolean, dotfiles?: boolean, exts?: string, hidefiles?: boolean) {
+         const queryParamsObj: any = {};
+          if (path!=null) {
+               queryParamsObj.path = path + "";
+          }
+          if (recursive!=null) {
+               queryParamsObj.recursive = recursive + "";
+          }
+          if (dotfiles!=null) {
+               queryParamsObj.dotfiles = dotfiles + "";
+          }
+          if (exts!=null) {
+               queryParamsObj.exts = exts + "";
+          }
+          if (hidefiles!=null) {
+               queryParamsObj.hidefiles = hidefiles + "";
+          }
+         const queryParams = new HttpParams({
+         fromObject: queryParamsObj
+         });
+         const url = `@/api/filemgr/list`
+         return this.http.get(url, {params: queryParams});
+   }
+   /**
+    * @api {get} @/api/filemgr/
+    * @apiName readFile
+    * @apiGroup ApiFilemanagerController
+   */
+   readFile(path: string) {
+         const queryParamsObj: any = {};
+          if (path!=null) {
+               queryParamsObj.path = path + "";
+          }
+         const queryParams = new HttpParams({
+         fromObject: queryParamsObj
+         });
+         const url = `@/api/filemgr/`
+         return this.http.get(url, {params: queryParams});
+   }
+   /**
+    * @api {get} @/api/filemgr/download
+    * @apiName download
+    * @apiGroup ApiFilemanagerController
+   */
+   download(path: string, inline?: boolean) {
+         const queryParamsObj: any = {};
+          if (path!=null) {
+               queryParamsObj.path = path + "";
+          }
+          if (inline!=null) {
+               queryParamsObj.inline = inline + "";
+          }
+         const queryParams = new HttpParams({
+         fromObject: queryParamsObj
+         });
+         const url = `@/api/filemgr/download`
+         return this.http.get(url, {params: queryParams});
+   }
+   /**
+    * @api {get} @/api/filemgr/acl
+    * @apiName getACL
+    * @apiGroup ApiFilemanagerController
+   */
+   getACL(path: string) {
+         const queryParamsObj: any = {};
+          if (path!=null) {
+               queryParamsObj.path = path + "";
+          }
+         const queryParams = new HttpParams({
+         fromObject: queryParamsObj
+         });
+         const url = `@/api/filemgr/acl`
+         return this.http.get(url, {params: queryParams});
+   }
+   /**
+    * @api {post} @/api/filemgr/acl
+    * @apiName setACL
+    * @apiGroup ApiFilemanagerController
+   */
+   setACL(path: string, entity?: any) {
+         const queryParamsObj: any = {};
+          if (path!=null) {
+               queryParamsObj.path = path + "";
+          }
+         const queryParams = new HttpParams({
+         fromObject: queryParamsObj
+         });
+         const url = `@/api/filemgr/acl`
+         return this.http.post(url, entity, {params: queryParams});
+   }
+   /**
+    * @api {delete} @/api/filemgr/
+    * @apiName deletePath
+    * @apiGroup ApiFilemanagerController
+   */
+   deletePath(path: string) {
+         const queryParamsObj: any = {};
+          if (path!=null) {
+               queryParamsObj.path = path + "";
+          }
+         const queryParams = new HttpParams({
+         fromObject: queryParamsObj
+         });
+         const url = `@/api/filemgr/`
+         return this.http.delete(url, {params: queryParams});
+   }
+   /**
+    * @api {post} @/api/filemgr/
+    * @apiName deletePaths
+    * @apiGroup ApiFilemanagerController
+   */
+   deletePaths(entity?: any) {
+         const url = `@/api/filemgr/`
+         return this.http.post(url, entity);
+   }
+   /**
+    * @api {post} @/api/filemgr/move
+    * @apiName movePath
+    * @apiGroup ApiFilemanagerController
+   */
+   movePath(path: string, path2: string) {
+         const url = `@/api/filemgr/move`
+         return this.http.post(url, {});
+   }
+   /**
+    * @api {post} @/api/filemgr/dir
+    * @apiName createDir
+    * @apiGroup ApiFilemanagerController
+   */
+   createDir(path: string, dirname: string) {
+         const url = `@/api/filemgr/dir`
+         return this.http.post(url, {});
+   }
+   /**
+    * @api {post} @/api/filemgr/ascii
+    * @apiName saveAsciiFile
+    * @apiGroup ApiFilemanagerController
+   */
+   saveAsciiFile(path: string, filename: string, text: string) {
+         const url = `@/api/filemgr/ascii`
+         return this.http.post(url, {});
+   }
+   /**
+    * @api {post} @/api/filemgr/upload
+    * @apiName handleFileUpload
+    * @apiGroup ApiFilemanagerController
+   */
+   handleFileUpload(files?: Array<any>) {
+         const url = `@/api/filemgr/upload`
+         return this.http.post(url, {});
+   }
+   /**
+    * @api {post} @/api/filemgr/zip
+    * @apiName zipPath
+    * @apiGroup ApiFilemanagerController
+   */
+   zipPath(path?: string) {
+         const url = `@/api/filemgr/zip`
+         return this.http.post(url, {});
+   }
+   /**
+    * @api {post} @/api/filemgr/unzip
+    * @apiName unzipPath
+    * @apiGroup ApiFilemanagerController
+   */
+   unzipPath(path?: string) {
+         const url = `@/api/filemgr/unzip`
+         return this.http.post(url, {});
    }
 }

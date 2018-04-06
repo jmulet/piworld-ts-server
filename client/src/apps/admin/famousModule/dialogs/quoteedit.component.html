@@ -1,0 +1,56 @@
+<p-dialog header="Edit famous quote" [(visible)]="visible" [modal]="true" [responsive]="true" [width]="650" [minWidth]="500">
+
+    <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)">
+        <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    Author*:
+                </div>
+                <div class="ui-grid-col-6">
+                    <input pInputText type="text" formControlName="author" placeholder="Required" />
+                </div>
+                <div class="ui-grid-col-4">
+                    <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!formGroup.controls['author'].valid&&formGroup.controls['author'].dirty">
+                        <i class="fa fa-close"></i>
+                        Author is required
+                    </div>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    Quote*:
+                </div>
+                <div class="ui-grid-col-10">
+                    <textarea style="width:100%" rows=8 formControlName="quote">
+                    </textarea>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    URL:
+                </div>
+                <div class="ui-grid-col-6">
+                    <input type="text" formControlName="url"/>         
+                </div>
+                <div class="ui-grid-col-4">                    
+                </div>
+            </div>
+            <div class="ui-message ui-messages-error ui-corner-all" role="alert" *ngIf="serverValidationErrors">
+                {{serverValidationErrors}}
+            </div>
+
+        </div>
+        <p-footer>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-12">
+                    <button type="submit" [disabled]="!formGroup.valid" class="btn btn-sm btn-success">
+                        <span class="fa fa-check">OK</span>
+                    </button>
+                    <button class="pull-left btn btn-sm btn-danger" type="button" (click)="close()">
+                        <span class="fa fa-close">Cancel</span>
+                    </button>
+                </div>
+            </div>
+        </p-footer>
+    </form>
+</p-dialog>

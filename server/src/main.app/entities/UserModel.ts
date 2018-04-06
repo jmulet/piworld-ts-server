@@ -18,6 +18,10 @@ import { PdaBadgesModel } from './pda/PdaBadgesModel';
 import { PdaActivityGrades } from './pda/PdaActivityGrades';
 import { OffspringModel } from './OffspringModel';
 import { PdaMessageModel } from './pda/PdaMessageModel';
+import { NewsModel } from './NewsModel';
+import { FamousQuoteModel } from './FamousQuoteModel';
+import { FamousEqnModel } from './FamousEqnModel';
+import { ChallengesModel } from './classroom/ChallengesModel';
 
 
 export abstract class UserRoles {
@@ -151,6 +155,18 @@ export class UserModel {
 
     @OneToMany((type)=> OffspringModel, (offspring) => offspring._child)
     _childParents: OffspringModel[];
+
+    @OneToMany((type)=> NewsModel, (news) => news._user)
+    _newsCreated: NewsModel[];
+ 
+    @OneToMany((type)=> FamousEqnModel, (eqn) => eqn._user)
+    _equationsCreated: FamousEqnModel[];
+ 
+    @OneToMany((type)=> FamousQuoteModel, (quote) => quote._user)
+    _quotesCreated: FamousQuoteModel[];
+
+    @OneToMany((type)=> ChallengesModel, (challenge) => challenge._user)
+    _challengesCreated: ChallengesModel[];
  
     @BeforeInsert()
     onInsert() {

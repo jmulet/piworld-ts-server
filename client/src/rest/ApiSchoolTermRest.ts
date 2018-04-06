@@ -13,10 +13,12 @@ export class ApiSchoolTermRest {
     * @apiPermission Accepted roles 0
    */
    get(idTerm?: number) {
+         const queryParamsObj: any = {};
+          if (idTerm!=null) {
+               queryParamsObj.idTerm = idTerm + "";
+          }
          const queryParams = new HttpParams({
-         fromObject: {
-            idTerm: idTerm + "",
-           }
+         fromObject: queryParamsObj
          });
          const url = `@/api/school/term/`
          return this.http.get(url, {params: queryParams});
@@ -28,12 +30,18 @@ export class ApiSchoolTermRest {
     * @apiPermission Accepted roles 0, 50
    */
    list(year: number, idSchool?: number, schoolName?: string) {
+         const queryParamsObj: any = {};
+          if (year!=null) {
+               queryParamsObj.year = year + "";
+          }
+          if (idSchool!=null) {
+               queryParamsObj.idSchool = idSchool + "";
+          }
+          if (schoolName!=null) {
+               queryParamsObj.schoolName = schoolName + "";
+          }
          const queryParams = new HttpParams({
-         fromObject: {
-            year: year + "",
-            idSchool: idSchool + "",
-            schoolName: schoolName + "",
-           }
+         fromObject: queryParamsObj
          });
          const url = `@/api/school/term/list`
          return this.http.get(url, {params: queryParams});
@@ -55,9 +63,10 @@ export class ApiSchoolTermRest {
     * @apiPermission Accepted roles 0, 50
    */
    update(id: number, entity: TermsModel) {
-         const pathParams = {
-            id: id,
-         };
+         const pathParams: any = {};
+          if (id!=null) {
+               pathParams.id = id + "";
+          }
          const url = `@/api/school/term/${pathParams.id}`
          return this.http.put(url, entity);
    }
@@ -68,9 +77,10 @@ export class ApiSchoolTermRest {
     * @apiPermission Accepted roles 0
    */
    delete(idTerm: number) {
-         const pathParams = {
-            idTerm: idTerm,
-         };
+         const pathParams: any = {};
+          if (idTerm!=null) {
+               pathParams.idTerm = idTerm + "";
+          }
          const url = `@/api/school/term/${pathParams.idTerm}`
          return this.http.delete(url);
    }

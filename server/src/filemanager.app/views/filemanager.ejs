@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="<%=lang%>">
+  <head>
+      <%- include ../../views/partials/head %>
+      <base href="<%-prefixUrl('/filemanager')%>">
+      <style>
+         body {
+        height: 90%;
+        width: 100%;
+        position: relative;  
+        background: #f4f6f9;
+      }
+      </style>
+  </head>
+  <body>    
+            <app-component>
+              <div class="pw-loader">
+                <div class="pw-loader-bounce">
+                    <div class="bounce1"></div>
+                    <div class="bounce2"></div>
+                    <div class="bounce3"></div>
+                </div>
+            </div>
+            </app-component>
+      <%- include ../../views/partials/clientPwApp %>
+      <script src="<%-prefixUrl('/common.'+config.version+'.js')%>"></script>    
+      <script src="<%-prefixUrl('/polyfills.'+config.version+'.bundle.js')%>"></script>
+      <script src="<%-prefixUrl('/vendor.'+config.version+'.bundle.js')%>"></script>
+      <script async src="<%-prefixUrl('/filemanager/filemanager.'+config.version+'.bundle.js')%>"></script> 
+</body>
+</html>

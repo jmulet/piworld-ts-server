@@ -4,7 +4,9 @@
 
         export class ChallengesModel {
 			id:number;
-			day:Date;
+			idUserCreator:number;
+			fromDay:Date;
+			toDay:Date;
 			level:string;
 			formulation:string;
 			score:number = 0;
@@ -25,7 +27,9 @@
             toForm(fb: FormBuilder) {
                 return fb.group({
 					'id': new FormControl(this.id),
-					'day': new FormControl(this.day),
+					'idUserCreator': new FormControl(this.idUserCreator),
+					'fromDay': new FormControl(this.fromDay),
+					'toDay': new FormControl(this.toDay),
 					'level': new FormControl(this.level, Validators.required),
 					'formulation': new FormControl(this.formulation, Validators.required),
 					'score': new FormControl(this.score),

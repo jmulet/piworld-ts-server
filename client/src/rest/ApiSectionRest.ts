@@ -23,9 +23,10 @@ export class ApiSectionRest {
     * @apiPermission Accepted roles 0, 100, 50, 150
    */
    update(id: Object, entity: SectionModel) {
-         const pathParams = {
-            id: id,
-         };
+         const pathParams: any = {};
+          if (id!=null) {
+               pathParams.id = id + "";
+          }
          const url = `@/api/section/${pathParams.id}`
          return this.http.put(url, entity);
    }
@@ -36,9 +37,10 @@ export class ApiSectionRest {
     * @apiPermission Accepted roles 0, 100, 50, 150
    */
    delete(idSection: number) {
-         const pathParams = {
-            idSection: idSection,
-         };
+         const pathParams: any = {};
+          if (idSection!=null) {
+               pathParams.idSection = idSection + "";
+          }
          const url = `@/api/section/${pathParams.idSection}`
          return this.http.delete(url);
    }

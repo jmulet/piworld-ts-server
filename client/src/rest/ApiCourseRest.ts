@@ -12,9 +12,10 @@ export class ApiCourseRest {
     * @apiGroup ApiCourseController
    */
    get(id: number) {
-         const pathParams = {
-            id: id,
-         };
+         const pathParams: any = {};
+          if (id!=null) {
+               pathParams.id = id + "";
+          }
          const url = `@/api/course/${pathParams.id}`
          return this.http.get(url);
    }
@@ -24,14 +25,17 @@ export class ApiCourseRest {
     * @apiGroup ApiCourseController
    */
    list(idUser: number, created?: boolean) {
+         const queryParamsObj: any = {};
+          if (created!=null) {
+               queryParamsObj.created = created + "";
+          }
          const queryParams = new HttpParams({
-         fromObject: {
-            created: created + "",
-           }
+         fromObject: queryParamsObj
          });
-         const pathParams = {
-            idUser: idUser,
-         };
+         const pathParams: any = {};
+          if (idUser!=null) {
+               pathParams.idUser = idUser + "";
+          }
          const url = `@/api/course/list/${pathParams.idUser}`
          return this.http.get(url, {params: queryParams});
    }
@@ -52,9 +56,10 @@ export class ApiCourseRest {
     * @apiPermission Accepted roles 0, 100, 50, 150
    */
    update(id: number, entity: CourseModel) {
-         const pathParams = {
-            id: id,
-         };
+         const pathParams: any = {};
+          if (id!=null) {
+               pathParams.id = id + "";
+          }
          const url = `@/api/course/${pathParams.id}`
          return this.http.put(url, entity);
    }
@@ -65,9 +70,10 @@ export class ApiCourseRest {
     * @apiPermission Accepted roles 0, 100, 50, 150
    */
    delete(id: number) {
-         const pathParams = {
-            id: id,
-         };
+         const pathParams: any = {};
+          if (id!=null) {
+               pathParams.id = id + "";
+          }
          const url = `@/api/course/${pathParams.id}`
          return this.http.delete(url);
    }

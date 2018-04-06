@@ -13,6 +13,10 @@
           "node_modules/@types",
           "./typings"
         ],
+        "types": [
+            "node",
+            "system"
+        ],
         "lib": [
           "es2015",
           "dom"

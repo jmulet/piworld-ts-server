@@ -8,6 +8,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { MyHttpInterceptor } from '../../interceptors/MyHttpInterceptor';
 import { AdminSharedModule } from './admin-shared.module';
 import { AdminComponent } from './admin.component';
+import { ToolbarModule } from 'primeng/components/toolbar/toolbar';
 
 
 const appRoutes: Routes = [
@@ -27,6 +28,7 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     CommonModule, 
     AdminSharedModule, 
+    ToolbarModule,
     RouterModule.forRoot(appRoutes, {useHash: true}),    
   ],
   declarations: [ 

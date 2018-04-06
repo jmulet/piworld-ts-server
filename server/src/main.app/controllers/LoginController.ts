@@ -20,6 +20,7 @@ import * as bcrypt from "bcrypt";
 import { I18n } from '../services/I18n';
 import { DecryptBodyMdw } from '../middlewares/DecryptBodyMdw';
 import { PwHttpServer } from '../../server';
+import { FilemanagerSrv } from '../../filemanager.app/services/FilemanagerSrv';
 
 const io = PwHttpServer.getInstance().io;
 
@@ -40,6 +41,9 @@ export class LoginController {
 
     @Inject()
     i18n: I18n;
+
+    @Inject()
+    filemanagerSrv: FilemanagerSrv;
 
     @Get("/")
     @UseBefore(AnonymousOnlyMdw)
@@ -148,6 +152,9 @@ export class LoginController {
                 redirect = "";
             }
         }
+
+        // Make sure that the user has created a valid filestructure
+        this.filemanagerSrv.createUserStructure(user.idRole + "", user.username);
   
         return {redirect: prefixUrl("/desktop.htm") + redirect};
     }

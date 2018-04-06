@@ -1,6 +1,6 @@
 import { Location, LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { Component, OnInit } from '@angular/core'; 
-import { Router } from '@angular/router';
+import { Router, NavigationStart, RouterEvent } from '@angular/router';
 
 @Component({
     selector: 'app-component',
@@ -9,18 +9,18 @@ import { Router } from '@angular/router';
     providers: [Location, {provide: LocationStrategy, useClass: HashLocationStrategy}]
 })
 export class AdminComponent implements OnInit {
+    currentModule: string; 
     path: string;
     users: any[];
     view = 0;
-    constructor(private router: Router, private location: Location) {        
+    constructor(private router: Router) {        
     }
+
     ngOnInit() {       
-       this.location.subscribe(val => {
-           if(val.url==="centers") {
-                this.router.navigate(['centers']);
-           } else {
-                this.router.navigate(['courses']);
-           }
-       });
+        this.router.events.subscribe( (event: RouterEvent) => {
+            if (event instanceof NavigationStart) {
+                this.currentModule = event.url || "/centers";
+            }
+        });
     }
 }

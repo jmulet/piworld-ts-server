@@ -21,6 +21,7 @@ module.exports = {
             "./node_modules/primeng/resources/themes/omega/theme.css",
             "./node_modules/font-awesome/css/font-awesome.min.css",
             "./node_modules/ionicons/css/ionicons.min.css",
+            "./node_modules/katex/dist/katex.css",
             "./src/mystyles.css"],
         'login': ["./src/apps/login/login.ts", 
             "./src/apps/login/login.css",
@@ -60,7 +61,7 @@ module.exports = {
          // Move everything that is shared in entries chunks ---> to bundle vendor       
          new webpack.optimize.CommonsChunkPlugin({
             name: 'vendor',
-            chunks: ['classroom/classroom', 'admin/admin'],
+            chunks: ['filemanager/filemanager', 'classroom/classroom', 'admin/admin'],
             //filename: '[name].' + version + '.js',
             minChunks: 2
         }),

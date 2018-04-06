@@ -7,6 +7,7 @@ import { GroupsModel } from '../../main.app/entities/classroom/GroupsModel';
 import { SubjectModel } from '../../main.app/entities/SubjectModel';
 import { EnrollSrv } from './GroupEnrollSrv';
 import { UserRoles } from '../../main.app/entities/UserModel';
+import { FilemanagerSrv } from '../../filemanager.app/services/FilemanagerSrv';
 
 @Service()
 export class CourseSrv {
@@ -16,20 +17,28 @@ export class CourseSrv {
     @Inject()
     groupsSrv: GroupsSrv
 
+    @Inject()
+    filemanagerSrv: FilemanagerSrv
+
     constructor() {
         this.repository = getRepository(CourseModel);
     }
 
-    async save(entity: CourseModel) {
+    async save(entity: CourseModel, role: string, username: string) {
         // Before course creation, create a buildin group which holds the creator itself
         if (!entity.id && !entity._courseGroups) {
             const group = GroupsSrv.fromData(entity.name + " teachers", entity.year, entity.idUserCreator);     
             // hold the creator in this group
             const enroll = EnrollSrv.fromData(entity.idUserCreator, UserRoles.teacher_admin);
             group._enrolls = [ enroll ];        
-            entity._courseGroups = [group];
+            entity._courseGroups = [group];            
         } 
-        return this.repository.save(entity);
+        await this.repository.save(entity);
+
+        // Make sure to create a valid filestructure for this course
+        this.filemanagerSrv.createCourseStructure(role, username, entity.id);
+
+        return entity;
     }
 
     delete(entity: CourseModel) {

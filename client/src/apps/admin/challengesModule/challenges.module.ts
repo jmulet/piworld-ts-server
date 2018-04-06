@@ -1,15 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PickListModule } from 'primeng/picklist';
+import { ConfirmationService } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/components/confirmdialog/confirmdialog';
+import { TableModule } from 'primeng/components/table/table';
 
-import { CourseLevelPickerComponent } from '../../shared/components/courseLevelPicker.component';
-import { CourseStudiesPickerComponent } from '../../shared/components/courseStudiesPicker.component';
-import { SubjectPickerComponent } from '../../shared/components/subjectpicker.component';
-import { VisibilityPickerComponent } from '../../shared/components/visibilityPicker.component';
 import { AdminSharedModule } from '../admin-shared.module';
 import { ChallengesComponent } from './challenges.component';
- 
+import { CalendarModule } from 'primeng/components/calendar/calendar';
+import { ChallengeEditComponent } from './dialogs/challengeedit.component';
+import {TriStateCheckboxModule} from 'primeng/tristatecheckbox';
 
 const routes: Routes = [
   { path: '', component: ChallengesComponent},
@@ -20,21 +20,21 @@ const routes: Routes = [
   imports: [
     CommonModule,
     AdminSharedModule,   
-    PickListModule,
+    TableModule,
+    ConfirmDialogModule, 
+    CalendarModule, 
+    TriStateCheckboxModule,
     RouterModule.forChild(routes)
   ],
   declarations: [ 
     ChallengesComponent,
-    SubjectPickerComponent,
-    CourseLevelPickerComponent,
-    CourseStudiesPickerComponent, 
-    VisibilityPickerComponent
+    ChallengeEditComponent
   ], 
   providers: [ 
- 
+    ConfirmationService
   ],
   exports: [
     RouterModule
   ]
 })
-export class NewsModule {}
+export class ChallengesModule {}

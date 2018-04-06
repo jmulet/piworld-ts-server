@@ -1,18 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PickListModule } from 'primeng/picklist';
+import { ConfirmationService } from 'primeng/api';
+import { CalendarModule } from 'primeng/components/calendar/calendar';
+import { OverlayPanelModule } from 'primeng/components/overlaypanel/overlaypanel';
+import { TableModule } from 'primeng/components/table/table';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
-import { CourseLevelPickerComponent } from '../../shared/components/courseLevelPicker.component';
-import { CourseStudiesPickerComponent } from '../../shared/components/courseStudiesPicker.component';
-import { SubjectPickerComponent } from '../../shared/components/subjectpicker.component';
-import { VisibilityPickerComponent } from '../../shared/components/visibilityPicker.component';
-import { AdminSharedModule } from '../admin-shared.module'; 
+import { AdminSharedModule } from '../admin-shared.module';
+import { NewsEditComponent } from './dialogs/newsedit.component';
 import { NewsComponent } from './news.component';
 
-
  
-
 const routes: Routes = [
   { path: '', component: NewsComponent},
   { path: '**', redirectTo: '', pathMatch: 'full' }
@@ -22,18 +21,18 @@ const routes: Routes = [
   imports: [
     CommonModule,
     AdminSharedModule,   
-    PickListModule,
+    TableModule,
+    ConfirmDialogModule,
+    OverlayPanelModule,
+    CalendarModule, 
     RouterModule.forChild(routes)
   ],
   declarations: [ 
     NewsComponent,
-    SubjectPickerComponent,
-    CourseLevelPickerComponent,
-    CourseStudiesPickerComponent, 
-    VisibilityPickerComponent
+    NewsEditComponent
   ], 
   providers: [ 
- 
+    ConfirmationService
   ],
   exports: [
     RouterModule

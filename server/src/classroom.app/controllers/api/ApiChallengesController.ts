@@ -5,6 +5,7 @@ import { AuthenticatedMdw } from '../../../main.app/middlewares/AuthenticatedMdw
 import { AdminsAndTeachersOnly } from '../../../main.app/middlewares/AuthorizedMdw';
 import { ChallengesModel } from '../../../main.app/entities/classroom/ChallengesModel';
 import { ChallengeSrv } from '../../services/ChallengeSrv';
+import { ChallengesQuizzModel } from '../../../main.app/entities/classroom/ChallengesQuizzModel';
 
 
 
@@ -26,6 +27,12 @@ import { ChallengeSrv } from '../../services/ChallengeSrv';
      @UseBefore(AdminsAndTeachersOnly)
      save(@Body({ validate: true, required: true }) entity: ChallengesModel) {            
          return this.challengesSrv.save(entity);
+     }
+
+     @Post("/quizz")
+     @UseBefore(AdminsAndTeachersOnly)
+     saveQuizz(@Body({ validate: true, required: true }) entity: ChallengesQuizzModel) {            
+         return this.challengesSrv.saveQuizz(entity);
      }
 
      @Put("/:id")

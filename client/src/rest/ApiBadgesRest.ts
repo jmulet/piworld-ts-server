@@ -12,15 +12,27 @@ export class ApiBadgesRest {
     * @apiGroup ApiBadgesController
    */
    list(idGroup?: number, idUser?: number, fromType?: number, toType?: number, fromDate?: Object, toDate?: Object) {
+         const queryParamsObj: any = {};
+          if (idGroup!=null) {
+               queryParamsObj.idGroup = idGroup + "";
+          }
+          if (idUser!=null) {
+               queryParamsObj.idUser = idUser + "";
+          }
+          if (fromType!=null) {
+               queryParamsObj.fromType = fromType + "";
+          }
+          if (toType!=null) {
+               queryParamsObj.toType = toType + "";
+          }
+          if (fromDate!=null) {
+               queryParamsObj.fromDate = fromDate + "";
+          }
+          if (toDate!=null) {
+               queryParamsObj.toDate = toDate + "";
+          }
          const queryParams = new HttpParams({
-         fromObject: {
-            idGroup: idGroup + "",
-            idUser: idUser + "",
-            fromType: fromType + "",
-            toType: toType + "",
-            fromDate: fromDate + "",
-            toDate: toDate + "",
-           }
+         fromObject: queryParamsObj
          });
          const url = `@/api/badges/list`
          return this.http.get(url, {params: queryParams});
@@ -42,9 +54,10 @@ export class ApiBadgesRest {
     * @apiPermission Accepted roles 0, 100, 50, 150
    */
    update(id: number, entity: BadgesModel) {
-         const pathParams = {
-            id: id,
-         };
+         const pathParams: any = {};
+          if (id!=null) {
+               pathParams.id = id + "";
+          }
          const url = `@/api/badges/${pathParams.id}`
          return this.http.put(url, entity);
    }
@@ -55,9 +68,10 @@ export class ApiBadgesRest {
     * @apiPermission Accepted roles 0, 100, 50, 150
    */
    delete(idBadge: number) {
-         const pathParams = {
-            idBadge: idBadge,
-         };
+         const pathParams: any = {};
+          if (idBadge!=null) {
+               pathParams.idBadge = idBadge + "";
+          }
          const url = `@/api/badges/${pathParams.idBadge}`
          return this.http.delete(url);
    }

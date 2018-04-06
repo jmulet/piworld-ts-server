@@ -12,12 +12,18 @@ export class ApiActivityRest {
     * @apiGroup ApiActivityController
    */
    search(text?: string, limit?: number, offset?: number) {
+         const queryParamsObj: any = {};
+          if (text!=null) {
+               queryParamsObj.text = text + "";
+          }
+          if (limit!=null) {
+               queryParamsObj.limit = limit + "";
+          }
+          if (offset!=null) {
+               queryParamsObj.offset = offset + "";
+          }
          const queryParams = new HttpParams({
-         fromObject: {
-            text: text + "",
-            limit: limit + "",
-            offset: offset + "",
-           }
+         fromObject: queryParamsObj
          });
          const url = `@/api/activity/search`
          return this.http.get(url, {params: queryParams});
@@ -39,9 +45,10 @@ export class ApiActivityRest {
     * @apiPermission Accepted roles 0, 100, 50, 150
    */
    update(id: number, entity: ActivityModel) {
-         const pathParams = {
-            id: id,
-         };
+         const pathParams: any = {};
+          if (id!=null) {
+               pathParams.id = id + "";
+          }
          const url = `@/api/activity/${pathParams.id}`
          return this.http.put(url, entity);
    }
@@ -52,9 +59,10 @@ export class ApiActivityRest {
     * @apiPermission Accepted roles 0, 100, 50, 150
    */
    delete(idActivity: number) {
-         const pathParams = {
-            idActivity: idActivity,
-         };
+         const pathParams: any = {};
+          if (idActivity!=null) {
+               pathParams.idActivity = idActivity + "";
+          }
          const url = `@/api/activity/${pathParams.idActivity}`
          return this.http.delete(url);
    }

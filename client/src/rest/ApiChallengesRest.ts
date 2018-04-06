@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ChallengesModel } from '../entities/ChallengesModel';
+import { ChallengesQuizzModel } from '../entities/ChallengesQuizzModel';
 
 @Injectable()
 export class ApiChallengesRest { 
@@ -12,12 +13,18 @@ export class ApiChallengesRest {
     * @apiGroup ApiChallengesController
    */
    list(level?: string, day?: Object, idUser?: number) {
+         const queryParamsObj: any = {};
+          if (level!=null) {
+               queryParamsObj.level = level + "";
+          }
+          if (day!=null) {
+               queryParamsObj.day = day + "";
+          }
+          if (idUser!=null) {
+               queryParamsObj.idUser = idUser + "";
+          }
          const queryParams = new HttpParams({
-         fromObject: {
-            level: level + "",
-            day: day + "",
-            idUser: idUser + "",
-           }
+         fromObject: queryParamsObj
          });
          const url = `@/api/challenges/list`
          return this.http.get(url, {params: queryParams});
@@ -33,15 +40,26 @@ export class ApiChallengesRest {
          return this.http.post(url, entity);
    }
    /**
+    * @api {post} @/api/challenges/quizz
+    * @apiName saveQuizz
+    * @apiGroup ApiChallengesController
+    * @apiPermission Accepted roles 0, 100, 50, 150
+   */
+   saveQuizz(entity: ChallengesQuizzModel) {
+         const url = `@/api/challenges/quizz`
+         return this.http.post(url, entity);
+   }
+   /**
     * @api {put} @/api/challenges/:id
     * @apiName update
     * @apiGroup ApiChallengesController
     * @apiPermission Accepted roles 0, 100, 50, 150
    */
    update(id: number, entity: ChallengesModel) {
-         const pathParams = {
-            id: id,
-         };
+         const pathParams: any = {};
+          if (id!=null) {
+               pathParams.id = id + "";
+          }
          const url = `@/api/challenges/${pathParams.id}`
          return this.http.put(url, entity);
    }
@@ -52,9 +70,10 @@ export class ApiChallengesRest {
     * @apiPermission Accepted roles 0, 100, 50, 150
    */
    delete(idChallenge: number) {
-         const pathParams = {
-            idChallenge: idChallenge,
-         };
+         const pathParams: any = {};
+          if (idChallenge!=null) {
+               pathParams.idChallenge = idChallenge + "";
+          }
          const url = `@/api/challenges/${pathParams.idChallenge}`
          return this.http.delete(url);
    }

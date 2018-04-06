@@ -158,20 +158,23 @@ export function clientRestGenerator() {
             codeAction.addDecorator("*/"); 
             if (queryParameters.length) {
                 queryPart = ", {params: queryParams}";
-                codeAction.addToBody("   const queryParams = new HttpParams({");
-                codeAction.addToBody("   fromObject: {");
+                codeAction.addToBody("   const queryParamsObj: any = {};");                
                 queryParameters.forEach((qp) => {
-                    codeAction.addToBody("      " + qp.name + ": " + qp.name + " + \"\",");
-                });
-                codeAction.addToBody("     }");
+                    codeAction.addToBody("    if (" + qp.name + "!=null) {");
+                    codeAction.addToBody("         queryParamsObj." + qp.name + " = "+ qp.name + " + \"\";");
+                    codeAction.addToBody("    }");      
+                }); 
+                codeAction.addToBody("   const queryParams = new HttpParams({");
+                codeAction.addToBody("   fromObject: queryParamsObj")
                 codeAction.addToBody("   });");
             }
             if (pathParameters.length) {
-                codeAction.addToBody("   const pathParams = {");
+                codeAction.addToBody("   const pathParams: any = {};");                
                 pathParameters.forEach((qp) => {
-                    codeAction.addToBody("      " + qp.name + ": " + qp.name + ",");
-                });
-                codeAction.addToBody("   };");
+                    codeAction.addToBody("    if (" + qp.name + "!=null) {");
+                    codeAction.addToBody("         pathParams." + qp.name + " = "+ qp.name + " + \"\";");
+                    codeAction.addToBody("    }");      
+                }); 
             }
 
             if ((action.type === "put" || action.type === "post") && !bodyPart) {

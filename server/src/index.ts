@@ -18,6 +18,7 @@ import { ClassroomController } from './classroom.app/controllers/ClassroomContro
 import { LoginController } from './main.app/controllers/LoginController';
 import { clientRestGenerator } from './main.app/utils/client-rest-generator';
 import { timeout } from 'async';
+import { FilemanagerApp } from './filemanager.app';
 
 const colors = require('colors/safe');
   
@@ -38,7 +39,8 @@ createConnection({
                ...AdminApp.entities,
                ...ClassroomApp.entities,
                ...BooksApp.entities,
-               ...PdaApp.entities
+               ...PdaApp.entities,
+               ...FilemanagerApp.entities
             ],
     synchronize: true,
     logging:  process.env.NODE_ENV !== 'production'
@@ -54,6 +56,7 @@ createConnection({
     pwServer.install(ClassroomApp);
     pwServer.install(PdaApp);
     pwServer.install(BooksApp);
+    pwServer.install(FilemanagerApp);
 
     pwServer.listen( {handleErrors: (process.env.NODE_ENV === 'production'), mountStaticPrivate: true} );
 

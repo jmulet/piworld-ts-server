@@ -29,15 +29,17 @@
 
      @Post("/")
      @UseBefore(AdminsAndTeachersOnly)
-     save(@Body({ validate: true, required: true }) entity: CourseModel) {            
-         return this.courseSrv.save(entity);
+     save(@Body({ validate: true, required: true }) entity: CourseModel, @Session() session: SessionModel) {            
+        const user = session.user; 
+        return this.courseSrv.save(entity, user.idRole+"", user.username);
      }
 
      @Put("/:id")
      @UseBefore(AdminsAndTeachersOnly)
-     update(@Param("id") id: number, @Body({ validate: true, required: true }) entity: CourseModel) {            
+     update(@Param("id") id: number, @Body({ validate: true, required: true }) entity: CourseModel, @Session() session: SessionModel) {                      
          entity.id = id;
-         return this.courseSrv.save(entity);
+         const user = session.user;
+         return this.courseSrv.save(entity, user.idRole+"", user.username);
      }
  
      @Delete("/:id")

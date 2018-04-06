@@ -20,10 +20,12 @@ export class LoginRest {
     * @apiGroup LoginController
    */
    loginPage(logout?: Object) {
+         const queryParamsObj: any = {};
+          if (logout!=null) {
+               queryParamsObj.logout = logout + "";
+          }
          const queryParams = new HttpParams({
-         fromObject: {
-            logout: logout + "",
-           }
+         fromObject: queryParamsObj
          });
          const url = `@/login.htm`
          return this.http.get(url, {params: queryParams});
@@ -52,10 +54,12 @@ export class LoginRest {
     * @apiGroup LoginController
    */
    changePwdPage(error?: number) {
+         const queryParamsObj: any = {};
+          if (error!=null) {
+               queryParamsObj.error = error + "";
+          }
          const queryParams = new HttpParams({
-         fromObject: {
-            error: error + "",
-           }
+         fromObject: queryParamsObj
          });
          const url = `@/changepwd.htm`
          return this.http.get(url, {params: queryParams});
@@ -75,11 +79,15 @@ export class LoginRest {
     * @apiGroup LoginController
    */
    getTranslations(file: string, lang?: string) {
+         const queryParamsObj: any = {};
+          if (file!=null) {
+               queryParamsObj.file = file + "";
+          }
+          if (lang!=null) {
+               queryParamsObj.lang = lang + "";
+          }
          const queryParams = new HttpParams({
-         fromObject: {
-            file: file + "",
-            lang: lang + "",
-           }
+         fromObject: queryParamsObj
          });
          const url = `@/translate`
          return this.http.get(url, {params: queryParams});

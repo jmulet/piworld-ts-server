@@ -1,133 +1,63 @@
 
-<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
-<app-course-edit *ngIf="courseEdtForm" [formGroup]="courseEdtForm" (onSave)="reloadCourses($event)"></app-course-edit>
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog> 
 
-<app-unit-edit *ngIf="unitEdtForm" [formGroup]="unitEdtForm" (onSave)="reloadUnits($event)"></app-unit-edit>
-<app-group-edit *ngIf="groupEdtForm" [formGroup]="groupEdtForm" (onSave)="reloadGroups($event)"></app-group-edit>
+<app-news-edit *ngIf="newsEdtForm" [formGroup]="newsEdtForm" (onSave)="reload($event)"></app-news-edit>
 
-<p-table  [value]="courses" [paginator]="true" [rows]="10" selectionMode="single" [(selection)]="courseSelected"
-    dataKey="id" (onRowSelect)="onRowSelected($event)">
+<p-overlayPanel #op>
+    <div *ngIf="opData">
+            {{opData.title}}
+            <div [innerHtml]="opData.html">
+            </div>
+    </div>        
+</p-overlayPanel>
+
+<p-table #tableTarget [value]="news" [paginator]="true" [rows]="10" selectionMode="single" [(selection)]="newsSelected"
+    dataKey="id" (onRowSelect)="onRowSelected($event)" (onRowReorder)="onRowReorder($event)">
     <ng-template pTemplate="caption">
-      Courses
-            <button class="btn btn-sm btn-success" (click)="createCourse()">
+            <button class="btn btn-sm" (click)="reload(null)">
+                    <span class="fa fa-refresh"></span>
+            </button>
+             News
+            <button class="btn btn-sm btn-success" (click)="createNews()">
                 <span class="fa fa-plus-circle"></span>
             </button>
        
     </ng-template>
     <ng-template pTemplate="header" let-columns>
         <tr>
-            <th>Id</th>
-            <th>Year</th>
-            <th>Name</th>
-            <th>Level</th>
-            <th>Subject</th>
+            <th>Order</th>
+            <th>Title</th>
+            <th>Content</th>
+            <th>Expires</th>
             <th>Actions</th>
         </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-rowData>
-        <tr [pSelectableRow]="rowData">
-            <td>{{rowData.id}}</td>
-            <td>{{rowData.year}}</td>
-            <td>{{rowData.name}}</td>
-            <td>{{rowData.courseLevel + ' ' + rowData.courseStudies}}</td>
-            <td>{{rowData.idSubject + '-' + rowData._subject.name}}</td>
+    <ng-template pTemplate="body" let-rowData let-index="rowIndex">
+        <tr [pSelectableRow]="rowData" [pReorderableRow]="index">
             <td>
-                <button class="btn btn-sm btn-danger" (click)="removeCourse(rowData)">
+                <i class="fa fa-bars" pReorderableRowHandle></i> 
+                {{index + 1}}
+            </td>
+            <td>{{rowData.title}}</td>
+            <td>
+                <button class="btn btn-info" (click)="opData=rowData;op.show($event)"><span class="fa fa-search"></span></button>
+                {{rowData.html}}
+            </td>
+            <td>{{rowData.expires | date: "dd/MM/yyyy"}}</td> 
+            <td>
+                <button class="btn btn-sm btn-danger" (click)="removeNews(rowData)">
                     <span class="fa fa-remove"></span>
                 </button>
-                <button class="btn btn-sm btn-success" (click)="editCourse(rowData)">
+                <button class="btn btn-sm btn-success" (click)="editNews(rowData)">
                     <span class="fa fa-pencil"></span>
+                </button> 
+                <button *ngIf="index > 0" class="btn btn-sm btn-primary" (click)="moveUp(index)" [disabled]="savingOrdering">
+                        <span class="fa fa-arrow-up"></span>
+                </button> 
+                <button  *ngIf="index < news.length-1" class="btn btn-sm btn-primary" (click)="moveDown(index)" [disabled]="savingOrdering">
+                        <span class="fa fa-arrow-down"></span>
                 </button> 
             </td>
         </tr>
     </ng-template>
 </p-table>
-
-<p-tabView *ngIf="courseSelected">
-        <p-tabPanel header="Units" *ngIf="units">
-                <p-table [value]="units" [paginator]="true" [rows]="10" (onRowReorder)="onRowReorder($event)">
-                <ng-template pTemplate="caption">
-                  Units in course {{courseSelected.name}}
-                        <button class="btn btn-sm btn-success" (click)="createUnit()">
-                            <span class="fa fa-plus-circle"></span>
-                        </button>
-                   
-                </ng-template>
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Visibility</th> 
-                        <th>Actions</th>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-rowData let-index="rowIndex">
-                    <tr [pReorderableRow]="index">
-                        <td>                            
-                            <i class="fa fa-bars" pReorderableRowHandle></i>
-                            <span>{{rowData.id}}</span>
-                        </td>
-                        <td>{{rowData.unit}}</td>
-                        <td>{{rowData.visible | unitVisibility}}</td>
-                        <td>
-                            <button class="btn btn-sm btn-danger" (click)="removeUnit(rowData)">
-                                <span class="fa fa-remove"></span>
-                            </button>
-                            <button class="btn btn-sm btn-success" (click)="editUnit(rowData)">
-                                <span class="fa fa-pencil"></span>
-                            </button> 
-                            <button *ngIf="index > 0" class="btn btn-sm btn-primary" (click)="moveUp(index)" [disabled]="savingOrdering">
-                                <span class="fa fa-arrow-up"></span>
-                            </button> 
-                            <button  *ngIf="index < units.length-1" class="btn btn-sm btn-primary" (click)="moveDown(index)" [disabled]="savingOrdering">
-                                <span class="fa fa-arrow-down"></span>
-                            </button> 
-                        </td>
-                    </tr>
-                </ng-template>
-            </p-table>
-        </p-tabPanel>
-        <p-tabPanel header="Groups" *ngIf="groups">
-                 
-                        <p-table  [value]="groups" [paginator]="true" [rows]="10">
-                        <ng-template pTemplate="caption">
-                          Groups in course {{courseSelected.name}}
-                                <button class="btn btn-sm btn-success" (click)="createGroup()">
-                                    <span class="fa fa-plus-circle"></span>
-                                </button>
-                           
-                        </ng-template>
-                        <ng-template pTemplate="header">
-                            <tr>
-                                <th>Id</th>
-                                <th>Name</th>
-                                <th>css</th> 
-                                <th>Options</th> 
-                                <th>Actions</th>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-rowData>
-                            <tr>
-                                <td>
-                                    {{rowData.id}} 
-                                    <span class="badge badge-dark">{{rowData._enrolls.length}}</span>
-                                </td>
-                                <td>{{rowData.name}}</td>
-                                <td>{{rowData.thmcss}}</td> 
-                                <td>{{rowData.gopts}}</td>
-                                <td>
-                                    <button class="btn btn-sm btn-danger" (click)="removeGroup(rowData)">
-                                        <span class="fa fa-remove"></span>
-                                    </button>
-                                    <button class="btn btn-sm btn-success" (click)="editGroup(rowData)">
-                                        <span class="fa fa-pencil"></span>
-                                    </button>
-                                    <button class="btn btn-sm btn-info" (click)="groupOpts(rowData)">
-                                        <span class="fa fa-cogs"></span>
-                                    </button>
-                                </td>
-                            </tr>
-                        </ng-template>
-                    </p-table>
-        </p-tabPanel> 
-    </p-tabView>

@@ -31,7 +31,7 @@ export class CourseComponent implements OnInit {
     ngOnInit() {
         this.reloadCourses(null);
     }
-    reloadCourses(evt: any) {
+    reloadCourses(evt: any) { 
         this.rest.ApiCourse.list(pwCore.User.id, true).subscribe((data: any[]) => {
             this.courses = data;
         });

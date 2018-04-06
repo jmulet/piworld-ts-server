@@ -12,12 +12,26 @@ export class NewsSrv {
         this.newsRepository = getRepository(NewsModel); 
     }
 
-    public list(limit: number = 10) {
-        return this.newsRepository.createQueryBuilder("n").where("n.expires IS NULL").orWhere("n.expires > NOW()").limit(limit).orderBy("n.id", "DESC").getMany();
+    public get(id: number) {
+        return this.newsRepository.findOne({id: id});
+    }
+
+    public list(idUser: number, limit: number = 10) {
+        let builder = this.newsRepository.createQueryBuilder("n")
+                      .where("(n.expires IS NULL OR n.expires > NOW())")
+        if (idUser) {
+            builder = builder.andWhere("n.idUserCreator=:idUser", {idUser: idUser})
+        }
+    
+        return builder.limit(limit).orderBy("n.id", "DESC").getMany();
     }
 
     public save(entity: NewsModel) {
         return this.newsRepository.save(entity);
+    }
+
+    public saveArray(entities: NewsModel[]) {
+        return this.newsRepository.save(entities);
     }
 
     public delete(entity: NewsModel) {
@@ -26,6 +40,9 @@ export class NewsSrv {
 
     public async deleteById(id: number) {
         const entity = await this.newsRepository.find({id: id});
-        return this.newsRepository.remove(entity);
+        if (entity) {
+            return this.newsRepository.remove(entity);
+        } 
+        return false;
     }
 }

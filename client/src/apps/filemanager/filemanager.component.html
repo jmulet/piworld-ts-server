@@ -1,0 +1,30 @@
+
+<h4>Filemanager</h4>
+
+<p-input-dialog [(visible)]="inputDlgVisible" [(ngModel)]="inputDlgText" (onClose)="onCloseInputDlg($event)">
+</p-input-dialog>
+
+<p-toolbar>
+    <div class="ui-toolbar-group-left">
+        <button (click)="reload()" class="btn btn-sm"><span class="fa fa-refresh"></span></button>    
+        <input type="text" [(ngModel)] = "searchField" style="width:150px"/>        
+        <button pButton type="button" icon="fa-search"></button>
+        <i class="fa fa-bars"></i>
+    </div>
+    
+    <div class="ui-toolbar-group-right">            
+            <button [disabled]="!showCreateBtn"><span class="fa fa-plus" (click)="createFile()"></span></button>
+            <button [disabled]="!showDeleteBtn" (click)="removeSelected()" class="btn btn-sm btn-danger"><span class="fa fa-trash"></span></button>                         
+            <p-fileUpload mode="basic" name="files" [url]="uploadUrl" multiple="multiple" auto="true" [disabled]="showUploadBtn"
+                (onBeforeUpload)="onBeforeUpload($event)" (onUpload)="onUpload($event)" (onError)="onUploadError($event)">
+            </p-fileUpload>
+    </div>
+</p-toolbar>
+  
+<p-treeTable [value]="treeFiles" selectionMode="multiple" [(selection)]="selectedFiles" (onNodeSelect)="onNodeSelect($event)" 
+(onNodeUnselect)="onNodeUnselect($event)" [style]="{'margin-top':'50px'}">
+        <span *ngIf="uploadDir"><span class="fa fa-folder"></span> {{uploadDir}} </span> 
+        <p-column field="name" header="Name"></p-column>
+        <p-column field="size" header="Size"></p-column>
+        <p-column field="type" header="Type"></p-column>
+</p-treeTable> 

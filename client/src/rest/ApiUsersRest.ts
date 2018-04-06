@@ -31,12 +31,18 @@ export class ApiUsersRest {
     * @apiPermission Accepted roles 0, 100, 50, 150
    */
    list(idSchool?: number, filter?: string, offspring?: number) {
+         const queryParamsObj: any = {};
+          if (idSchool!=null) {
+               queryParamsObj.idSchool = idSchool + "";
+          }
+          if (filter!=null) {
+               queryParamsObj.filter = filter + "";
+          }
+          if (offspring!=null) {
+               queryParamsObj.offspring = offspring + "";
+          }
          const queryParams = new HttpParams({
-         fromObject: {
-            idSchool: idSchool + "",
-            filter: filter + "",
-            offspring: offspring + "",
-           }
+         fromObject: queryParamsObj
          });
          const url = `@/api/user/list`
          return this.http.get(url, {params: queryParams});
@@ -68,9 +74,10 @@ export class ApiUsersRest {
     * @apiPermission Accepted roles 0, 50
    */
    delete(idUser: number) {
-         const pathParams = {
-            idUser: idUser,
-         };
+         const pathParams: any = {};
+          if (idUser!=null) {
+               pathParams.idUser = idUser + "";
+          }
          const url = `@/api/user/${pathParams.idUser}`
          return this.http.delete(url);
    }

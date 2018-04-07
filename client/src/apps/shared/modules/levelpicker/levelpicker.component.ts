@@ -1,14 +1,10 @@
  
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'; 
 import { SelectItemDisable } from '../../SelectItemDisable'; 
-export enum UserStatus {
-    disabled = 0,
-    enabled = 1,
-    pending = -1
-}
+ 
 
 @Component({
-    selector: 'app-status-picker',
+    selector: 'app-level-picker',
     template: `
     <p-dropdown [options]="list" [(ngModel)]="selected" optionLabel="label" (onChange)="onChange()" appendTo="body" [style]="style">
     <ng-template let-option pTemplate="item">
@@ -25,7 +21,7 @@ export enum UserStatus {
         }
     `]
 })
-export class StatusPickerComponent implements OnInit {
+export class LevelPickerComponent implements OnInit {
     list: SelectItemDisable[];
     selected: SelectItemDisable;
     @Input() status: number;

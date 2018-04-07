@@ -2,10 +2,14 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FamousEqnModel } from '../entities/FamousEqnModel';
 import { FamousQuoteModel } from '../entities/FamousQuoteModel';
+import { LevelsModel } from '../entities/LevelsModel';
 import { NewsModel } from '../entities/NewsModel';
+import { RoleModel } from '../entities/RoleModel';
 import { SchoolModel } from '../entities/SchoolModel';
 import { HolidayModel } from '../entities/HolidayModel';
 import { TermsModel } from '../entities/TermsModel';
+import { SubjectCategoryModel } from '../entities/SubjectCategoryModel';
+import { SubjectModel } from '../entities/SubjectModel';
 import { UserModel } from '../entities/UserModel';
 import { ActivityModel } from '../entities/ActivityModel';
 import { BadgesModel } from '../entities/BadgesModel';
@@ -21,10 +25,13 @@ export class RestApi {
    Desktop: DesktopRest;
    Login: LoginRest;
    ApiFamous: ApiFamousRest;
+   ApiLevels: ApiLevelsRest;
    ApiNews: ApiNewsRest;
+   ApiRoles: ApiRolesRest;
    ApiSchool: ApiSchoolRest;
    ApiSchoolHoliday: ApiSchoolHolidayRest;
    ApiSchoolTerm: ApiSchoolTermRest;
+   ApiSubjectCategory: ApiSubjectCategoryRest;
    ApiSubject: ApiSubjectRest;
    ApiUsers: ApiUsersRest;
    Admin: AdminRest;
@@ -43,10 +50,13 @@ export class RestApi {
         this.Desktop = new DesktopRest(http);
         this.Login = new LoginRest(http);
         this.ApiFamous = new ApiFamousRest(http);
+        this.ApiLevels = new ApiLevelsRest(http);
         this.ApiNews = new ApiNewsRest(http);
+        this.ApiRoles = new ApiRolesRest(http);
         this.ApiSchool = new ApiSchoolRest(http);
         this.ApiSchoolHoliday = new ApiSchoolHolidayRest(http);
         this.ApiSchoolTerm = new ApiSchoolTermRest(http);
+        this.ApiSubjectCategory = new ApiSubjectCategoryRest(http);
         this.ApiSubject = new ApiSubjectRest(http);
         this.ApiUsers = new ApiUsersRest(http);
         this.Admin = new AdminRest(http);
@@ -247,6 +257,64 @@ class ApiFamousRest {
          return this.http.delete(url);
    }
 }
+class ApiLevelsRest { 
+   constructor(private http: HttpClient) {
+   }
+   /**
+    * @api {get} @/api/levels/get/:idLevel
+    * @apiName get
+    * @apiGroup ApiLevelsController
+   */
+   get(idLevel: number) {
+         const pathParams: any = {};
+          if (idLevel!=null) {
+               pathParams.idLevel = idLevel + "";
+          }
+         const url = `@/api/levels/get/${pathParams.idLevel}`
+         return this.http.get(url);
+   }
+   /**
+    * @api {get} @/api/levels/list
+    * @apiName list
+    * @apiGroup ApiLevelsController
+   */
+   list(level?: number, studies?: string) {
+         const queryParamsObj: any = {};
+          if (level!=null) {
+               queryParamsObj.level = level + "";
+          }
+          if (studies!=null) {
+               queryParamsObj.studies = studies + "";
+          }
+         const queryParams = new HttpParams({
+         fromObject: queryParamsObj
+         });
+         const url = `@/api/levels/list`
+         return this.http.get(url, {params: queryParams});
+   }
+   /**
+    * @api {post} @/api/levels/
+    * @apiName save
+    * @apiGroup ApiLevelsController
+   */
+   save(entity: LevelsModel) {
+         const url = `@/api/levels/`
+         return this.http.post(url, entity);
+   }
+   /**
+    * @api {delete} @/api/levels/:idLevel
+    * @apiName delete
+    * @apiGroup ApiLevelsController
+   */
+   delete(idLevel: number) {
+         const pathParams: any = {};
+          if (idLevel!=null) {
+               pathParams.idLevel = idLevel + "";
+          }
+         const url = `@/api/levels/${pathParams.idLevel}`
+         return this.http.delete(url);
+   }
+}
 class ApiNewsRest { 
    constructor(private http: HttpClient) {
    }
@@ -322,6 +390,130 @@ class ApiNewsRest {
    saveOrdering(entity?: any) {
          const url = `@/api/news/ordering`
          return this.http.post(url, entity);
+   }
+}
+class ApiRolesRest { 
+   constructor(private http: HttpClient) {
+   }
+   /**
+    * @api {get} @/api/roles/r/list
+    * @apiName listRoles
+    * @apiGroup ApiRolesController
+   */
+   listRoles(slim?: boolean, idUserCreator?: number) {
+         const queryParamsObj: any = {};
+          if (slim!=null) {
+               queryParamsObj.slim = slim + "";
+          }
+          if (idUserCreator!=null) {
+               queryParamsObj.idUserCreator = idUserCreator + "";
+          }
+         const queryParams = new HttpParams({
+         fromObject: queryParamsObj
+         });
+         const url = `@/api/roles/r/list`
+         return this.http.get(url, {params: queryParams});
+   }
+   /**
+    * @api {get} @/api/roles/r/
+    * @apiName getRole
+    * @apiGroup ApiRolesController
+   */
+   getRole(slim?: boolean, id?: number, string?: string) {
+         const queryParamsObj: any = {};
+          if (slim!=null) {
+               queryParamsObj.slim = slim + "";
+          }
+          if (id!=null) {
+               queryParamsObj.id = id + "";
+          }
+          if (string!=null) {
+               queryParamsObj.string = string + "";
+          }
+         const queryParams = new HttpParams({
+         fromObject: queryParamsObj
+         });
+         const url = `@/api/roles/r/`
+         return this.http.get(url, {params: queryParams});
+   }
+   /**
+    * @api {post} @/api/roles/r/
+    * @apiName saveRole
+    * @apiGroup ApiRolesController
+   */
+   saveRole(entity: RoleModel) {
+         const url = `@/api/roles/r/`
+         return this.http.post(url, entity);
+   }
+   /**
+    * @api {delete} @/api/roles/r/
+    * @apiName deleteRole
+    * @apiGroup ApiRolesController
+   */
+   deleteRole(id?: number, string?: string) {
+         const queryParamsObj: any = {};
+          if (id!=null) {
+               queryParamsObj.id = id + "";
+          }
+          if (string!=null) {
+               queryParamsObj.string = string + "";
+          }
+         const queryParams = new HttpParams({
+         fromObject: queryParamsObj
+         });
+         const url = `@/api/roles/r/`
+         return this.http.delete(url, {params: queryParams});
+   }
+   /**
+    * @api {get} @/api/roles/c/list
+    * @apiName listCapabilities
+    * @apiGroup ApiRolesController
+   */
+   listCapabilities(appName?: string) {
+         const queryParamsObj: any = {};
+          if (appName!=null) {
+               queryParamsObj.appName = appName + "";
+          }
+         const queryParams = new HttpParams({
+         fromObject: queryParamsObj
+         });
+         const url = `@/api/roles/c/list`
+         return this.http.get(url, {params: queryParams});
+   }
+   /**
+    * @api {get} @/api/roles/c/:id
+    * @apiName getCapability
+    * @apiGroup ApiRolesController
+   */
+   getCapability(id: number) {
+         const pathParams: any = {};
+          if (id!=null) {
+               pathParams.id = id + "";
+          }
+         const url = `@/api/roles/c/${pathParams.id}`
+         return this.http.get(url);
+   }
+   /**
+    * @api {post} @/api/roles/c/
+    * @apiName saveCapability
+    * @apiGroup ApiRolesController
+   */
+   saveCapability(entity: any) {
+         const url = `@/api/roles/c/`
+         return this.http.post(url, entity);
+   }
+   /**
+    * @api {delete} @/api/roles/c/:id
+    * @apiName deleteCapability
+    * @apiGroup ApiRolesController
+   */
+   deleteCapability(id: number) {
+         const pathParams: any = {};
+          if (id!=null) {
+               pathParams.id = id + "";
+          }
+         const url = `@/api/roles/c/${pathParams.id}`
+         return this.http.delete(url);
    }
 }
 class ApiSchoolRest { 
@@ -543,6 +735,54 @@ class ApiSchoolTermRest {
          return this.http.delete(url);
    }
 }
+class ApiSubjectCategoryRest { 
+   constructor(private http: HttpClient) {
+   }
+   /**
+    * @api {get} @/api/subject/category/list
+    * @apiName list
+    * @apiGroup ApiSubjectCategoryController
+   */
+   list() {
+         const url = `@/api/subject/category/list`
+         return this.http.get(url);
+   }
+   /**
+    * @api {get} @/api/subject/category/:id
+    * @apiName get
+    * @apiGroup ApiSubjectCategoryController
+   */
+   get(id: number) {
+         const pathParams: any = {};
+          if (id!=null) {
+               pathParams.id = id + "";
+          }
+         const url = `@/api/subject/category/${pathParams.id}`
+         return this.http.get(url);
+   }
+   /**
+    * @api {post} @/api/subject/category/
+    * @apiName save
+    * @apiGroup ApiSubjectCategoryController
+   */
+   save(entity: SubjectCategoryModel) {
+         const url = `@/api/subject/category/`
+         return this.http.post(url, entity);
+   }
+   /**
+    * @api {delete} @/api/subject/category/:id
+    * @apiName delete
+    * @apiGroup ApiSubjectCategoryController
+   */
+   delete(id: number) {
+         const pathParams: any = {};
+          if (id!=null) {
+               pathParams.id = id + "";
+          }
+         const url = `@/api/subject/category/${pathParams.id}`
+         return this.http.delete(url);
+   }
+}
 class ApiSubjectRest { 
    constructor(private http: HttpClient) {
    }
@@ -554,6 +794,41 @@ class ApiSubjectRest {
    list() {
          const url = `@/api/subject/list`
          return this.http.get(url);
+   }
+   /**
+    * @api {get} @/api/subject/:idSubject
+    * @apiName get
+    * @apiGroup ApiSubjectController
+   */
+   get(idSubject: number) {
+         const pathParams: any = {};
+          if (idSubject!=null) {
+               pathParams.idSubject = idSubject + "";
+          }
+         const url = `@/api/subject/${pathParams.idSubject}`
+         return this.http.get(url);
+   }
+   /**
+    * @api {post} @/api/subject/
+    * @apiName save
+    * @apiGroup ApiSubjectController
+   */
+   save(entity: SubjectModel) {
+         const url = `@/api/subject/`
+         return this.http.post(url, entity);
+   }
+   /**
+    * @api {delete} @/api/subject/:idSubject
+    * @apiName delete
+    * @apiGroup ApiSubjectController
+   */
+   delete(idSubject: number) {
+         const pathParams: any = {};
+          if (idSubject!=null) {
+               pathParams.idSubject = idSubject + "";
+          }
+         const url = `@/api/subject/${pathParams.idSubject}`
+         return this.http.delete(url);
    }
 }
 class ApiUsersRest { 

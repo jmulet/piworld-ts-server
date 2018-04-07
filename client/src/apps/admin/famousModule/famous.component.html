@@ -7,14 +7,15 @@
 <app-equation-edit *ngIf="equationForm" [formGroup]="equationForm" (onSave)="reloadEquations($event)"></app-equation-edit>
 <app-quote-edit *ngIf="quoteForm" [formGroup]="quoteForm" (onSave)="reloadQuotes($event)"></app-quote-edit>
  
-<p-table [value]="famous.equation" [paginator]="true" [rows]="10">
+<p-table [value]="famous.equation" [paginator]="true" [rows]="10" [(selection)]="eqnSelected" dataKey="id">
     <ng-template pTemplate="caption">
         <button class="btn btn-sm" (click)="reload('equation')">
             <span class="fa fa-refresh"></span>
         </button>
         <b>Famous equations</b>
         <button class="btn btn-sm btn-success" (click)="createEquation()">
-            <span class="fa fa-plus-circle"></span>
+            <span *ngIf="!eqnSelected" class="fa fa-plus-circle">New</span>
+            <span *ngIf="eqnSelected" class="fa fa-copy">Copy selected</span>
         </button>
         <button class="btn btn-sm btn-dark" (click)="massiveImport('equation')">
             <span class="fa fa-import">Import</span>
@@ -47,16 +48,21 @@
         </tr>
     </ng-template>
 </p-table>
+
+
 <br/>
 <br/>
-<p-table [value]="famous.quote" [paginator]="true" [rows]="10">
+
+
+<p-table [value]="famous.quote" [paginator]="true" [rows]="10" [(selection)]="quoteSelected" dataKey="id">
     <ng-template pTemplate="caption">
         <button class="btn btn-sm" (click)="reload('quote')">
             <span class="fa fa-refresh"></span>
         </button>
         <b>Famous quotes</b>
         <button class="btn btn-sm btn-success" (click)="createQuote()">
-            <span class="fa fa-plus-circle"></span>
+            <span *ngIf="!quoteSelected" class="fa fa-plus-circle">New</span>
+            <span *ngIf="quoteSelected" class="fa fa-copy">Copy selected</span>
         </button>
         <button class="btn btn-sm btn-dark" (click)="massiveImport('quote')">
             <span class="fa fa-import">Import</span>

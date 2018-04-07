@@ -5,6 +5,14 @@
 <app-unit-edit *ngIf="unitEdtForm" [formGroup]="unitEdtForm" (onSave)="reloadUnits($event)"></app-unit-edit>
 <app-group-edit *ngIf="groupEdtForm" [formGroup]="groupEdtForm" (onSave)="reloadGroups($event)"></app-group-edit>
 
+<p-sidebar [(visible)]="displaySidebar" [fullScreen]="true">
+    Course Levels
+
+    <button class="btn btn-default" (click)="displaySidebar=false"><span class="fa fa-times"></span>Close</button>
+</p-sidebar>
+
+<button class="btn btn-black" (click)="manageCourseLevels()">Manage Course Levels</button>
+
 <p-table  [value]="courses" [paginator]="true" [rows]="10" selectionMode="single" [(selection)]="courseSelected"
     dataKey="id" (onRowSelect)="onRowSelected($event)">
     <ng-template pTemplate="caption">
@@ -29,7 +37,7 @@
             <td>{{rowData.id}}</td>
             <td>{{rowData.year}}</td>
             <td>{{rowData.name}}</td>
-            <td>{{rowData.courseLevel + ' ' + rowData.courseStudies}}</td>
+            <td>{{rowData.idLevel + ' ' + rowData._level.}}</td>
             <td>{{rowData.idSubject + '-' + rowData._subject.name}}</td>
             <td>
                 <button class="btn btn-sm btn-danger" (click)="removeCourse(rowData)">

@@ -19,7 +19,8 @@
             </button>
              News
             <button class="btn btn-sm btn-success" (click)="createNews()">
-                <span class="fa fa-plus-circle"></span>
+                <span *ngIf="!newsSelected" class="fa fa-plus-circle">New</span>
+                <span *ngIf="newsSelected" class="fa fa-copy">Copy selected</span>
             </button>
        
     </ng-template>

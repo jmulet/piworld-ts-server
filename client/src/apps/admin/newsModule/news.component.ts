@@ -54,7 +54,13 @@ export class NewsComponent implements OnInit {
         this.newsEdtForm = this.newsEdt.toForm(this.fb);
     }
     createNews() {
-        this.editNews();
+        let news: NewsModel;
+        if (this.newsSelected) {
+            news = <NewsModel> {...this.newsSelected};
+            news.id = null;
+            news.title = "<Copy> " + news.title;
+        }
+        this.editNews(news);
     }  
     private move(array: NewsModel[], index: number, offset: number) {
         const newIndex = index + offset

@@ -9,12 +9,29 @@ import { BadgesModel } from './BadgesModel';
 import { ChatModel } from './ChatModel';
 import { BooksAssignModel } from '../books/BooksAssignModel';
 import { PdaMessageModel } from '../pda/PdaMessageModel';
+import { LevelsModel } from '../LevelsModel';
 
 @Entity("class_courses")
 export class CourseModel {
 
     @PrimaryGeneratedColumn("increment", { type: "int" })
     id: number;
+
+    @IsInt()
+    @Column("int")
+    idLevel: number;
+ 
+    @Column("int", {
+        nullable: false,
+        default: "1",
+    })
+    idSubject: number;
+
+    @Column("int", {
+        nullable: false,
+        default: "0",
+    })
+    idUserCreator: number;
 
     @Column("int", {
         default: 2017
@@ -28,32 +45,6 @@ export class CourseModel {
     @Column("longtext")
     description: string;
 
-    @IsInt()
-    @Column("int", {
-        nullable: false,
-        default: 1,
-    })
-    courseLevel: number;
-
-    @Length(1, 5)
-    @Column("varchar", {
-        nullable: false,
-        length: 5,
-        default: "BAT",
-    })
-    courseStudies: string;
-
-    @Column("int", {
-        nullable: false,
-        default: "1",
-    })
-    idSubject: number;
-
-    @Column("int", {
-        nullable: false,
-        default: "0",
-    })
-    idUserCreator: number;
 
     @Column("int", {
         nullable: false,
@@ -76,6 +67,10 @@ export class CourseModel {
     @ManyToOne((type)=> SubjectModel, (subject) => subject._courses, {onDelete: "CASCADE"})
     @JoinColumn({name: "idSubject"})
     _subject: SubjectModel;
+
+    @ManyToOne((type)=> LevelsModel, (level) => level._courses, {onDelete: "CASCADE"})
+    @JoinColumn({name: "idLevel"})
+    _level: LevelsModel;
 
     @OneToMany((type)=> UnitModel, (unit) => unit._course)
     _units: UnitModel[];

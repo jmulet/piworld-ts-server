@@ -14,6 +14,7 @@ import { RestApi } from '../../../rest/RestApi';
     styleUrls: []
 })
 export class CourseComponent implements OnInit {
+    displaySideBar: boolean;
     savingOrdering: boolean;
     groupEdtForm: FormGroup;
     groupEdt: GroupsModel;
@@ -145,5 +146,10 @@ export class CourseComponent implements OnInit {
         const partials = this.units.map((u)=> { return {id: u.id, order: u.order} });
         this.savingOrdering = true;
         this.rest.ApiUnits.saveOrdering(partials).subscribe( (data)=> this.savingOrdering = false);
+    }
+
+    // Open a fullscreen sidebar to edit course levels
+    manageCourseLevels() {
+        this.displaySideBar = true;
     }
 }

@@ -54,7 +54,13 @@ export class ChallengesComponent implements OnInit {
         this.challengeEdtForm = this.challengeEdt.toForm(this.fb);
     }
     createChallenge() {
-        this.editChallenge();
+        let challenge: ChallengesModel;
+        if (this.challengeSelected) {
+            challenge = <ChallengesModel> {...this.challengeSelected};
+            challenge.id = null;
+            challenge.formulation = "<Copy>" + challenge.formulation;
+        }
+        this.editChallenge(challenge);
     }  
     onChallengeSelect(evt){
         this.answerSelected = null;

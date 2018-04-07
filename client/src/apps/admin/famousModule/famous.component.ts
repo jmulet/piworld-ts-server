@@ -27,6 +27,8 @@ export class FamousComponent implements OnInit {
     quoteForm: FormGroup;
     equationEdt: FamousEqnModel;
     quoteEdt: FamousQuoteModel;
+    eqnSelected: FamousEqnModel;
+    quoteSelected: FamousQuoteModel;
 
     constructor(private rest: RestApi, private confirmationService: ConfirmationService,
         private fb: FormBuilder) {
@@ -71,10 +73,22 @@ export class FamousComponent implements OnInit {
         this.quoteForm = this.quoteEdt.toForm(this.fb);
     }
     createEquation() {
-        this.editEquation();
+        let eqn: FamousEqnModel;
+        if (this.eqnSelected) {
+            eqn = <FamousEqnModel> {...this.eqnSelected};
+            eqn.id = null;
+            eqn.title = "<Copy> " + eqn.title;
+        }
+        this.editEquation(eqn);
     }   
     createQuote() {
-        this.editQuote();
+        let quote: FamousQuoteModel;
+        if (this.quoteSelected) {
+            quote = <FamousQuoteModel> {...this.quoteSelected};
+            quote.id = null;
+            quote.quote = "<Copy> " + quote.quote;
+        }
+        this.editQuote(quote);
     }    
     massiveImport(type: string) {       
         this.inputDlgHeader = "Massive import " + type;

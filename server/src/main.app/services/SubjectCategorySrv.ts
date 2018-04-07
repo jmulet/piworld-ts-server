@@ -2,21 +2,22 @@ import { Service } from 'typedi';
 import { getRepository, Repository } from 'typeorm';
 import { SubjectModel } from '../entities/SubjectModel';
 import { LoginsModel } from '../entities/LoginsModel';
+import { SubjectCategoryModel } from '../entities/SubjectCategoryModel';
  
 
 @Service()
-export class SubjectSrv {
-    repository: Repository<SubjectModel>;
+export class SubjectCategorySrv {
+    repository: Repository<SubjectCategoryModel>;
 
     constructor() {
-        this.repository = getRepository(SubjectModel);
+        this.repository = getRepository(SubjectCategoryModel);
     }
    
     list(){
         return this.repository.find();
     }
 
-    save(entity: SubjectModel) {
+    save(entity: SubjectCategoryModel) {
         return this.repository.save(entity);
     }
 
@@ -25,8 +26,7 @@ export class SubjectSrv {
         return this.repository.findOne({id: id});
     }
   
- 
-    delete(entity: SubjectModel) {
+    delete(entity: SubjectCategoryModel) {
       return this.repository.remove(entity);
     }
 
@@ -34,8 +34,9 @@ export class SubjectSrv {
         return this.repository.delete(id);
     }
 
-    static fromData(shortName?: string, longName?: string) {
-        const entity = new SubjectModel();
+    static fromData(idSubject?: number, shortName?: string, longName?: string) {
+        const entity = new SubjectCategoryModel();
+        entity.idSubject = idSubject;
         entity.longname = longName;
         entity.name = shortName;
         return entity;

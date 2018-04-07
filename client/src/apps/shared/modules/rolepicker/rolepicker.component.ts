@@ -10,7 +10,7 @@ import { pwCore } from '../../pw-core';
     <p-dropdown [options]="rolesList" [(ngModel)]="selectedRole" optionLabel="label" (onChange)="onChange()" appendTo="body" [style]="style">
     <ng-template let-option pTemplate="item">
         <div>
-            <div (click)="onClick(option)" [ngClass]="option.disabled?'disabled':''">{{option.label}}</div>
+            <div (click)="onClick(option.disabled)" [ngClass]="option.disabled?'disabled':''">{{option.label}}</div>
         </div>
     </ng-template>
     </p-dropdown>
@@ -42,10 +42,10 @@ export class RolePickerComponent implements OnInit {
         this.selectedRole = this.rolesList.filter((r)=>r.value===this.idRole)[0] || this.rolesList[0];
         this.lastRole = this.selectedRole;
     }
-    onClick(role) {  
-        if (role.disabled) {
-            this.selectedRole = this.lastRole;
-        }      
+    onClick(disabled: boolean) {
+        if(disabled) {
+            event.stopPropagation();
+        }
     }
     onChange() {
         if(!this.selectedRole.disabled) {

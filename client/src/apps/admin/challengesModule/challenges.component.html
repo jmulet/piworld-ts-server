@@ -11,7 +11,8 @@
             </button>
             <b>Challenges</b>
             <button class="btn btn-sm btn-success" (click)="createChallenge()">
-                <span class="fa fa-plus-circle"></span>
+                <span *ngIf="!challengeSelected" class="fa fa-plus-circle">New</span>
+                <span *ngIf="challengeSelected" class="fa fa-copy">Copy selected</span>
             </button>
        
     </ng-template>

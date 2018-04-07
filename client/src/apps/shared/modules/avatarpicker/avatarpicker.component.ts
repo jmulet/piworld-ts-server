@@ -10,7 +10,7 @@ import { pwCore } from '../../pw-core';
     <p-dropdown [options]="list" [(ngModel)]="selected" optionLabel="label" (onChange)="onChange()" [style]="style">
     <ng-template let-option pTemplate="item">
         <div>
-            <div [ngClass]="option.disabled?'disabled':''"><img [src]="option.label"/></div>
+            <div (click)="onClick(option.disabled)" [ngClass]="option.disabled?'disabled':''"><img [src]="option.label"/></div>
         </div>
     </ng-template>
     </p-dropdown>
@@ -41,5 +41,10 @@ export class AvatarPickerComponent implements OnInit {
     } 
     onChange() {
         this.avatarChange.emit(this.selected.value);    
+    }
+    onClick(disabled: boolean) {
+        if(disabled) {
+            event.stopPropagation();
+        }
     }
 }

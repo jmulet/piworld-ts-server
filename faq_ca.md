@@ -1,8 +1,6 @@
 # Què és piWorld.es?
 
-Piworld és un projecte lliure i openSource incialment pensat per dur a terme clase invertida a IES de secundaria. Els alumnes accedeixen
-al sistema amb un usuari i contrasenya que els proporciona l'administrador del centre. Si voleu participar en el projecte el responsable
-del centre ha d'enviar les seves dades a l'adreça piworld.es@gmail.com.
+piWorld és un projecte lliure i open-source incialment pensat per dur a terme clase invertida als instituts de secundaria. Els alumnes accedeixen al sistema amb un usuari i contrasenya que els proporciona l'administrador del centre. Si voleu participar en el projecte el responsable del centre ha d'enviar les seves dades a l'adreça piworld.es@gmail.com.
 
 # Estat actual
 
@@ -68,3 +66,11 @@ Si tot us ha anat be, el resultat final d'aquests passos d'administracio harien 
 
 
 # Com crear activitats en vídeo?
+
+Bàsicament el professor prepara un video que es penja com a public o compartit per url a youtube. Com fer un video i com penjar-lo a youtube s'escapa de l'abast d'aquest manual. 
+
+Una vegada es té la id del video de youtube (com exemple, https://www.youtube.com/watch?v=ernSMwm3RC4), es va a la pantalla de cerca d'activitats i pitjam sobre el boto crear. Triam del desplegable, "Activity with video". 
+
+S'obrirà la seguent pantalla on anirem en primer lloc aferra la Video ID/URL: https://www.youtube.com/watch?v=ernSMwm3RC4 i tot seguit acabarem d'especificar titols, descripcions, tags, nivells on va destinada, etc. També (de forma experimental) es possible afegir preguntes incrustades a diferents moments del video.
+
+ ![11.png](/docs/11.png) 

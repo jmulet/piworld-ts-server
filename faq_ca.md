@@ -41,11 +41,13 @@ Cada tema o unitat pot tenir diferents modes de presentació:
 - Expanded = Es mostren tots els continguts de la unitat
 
 
-Afegiu o llevau els alumnes que vulgueu i pitjeu acceptar.
+
 
 La seguent passa consisteix en apuntar (Enroll) usuaris al group que hem creat. Per això aneu al menú principal i trieu "Estudiants". Pitjeu sobre el botó Enrolla usuaris. Vos apareixerà això
 
 ![04.png](/docs/04.png) 
+
+Afegiu o llevau els alumnes que vulgueu i pitjeu acceptar.
 
 Si tornam a la pantalla inicial és possible que haguem de pitjar el botó refresca per actualizar els canvis. Tot seguit crearem continguts. Per això, el que feim és activar el mode EDICIÓ ON.
 
@@ -55,7 +57,7 @@ Basicament hi ha dos tipus de contiguts. Quadres de text html explicatius amb en
 
 ![07.png](/docs/07.png) 
 
-Aquesta altra captura mostra les com cercar una activitat i assignar-la a un group/unitat
+Aquesta altra captura mostra com cercar una activitat i assignar-la a un group/unitat
 
 ![08.png](/docs/08.png) 
 
@@ -63,14 +65,16 @@ Si tot us ha anat be, el resultat final d'aquests passos d'administracio harien 
 
 ![10.png](/docs/10.png) 
 
+és a dir, heu creat 3 estudiants, heu creat un group amb dos temes i heu apuntat els 3 estudiants a aquest group. Despres heu creat dos continguts als temes.
+
 
 
 # Com crear activitats en vídeo?
 
-Bàsicament el professor prepara un video que es penja com a public o compartit per url a youtube. Com fer un video i com penjar-lo a youtube s'escapa de l'abast d'aquest manual. 
+Bàsicament el professor prepara un video que es penja com a public o compartit-per-url a youtube. Com fer un video i com penjar-lo a youtube s'escapa de l'abast d'aquest manual. 
 
 Una vegada es té la id del video de youtube (com exemple, https://www.youtube.com/watch?v=ernSMwm3RC4), es va a la pantalla de cerca d'activitats i pitjam sobre el boto crear. Triam del desplegable, "Activity with video". 
 
-S'obrirà la seguent pantalla on anirem en primer lloc aferra la Video ID/URL: https://www.youtube.com/watch?v=ernSMwm3RC4 i tot seguit acabarem d'especificar titols, descripcions, tags, nivells on va destinada, etc. També (de forma experimental) es possible afegir preguntes incrustades a diferents moments del video.
+S'obrirà la seguent pantalla on, en primer lloc, s'aferra la "Video ID/URL": https://www.youtube.com/watch?v=ernSMwm3RC4 i tot seguit acabarem d'especificar titols, descripcions, tags, nivells on va destinada, etc. També (de forma experimental) es possible afegir preguntes incrustades a diferents moments del video.
 
  ![11.png](/docs/11.png) 
